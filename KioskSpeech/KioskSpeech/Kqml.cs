@@ -6,9 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using WebSocketSharp;
 
-namespace Microsoft.Psi.Samples.SpeechSample
+namespace NU.Kqml
 {
-    class SocketStringConsumer :  IConsumer<string> , Microsoft.Psi.Components.IStartable
+    using Microsoft.Psi;
+
+    public class SocketStringConsumer :  IConsumer<string> , Microsoft.Psi.Components.IStartable
     {
         //private readonly Pipeline pipeline;
         private readonly int localPort;

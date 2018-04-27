@@ -1,68 +1,50 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Program.cs" company="Microsoft Corporation">
-//   Copyright (C) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Microsoft.Psi.Samples.SpeechSample
+namespace NU.Kiosk
 {
-    using System;
-    using System.IO;
-    using System.Linq;
+    using Microsoft.Psi;
     using Microsoft.Psi.Audio;
     using Microsoft.Psi.Data;
     using Microsoft.Psi.Speech;
     using Microsoft.Psi.Visualization.Client;
     using NU.Kqml;
-    using System.Speech.Recognition;
-    
-    public static class Program
+
+    class Program
     {
-        private const string AppName = "PsiSpeechSample";
+        private static string AppName = "Kiosk";
 
-        private const string LogPath = @"..\..\..\Videos\" + Program.AppName;
-
-        // Component that serves as connection to Python
-        //static WebSocketStringConsumer python = null;
-        static SocketStringConsumer python = null;
-
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
-            string facilitatorIP = args[0];
-            int facilitatorPort = int.Parse(args[1]);
-            int localPort = int.Parse(args[2]);
+            Console.WriteLine("Starting");
 
-            // The root folder under which data will be logged. This may be set to null, which will create
-            // a volatile data store to which data can be written for the purposes of live visualization.
-            string outputLogPath = null;
-
-            // The root folder from which previously logged audio data will be read as input. By default the
-            // most recent session will be used. If set to null, live audio from the microphone will be used.
-            string inputLogPath = null;
-
-            // Flag to display live data in PsiStudio
-            bool showLiveVisualization = false;
-
-            // Flag to exit the application
-            bool exit = false;
-
-            RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization, facilitatorIP, facilitatorPort, localPort);
-            if (python != null) python.Stop();
-            
-        }
-
-        /// <summary>
-        /// Builds and runs a speech recognition pipeline using the .NET System.Speech recognizer and a set of fixed grammars.
-        /// </summary>
-        /// <param name="outputLogPath">The path under which to write log data.</param>
-        /// <param name="inputLogPath">The path from which to read audio input data.</param>
-        /// <param name="showLiveVisualization">A flag indicating whether to display live data in PsiStudio as the pipeline is running.</param>
-        public static void RunSystemSpeech(string outputLogPath = null, string inputLogPath = null, bool showLiveVisualization = true, 
-            string facilitatorIP = "localhost", int facilitatorPort = 9000, int localPort = 8090)
-        {
-            // Create the pipeline object.
             using (Pipeline pipeline = Pipeline.Create())
             {
+                bool usingKqml = false;
+                string facilitatorIP = null;
+                int facilitatorPort = -1;
+                int localPort = -1;
+                if (args.Length > 0)
+                {
+                    if (args.Length < 3)
+                    {
+                        Console.WriteLine("Usage for running with a facilitator: \nKioskMain facilitatorIP facilitatorPort localPort");
+                        return;
+                    }
+                    usingKqml = true;
+
+                    facilitatorIP = args[0];
+                    facilitatorPort = int.Parse(args[1]);
+                    localPort = int.Parse(args[2]);
+                }
+
+                bool showLiveVisualization = false;
+                string inputLogPath = null;
+                string outputLogPath = null;
+
                 // Needed only for live visualization
                 DateTime startTime = DateTime.Now;
 
@@ -87,19 +69,18 @@ namespace Microsoft.Psi.Samples.SpeechSample
 
                 // Create System.Speech recognizer component
                 var recognizer = new SystemSpeechRecognizer(
-                    //pipeline,
-                    //new SystemSpeechRecognizerConfiguration()
-                    //{
-                    //    Language = "en-US",
-                    //    Grammars = new DictationGrammar();
-                    //    //Grammars = new GrammarInfo[]
-                    //    //{
-                    //    //    new GrammarInfo() { Name = Program.AppName, FileName = "SampleGrammar.grxml" }
-                    //    //}
-                    //});
-                    pipeline);
+                    pipeline,
+                    new SystemSpeechRecognizerConfiguration()
+                    {
+                        Language = "en-US",
+                       
+                    Grammars = new GrammarInfo[]
+                    {
+                        new GrammarInfo() { Name = Program.AppName, FileName = "SampleGrammar.grxml" }
+                    }
+                });
 
-                
+
                 // Subscribe the recognizer to the input audio
                 audioInput.PipeTo(recognizer);
 
@@ -114,23 +95,20 @@ namespace Microsoft.Psi.Samples.SpeechSample
                     Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
                 });
 
-                // Also send data across web socket.
-                //finalResults.Do(result =>
-                //{
-                //    var ssrResult = result as SystemSpeechRecognitionResult;
-                //    sendToSocket(ssrResult.Text);
-                //});
-
-                //python = new WebSocketStringConsumer(pipeline, 9001);
-                python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
-                
-                var text = finalResults.Select(result =>
+                SocketStringConsumer kqml = null;
+                if (usingKqml)
                 {
-                    var ssrResult = result as SpeechRecognitionResult;
-                    return ssrResult.Text;
-                });
+                    kqml = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
 
-                text.PipeTo(python.In);
+                    var text = finalResults.Select(result =>
+                    {
+                        var ssrResult = result as SpeechRecognitionResult;
+                        return ssrResult.Text;
+                    });
+
+                    text.PipeTo(kqml.In);
+
+                }
 
                 // Create a data store to log the data to if necessary. A data store is necessary
                 // only if output logging or live visualization are enabled.
@@ -173,9 +151,10 @@ namespace Microsoft.Psi.Samples.SpeechSample
 
                 Console.WriteLine("Press any key to exit...");
                 Console.ReadKey(true);
+
+                if (kqml != null) kqml.Stop();
             }
         }
-        
 
         /// <summary>
         /// Event handler for the PipelineCompletion event.
@@ -215,6 +194,5 @@ namespace Microsoft.Psi.Samples.SpeechSample
             // Create the store only if it is needed (logging to disk or live visualization).
             return (dataStoreName != null) ? Store.Create(pipeline, dataStoreName, outputLogPath) : null;
         }
-        
     }
 }

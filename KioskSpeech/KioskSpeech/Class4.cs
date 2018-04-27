@@ -10,11 +10,9 @@ namespace Microsoft.Psi.Samples.SpeechSample
     using System.IO;
     using System.Linq;
     using Microsoft.Psi.Audio;
-    using Microsoft.Psi.CognitiveServices.Speech;
     using Microsoft.Psi.Data;
-    using Microsoft.Psi.MicrosoftSpeech;
     using Microsoft.Psi.Speech;
-    using Microsoft.Psi.Visualization.Client;
+    using NU.Kqml;
 
     public static class ProgramTest
     {
