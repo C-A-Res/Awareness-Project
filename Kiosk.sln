@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KioskMain", "KioskMain\Kios
 		{C5AB7394-68FB-4641-BDAE-8A956EDC44A9} = {C5AB7394-68FB-4641-BDAE-8A956EDC44A9}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCVSample", "OpenCVSample\OpenCVSample\OpenCVSample.csproj", "{A04D4DFC-2843-4BC4-96A0-F03631700506}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{C34F4C8D-4073-4549-BB54-A3F6E7447D04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C34F4C8D-4073-4549-BB54-A3F6E7447D04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C34F4C8D-4073-4549-BB54-A3F6E7447D04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

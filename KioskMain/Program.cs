@@ -49,40 +49,44 @@ namespace NU.Kiosk
                 DateTime startTime = DateTime.Now;
 
                 // Use either live audio from the microphone or audio from a previously saved log
-                IProducer<AudioBuffer> audioInput = null;
-                if (inputLogPath != null)
-                {
-                    // Open the MicrophoneAudio stream from the last saved log
-                    var store = Store.Open(pipeline, Program.AppName, inputLogPath);
-                    audioInput = store.OpenStream<AudioBuffer>($"{Program.AppName}.MicrophoneAudio");
+                IProducer<AudioBuffer> audioInput = setupAudioInput(pipeline, inputLogPath, ref startTime);
 
-                    // Get the originating time of the start of the data in the store. We will use this
-                    // to set the correct start time in the visualizer (if live visualization is on).
-                    startTime = store.OriginatingTimeInterval.Left;
-                }
-                else
-                {
-                    // Create the AudioSource component to capture audio from the default device in 16 kHz 1-channel
-                    // PCM format as required by both the voice activity detector and speech recognition components.
-                    audioInput = new AudioSource(pipeline, new AudioSourceConfiguration() { OutputFormat = WaveFormat.Create16kHz1Channel16BitPcm() });
-                }
+                // Create our webcam
+                MediaCapture webcam = new MediaCapture(this.pipeline, 640, 480, 10);
 
-                // Create System.Speech recognizer component
-                var recognizer = new SystemSpeechRecognizer(
-                    pipeline,
-                    new SystemSpeechRecognizerConfiguration()
+                FaceCasClassifier f = new FaceCasClassifier();
+
+                Console.WriteLine("Load classifier");
+                Console.WriteLine(f);
+
+                // Bind the webcam's output to our display image.
+                // The "Do" operator is executed on each sample from the stream (webcam.Out), which are the images coming from the webcam
+                webcam.Out.ToGrayViaOpenCV(f).Do(
+                    (img, e) =>
                     {
-                        Language = "en-US",
-                       
-                    Grammars = new GrammarInfo[]
-                    {
-                        new GrammarInfo() { Name = Program.AppName, FileName = "SampleGrammar.grxml" }
-                    }
-                });
+                        string mouthOpen = "Close";
+                        if ((Math.Abs(DisNose) / (4 * Math.Abs(DisLipMiddle))) < 1)
+                        {
+                            mouthOpen = "Open";
+                        }
+                        else
+                        {
+                            mouthOpen = "Close";
+                        }
+                        Console.WriteLine(Math.Abs(DisLipMiddle) + " " + Math.Abs(DisLipRight) + " " + Math.Abs(DisLipLeft) + " " + (Math.Abs(DisNose) / (4 * Math.Abs(DisLipMiddle))) + " " + mouthOpen);
+                        return mouthOpen;
+                    });
 
+                IProducer<bool> mouthSignal = null;
+                var mouthAndSpeech = mouthSignal.Join(audioInput);
+
+                SystemSpeechRecognizer recognizer = setupSpeechRecognizer(pipeline);
 
                 // Subscribe the recognizer to the input audio
-                audioInput.PipeTo(recognizer);
+                mouthAndSpeech.Where(x => x.Item1).Select(y => {
+                    return y.Item2;
+                }).PipeTo(recognizer);
+                //audioInput.PipeTo(recognizer);
 
                 // Partial and final speech recognition results are posted on the same stream. Here
                 // we use Psi's Where() operator to filter out only the final recognition results.
@@ -95,19 +99,20 @@ namespace NU.Kiosk
                     Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
                 });
 
+                // Get just the text from the Speech Recognizer.  We may want to add another filter to only get text if confidence > 0.8
+                var text = finalResults.Select(result =>
+                {
+                    var ssrResult = result as SpeechRecognitionResult;
+                    return ssrResult.Text;
+                });
+
+                // Setup KQML connection to Companion
                 SocketStringConsumer kqml = null;
                 if (usingKqml)
                 {
                     kqml = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
-
-                    var text = finalResults.Select(result =>
-                    {
-                        var ssrResult = result as SpeechRecognitionResult;
-                        return ssrResult.Text;
-                    });
-
-                    text.PipeTo(kqml.In);
-
+                    
+                    text.PipeTo(kqml.In)
                 }
 
                 // Create a data store to log the data to if necessary. A data store is necessary
@@ -154,6 +159,45 @@ namespace NU.Kiosk
 
                 if (kqml != null) kqml.Stop();
             }
+        }
+
+        private static SystemSpeechRecognizer setupSpeechRecognizer(Pipeline pipeline)
+        {
+            // Create System.Speech recognizer component
+            return new SystemSpeechRecognizer(
+                pipeline,
+                new SystemSpeechRecognizerConfiguration()
+                {
+                    Language = "en-US",
+
+                    Grammars = new GrammarInfo[]
+                {
+                        new GrammarInfo() { Name = Program.AppName, FileName = "SampleGrammar.grxml" }
+                }
+                });
+        }
+
+        private static IProducer<AudioBuffer> setupAudioInput(Pipeline pipeline, string inputLogPath, ref DateTime startTime)
+        {
+            IProducer<AudioBuffer> audioInput = null;
+            if (inputLogPath != null)
+            {
+                // Open the MicrophoneAudio stream from the last saved log
+                var store = Store.Open(pipeline, Program.AppName, inputLogPath);
+                audioInput = store.OpenStream<AudioBuffer>($"{Program.AppName}.MicrophoneAudio");
+
+                // Get the originating time of the start of the data in the store. We will use this
+                // to set the correct start time in the visualizer (if live visualization is on).
+                startTime = store.OriginatingTimeInterval.Left;
+            }
+            else
+            {
+                // Create the AudioSource component to capture audio from the default device in 16 kHz 1-channel
+                // PCM format as required by both the voice activity detector and speech recognition components.
+                audioInput = new AudioSource(pipeline, new AudioSourceConfiguration() { OutputFormat = WaveFormat.Create16kHz1Channel16BitPcm() });
+            }
+
+            return audioInput;
         }
 
         /// <summary>
