@@ -30,7 +30,7 @@ namespace NU
 
 
 				public:
-					static ImageBuffer^ ToGray( ImageBuffer ^colorImage, ImageBuffer ^grayImage, FaceCasClassifier ^f, double% dis_nose, double% dis_lip_middle, double% dis_lip_right, double% dis_lip_left )
+					static ImageBuffer^ ToGray( ImageBuffer ^colorImage, ImageBuffer ^grayImage, FaceCasClassifier ^f, double% dis_nose, double% dis_lip_middle, double% dis_lip_right, double% dis_lip_left, int% hface)
 					{
 						cv::Mat greyMat = WrapInMat(grayImage);
 						cv::Mat colorMat = WrapInMat(colorImage);
@@ -42,7 +42,8 @@ namespace NU
 						f->face_cascade->face_cas.detectMultiScale(greyMat, faces, 1.1, 3, 0 | cv::CASCADE_SCALE_IMAGE, cv::Size(60,60));
 
 						if (faces.size() == 1) {
-							
+							hface = 1;
+
 							for (int i = 0; i < faces.size(); i++)
 							{
 								cv::Point p1(faces[i].x, faces[i].y);

@@ -28,5 +28,5 @@ Class NU.Kiosk.ImageBuffer: AutoLayout, AnsiClass, Class, Public, BeforeFieldIni
 Class NU.Kiosk.OpenCVMethods: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Methods:
-    ToGray(ImageBuffer, ImageBuffer, FaceCasClassifier, Double&, Double&, Double&, Double&): PrivateScope, Public, Static, HideBySig
+    ToGray(ImageBuffer, ImageBuffer, FaceCasClassifier, Double&, Double&, Double&, Double&, Int32&): PrivateScope, Public, Static, HideBySig
     SaveImage(ImageBuffer, String): PrivateScope, Public, Static, HideBySig

@@ -55,7 +55,7 @@ namespace NU.Kiosk
                     {
                         // Call into our OpenCV wrapper to convert the source image ('srcImage') into the newly created image ('destImage')
                         // Note: since srcImage & destImage are Shared<> we need to access the Microsoft.Psi.Imaging.Image data via the Resource member
-                        OpenCVMethods.ToGray(srcImage.ToImageBuffer(), destImage.ToImageBuffer(), f, ref Program.DisNose, ref Program.DisLipMiddle, ref Program.DisLipRight, ref Program.DisLipLeft);
+                        OpenCVMethods.ToGray(srcImage.ToImageBuffer(), destImage.ToImageBuffer(), f, ref Program.DisNose, ref Program.DisLipMiddle, ref Program.DisLipRight, ref Program.DisLipLeft, ref Program.HasFace);
 
                         // Debug.WriteLine(MainWindow.MouthOpen);
                         e.Post(destImage, env.OriginatingTime);
@@ -73,6 +73,7 @@ namespace NU.Kiosk
         public static double DisLipMiddle;
         public static double DisLipRight;
         public static double DisLipLeft;
+        public static int HasFace;
 
         static void Main(string[] args)
         {
@@ -80,6 +81,7 @@ namespace NU.Kiosk
             DisLipMiddle = 0.0;
             DisLipRight = 0.0;
             DisLipLeft = 0.0;
+            HasFace = 0;
             bool exit = false;
 
             Console.WriteLine("Starting");
@@ -169,7 +171,22 @@ namespace NU.Kiosk
                     return mouthOpen;
                 });
 
-                var mouthAndSpeech = audioInput.Pair(mouthOpenAsBool).Where(t => true).Select(t => {
+                var hasFaceAsBool = webcam.Out.ToGrayViaOpenCV(f).Select(
+                (img, e) =>
+                {
+                    bool hasFaceboll = false;
+                    if (HasFace == 1)
+                    {
+                        hasFaceboll = true;
+                    }
+                    else
+                    {
+                        hasFaceboll = false;
+                    }
+                    return hasFaceboll;
+                });
+
+                var mouthAndSpeech = audioInput.Pair(hasFaceAsBool).Where(t => t.Item2).Select(t => {
                     return t.Item1;
                 }
                 );
