@@ -1,0 +1,32 @@
+ImageRuntimeVersion: v4.0.30319
+Assembly OpenCVSample.Interop, Version=0.3.*, Culture=Invariant Language (Invariant Country): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Struct Microsoft.Psi.VideoAndAudio.CascadeClassifierUnm: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+Struct Microsoft.Psi.VideoAndAudio.FaceLandmarkUnm: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+Class Microsoft.Psi.VideoAndAudio.FaceCasClassifier: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Microsoft.Psi.VideoAndAudio.CascadeClassifierUnm* face_cascade : Public
+    Microsoft.Psi.VideoAndAudio.FaceLandmarkUnm* facemark : Public
+Class Microsoft.Psi.VideoAndAudio.ImageBuffer: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(Int32, Int32, IntPtr, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Int32 Width : Public
+    Int32 Height : Public
+    IntPtr Data : Public
+    Int32 Stride : Public
+Class Microsoft.Psi.VideoAndAudio.OpenCVMethods: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    ToGray(ImageBuffer, ImageBuffer, FaceCasClassifier, Double&, Double&, Double&, Double&): PrivateScope, Public, Static, HideBySig
+    SaveImage(ImageBuffer, String): PrivateScope, Public, Static, HideBySig

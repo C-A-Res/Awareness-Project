@@ -1,0 +1,1118 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Psi.Visualization.Client.Windows</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Psi.Visualization.Client.AnnotatedEventVisualizationObject">
+            <summary>
+            Class implements a client proxy for Microsoft.Psi.Visualization.VisualizationObjects.AnnotatedEventVisualizationObject />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.AnnotatedEventVisualizationObject.TypeName">
+            <inheritdoc/>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.AudioVisualizationObject">
+            <summary>
+            Class implements a client proxy for Microsoft.Psi.Visualization.VisualizationObjects.AudioVisualizationObject />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.AudioVisualizationObject.TypeName">
+            <inheritdoc/>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.EncodedImageVisualizationObject">
+            <summary>
+            Class implements a client proxy for Microsoft.Psi.Visualization.VisualizationObjects.EncodedImageVisualizationObject />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.EncodedImageVisualizationObject.TypeName">
+            <inheritdoc/>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.ImageVisualizationObject">
+            <summary>
+            Class implements a client proxy for Microsoft.Psi.Visualization.VisualizationObjects.ImageVisualizationObject />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.ImageVisualizationObject.TypeName">
+            <inheritdoc/>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.KinectBodies3DVisualizationObject">
+            <summary>
+            Class implements a client proxy for Microsoft.Psi.Visualization.VisualizationObjects.KinectBodies3DVisualizationObject />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.KinectBodies3DVisualizationObject.TypeName">
+            <inheritdoc/>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.KinectBodies3DVisualizationObject.ContractResolver">
+            <inheritdoc />
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.PlotVisualizationObject">
+            <summary>
+            Class implements a client proxy for Microsoft.Psi.Visualization.VisualizationObjects.PlotVisualizationObject />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.PlotVisualizationObject.TypeName">
+            <inheritdoc/>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.Points3DVisualizationObject">
+            <summary>
+            Class implements a client proxy for Microsoft.Psi.Visualization.VisualizationObjects.Points3DVisualizationObject />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.Points3DVisualizationObject.TypeName">
+            <inheritdoc/>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.Points3DVisualizationObject.ContractResolver">
+            <inheritdoc />
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.ScatterCoordinateSystemsVisualizationObject">
+            <summary>
+            Class implements a client proxy for Microsoft.Psi.Visualization.VisualizationObjects.ScatterCoordinateSystemsVisualizationObject />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.ScatterCoordinateSystemsVisualizationObject.TypeName">
+            <inheritdoc/>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.ScatterCoordinateSystemsVisualizationObject.ContractResolver">
+            <inheritdoc />
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.ScatterPlotVisualizationObject">
+            <summary>
+            Class implements a client proxy for Microsoft.Psi.Visualization.VisualizationObjects.ScatterPlotVisualizationObject />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.ScatterPlotVisualizationObject.TypeName">
+            <inheritdoc/>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.ScatterRectangleVisualizationObject">
+            <summary>
+            Class implements a client proxy for Microsoft.Psi.Visualization.VisualizationObjects.ScatterRectangleVisualizationObject />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.ScatterRectangleVisualizationObject.TypeName">
+            <inheritdoc/>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.SpeechRecognitionVisualizationObject">
+            <summary>
+            Class implements a client proxy for Microsoft.Psi.Visualization.VisualizationObjects.SpeechRecognitionVisualizationObject />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.SpeechRecognitionVisualizationObject.TypeName">
+            <inheritdoc/>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.StringWithDurationVisualizationObject">
+            <summary>
+            Class implements a client proxy for Microsoft.Psi.Visualization.VisualizationObjects.StringWithDurationVisualizationObject />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.StringWithDurationVisualizationObject.TypeName">
+            <inheritdoc/>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.TimeIntervalVisualizationObject">
+            <summary>
+            Class implements a client proxy for Microsoft.Psi.Visualization.VisualizationObjects.TimeIntervalVisualizationObject />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.TimeIntervalVisualizationObject.TypeName">
+            <inheritdoc/>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2">
+            <summary>
+            Class implements a generic client proxy Microsoft.Psi.Visualization.VisualizationObjects.StreamVisualizationObject{TData, TConfig}.
+            </summary>
+            <typeparam name="TData">The type of underlying data of the stream visualization object.</typeparam>
+            <typeparam name="TConfig">The type of configuration of the stream visualization object</typeparam>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2.RemoteStreamVisualizationObject">
+            <summary>
+            Gets the remote stream visualization object.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2.CloseStream">
+            <summary>
+            Closes the stream if one has been opened.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2.OpenStream(Microsoft.Psi.Visualization.Data.StreamBinding)">
+            <summary>
+            Opens a stream given a stream binding. Will close an open stream if needed.
+            </summary>
+            <param name="streamBinding">Stream binding inidicting which stream to open.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.VisualizationClient">
+            <summary>
+            Represent the client API singleton for remote access to PsiStudio.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClient.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Visualization.Client.VisualizationClient"/> class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationClient.CurrentContainer">
+            <summary>
+            Gets the current <see cref="T:Microsoft.Psi.Visualization.Client.VisualizationContainer"/>.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationClient.CurrentPanel">
+            <summary>
+            Gets the current <see cref="T:Microsoft.Psi.Visualization.Client.VisualizationPanel"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClient.AddPanel``1">
+            <summary>
+            Adds a new <see cref="T:Microsoft.Psi.Visualization.Client.VisualizationPanel"/> of the specified type.
+            </summary>
+            <typeparam name="T">The type of visualization panel to be added.</typeparam>
+            <returns>Instance of the new visualization panel.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClient.EnsureBinding(Microsoft.Psi.Visualization.Data.StreamBinding)">
+            <summary>
+            Ensure the specified stream is currently open. If stream is not open, it will be upon retun.
+            </summary>
+            <param name="streamBinding">Stream binding inidicting which stream to open.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClient.Show``4(Microsoft.Psi.Visualization.Data.StreamBinding)">
+            <summary>
+            Shows the specified stream in an appropriate visualization panel, creating a new one if needed.
+            </summary>
+            <typeparam name="TObject">The type of client stream visualization object (proxy) to create.</typeparam>
+            <typeparam name="TData">The type of underlying data of the stream visualization object.</typeparam>
+            <typeparam name="TConfig">The type of configuration of the stream visualization object</typeparam>
+            <typeparam name="TPanel">The type of visauzalition panel required to show the stream.</typeparam>
+            <param name="streamBinding">Stream binding inidicting which stream to open.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClient.EnsureCurrentPanel``1">
+            <summary>
+            Ensures current panel is properly setup.
+            </summary>
+            <typeparam name="T">The type of panel that is required. If the current panel is not of this type a new one will be created.</typeparam>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions">
+            <summary>
+            Extension methods that simplify visualization client usage.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.AddTimelinePanel(Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Adds a new timeline visualization panel.
+            </summary>
+            <param name="vc">The visualization client.</param>
+            <returns>The newly created timeline visualization panel.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.AddXYPanel(Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Adds a new XY visualization panel.
+            </summary>
+            <param name="vc">The visuzalization client.</param>
+            <returns>The newly created XY visualization panel.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.AddXYZPanel(Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Adds a new XYZ visualization panel.
+            </summary>
+            <param name="vc">The visuzalization client.</param>
+            <returns>The newly created XYZ visualization panel.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.ClearAll(Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Clears the entire visualization container.
+            </summary>
+            <param name="vc">The visuzalization client.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.SetLiveMode(Microsoft.Psi.Visualization.Client.VisualizationClient,System.DateTime,System.TimeSpan)">
+            <summary>
+            Sets the current rendering mode to <see cref="F:Microsoft.Psi.Visualization.Client.RemoteNavigationMode.Live"/>.
+            </summary>
+            <param name="vc">The visuzalization client.</param>
+            <param name="start">The starting position of the navigator range. Default sets to <see cref="P:System.DateTime.UtcNow"/>.</param>
+            <param name="duration">The duration of the navigator range. Default sets to 10 seconds.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.SetNavigatorToExtents(Microsoft.Psi.Visualization.Client.VisualizationClient,Microsoft.Psi.TimeInterval)">
+            <summary>
+            Sets the navigator extents to specified time interval.
+            </summary>
+            <param name="vc">The visuzalization client.</param>
+            <param name="timeInterval">Time interval to set navigator extents to.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.SetNavigatorToNow(Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Sets the navigator based on current time with a 6 second range.
+            </summary>
+            <param name="vc">The visuzalization client.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.SetNavigatorToNow(Microsoft.Psi.Visualization.Client.VisualizationClient,System.TimeSpan)">
+            <summary>
+            Sets the navigator based on current time and a provided range.
+            </summary>
+            <param name="vc">The visuzalization client.</param>
+            <param name="delta">Range of time to include in view.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.Show3D``3(Microsoft.Psi.Visualization.Client.VisualizationClient,Microsoft.Psi.IProducer{``1})">
+            <summary>
+            Shows the specified stream in an <see cref="T:Microsoft.Psi.Visualization.Client.XYZVisualizationPanel"/>
+            </summary>
+            <typeparam name="TObject">The type of client stream visualization object (proxy) to create.</typeparam>
+            <typeparam name="TData">The type of underlying data of the stream visualization object.</typeparam>
+            <typeparam name="TConfig">The type of configuration of the stream visualization object</typeparam>
+            <param name="vc">The visuzalization client.</param>
+            <param name="stream">Stream to show.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.Show``4(Microsoft.Psi.Visualization.Client.VisualizationClient,Microsoft.Psi.IProducer{``1})">
+            <summary>
+            Shows the specified stream in an appropriate visualization panel, creating a new one if needed.
+            </summary>
+            <typeparam name="TObject">The type of client stream visualization object (proxy) to create.</typeparam>
+            <typeparam name="TData">The type of underlying data of the stream visualization object.</typeparam>
+            <typeparam name="TConfig">The type of configuration of the stream visualization object</typeparam>
+            <typeparam name="TPanel">The type of visauzalition panel required to show the stream.</typeparam>
+            <param name="vc">The visuzalization client.</param>
+            <param name="stream">Stream to show.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.Show``3(Microsoft.Psi.IProducer{``1},Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Shows the specified stream in an <see cref="T:Microsoft.Psi.Visualization.Client.XYVisualizationPanel"/>
+            </summary>
+            <typeparam name="TObject">The type of client stream visualization object (proxy) to create.</typeparam>
+            <typeparam name="TData">The type of underlying data of the stream visualization object.</typeparam>
+            <typeparam name="TConfig">The type of configuration of the stream visualization object</typeparam>
+            <param name="stream">Stream to show.</param>
+            <param name="vc">The visuzalization client.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.Show(Microsoft.Psi.IProducer{Microsoft.Psi.Audio.AudioBuffer},Microsoft.Psi.Visualization.Client.VisualizationClient,System.Int32)">
+            <summary>
+            Shows an audio stream.
+            </summary>
+            <param name="stream">Aduio stream to show.</param>
+            <param name="vc">The visuzalization client.</param>
+            <param name="channel">The audio channel to show. Default is 0.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.Show(Microsoft.Psi.IProducer{Microsoft.Psi.Shared{Microsoft.Psi.Imaging.EncodedImage}},Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Shows an encoded image stream.
+            </summary>
+            <param name="stream">Encoded image stream to show.</param>
+            <param name="vc">The visuzalization client.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.Show(Microsoft.Psi.IProducer{Microsoft.Psi.Shared{Microsoft.Psi.Imaging.Image}},Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Shows an image stream.
+            </summary>
+            <param name="stream">Image stream to show.</param>
+            <param name="vc">The visuzalization client.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.Show(Microsoft.Psi.IProducer{System.Collections.Generic.List{Microsoft.Psi.Kinect.KinectBody}},Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Shows a Kinect bodies stream in an XYZ visualization panel.
+            </summary>
+            <param name="stream">Kinect bodies stream to show.</param>
+            <param name="vc">The visuzalization client.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.ShowScatterPlot3D(Microsoft.Psi.IProducer{System.Collections.Generic.List{System.Windows.Media.Media3D.Point3D}},Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Shows a list of 3D points stream in an XYZ visualization panel.
+            </summary>
+            <param name="stream">A list of 3D points  stream to show.</param>
+            <param name="vc">The visuzalization client.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.Show(Microsoft.Psi.IProducer{System.Double},Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Shows a stream of doubles.
+            </summary>
+            <param name="stream">A stream of doubles to show.</param>
+            <param name="vc">The visuzalization client.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.Show(Microsoft.Psi.IProducer{System.Boolean},Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Shows a stream of booleans.
+            </summary>
+            <param name="stream">A stream of booleans to show.</param>
+            <param name="vc">The visuzalization client.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.Show(Microsoft.Psi.IProducer{System.Collections.Generic.List{MathNet.Spatial.Euclidean.CoordinateSystem}},Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Shows a stream of a list of coordinate systems.
+            </summary>
+            <param name="stream">A stream of a list of coordinate systems to show.</param>
+            <param name="vc">The visuzalization client.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.Show(Microsoft.Psi.IProducer{System.Collections.Generic.List{System.Tuple{System.Windows.Point,System.String}}},Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Shows a stream of a list of named points.
+            </summary>
+            <param name="stream">A stream of a list of named points to show.</param>
+            <param name="vc">The visuzalization client.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.Show(Microsoft.Psi.IProducer{System.Collections.Generic.List{System.Tuple{System.Drawing.Rectangle,System.String}}},Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Shows a stream of a list of rectangles.
+            </summary>
+            <param name="stream">A stream of a list of rectangles to show.</param>
+            <param name="vc">The visuzalization client.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.Show(Microsoft.Psi.IProducer{Microsoft.Psi.Speech.IStreamingSpeechRecognitionResult},Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Shows a stream of speech recognition results.
+            </summary>
+            <param name="stream">A stream of speech recognition results to show.</param>
+            <param name="vc">The visuzalization client.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.Show(Microsoft.Psi.IProducer{System.Tuple{System.String,System.TimeSpan}},Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Shows a stream of strings with durations.
+            </summary>
+            <param name="stream">A stream of strings with durations to show.</param>
+            <param name="vc">The visuzalization client.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.ShowAnnotations(Microsoft.Psi.IProducer{Microsoft.Psi.Extensions.Annotations.AnnotatedEvent},Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Shows a stream of annotations
+            </summary>
+            <param name="stream">A stream of annotations show.</param>
+            <param name="vc">The visuzalization client.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationClientExtensions.ShowLatency``1(Microsoft.Psi.IProducer{``0},Microsoft.Psi.Visualization.Client.VisualizationClient)">
+            <summary>
+            Shows a derived stream of message latencies for any other stream.
+            </summary>
+            <typeparam name="T">The type of the stream.</typeparam>
+            <param name="stream">A stream of annotations show.</param>
+            <param name="vc">The visuzalization client.</param>
+            <returns>The newly created <see cref="T:Microsoft.Psi.Visualization.Client.StreamVisualizationObject`2"/> used to show the stream.</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.VisualizationContainer">
+            <summary>
+            Class implements a generic client proxy for <see cref="T:Microsoft.Psi.Visualization.Client.VisualizationContainer" />.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationContainer.#ctor(Microsoft.Psi.Visualization.Client.IRemoteVisualizationContainer)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Visualization.Client.VisualizationContainer"/> class.
+            </summary>
+            <param name="container">The remote visualization container.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationContainer.CurrentRemoteVisualizationPanel">
+            <summary>
+            Gets or sets the current remote visualization panel.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationContainer.Name">
+            <summary>
+            Gets or sets the Name.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationContainer.RemoteNavigator">
+            <summary>
+            Gets the remote navigator.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationContainer.RemoteVisualizationContainer">
+            <summary>
+            Gets the remote visualization container.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationContainer.AddPanel``1">
+            <summary>
+            Adds a new visualization panel of the indicated type.
+            </summary>
+            <typeparam name="TPanel">The type of new visualization panel.</typeparam>
+            <returns>An instance of the new visualization panel.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationContainer.Clear">
+            <summary>
+            Clears the visualization container.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationContainer.RemovePanel(Microsoft.Psi.Visualization.Client.VisualizationPanel)">
+            <summary>
+            Removes the indicated panel.
+            </summary>
+            <param name="panel">The visualization panel to remove.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.VisualizationObject`1">
+            <summary>
+            Class implements a generic client proxy for Microsoft.Psi.Visualization.VisualizationObjects.VisualizationObject{TConfig}.
+            </summary>
+            <typeparam name="TConfig">The type of the visualization configuration.</typeparam>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationObject`1.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:Microsoft.Psi.Visualization.Client.VisualizationObject`1"/> class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationObject`1.Configuration">
+            <summary>
+            Gets visualization object configuration.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationObject`1.Container">
+            <summary>
+            Gets visualization object parent container.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationObject`1.Panel">
+            <summary>
+            Gets visualization object parent panel.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationObject`1.TypeName">
+            <summary>
+            Gets the remote visualization object type name.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationObject`1.IVisualizationObject">
+            <summary>
+            Gets or sets remote visualization object.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationObject`1.ContractResolver">
+            <summary>
+            Gets JSON contract resolver. Defaults to null - DefaultContractResolver.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationObject`1.BringToFront">
+            <summary>
+            Brings this remote visualization object to the top of z-order within its containing panel.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationObject`1.Close">
+            <summary>
+            Closes and removes this remote visualization object.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationObject`1.OnRemoteConfigurationChanged(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationObject`1.SendToBack">
+            <summary>
+            Sends this remote visualization object to the back of z-order within its containing panel.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.VisualizationPanel">
+            <summary>
+            Class implements a generic client proxy for Microsoft.Psi.Visualization.VisualizationPanels.VisualizationPanel />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationPanel.Container">
+            <summary>
+            Gets visualization object parent container.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationPanel.CurrentRemoteVisualizationObject">
+            <summary>
+            Getst the current remote visualization object.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationPanel.Height">
+            <summary>
+            Gets or sets the height.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationPanel.IsCurrentPanel">
+            <summary>
+            Gets a value indicating whether this is the current panel.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationPanel.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationPanel.RemoteNavigator">
+            <summary>
+            Gets the navigator.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationPanel.TypeName">
+            <summary>
+            Gets the remote visualization panel type name.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationPanel.Width">
+            <summary>
+            Gets the width.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationPanel.RemoteVisualizationPanel">
+            <summary>
+            Gets or sets the remote visualization panel.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationPanel.AddVisualizationObject``2">
+            <summary>
+            Adds a new visualization object of the indicated type.
+            </summary>
+            <typeparam name="TObject">Type of new visualization object to add.</typeparam>
+            <typeparam name="TConfig">Type of the configuration of the new visualization object to add.</typeparam>
+            <returns>An instance of the new visualization object.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationPanel.BringToFront``2(``0)">
+            <summary>
+            Brings the indictated remote visualization object to the front of z-order within this panel.
+            </summary>
+            <typeparam name="TObject">Type of visualization object to move.</typeparam>
+            <typeparam name="TConfig">Type of the configuration of the visualization object to move.</typeparam>
+            <param name="visualizationObject">The visualization object to move.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationPanel.Clear">
+            <summary>
+            Clears the visualization panel.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationPanel.RemoveVisualizationObject``2(``0)">
+            <summary>
+            Removes the indicated visualization object.
+            </summary>
+            <typeparam name="TObject">Type of visualization object to remove.</typeparam>
+            <typeparam name="TConfig">Type of the configuration of the visualization object to remove.</typeparam>
+            <param name="visualizationObject">The visualization object to remove.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationPanel.SendToBack``2(``0)">
+            <summary>
+            Sends the indictated remote visualization object to the back of z-order within this panel.
+            </summary>
+            <typeparam name="TObject">Type of new visualization object to move.</typeparam>
+            <typeparam name="TConfig">Type of the configuration of the new visualization object to move.</typeparam>
+            <param name="visualizationObject">The visualization object to move.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.TimelineVisualizationPanel">
+            <summary>
+            Class implements a client proxy for Microsoft.Psi.Visualization.VisualizationPanels.TimelineVisualizationPanel />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.TimelineVisualizationPanel.TypeName">
+            <inheritdoc />
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.XYVisualizationPanel">
+            <summary>
+            Class implements a client proxy for Microsoft.Psi.Visualization.VisualizationPanels.XYVisualizationPanel />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.XYVisualizationPanel.TypeName">
+            <inheritdoc />
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.XYZVisualizationPanel">
+            <summary>
+            Class implements a client proxy for Microsoft.Psi.Visualization.VisualizationPanels.XYZVisualizationPanel />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.XYZVisualizationPanel.TypeName">
+            <inheritdoc />
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.VisualizationPanel`1">
+            <summary>
+            Class implements a generic client proxy for Microsoft.Psi.Visualization.VisualizationPanels.VisualizationPanel />.
+            </summary>
+            <typeparam name="TConfig">Type of configuration of visualization panel.</typeparam>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationPanel`1.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:Microsoft.Psi.Visualization.Client.VisualizationPanel`1"/> class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationPanel`1.Configuration">
+            <summary>
+            Gets visualization panel configuration.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationPanel`1.Height">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationPanel`1.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationPanel`1.Width">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.VisualizationPanel`1.RemoteVisualizationPanel">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.VisualizationPanel`1.OnRemoteConfigurationChanged(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.VisualizationService">
+            <summary>
+            Class implements a generic client proxy for host object of the same name.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.Guids">
+            <summary>
+            Class that contains IID and CLSID strings and GUIDs.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.INotifyRemoteConfigurationChangedIIDString">
+            <summary>
+            INotifyRemoteConfigurationChanged IID string.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.IRemoteNavigatorIIDString">
+            <summary>
+            IRemoteNavigator IID string.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.IRemoteNavigatorRangeIIDString">
+            <summary>
+            IRemoteNavigatorRange IID string.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.IRemoteStreamVisualizationObjectIIDString">
+            <summary>
+            IRemoteStreamVisualizationObject IID string.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.IRemoteVisualizationContainerIIDString">
+            <summary>
+            IRemoteVisualizationContainer IID string.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.IRemoteVisualizationObjectIIDString">
+            <summary>
+            IRemoteVisualizationObject IID string.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.IRemoteVisualizationPanelIIDString">
+            <summary>
+            IRemoteVisualizationPanel IID string.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.IRemoteVisualizationServiceIIDString">
+            <summary>
+            IRemoteVisualizationService IID string.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.RemoteNavigatorCLSIDString">
+            <summary>
+            RemoteNavigator CLSID string.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.RemoteNavigatorRangeCLSIDString">
+            <summary>
+            RemoteNavigatorRange CLSID string.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.RemoteStreamVisualizationObjectCLSIDString">
+            <summary>
+            RemoteStreamVisualizationObject CLSID string.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.RemoteVisualizationContainerCLSIDString">
+            <summary>
+            RemoteVisualizationContainer CLSID string.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.RemoteVisualizationObjectCLSIDString">
+            <summary>
+            RemoteVisualizationObject CLSID string.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.RemoteVisualizationPanelCLSIDString">
+            <summary>
+            RemoteVisualizationPanel CLSID string.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.RemoteVisualizationServiceCLSIDString">
+            <summary>
+            RemoteVisualizationService CLSID string.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.INotifyRemoteConfigurationChangedIID">
+            <summary>
+            INotifyRemoteConfigurationChanged IID Guid.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.IRemoteNavigatorIID">
+            <summary>
+            IRemoteNavigator IID Guid.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.IRemoteNavigatorRangeIID">
+            <summary>
+            IRemoteNavigatorRange IID Guid.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.IRemoteStreamVisualizationObjectIID">
+            <summary>
+            IRemoteStreamVisualizationObject IID Guid.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.IRemoteVisualizationContainerIID">
+            <summary>
+            IRemoteVisualizationContainer IID Guid.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.IRemoteVisualizationObjectIID">
+            <summary>
+            IRemoteVisualizationObject IID Guid.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.IRemoteVisualizationPanelIID">
+            <summary>
+            IRemoteVisualizationPanel IID Guid.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.IRemoteVisualizationServiceIID">
+            <summary>
+            IRemoteVisualizationService IID Guid.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.RemoteNavigatorCLSID">
+            <summary>
+            RemoteNavigator CLSID Guid.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.RemoteNavigatorRangeCLSID">
+            <summary>
+            RemoteNavigatorRange CLSID Guid.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.RemoteStreamVisualizationObjectCLSID">
+            <summary>
+            RemoteStreamVisualizationObject CLSID Guid.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.RemoteVisualizationContainerCLSID">
+            <summary>
+            RemoteVisualizationContainer CLSID Guid.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.RemoteVisualizationObjectCLSID">
+            <summary>
+            RemoteVisualizationObject CLSID Guid.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.RemoteVisualizationPanelCLSID">
+            <summary>
+            RemoteVisualizationPanel CLSID Guid.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.Guids.RemoteVisualizationServiceCLSID">
+            <summary>
+            RemoteVisualizationService CLSID Guid.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.IRemoteNavigatorRange">
+            <summary>
+            Represents a remote navigator range.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteNavigatorRange.Duration">
+            <summary>
+            Gets the range duration.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteNavigatorRange.StartTime">
+            <summary>
+            Gets the range start time.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteNavigatorRange.EndTime">
+            <summary>
+            Gets the range end time.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteNavigatorRange.SetRange(System.DateTime,System.DateTime)">
+            <summary>
+            Sets the range.
+            </summary>
+            <param name="startTime">Start time of the range.</param>
+            <param name="endTime">End time of the range.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.IRemoteNavigator">
+            <summary>
+            Represents a remote navigator instance.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteNavigator.Cursor">
+            <summary>
+            Gets or sets the cursor (position).
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteNavigator.DataRange">
+            <summary>
+            Gets the data range.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteNavigator.NavigationMode">
+            <summary>
+            Gets or sets the navigation mode.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteNavigator.SelectionRange">
+            <summary>
+            Gets the selection range.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteNavigator.ViewRange">
+            <summary>
+            Gets the view range.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteNavigator.ZoomToSelectionPadding">
+            <summary>
+            Gets or sets the zoom range selection padding.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.IRemoteVisualizationContainer">
+            <summary>
+            Represents a remote visualization container.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteVisualizationContainer.CurrentPanel">
+            <summary>
+            Gets or sets the current visualization panel.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteVisualizationContainer.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteVisualizationContainer.Navigator">
+            <summary>
+            Gets the navigator.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationContainer.AddPanel(System.String)">
+            <summary>
+            Adds a new visualization panel of the indicated type.
+            </summary>
+            <param name="type">Type of new visualization panel.</param>
+            <returns>An instance of the new visualization panel.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationContainer.Clear">
+            <summary>
+            Clears the visualization container.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationContainer.RemovePanel(Microsoft.Psi.Visualization.Client.IRemoteVisualizationPanel)">
+            <summary>
+            Removes the indicated panel.
+            </summary>
+            <param name="panel">The visualization panel to remove.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.INotifyRemoteConfigurationChanged">
+            <summary>
+            Represents a notification event handler to be invoked when a configuration is changed.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.INotifyRemoteConfigurationChanged.OnRemoteConfigurationChanged(System.String)">
+            <summary>
+            Invoked by the remote host when a configuration changes.
+            </summary>
+            <param name="jsonConfiguration">The new configuration serialized into a JSON string.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.IRemoteStreamVisualizationObject">
+            <summary>
+            Represents a remote stream visualization object.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteStreamVisualizationObject.CloseStream">
+            <summary>
+            Close the underlying stream.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteStreamVisualizationObject.OpenStream(System.String)">
+            <summary>
+            Open a stream, closing underlying stream if neeeded.
+            </summary>
+            <param name="jsonStreamBinding">Stream binding serialized as JSON.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.IRemoteVisualizationPanel">
+            <summary>
+            Represents a remote visualization panel.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteVisualizationPanel.Container">
+            <summary>
+            Gets the visualization container.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteVisualizationPanel.CurrentVisualizationObject">
+            <summary>
+            Gets or sets the current visualization object.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteVisualizationPanel.IsCurrentPanel">
+            <summary>
+            Gets a value indicating whether this is the current panel.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteVisualizationPanel.Navigator">
+            <summary>
+            Gets the navigator.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationPanel.AddVisualizationObject(System.String)">
+            <summary>
+            Adds a new visualization object of the indicated type.
+            </summary>
+            <param name="type">Type of new visualization object to add.</param>
+            <returns>An instance of the new visualization object.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationPanel.AddVisualizationObject(System.String,System.String)">
+            <summary>
+            Adds a new visualization object of the indicated type from within the indicated assembly.
+            </summary>
+            <param name="assemblyPath">Assembly to find the type in.</param>
+            <param name="type">Type of new visualization object to add.</param>
+            <returns>An instance of the new visualization object.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationPanel.Advise(Microsoft.Psi.Visualization.Client.INotifyRemoteConfigurationChanged)">
+            <summary>
+            Adds advise to this remote visualization panel.
+            </summary>
+            <param name="notifyVisualizationPanelChanged">Advise object to add.</param>
+            <returns>Advise cookie for unadvising.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationPanel.BringToFront(Microsoft.Psi.Visualization.Client.IRemoteVisualizationObject)">
+            <summary>
+            Brings the indictated remote visualization object to the front of z-order within this panel.
+            </summary>
+            <param name="visualizationObject">The visualization object to move.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationPanel.Clear">
+            <summary>
+            Clears the visualization panel.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationPanel.GetConfiguration">
+            <summary>
+            Gets this remote visualization panel's configuration as a JSON string.
+            </summary>
+            <returns>The configuration serialized into a JSON string.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationPanel.RemoveVisualizationObject(Microsoft.Psi.Visualization.Client.IRemoteVisualizationObject)">
+            <summary>
+            Removes the indicated visualization object.
+            </summary>
+            <param name="visualizationObject">The visualization object to remove.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationPanel.SendToBack(Microsoft.Psi.Visualization.Client.IRemoteVisualizationObject)">
+            <summary>
+            Sends the indictated remote visualization object to the back of z-order within this panel.
+            </summary>
+            <param name="visualizationObject">The visualization object to move.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationPanel.SetConfiguration(System.String)">
+            <summary>
+            Sets this remove visualization panel's configuration.
+            </summary>
+            <param name="jsonConfiguration">Configuration serialized as a JSON string.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationPanel.Unadvise(System.UInt32)">
+            <summary>
+            Removes advise from this remote visualization panel.
+            </summary>
+            <param name="cookie">Advise cookie given when advising.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.IRemoteVisualizationService">
+            <summary>
+            Represents a remote visualization service.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteVisualizationService.CurrentContainer">
+            <summary>
+            Gets the visualization container.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationService.EnsureBinding(System.String)">
+            <summary>
+            Ensure the specified stream is currently open. If stream is not open, it will be upon retun.
+            </summary>
+            <param name="jsonStreamBinding">Stream binding, JSON serialized, inidicting which stream to open</param>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.IRemoteVisualizationObject">
+            <summary>
+            Represents a remote visualization object.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteVisualizationObject.Navigator">
+            <summary>
+            Gets the navigator.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteVisualizationObject.Container">
+            <summary>
+            Gets the visualization container.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Visualization.Client.IRemoteVisualizationObject.Panel">
+            <summary>
+            Gets the visualization panel.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationObject.Advise(Microsoft.Psi.Visualization.Client.INotifyRemoteConfigurationChanged)">
+            <summary>
+            Adds advise to this remote visualization object.
+            </summary>
+            <param name="notifyVisualizationObjectChanged">Advise object to add.</param>
+            <returns>Advise cookie for unadvising.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationObject.BringToFront">
+            <summary>
+            Brings this remote visualization object to the top of z-order within its containing panel.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationObject.Close">
+            <summary>
+            Closes and removes this remote visualization object.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationObject.GetConfiguration">
+            <summary>
+            Gets this remote visualization object's configuration as a JSON string.
+            </summary>
+            <returns>The configuration serialized into a JSON string.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationObject.SendToBack">
+            <summary>
+            Sends this remote visualization object to the back of z-order within its containing panel.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationObject.SetConfiguration(System.String)">
+            <summary>
+            Sets this remove visualization object's configuration.
+            </summary>
+            <param name="jsonConfiguration">Configuration serialized as a JSON string.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Visualization.Client.IRemoteVisualizationObject.Unadvise(System.UInt32)">
+            <summary>
+            Removes advise from this remote visualization object.
+            </summary>
+            <param name="cookie">Advise cookie given when advising.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Visualization.Client.RemoteNavigationMode">
+            <summary>
+            Represents remote navigation modes.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.RemoteNavigationMode.Live">
+            <summary>
+            Live navigation mode.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Visualization.Client.RemoteNavigationMode.Playback">
+            <summary>
+            Playback navigation mode.
+            </summary>
+        </member>
+    </members>
+</doc>

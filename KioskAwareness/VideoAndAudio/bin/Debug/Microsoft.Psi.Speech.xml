@@ -1,0 +1,240 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Psi.Speech</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Psi.Speech.GrammarInfo">
+            <summary>
+            Represents information about a grammar.
+            </summary>
+            <remarks>
+            This information may be used to define a set of files containing grammar definitions to be comsumed by a speech recognition component.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.GrammarInfo.Name">
+            <summary>
+            Gets or sets the name of the grammar.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.GrammarInfo.FileName">
+            <summary>
+            Gets or sets the path to the grammar file.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Speech.ISpeechRecognitionAlternate">
+            <summary>
+            Represents a speech recognition alternate.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.ISpeechRecognitionAlternate.Text">
+            <summary>
+            Gets the text of this alternate.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.ISpeechRecognitionAlternate.Confidence">
+            <summary>
+            Gets the confidence score of this alternate.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Speech.ISpeechRecognitionResult">
+            <summary>
+            Defines a speech recognition result.
+            </summary>
+            <remarks>
+            Components that perform speech recognition may output speech recognition results that implement this interface.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.ISpeechRecognitionResult.Text">
+            <summary>
+            Gets the text of this ISpeechRecognitionResult.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.ISpeechRecognitionResult.Confidence">
+            <summary>
+            Gets the confidence of this ISpeechRecognitionResult.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.ISpeechRecognitionResult.Alternates">
+            <summary>
+            Gets the alternates of this ISpeechRecognitionResult.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.ISpeechRecognitionResult.Audio">
+            <summary>
+            Gets the audio buffer that produced the recognition result. This may be empty
+            where the audio is not available.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.ISpeechRecognitionResult.Duration">
+            <summary>
+            Gets the duration of the audio that produced the recognition result.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Speech.IStreamingSpeechRecognitionResult">
+            <summary>
+            Defines an incremental, streaming speech recognition result which may be partial or final.
+            </summary>
+            <remarks>
+            Components that perform streaming speech recognition (where partial hypotheses are generated while
+            the speech is in progress) may output speech recognition results that implement this interface.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.IStreamingSpeechRecognitionResult.IsFinal">
+            <summary>
+            Gets a value indicating whether this result is final (true), or if it is a partial hypothesis (false)
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Speech.SimpleVoiceActivityDetector">
+            <summary>
+            Component that implements a voice activity detector.
+            </summary>
+            <remarks>
+            This component monitors an input audio stream and outputs a boolean flag for each input message indicating
+            whether or not voice activity was present in the corresponding <see cref="T:Microsoft.Psi.Audio.AudioBuffer"/>.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Psi.Speech.SimpleVoiceActivityDetector.#ctor(Microsoft.Psi.Pipeline,Microsoft.Psi.Speech.SimpleVoiceActivityDetectorConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Speech.SimpleVoiceActivityDetector"/> class.
+            </summary>
+            <param name="pipeline">The pipeline to add the component to.</param>
+            <param name="configuration">The component configuration.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.SimpleVoiceActivityDetector.In">
+            <inheritdoc/>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.SimpleVoiceActivityDetector.Out">
+            <inheritdoc/>
+        </member>
+        <member name="T:Microsoft.Psi.Speech.SimpleVoiceActivityDetectorConfiguration">
+            <summary>
+            Represents the configuration for the <see cref="T:Microsoft.Psi.Speech.SimpleVoiceActivityDetector"/> component.
+            </summary>
+            <remarks>
+            Use this class to configure a new instance of the <see cref="T:Microsoft.Psi.Speech.SimpleVoiceActivityDetector"/> component.
+            Refer to the properties in this class for more information on the various configuration options.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Psi.Speech.SimpleVoiceActivityDetectorConfiguration.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Speech.SimpleVoiceActivityDetectorConfiguration"/> class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.SimpleVoiceActivityDetectorConfiguration.FrameDuration">
+            <summary>
+            Gets or sets the audio frame duration in seconds.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.SimpleVoiceActivityDetectorConfiguration.FrameRate">
+            <summary>
+            Gets or sets the frame rate in frames per second.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.SimpleVoiceActivityDetectorConfiguration.LogEnergyThreshold">
+            <summary>
+            Gets or sets the log energy detection threshold for voice activity.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.SimpleVoiceActivityDetectorConfiguration.VoiceActivityDetectionWindow">
+            <summary>
+            Gets or sets the voice activity detection window in seconds.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.SimpleVoiceActivityDetectorConfiguration.SilenceDetectionWindow">
+            <summary>
+            Gets or sets the silence detection window in seconds.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Speech.SpeechRecognitionAlternate">
+            <summary>
+            Represents a speech recognition alternate.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Speech.SpeechRecognitionAlternate.#ctor(System.String,System.Nullable{System.Double})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Speech.SpeechRecognitionAlternate"/> class.
+            </summary>
+            <param name="text">The text of this alternate.</param>
+            <param name="confidence"> The confidence score of the alternate.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.SpeechRecognitionAlternate.Text">
+            <summary>
+            Gets or sets the text of this alternate.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.SpeechRecognitionAlternate.Confidence">
+            <summary>
+            Gets or sets the confidence score of this alternate.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Speech.SpeechRecognitionResult">
+            <summary>
+            Represents a speech recognition result.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Speech.SpeechRecognitionResult.#ctor(System.String,System.Nullable{System.Double},System.Collections.Generic.IEnumerable{Microsoft.Psi.Speech.SpeechRecognitionAlternate},System.Nullable{Microsoft.Psi.Audio.AudioBuffer},System.Nullable{System.TimeSpan})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Speech.SpeechRecognitionResult"/> class.
+            </summary>
+            <param name="text">The recognized text of this result.</param>
+            <param name="confidence"> The confidence score of the result.</param>
+            <param name="alternates"> The list of alternates for this result, as text strings</param>
+            <param name="audio"> The audio buffer that formed this result</param>
+            <param name="duration"> The duration of the audio that produced this recognition result</param>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.SpeechRecognitionResult.Text">
+            <summary>
+            Gets the recognized text of this SpeechRecognitionResult.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.SpeechRecognitionResult.Confidence">
+            <summary>
+            Gets the confidence score of the recognition result.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.SpeechRecognitionResult.Alternates">
+            <summary>
+            Gets the alternates of this SpeechRecognitionResult.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.SpeechRecognitionResult.Audio">
+            <summary>
+            Gets the audio buffer that produced the recognition result. This may be empty
+            where the audio is not available.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.SpeechRecognitionResult.Duration">
+            <summary>
+            Gets the duration of the audio that produced the recognition result.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Speech.SpeechRecognitionResult.ToString">
+            <summary>
+            Returns a display string for this SpeechRecognitionResult.
+            </summary>
+            <returns>A display string for this SpeechRecognitionResult.</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Speech.StreamingSpeechRecognitionResult">
+            <summary>
+            Represents an incremental, streaming speech recognition result which may be partial or final.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Speech.StreamingSpeechRecognitionResult.#ctor(System.Boolean,System.String,System.Nullable{System.Double},System.Collections.Generic.IEnumerable{Microsoft.Psi.Speech.SpeechRecognitionAlternate},System.Nullable{Microsoft.Psi.Audio.AudioBuffer},System.Nullable{System.TimeSpan})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Speech.StreamingSpeechRecognitionResult"/> class.
+            </summary>
+            <param name="isFinal"> Indicates whether this is a final or a partial result</param>
+            <param name="text">The recognized text of this result.</param>
+            <param name="confidence"> The confidence score of the result.</param>
+            <param name="alternates"> The list of alternates for this result, as text strings</param>
+            <param name="audio"> The audio buffer that formed this result</param>
+            <param name="duration"> The duration of the audio that produced this recognition result</param>
+        </member>
+        <member name="P:Microsoft.Psi.Speech.StreamingSpeechRecognitionResult.IsFinal">
+            <summary>
+            Gets a value indicating whether this result is final (true), or if it is a partial hypothesis (false)
+            </summary>
+        </member>
+    </members>
+</doc>

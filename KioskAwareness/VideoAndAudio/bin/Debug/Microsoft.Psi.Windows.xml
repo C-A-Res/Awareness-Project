@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Psi.Windows</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Psi.PerfCounterCollection`1">
+            <summary>
+            Performacne counter collection.
+            </summary>
+            <typeparam name="TKey">Performance counter key type.</typeparam>
+        </member>
+        <member name="M:Microsoft.Psi.PerfCounterCollection`1.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.PerfCounterCollection`1"/> class.
+            </summary>
+            <param name="category">Category name.</param>
+            <param name="instance">Instance name.</param>
+        </member>
+        <member name="M:Microsoft.Psi.PerfCounterCollection`1.Increment(`0)">
+            <summary>
+            Increment counter.
+            </summary>
+            <param name="counter">Counter to increment.</param>
+        </member>
+        <member name="M:Microsoft.Psi.PerfCounterCollection`1.IncrementBy(`0,System.Int64)">
+            <summary>
+            Increment counter by given value.
+            </summary>
+            <param name="counter">Counter to increment.</param>
+            <param name="value">Value by which to increment.</param>
+        </member>
+        <member name="M:Microsoft.Psi.PerfCounterCollection`1.Decrement(`0)">
+            <summary>
+            Decrement counter.
+            </summary>
+            <param name="counter">Counter to decrement.</param>
+        </member>
+        <member name="M:Microsoft.Psi.PerfCounterCollection`1.RawValue(`0,System.Int64)">
+            <summary>
+            Set counter raw value.
+            </summary>
+            <param name="counter">Counter to set.</param>
+            <param name="value">Raw value.</param>
+        </member>
+        <member name="M:Microsoft.Psi.PerfCounterCollection`1.Clear">
+            <summary>
+            Clear collection.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.PerfCounterManager">
+            <summary>
+            Provides methods for creating and updating the performance counters
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.PerfCounterManager.categories">
+            <summary>
+            The counter categories we know about
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.PerfCounterManager.counters">
+            <summary>
+            The runtime counters created in the process
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.PerfCounterManager.processName">
+            <summary>
+            The process name used to name the counter instances so that multiple processes can each have their own counters
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.PerfCounterManager.TrySetupCounters(System.String,System.Collections.Generic.Dictionary{System.Int32,System.Diagnostics.CounterCreationData})">
+            <summary>
+            Installs the performance counters. Requires admin privileges.
+            </summary>
+            <param name="categoryName">The name of the category to create</param>
+            <param name="counterDefinitions">The set of counter definitions</param>
+            <returns>True if the counters were installed</returns>
+        </member>
+        <member name="M:Microsoft.Psi.PerfCounterManager.AddCounterDefinitions(System.String,System.Collections.Generic.Dictionary{System.Int32,System.Diagnostics.CounterCreationData})">
+            <summary>
+            Add counter definitions.
+            </summary>
+            <param name="categoryName">The name of the category.</param>
+            <param name="counterDefinitions">The set of counter definitions.</param>
+        </member>
+        <member name="M:Microsoft.Psi.PerfCounterManager.AddInstance``1(System.String,System.String)">
+            <summary>
+            Creates all the counters for the specified instance.
+            </summary>
+            <param name="categoryName">Name of the group to add an instance to</param>
+            <param name="instanceName">The name of the instance to add</param>
+            <returns>The counters for the specified instance</returns>
+            <typeparam name="T">An enum type to use for identifying the counters</typeparam>
+        </member>
+        <member name="M:Microsoft.Psi.PerfCounterManager.GetCounters``1(System.String,System.String)">
+            <summary>
+            Retrieves the counters based on instance name
+            </summary>
+            <param name="categoryName">Name of the group to add an instance to</param>
+            <param name="instanceName">The name of the counter instance</param>
+            <returns>The corresponding counters</returns>
+            <typeparam name="T">An enum type to use in identifying the counters</typeparam>
+        </member>
+        <member name="M:Microsoft.Psi.PerfCounterManager.CounterCreationFailed">
+            <summary>
+            Failure to create the performance counter category (security restriction).
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.PerfCounterManager.GetProcessQualifiedInstanceName(System.String)">
+            <summary>
+            Appends the process ID to the instance name
+            </summary>
+            <param name="instanceName">The counter instance name</param>
+            <returns>A unique instance name to be used when setting up the counters</returns>
+        </member>
+        <member name="T:Microsoft.Psi.PerfCounters`1">
+            <summary>
+            Provides methods for creating and updating the performance counters
+            </summary>
+            <typeparam name="TKey">Performance counter key type.</typeparam>
+        </member>
+        <member name="M:Microsoft.Psi.PerfCounters`1.Enable(System.String,System.String)">
+            <summary>
+            Enable performance counters.
+            </summary>
+            <param name="category">Category name.</param>
+            <param name="instance">Instance name.</param>
+            <returns>Performance counter collection.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.PerfCounters`1.AddCounterDefinitions(System.String,System.Collections.Generic.IEnumerable{System.Tuple{`0,System.String,System.String,Microsoft.Psi.PerfCounterType}})">
+            <summary>
+            Add performance counter defintions.
+            </summary>
+            <param name="category">Category name.</param>
+            <param name="definitions">Performance counter definitions (key, name, help, type).</param>
+        </member>
+    </members>
+</doc>

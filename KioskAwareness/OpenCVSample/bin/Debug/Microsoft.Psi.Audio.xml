@@ -1,0 +1,2605 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Psi.Audio</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Psi.Audio.AcousticFeatures">
+            <summary>
+            Component that aggregates a set of acoustic feature streams computed on an input audio stream into a single component.
+            </summary>
+            <remarks>
+            The acoustic feature streams available from this component are: <see cref="P:Microsoft.Psi.Audio.AcousticFeatures.LogEnergy"/>, <see cref="P:Microsoft.Psi.Audio.AcousticFeatures.ZeroCrossingRate"/>,
+            <see cref="P:Microsoft.Psi.Audio.AcousticFeatures.FFT"/>, <see cref="P:Microsoft.Psi.Audio.AcousticFeatures.FFTPower"/>, <see cref="P:Microsoft.Psi.Audio.AcousticFeatures.FrequencyDomainEnergy"/>, <see cref="P:Microsoft.Psi.Audio.AcousticFeatures.LowFrequencyEnergy"/>,
+            <see cref="P:Microsoft.Psi.Audio.AcousticFeatures.HighFrequencyEnergy"/> and <see cref="P:Microsoft.Psi.Audio.AcousticFeatures.SpectralEntropy"/>. Use the <see cref="T:Microsoft.Psi.Audio.AcousticFeaturesConfiguration"/>
+            class to control which acoustic features to compute.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.AcousticFeatures.#ctor(Microsoft.Psi.Pipeline,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.AcousticFeatures"/> class.
+            </summary>
+            <param name="pipeline">The pipeline to add the component to.</param>
+            <param name="configurationFilename">The component configuration file.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.AcousticFeatures.#ctor(Microsoft.Psi.Pipeline,Microsoft.Psi.Audio.AcousticFeaturesConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.AcousticFeatures"/> class.
+            </summary>
+            <param name="pipeline">The pipeline to add the component to.</param>
+            <param name="configuration">The component configuration.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeatures.In">
+            <summary>
+            Gets the receiver for the input audio for the acoustic features component.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeatures.LogEnergy">
+            <summary>
+            Gets the stream containing the log energy.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeatures.ZeroCrossingRate">
+            <summary>
+            Gets the stream containing the zero crossing rate.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeatures.FFT">
+            <summary>
+            Gets the stream containing the FFT.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeatures.FFTPower">
+            <summary>
+            Gets the stream containing the FFT power.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeatures.FrequencyDomainEnergy">
+            <summary>
+            Gets the stream containing the frequency domain energy.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeatures.LowFrequencyEnergy">
+            <summary>
+            Gets the stream containing the low frequency energy.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeatures.HighFrequencyEnergy">
+            <summary>
+            Gets the stream containing the high frequency energy.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeatures.SpectralEntropy">
+            <summary>
+            Gets the stream containing the spectral entropy.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.AcousticFeaturesConfiguration">
+            <summary>
+            Represents the configuration for the <see cref="T:Microsoft.Psi.Audio.AcousticFeatures"/> component.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.Default">
+            <summary>
+            The default configuration.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.inputFormat">
+            <summary>
+            Backing store for the InputFormat property.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.computeFFT">
+            <summary>
+            Backing store for the ComputeFFT property.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.computeFFTPower">
+            <summary>
+            Backing store for the ComputeFFTPower property.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.AcousticFeaturesConfiguration"/> class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.FrameDurationInSeconds">
+            <summary>
+            Gets or sets the duration of the frame of audio over which the acoustic features will be computed.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.FrameRateInHz">
+            <summary>
+            Gets or sets the frame rate at which the acoustic features will be computed.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.AddDither">
+            <summary>
+            Gets or sets a value indicating whether dither is to be applied to the audio data.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.DitherScaleFactor">
+            <summary>
+            Gets or sets the scale factor by which the dither to be applied will be multiplied.
+            A scale factor of 1.0 will result in a dither with a range of -1.0 to +1.0.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.StartFrequency">
+            <summary>
+            Gets or sets the start frequency for frequency-domain features.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.EndFrequency">
+            <summary>
+            Gets or sets the end frequency for frequency-domain features.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.LowEndFrequency">
+            <summary>
+            Gets or sets the end frequency for low-frequency features.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.HighStartFrequency">
+            <summary>
+            Gets or sets the start frequency for high-frequency features.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.EntropyBandwidth">
+            <summary>
+            Gets or sets the bandwidth for entropy features.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.ComputeLogEnergy">
+            <summary>
+            Gets or sets a value indicating whether to compute the log energy stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.ComputeZeroCrossingRate">
+            <summary>
+            Gets or sets a value indicating whether to compute the zero-crossing rate stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.ComputeFFT">
+            <summary>
+            Gets or sets a value indicating whether to compute the FFT stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.ComputeFFTPower">
+            <summary>
+            Gets or sets a value indicating whether to compute the FFT power stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.ComputeFrequencyDomainEnergy">
+            <summary>
+            Gets or sets a value indicating whether to compute the frequency domain energy stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.ComputeLowFrequencyEnergy">
+            <summary>
+            Gets or sets a value indicating whether to compute the low frequency energy stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.ComputeHighFrequencyEnergy">
+            <summary>
+            Gets or sets a value indicating whether to compute the high frequency energy stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.ComputeSpectralEntropy">
+            <summary>
+            Gets or sets a value indicating whether to compute the spectral entropy stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AcousticFeaturesConfiguration.InputFormat">
+            <summary>
+            Gets or sets the format of the audio stream.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.FastFourierTransform">
+            <summary>
+            Provides a class for computing a Fast Fourier Transform.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.FastFourierTransform.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.FastFourierTransform"/> class.
+            </summary>
+            <param name="fftSize">The FFT size.</param>
+            <param name="windowSize">The window size.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.FastFourierTransform.ComputeFFT(System.Single[],System.Single[]@)">
+            <summary>
+            Computes an FFT.
+            </summary>
+            <param name="input">The input data on which to apply the FFT.</param>
+            <param name="output">
+            An array which will hold the output values. If this array is not initialized
+            or is not of size fftSize on input, it will be allocated and assigned.
+            </param>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.FFT">
+            <summary>
+            Component that performs an FFT on a stream of sample buffers.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.FFT.#ctor(Microsoft.Psi.Pipeline,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.FFT"/> class.
+            </summary>
+            <param name="pipeline">The pipeline to add the component to.</param>
+            <param name="fftSize">The FFT size.</param>
+            <param name="inputSize">The window size.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.FFT.Receive(System.Single[],Microsoft.Psi.Envelope)">
+            <summary>
+            Receiver for the input data.
+            </summary>
+            <param name="data">A buffer containing the input data.</param>
+            <param name="e">The message envelope for the input data.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.FFTPower">
+            <summary>
+            Component that computes the FFT power.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.FFTPower.#ctor(Microsoft.Psi.Pipeline)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.FFTPower"/> class.
+            </summary>
+            <param name="pipeline">The pipeline to add the component to.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.FFTPower.Receive(System.Single[],Microsoft.Psi.Envelope)">
+            <summary>
+            Receiver for the input data.
+            </summary>
+            <param name="data">A buffer containing the input data.</param>
+            <param name="e">The message envelope for the input data.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.FFTPower.ComputeFFTPower(System.Single[],System.Single[]@)">
+            <summary>
+            Compute the FFT power.
+            </summary>
+            <param name="fft">The input data.</param>
+            <param name="output">
+            An array which will hold the output values. If this array is not initialized
+            or is not of size fftSize on input, it will be allocated and assigned.
+            </param>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.FrameShift">
+            <summary>
+            Component that performs an accumulate and shift operation on a stream of audio buffers.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.FrameShift.#ctor(Microsoft.Psi.Pipeline,System.Int32,System.Int32,System.Double)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.FrameShift"/> class.
+            </summary>
+            <param name="pipeline">The pipeline to add the component to.</param>
+            <param name="frameSizeInBytes">The frame size in bytes.</param>
+            <param name="frameShiftInBytes">The number of bytes to shift by.</param>
+            <param name="bytesPerSec">The sampling frequency in bytes per second.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.FrameShift.Receive(System.Byte[],Microsoft.Psi.Envelope)">
+            <summary>
+            Receiver for the input data.
+            </summary>
+            <param name="data">A buffer containing the input data.</param>
+            <param name="e">The message envelope for the input data.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.FrequencyDomainEnergy">
+            <summary>
+            Component that computes the frequency domain energy.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.FrequencyDomainEnergy.#ctor(Microsoft.Psi.Pipeline,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.FrequencyDomainEnergy"/> class.
+            </summary>
+            <param name="pipeline">The pipeline to add the component to.</param>
+            <param name="start">The starting frequency of the band.</param>
+            <param name="end">The ending frequency of the band.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.FrequencyDomainEnergy.Receive(System.Single[],Microsoft.Psi.Envelope)">
+            <summary>
+            Receiver for the input data.
+            </summary>
+            <param name="data">A buffer containing the input data.</param>
+            <param name="e">The message envelope for the input data.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.FrequencyDomainEnergy.ComputeFrequencyDomainEnergy(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Computes the energy within a frequency band.
+            </summary>
+            <param name="power">The power spectrum.</param>
+            <param name="start">The starting frequency of the band.</param>
+            <param name="end">The ending frequency of the band.</param>
+            <returns>The total energy in the frequency band.</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.HanningWindow">
+            <summary>
+            Provides a class for applying a Hanning window.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.HanningWindow.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.HanningWindow"/> class.
+            </summary>
+            <param name="kernelLength">The Hanning window length.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.HanningWindow.Apply(System.Single[])">
+            <summary>
+            Applies the Hanning window over the data.
+            </summary>
+            <param name="data">
+            The data to apply the Hanning window to. This must be of the same size as the kernel.
+            </param>
+            <returns>The computed hannign window over the data</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.HanningWindow.ComputeHanningKernel(System.Int32)">
+            <summary>
+            Computes the Hanning kernel.
+            </summary>
+            <param name="length">The desired length of the kernel.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.LogEnergy">
+            <summary>
+            Component that computes the Log energy.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.LogEnergy.EpsInLog">
+            <summary>
+            Constants for log energy computation.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.LogEnergy.LogOfEps">
+            <summary>
+            Constants for log energy computation.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.LogEnergy.#ctor(Microsoft.Psi.Pipeline)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.LogEnergy"/> class.
+            </summary>
+            <param name="pipeline">The pipeline to add the component to.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.LogEnergy.Receive(System.Single[],Microsoft.Psi.Envelope)">
+            <summary>
+            Receiver for the input data.
+            </summary>
+            <param name="data">A buffer containing the input data.</param>
+            <param name="e">The message envelope for the input data.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.LogEnergy.ComputeLogEnergy(System.Single[])">
+            <summary>
+            Compute the log energy of the supplied frame.
+            </summary>
+            <param name="frame">The frame over which to compute the log energy.</param>
+            <returns>The log energy.</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.SpectralEntropy">
+            <summary>
+            Component that computes the Spectral entropy.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.SpectralEntropy.#ctor(Microsoft.Psi.Pipeline,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.SpectralEntropy"/> class.
+            </summary>
+            <param name="pipeline">The pipeline to add the component to.</param>
+            <param name="start">The starting frequency of the band.</param>
+            <param name="end">The ending frequency of the band.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.SpectralEntropy.Receive(System.Single[],Microsoft.Psi.Envelope)">
+            <summary>
+            Receiver for the input data.
+            </summary>
+            <param name="data">A buffer containing the input data.</param>
+            <param name="e">The message envelope for the input data.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.SpectralEntropy.ComputeSpectralEntropy(System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Computes the spectral entropy within a frequency band.
+            </summary>
+            <param name="power">The power spectrum.</param>
+            <param name="start">The starting frequency of the band.</param>
+            <param name="end">The ending frequency of the band.</param>
+            <returns>The spectral entropy in the frequency band.</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.ToFloat">
+            <summary>
+            Component that converts raw audio data to floating point samples.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.ToFloat.#ctor(Microsoft.Psi.Pipeline,Microsoft.Psi.Audio.WaveFormat)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.ToFloat"/> class.
+            </summary>
+            <param name="pipeline">The pipeline to add the component to.</param>
+            <param name="format">The format of the input audio.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.ToFloat.Receive(System.Byte[],Microsoft.Psi.Envelope)">
+            <summary>
+            Receiver for the input data.
+            </summary>
+            <param name="data">A buffer containing the input data.</param>
+            <param name="e">The message envelope for the input data.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.ZeroCrossingRate">
+            <summary>
+            Component that computes the Zero crossing rate of the input signal.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.ZeroCrossingRate.#ctor(Microsoft.Psi.Pipeline)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.ZeroCrossingRate"/> class.
+            </summary>
+            <param name="pipeline">The pipeline to add the component to.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.ZeroCrossingRate.Receive(System.Single[],Microsoft.Psi.Envelope)">
+            <summary>
+            Receiver for the input data.
+            </summary>
+            <param name="data">A buffer containing the input data.</param>
+            <param name="e">The message envelope for the input data.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.ZeroCrossingRate.ComputeZeroCrossingRate(System.Single[])">
+            <summary>
+            Computes the zero crossing rate of the signal.
+            </summary>
+            <param name="frame">A data frame of the signal.</param>
+            <returns>The zero crossing rate.</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.AudioBuffer">
+            <summary>
+            Represents a buffer of audio and its associated format information.
+            </summary>
+            <remarks>
+            Audio in \\psi is represented as a structure consisting of an array of bytes containing a
+            chunk of audio data and a <see cref="T:Microsoft.Psi.Audio.WaveFormat"/> object which describes the encoding
+            format of the audio data. While pairing each chunk of audio data with its corresponding
+            <see cref="T:Microsoft.Psi.Audio.WaveFormat"/> object incurs some amount of overhead, it simplifies processing
+            of audio data by stream components and operators in \\psi by providing all the relevant
+            audio information in a single unit.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.AudioBuffer.#ctor(System.Byte[],Microsoft.Psi.Audio.WaveFormat)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.AudioBuffer"/> structure.
+            </summary>
+            <param name="data">An array of bytes containing the audio data.</param>
+            <param name="format">The audio format.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.AudioBuffer.#ctor(System.Int32,Microsoft.Psi.Audio.WaveFormat)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.AudioBuffer"/> structure of a pre-allocated fixed length containing
+            no data initially. This overload is used primarily for making a copy of an existing <see cref="T:Microsoft.Psi.Audio.AudioBuffer"/>.
+            </summary>
+            <param name="length">The size in bytes of the audio data.</param>
+            <param name="format">The audio format.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AudioBuffer.Format">
+            <summary>
+            Gets the audio format.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AudioBuffer.Data">
+            <summary>
+            Gets the byte array containing the audio data.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AudioBuffer.Length">
+            <summary>
+            Gets the length in bytes of the audio data.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AudioBuffer.Duration">
+            <summary>
+            Gets the duration of the audio.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.AudioBuffer.HasValidData">
+            <summary>
+            Gets a value indicating whether or not this <see cref="T:Microsoft.Psi.Audio.AudioBuffer"/> contains valid data.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.BufferedAudioStream">
+            <summary>
+            Provides a blocking, buffered audio stream using a circular buffer.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.BufferedAudioStream.#ctor(System.Int64)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.BufferedAudioStream"/> class.
+            </summary>
+            <param name="capacity">
+            The capacity of the internal buffer.
+            </param>
+            <remarks>
+            This class implements a blocking stream such that its Read and Write methods
+            will not return until the specified number of bytes have been read or written.
+            This is mainly to support streaming audio to and from .NET System.Speech classes
+            that read from or write to System.IO.Stream using file stream semantics.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.BufferedAudioStream.Read(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Reads a sequence of bytes from the stream into the supplied buffer.
+            </summary>
+            <param name="buffer">
+            An array of bytes. When this method returns, the buffer contains
+            the specified byte array with the values between
+            <paramref name="offset"/> and (<paramref name="offset"/> +
+            <paramref name="count"/> - 1) replaced by the bytes read from the
+            current source.
+            </param>
+            <param name="offset">
+            The zero-based byte offset in <paramref name="buffer"/> at which to
+            begin storing the data read from the current stream.
+            </param>
+            <param name="count">
+            The maximum number of bytes to be read from the stream.
+            </param>
+            <returns>
+            The total number of bytes read into the buffer.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.BufferedAudioStream.Write(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Writes a sequence of bytes to the stream.
+            </summary>
+            <param name="buffer">
+            An array of bytes. This method copies <paramref name="count"/>
+            bytes from <paramref name="buffer"/> to the current stream.
+            </param>
+            <param name="offset">
+            The zero-based byte offset in <paramref name="buffer"/> at which to
+            begin copying bytes to the stream.
+            </param>
+            <param name="count">
+            The number of bytes to be written to the stream.
+            </param>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.CircularBufferStream">
+            <summary>
+            Provides an in-memory stream using a circular buffer.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.CircularBufferStream.bufferLock">
+            <summary>
+            Lock object to synchronize access to the internal buffer.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.CircularBufferStream.buffer">
+            <summary>
+            The internal buffer.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.CircularBufferStream.isClosed">
+            <summary>
+            Flag to indicate that the stream has been closed.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.CircularBufferStream.capacity">
+            <summary>
+            The size in bytes of the internal buffer.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.CircularBufferStream.readIndex">
+            <summary>
+            Index of the next read location in the internal buffer.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.CircularBufferStream.writeIndex">
+            <summary>
+            Index of the next write location in the internal buffer.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.CircularBufferStream.bytesAvailable">
+            <summary>
+            The number of bytes available in the internal buffer.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.CircularBufferStream.bytesWritten">
+            <summary>
+            The total number of bytes written to the stream.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.CircularBufferStream.bytesRead">
+            <summary>
+            The total number of bytes read from the stream.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.CircularBufferStream.bytesOverrun">
+            <summary>
+            The total number of bytes lost to buffer overruns.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.CircularBufferStream.blockingReads">
+            <summary>
+            Whether reads should block if no data is currently available.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.CircularBufferStream.#ctor(System.Int64,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.CircularBufferStream"/> class.
+            </summary>
+            <param name="capacity">The capacity of the circular buffer.</param>
+            <param name="blockingReads">
+            A flag indicating whether the stream blocks until data is available for reading.
+            </param>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.CircularBufferStream.CanRead">
+            <summary>
+            Gets a value indicating whether the current stream supports reading.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.CircularBufferStream.CanWrite">
+            <summary>
+            Gets a value indicating whether the current stream supports writing.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.CircularBufferStream.CanSeek">
+            <summary>
+            Gets a value indicating whether the current stream supports seeking.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.CircularBufferStream.Position">
+            <summary>
+            Gets or sets the current position within the stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.CircularBufferStream.Length">
+            <summary>
+            Gets the length of the stream. Always returns -1 since the stream is endless.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.CircularBufferStream.BytesAvailable">
+            <summary>
+            Gets the number of bytes currently available for reading from the buffer.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.CircularBufferStream.BytesWritten">
+            <summary>
+            Gets the total number of bytes written to the stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.CircularBufferStream.BytesRead">
+            <summary>
+            Gets the total number of bytes read from the stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.CircularBufferStream.BytesOverrun">
+            <summary>
+            Gets the total number of bytes lost to buffer overruns.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.CircularBufferStream.Read">
+            <summary>
+            Reads a chunk of data from the buffer.
+            </summary>
+            <returns>An array of bytes containing the data.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.CircularBufferStream.Read(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Reads a sequence of bytes from the stream into the supplied buffer.
+            </summary>
+            <param name="buffer">
+            An array of bytes. When this method returns, the buffer contains
+            the specified byte array with the values between
+            <paramref name="offset"/> and (<paramref name="offset"/> +
+            <paramref name="count"/> - 1) replaced by the bytes read from the
+            current source.
+            </param>
+            <param name="offset">
+            The zero-based byte offset in <paramref name="buffer"/> at which to
+            begin storing the data read from the current stream.
+            </param>
+            <param name="count">
+            The maximum number of bytes to be read from the stream.
+            </param>
+            <returns>
+            The total number of bytes read into the buffer.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.CircularBufferStream.Read(System.IntPtr,System.Int32,System.Int32)">
+            <summary>
+            Reads a sequence of bytes from the stream to a memory location.
+            </summary>
+            <param name="destPtr">
+            A pointer to the memory location to which the data will be copied.
+            </param>
+            <param name="destSize">
+            The maximum number of bytes which may be copied to destPtr.
+            </param>
+            <param name="count">
+            The maximum number of bytes to be read from the stream.
+            </param>
+            <returns>
+            The total number of bytes read into the buffer.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.CircularBufferStream.Write(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Writes a sequence of bytes to the stream.
+            </summary>
+            <param name="buffer">
+            An array of bytes. This method copies <paramref name="count"/>
+            bytes from <paramref name="buffer"/> to the current stream.
+            </param>
+            <param name="offset">
+            The zero-based byte offset in <paramref name="buffer"/> at which to
+            begin copying bytes to the stream.
+            </param>
+            <param name="count">
+            The number of bytes to be written to the stream.
+            </param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.CircularBufferStream.WriteNoOverrun(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Writes a sequence of bytes to the buffer without overrunning.
+            </summary>
+            <param name="buffer">
+            An array of bytes. This method copies <paramref name="count"/>
+            bytes from <paramref name="buffer"/> to the current stream.
+            </param>
+            <param name="offset">
+            The zero-based byte offset in <paramref name="buffer"/> at which to
+            begin copying bytes to the stream.
+            </param>
+            <param name="count">
+            The number of bytes to be written to the stream.
+            </param>
+            <returns>The number of bytes that were written to the buffer.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.CircularBufferStream.Flush">
+            <summary>
+            Overrides the <see cref="M:System.IO.Stream.Flush"/> method so that no action is performed.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.CircularBufferStream.Seek(System.Int64,System.IO.SeekOrigin)">
+            <summary>
+            Sets the position within the current stream to the specified value.
+            </summary>
+            <param name="offset">
+            The new position within the stream relative to the loc parameter.
+            </param>
+            <param name="origin">
+            A value of type <see cref="T:System.IO.SeekOrigin"/>, which acts as the seek
+            reference point.
+            </param>
+            <returns>
+            The new position within the stream, calculated by combining the
+            initial reference point and the offset.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.CircularBufferStream.SetLength(System.Int64)">
+            <summary>
+            Sets the length of the current stream to the specified value.
+            </summary>
+            <param name="value">The value at which to set the length.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.CircularBufferStream.Dispose(System.Boolean)">
+            <summary>
+            Disposes of resources.
+            </summary>
+            <param name="disposing">Flag to indicate whether Dispose() was called.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.CircularBufferStream.WriteOverrun(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Writes a sequence of bytes to the stream allowing overruns.
+            </summary>
+            <param name="buffer">
+            An array of bytes. This method copies <paramref name="count"/>
+            bytes from <paramref name="buffer"/> to the current stream.
+            </param>
+            <param name="offset">
+            The zero-based byte offset in <paramref name="buffer"/> at which to
+            begin copying bytes to the stream.
+            </param>
+            <param name="count">
+            The number of bytes to be written to the stream.
+            </param>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.Operators">
+            <summary>
+            Stream operators and extension methods for Microsoft.Psi.Audio.
+            </summary>
+            <remarks>
+            These are a collection of extension methods defining various audio and acoustic operators on <see cref="T:Microsoft.Psi.Audio.AudioBuffer"/>
+            streams, streams of raw audio bytes, streams of floating-point audio samples as well as audio frequency-domain data streams.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.Operators.ToByteArray(Microsoft.Psi.IProducer{Microsoft.Psi.Audio.AudioBuffer})">
+            <summary>
+            Transforms an <see cref="T:Microsoft.Psi.Audio.AudioBuffer"/> stream to a stream of byte arrays containing the raw audio.
+            </summary>
+            <param name="source">A stream of audio buffers.</param>
+            <returns>A stream of byte arrays containing the raw audio.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.Operators.ToAudioBuffer(Microsoft.Psi.IProducer{System.Byte[]},Microsoft.Psi.Audio.WaveFormat)">
+            <summary>
+            Transforms a stream of byte arrays containing raw audio to an <see cref="T:Microsoft.Psi.Audio.AudioBuffer"/> stream.
+            </summary>
+            <param name="source">A stream of raw audio byte arrays.</param>
+            <param name="audioFormat">The audio format of the raw audio contained within the byte arrays.</param>
+            <returns>A stream of audio buffers.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.Operators.FrameShift(Microsoft.Psi.IProducer{System.Byte[]},System.Int32,System.Int32,System.Double)">
+            <summary>
+            The frame shift operator.
+            </summary>
+            <param name="source">A stream containing the input data.</param>
+            <param name="frameSizeInBytes">The frame size in bytes.</param>
+            <param name="frameShiftInBytes">The number of bytes by which to shift the data.</param>
+            <param name="bytesPerSec">The sampling frequency in bytes per second.</param>
+            <returns>A stream containing the frame-shifted data.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.Operators.ToFloat(Microsoft.Psi.IProducer{System.Byte[]},Microsoft.Psi.Audio.WaveFormat)">
+            <summary>
+            Converts a stream of audio data to a stream of floating point values.
+            </summary>
+            <param name="source">A stream containing the input audio data.</param>
+            <param name="format">The audio format of the input audio.</param>
+            <returns>A stream of floating point audio sample values.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.Operators.Dither(Microsoft.Psi.IProducer{System.Single[]},System.Single,System.Int32)">
+            <summary>
+            Applies dithering to input sample values.
+            </summary>
+            <param name="source">A stream of floating point input sample values.</param>
+            <param name="scaleFactor">The scale factor of the dither.</param>
+            <param name="randomSeed">An initial random seed value.</param>
+            <returns>A stream of floating point sample values with dithering.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.Operators.HanningWindow(Microsoft.Psi.IProducer{System.Single[]},System.Int32)">
+            <summary>
+            Applies a Hanning window to input sample values.
+            </summary>
+            <param name="source">A stream of floating point input sample values.</param>
+            <param name="kernelLength">The Hanning window length.</param>
+            <returns>A stream of floating point sample values with Hanning window applied.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.Operators.FFT(Microsoft.Psi.IProducer{System.Single[]},System.Int32,System.Int32)">
+            <summary>
+            Performs a Fast Fourier Transform on input sample buffers.
+            </summary>
+            <param name="source">A stream of floating point input sample values.</param>
+            <param name="fftSize">The FFT size.</param>
+            <param name="inputSize">The window size.</param>
+            <returns>A stream of FFTs of the input sample buffers.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.Operators.FFTPower(Microsoft.Psi.IProducer{System.Single[]})">
+            <summary>
+            Converts a stream of FFTs to FFT power spectra.
+            </summary>
+            <param name="source">A stream of FFTs.</param>
+            <returns>A stream of FFT power spectra.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.Operators.LogEnergy(Microsoft.Psi.IProducer{System.Single[]})">
+            <summary>
+            Computes the log energy of a stream of input samples in the time domain.
+            </summary>
+            <param name="source">A stream of floating point input sample values.</param>
+            <returns>A stream of log energy values for the input samples.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.Operators.ZeroCrossingRate(Microsoft.Psi.IProducer{System.Single[]})">
+            <summary>
+            Computes the zero-crossing rate of input samples.
+            </summary>
+            <param name="source">A stream of floating point input sample values.</param>
+            <returns>A stream of zero-crossing rates for the input samples.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.Operators.FrequencyDomainEnergy(Microsoft.Psi.IProducer{System.Single[]},System.Int32,System.Int32)">
+            <summary>
+            Computes the frequency domain energy from the FFT power spectra.
+            </summary>
+            <param name="source">A stream of FFT power spectra.</param>
+            <param name="start">The index of the starting frequency of the band.</param>
+            <param name="end">The index of the ending frequency of the band.</param>
+            <returns>A stream of frequency domain energy values.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.Operators.SpectralEntropy(Microsoft.Psi.IProducer{System.Single[]},System.Int32,System.Int32)">
+            <summary>
+            Computes the spectral entropy within a frequency band.
+            </summary>
+            <param name="source">A stream of FFT power spectra.</param>
+            <param name="start">The starting frequency of the band.</param>
+            <param name="end">The ending frequency of the band.</param>
+            <returns>A stream of spectral entropy values.</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.WaveDataWriterClass">
+            <summary>
+            Provides functionality to create Wave files.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveDataWriterClass.#ctor(System.IO.Stream,Microsoft.Psi.Audio.WaveFormat)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.WaveDataWriterClass"/> class.
+            </summary>
+            <param name="stream">Stream to which to write</param>
+            <param name="format">The audio format.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveDataWriterClass.Dispose">
+            <summary>
+            Disposes the component.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveDataWriterClass.Write(System.Byte[])">
+            <summary>
+            Writes the wave data to the file.
+            </summary>
+            <param name="data">The raw wave data.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveDataWriterClass.Flush">
+            <summary>
+            Flushes the data to disk and updates the headers.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveDataWriterClass.WriteWaveFileHeader(Microsoft.Psi.Audio.WaveFormat)">
+            <summary>
+            Writes out the wave header to the file.
+            </summary>
+            <param name="format">The wave audio format of the data.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveDataWriterClass.WriteWaveDataHeader">
+            <summary>
+            Writes out the data header to the file.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.WaveFileAudioSource">
+            <summary>
+            Component that implements a Wave file reader.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFileAudioSource.#ctor(Microsoft.Psi.Pipeline,System.String,System.Nullable{System.DateTime},System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.WaveFileAudioSource"/> class.
+            </summary>
+            <param name="pipeline">The pipeline to add the component to.</param>
+            <param name="filename">The path name of the Wave file.</param>
+            <param name="audioStartTime">Indicates a time to use for the start of the audio source. If null, the current time will be used.</param>
+            <param name="targetLatencyMs">
+            The size of each data buffer to post, determined by the amount of audio data it can hold.
+            </param>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.WaveFileHelper">
+            <summary>
+            Provides static Wave file helper methods.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFileHelper.ReadWaveFileHeader(System.IO.BinaryReader)">
+            <summary>
+            Reads a Wave file header from a binary stream.
+            </summary>
+            <param name="br">The binary reader to read from.</param>
+            <returns>A WaveFormat object representing the Wave header.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFileHelper.ReadWaveFileHeader(System.String)">
+            <summary>
+            Reads a Wave file header from a Wave file.
+            </summary>
+            <param name="filename">The name of the file to read from.</param>
+            <returns>A WaveFormat object representing the Wave header.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFileHelper.ReadWaveDataLength(System.IO.BinaryReader)">
+            <summary>
+            Reads the lenth in bytes of the data section of a Wave file.
+            </summary>
+            <param name="br">The binary reader to read from.</param>
+            <returns>The number of byte of wave data that follow.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFileHelper.ReadWaveData(System.IO.BinaryReader)">
+            <summary>
+            Reads the data section of a Wave file.
+            </summary>
+            <param name="br">The binary reader to read from.</param>
+            <returns>An array of the raw audio data bytes.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFileHelper.Write(System.IO.BinaryWriter,Microsoft.Psi.Audio.WaveFormat)">
+            <summary>
+            Extension method to write WaveFormat objects.
+            </summary>
+            <param name="writer">The BinaryWriter to which to write the WaveFormat.</param>
+            <param name="format">The WaveFormat object to write.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.WaveFileWriter">
+            <summary>
+            Component that implements a Wave file writer.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFileWriter.#ctor(Microsoft.Psi.Pipeline,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.WaveFileWriter"/> class.
+            </summary>
+            <param name="pipeline">The pipeline to add the component to.</param>
+            <param name="filename">The path name of the Wave file.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFileWriter.Dispose">
+            <summary>
+            Disposes the component.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFileWriter.Receive(Microsoft.Psi.Message{Microsoft.Psi.Audio.AudioBuffer})">
+            <summary>
+            The receiver for the audio messages.
+            </summary>
+            <param name="message">The message that was received.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.WaveFormat">
+            <summary>
+            Represents an audio format based on the Windows WAVEFORMAT structure.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.WaveFormat"/> class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.WaveFormat.FormatTag">
+            <summary>
+            Gets or sets the wave format tag.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.WaveFormat.Channels">
+            <summary>
+            Gets or sets the number of audio channels.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.WaveFormat.SamplesPerSec">
+            <summary>
+            Gets or sets the audio sampling frequency.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.WaveFormat.AvgBytesPerSec">
+            <summary>
+            Gets or sets the average number of bytes per second.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.WaveFormat.BlockAlign">
+            <summary>
+            Gets or sets the block alignment in bytes.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.WaveFormat.BitsPerSample">
+            <summary>
+            Gets or sets the audio sample size in bits.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.WaveFormat.ExtraSize">
+            <summary>
+            Gets or sets the number of extra format info bytes.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.Create16kHz1Channel16BitPcm">
+            <summary>
+            Creates a WaveFormat object representing 1-channel 16-bit PCM audio sampled at 16000 Hz.
+            </summary>
+            <returns>The WaveFormat object</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.Create16BitPcm(System.Int32,System.Int32)">
+            <summary>
+            Creates a WaveFormat object representing 16-bit PCM audio.
+            </summary>
+            <param name="samplingRate">The sampling frequency</param>
+            <param name="channels">The number of audio channels</param>
+            <returns>The WaveFormat object</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.CreatePcm(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Creates a WaveFormat object representing PCM audio.
+            </summary>
+            <param name="samplingRate">The sampling frequency</param>
+            <param name="bitsPerSample">The number of bits per channel sample</param>
+            <param name="channels">The number of audio channels</param>
+            <returns>The WaveFormat object</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.Create16kHz1ChannelIeeeFloat">
+            <summary>
+            Creates a WaveFormat object representing 1-channel 32-bit IEEE float audio sampled at 16000 Hz.
+            </summary>
+            <returns>The WaveFormat object</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.CreateIeeeFloat(System.Int32,System.Int32)">
+            <summary>
+            Creates a WaveFormat object representing 32-bit IEEE float audio.
+            </summary>
+            <param name="samplingRate">The sampling frequency</param>
+            <param name="channels">The number of audio channels</param>
+            <returns>The WaveFormat object</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.Create(Microsoft.Psi.Audio.WaveFormatTag,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Creates a new instance of the <see cref="T:Microsoft.Psi.Audio.WaveFormat"/> class.
+            </summary>
+            <param name="formatTag">The format tag</param>
+            <param name="samplingRate">The sampling frequency</param>
+            <param name="bitsPerSample">The number of bits per channel sample</param>
+            <param name="channels">The number of audio channels</param>
+            <param name="blockAlign">The block alignment</param>
+            <param name="avgBytesPerSecond">The average number of bytes per second</param>
+            <returns>The WaveFormat object</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.Create(Microsoft.Psi.Audio.WaveFormat)">
+            <summary>
+            Creates a copy of an existing <see cref="T:Microsoft.Psi.Audio.WaveFormat"/>.
+            </summary>
+            <param name="other">The <see cref="T:Microsoft.Psi.Audio.WaveFormat"/> to copy</param>
+            <returns>The WaveFormat object</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.FromStream(System.IO.Stream,System.Int32)">
+            <summary>
+            Reads from a stream to create a WaveFormat object.
+            </summary>
+            <param name="stream">
+            The stream to read the WaveFormat from (e.g. a file). The stream should already
+            be positioned on the first byte of the WaveFormat header (i.e. the format tag).
+            Note that the stream is not disposed after the header has been read.
+            </param>
+            <param name="formatLength">
+            The total number of bytes in the stream that represent the WaveFormat header.
+            </param>
+            <returns>
+            A new WaveFormat header constructed from the stream.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.MarshalFromPtr(System.IntPtr)">
+            <summary>
+            Marshals a native WAVEFORMATEX structure to a <see cref="T:Microsoft.Psi.Audio.WaveFormat"/> object.
+            </summary>
+            <param name="ptr">Pointer to a WAVEFORMATEX structure.</param>
+            <returns>A <see cref="T:Microsoft.Psi.Audio.WaveFormat"/> object representing the WAVEFORMATEX structure.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.MarshalToPtr(Microsoft.Psi.Audio.WaveFormat,System.IntPtr)">
+            <summary>
+            Marshals a <see cref="T:Microsoft.Psi.Audio.WaveFormat"/> object to a native WAVEFORMATEX structure.
+            </summary>
+            <param name="format">The <see cref="T:Microsoft.Psi.Audio.WaveFormat"/> object to marshal.</param>
+            <param name="ptr">A pointer to an unmanaged block of memory, which must be allocated before this method is called.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.MarshalToPtr(Microsoft.Psi.Audio.WaveFormat)">
+            <summary>
+            Marshals a <see cref="T:Microsoft.Psi.Audio.WaveFormat"/> object to a native WAVEFORMATEX structure.
+            </summary>
+            <param name="format">The <see cref="T:Microsoft.Psi.Audio.WaveFormat"/> object to marshal.</param>
+            <returns>A pointer to the native WAVEFORMATEX structure. This should be freed by the caller using Marshal.FreeHGlobal.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.MarshalSizeOf(Microsoft.Psi.Audio.WaveFormat)">
+            <summary>
+            Returns the size in bytes required to create a marshaled unmanaged copy of the object.
+            </summary>
+            <param name="format">The object that is to be marshaled.</param>
+            <returns>The unmanaged size of the object.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.CopyFrom(Microsoft.Psi.Audio.WaveFormat)">
+            <summary>
+            Copy field values from another <see cref="T:Microsoft.Psi.Audio.WaveFormat"/> object.
+            </summary>
+            <param name="other">The <see cref="T:Microsoft.Psi.Audio.WaveFormat"/> object to copy from.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.WriteTo(System.IO.BinaryWriter)">
+            <summary>
+            Serializes the WaveFormat to a BinaryWriter.
+            </summary>
+            <param name="writer">The BinaryWriter to serialize to.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.GetBytes">
+            <summary>
+            Gets a byte array containing the serialized format structure.
+            </summary>
+            <returns>A byte array containing the serialized format structure.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.Equals(System.Object)">
+            <summary>
+            Indicates whether the current object is equal to another object.
+            </summary>
+            <param name="other">
+            An object to compare with this object.
+            </param>
+            <returns>
+            true if the current object is equal to the other parameter; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormat.GetHashCode">
+            <summary>
+            Serves as the default hash function.
+            </summary>
+            <returns>
+            A hash code for the current object.
+            </returns>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.WaveFormatEx">
+            <summary>
+            Represents an audio format based on the Windows WAVEFORMATEX structure.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormatEx.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Audio.WaveFormatEx"/> class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.WaveFormatEx.ExtraInfo">
+            <summary>
+            Gets or sets the extra info bytes.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Audio.WaveFormatEx.SubFormat">
+            <summary>
+            Gets the WAVEFORMATEXTENSIBLE SubFormat field.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormatEx.Create(Microsoft.Psi.Audio.WaveFormatTag,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Byte[])">
+            <summary>
+            Creates a new instance of the <see cref="T:Microsoft.Psi.Audio.WaveFormatEx"/> class.
+            </summary>
+            <param name="formatTag">The format tag</param>
+            <param name="samplingRate">The sampling frequency</param>
+            <param name="bitsPerSample">The number of bits per channel sample</param>
+            <param name="channels">The number of audio channels</param>
+            <param name="blockAlign">The block alignment</param>
+            <param name="avgBytesPerSecond">The average number of bytes per second</param>
+            <param name="extraInfo">An array containing extra format-specific information</param>
+            <returns>The WaveFormat object</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormatEx.CopyFrom(Microsoft.Psi.Audio.WaveFormat)">
+            <summary>
+            Copy field values from another <see cref="T:Microsoft.Psi.Audio.WaveFormat"/> object.
+            </summary>
+            <param name="other">The <see cref="T:Microsoft.Psi.Audio.WaveFormat"/> object to copy from.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormatEx.WriteTo(System.IO.BinaryWriter)">
+            <summary>
+            Serializes the WaveFormat to a BinaryWriter.
+            </summary>
+            <param name="writer">The BinaryWriter to serialize to.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormatEx.Equals(System.Object)">
+            <summary>
+            Indicates whether the current object is equal to another object.
+            </summary>
+            <param name="other">
+            An object to compare with this object.
+            </param>
+            <returns>
+            true if the current object is equal to the other parameter; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Psi.Audio.WaveFormatEx.GetHashCode">
+            <summary>
+            Serves as the default hash function.
+            </summary>
+            <returns>
+            A hash code for the current object.
+            </returns>
+        </member>
+        <member name="T:Microsoft.Psi.Audio.WaveFormatTag">
+            <summary>
+            Represents WAVEFORMAT format tag values.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_UNKNOWN">
+            <summary>
+            Unknown format.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_PCM">
+            <summary>
+            PCM (pulse-code modulated) data in integer format.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ADPCM">
+            <summary>
+            ADPCM (adaptive differential pulse-code modulated) data.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_IEEE_FLOAT">
+            <summary>
+            PCM data in IEEE floating-point format.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VSELP">
+            <summary>
+            Compaq Computer Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_IBM_CVSD">
+            <summary>
+            IBM Corporation.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ALAW">
+            <summary>
+            A-law-encoded format.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MULAW">
+            <summary>
+            Mu-law-encoded format.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DTS">
+            <summary>
+            Digital Theater Systems (DTS) audio.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DRM">
+            <summary>
+            DRM-encoded format (for digital-audio content protected by Microsoft Digital Rights Management).
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_WMAVOICE9">
+            <summary>
+            Windows Media Audio 9 Voice codec.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_WMAVOICE10">
+            <summary>
+            Windows Media Audio 10 Voice codec.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_OKI_ADPCM">
+            <summary>
+            OKI
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DVI_ADPCM">
+            <summary>
+            Intel Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_IMA_ADPCM">
+            <summary>
+            Intel Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MEDIASPACE_ADPCM">
+            <summary>
+            Videologic
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SIERRA_ADPCM">
+            <summary>
+            Sierra Semiconductor Corp
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_G723_ADPCM">
+            <summary>
+            Antex Electronics Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DIGISTD">
+            <summary>
+            DSP Solutions, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DIGIFIX">
+            <summary>
+            DSP Solutions, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DIALOGIC_OKI_ADPCM">
+            <summary>
+            Dialogic Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MEDIAVISION_ADPCM">
+            <summary>
+            Media Vision, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_CU_CODEC">
+            <summary>
+            Hewlett-Packard Company
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_HP_DYN_VOICE">
+            <summary>
+            Hewlett-Packard Company
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_YAMAHA_ADPCM">
+            <summary>
+            Yamaha Corporation of America
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SONARC">
+            <summary>
+            Speech Compression
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DSPGROUP_TRUESPEECH">
+            <summary>
+            DSP Group, Inc
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ECHOSC1">
+            <summary>
+            Echo Speech Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_AUDIOFILE_AF36">
+            <summary>
+            Virtual Music, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_APTX">
+            <summary>
+            Audio Processing Technology
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_AUDIOFILE_AF10">
+            <summary>
+            Virtual Music, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_PROSODY_1612">
+            <summary>
+            Aculab plc
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_LRC">
+            <summary>
+            Merging Technologies S.A.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DOLBY_AC2">
+            <summary>
+            Dolby Laboratories
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_GSM610">
+            <summary>
+            Microsoft Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MSNAUDIO">
+            <summary>
+            Microsoft Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ANTEX_ADPCME">
+            <summary>
+            Antex Electronics Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_CONTROL_RES_VQLPC">
+            <summary>
+            Control Resources Limited
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DIGIREAL">
+            <summary>
+            DSP Solutions, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DIGIADPCM">
+            <summary>
+            DSP Solutions, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_CONTROL_RES_CR10">
+            <summary>
+            Control Resources Limited
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_NMS_VBXADPCM">
+            <summary>
+            Natural MicroSystems
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_CS_IMAADPCM">
+            <summary>
+            Crystal Semiconductor IMA ADPCM
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ECHOSC3">
+            <summary>
+            Echo Speech Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ROCKWELL_ADPCM">
+            <summary>
+            Rockwell International
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ROCKWELL_DIGITALK">
+            <summary>
+            Rockwell International
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_XEBEC">
+            <summary>
+            Xebec Multimedia Solutions Limited
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_G721_ADPCM">
+            <summary>
+            Antex Electronics Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_G728_CELP">
+            <summary>
+            Antex Electronics Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MSG723">
+            <summary>
+            Microsoft Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_INTEL_G723_1">
+            <summary>
+            Intel Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_INTEL_G729">
+            <summary>
+            Intel Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SHARP_G726">
+            <summary>
+            Sharp
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MPEG">
+            <summary>
+            MPEG-1 data format (stream conforms to ISO 11172-3 Audio specification).
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_RT24">
+            <summary>
+            InSoft, Inc
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_PAC">
+            <summary>
+            InSoft, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MPEGLAYER3">
+            <summary>
+            MPEG Audio Layer-3 (MP3).
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_LUCENT_G723">
+            <summary>
+            Lucent Technologies
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_CIRRUS">
+            <summary>
+            Cirrus Logic
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ESPCM">
+            <summary>
+            ESS Technology
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOXWARE">
+            <summary>
+            Voxware Inc
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_CANOPUS_ATRAC">
+            <summary>
+            Canopus, co., Ltd.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_G726_ADPCM">
+            <summary>
+            G.726 ADPCM
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_G722_ADPCM">
+            <summary>
+            G.722 ADPCM
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DSAT">
+            <summary>
+            DSAT
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DSAT_DISPLAY">
+            <summary>
+            DSAT Display
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOXWARE_BYTE_ALIGNED">
+            <summary>
+            Voxware Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOXWARE_AC8">
+            <summary>
+            Voxware Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOXWARE_AC10">
+            <summary>
+            Voxware Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOXWARE_AC16">
+            <summary>
+            Voxware Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOXWARE_AC20">
+            <summary>
+            Voxware Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOXWARE_RT24">
+            <summary>
+            Voxware Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOXWARE_RT29">
+            <summary>
+            Voxware Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOXWARE_RT29HW">
+            <summary>
+            Voxware Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOXWARE_VR12">
+            <summary>
+            Voxware Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOXWARE_VR18">
+            <summary>
+            Voxware Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOXWARE_TQ40">
+            <summary>
+            Voxware Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOXWARE_SC3">
+            <summary>
+            Voxware Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOXWARE_SC3_1">
+            <summary>
+            Voxware Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SOFTSOUND">
+            <summary>
+            Softsound, Ltd.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOXWARE_TQ60">
+            <summary>
+            Voxware Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MSRT24">
+            <summary>
+            Microsoft Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_G729A">
+            <summary>
+            AT&amp;T Labs, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MVI_MVI2">
+            <summary>
+            Motion Pixels
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DF_G726">
+            <summary>
+            DataFusion Systems (Pty) (Ltd)
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DF_GSM610">
+            <summary>
+            DataFusion Systems (Pty) (Ltd)
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ISIAUDIO">
+            <summary>
+            Iterated Systems, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ONLIVE">
+            <summary>
+            OnLive! Technologies, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MULTITUDE_FT_SX20">
+            <summary>
+            Multitude Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_INFOCOM_ITS_G721_ADPCM">
+            <summary>
+            Infocom
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_CONVEDIA_G729">
+            <summary>
+            Convedia Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_CONGRUENCY">
+            <summary>
+            Congruency Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SBC24">
+            <summary>
+            Siemens Business Communications Sys
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DOLBY_AC3_SPDIF">
+            <summary>
+            AC-3 (aka Dolby Digital) over S/PDIF.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MEDIASONIC_G723">
+            <summary>
+            MediaSonic
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_PROSODY_8KBPS">
+            <summary>
+            Aculab plc
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ZYXEL_ADPCM">
+            <summary>
+            ZyXEL Communications, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_PHILIPS_LPCBB">
+            <summary>
+            Philips Speech Processing
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_PACKED">
+            <summary>
+            Studer Professional Audio AG
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MALDEN_PHONYTALK">
+            <summary>
+            Malden Electronics Ltd.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_RACAL_RECORDER_GSM">
+            <summary>
+            Racal recorders
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_RACAL_RECORDER_G720_A">
+            <summary>
+            Racal recorders
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_RACAL_RECORDER_G723_1">
+            <summary>
+            Racal recorders
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_RACAL_RECORDER_TETRA_ACELP">
+            <summary>
+            Racal recorders
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_NEC_AAC">
+            <summary>
+            NEC Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_RAW_AAC1">
+            <summary>
+            Advanced Audio Coding (AAC).
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_RHETOREX_ADPCM">
+            <summary>
+            Rhetorex Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_IRAT">
+            <summary>
+            BeCubed Software Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VIVO_G723">
+            <summary>
+            Vivo Software
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VIVO_SIREN">
+            <summary>
+            Vivo Software
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_PHILIPS_CELP">
+            <summary>
+            Philips Speech Processing
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_PHILIPS_GRUNDIG">
+            <summary>
+            Philips Speech Processing
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DIGITAL_G723">
+            <summary>
+            Digital Equipment Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SANYO_LD_ADPCM">
+            <summary>
+            Sanyo Electric Co., Ltd.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SIPROLAB_ACEPLNET">
+            <summary>
+            Sipro Lab Telecom Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SIPROLAB_ACELP4800">
+            <summary>
+            Sipro Lab Telecom Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SIPROLAB_ACELP8V3">
+            <summary>
+            Sipro Lab Telecom Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SIPROLAB_G729">
+            <summary>
+            Sipro Lab Telecom Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SIPROLAB_G729A">
+            <summary>
+            Sipro Lab Telecom Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SIPROLAB_KELVIN">
+            <summary>
+            Sipro Lab Telecom Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOICEAGE_AMR">
+            <summary>
+            VoiceAge Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_G726ADPCM">
+            <summary>
+            Dictaphone Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DICTAPHONE_CELP68">
+            <summary>
+            Dictaphone Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DICTAPHONE_CELP54">
+            <summary>
+            Dictaphone Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_QUALCOMM_PUREVOICE">
+            <summary>
+            Qualcomm, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_QUALCOMM_HALFRATE">
+            <summary>
+            Qualcomm, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_TUBGSM">
+            <summary>
+            Ring Zero Systems, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MSAUDIO1">
+            <summary>
+            Microsoft Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_WMAUDIO2">
+            <summary>
+            Windows Media Audio 8 codec, Windows Media Audio 9 codec, or Windows Media Audio 9.1 codec.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_WMAUDIO3">
+            <summary>
+            Windows Media Audio 9 Professional codec or Windows Media Audio 9.1 Professional codec.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_WMAUDIO_LOSSLESS">
+            <summary>
+            Windows Media Audio 9 Lossless codec or Windows Media Audio 9.1 codec.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_WMASPDIF">
+            <summary>
+            Windows Media Audio (WMA) Pro over S/PDIF.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_UNISYS_NAP_ADPCM">
+            <summary>
+            Unisys Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_UNISYS_NAP_ULAW">
+            <summary>
+            Unisys Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_UNISYS_NAP_ALAW">
+            <summary>
+            Unisys Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_UNISYS_NAP_16K">
+            <summary>
+            Unisys Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SYCOM_ACM_SYC008">
+            <summary>
+            SyCom Technologies
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SYCOM_ACM_SYC701_G726L">
+            <summary>
+            SyCom Technologies
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SYCOM_ACM_SYC701_CELP54">
+            <summary>
+            SyCom Technologies
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SYCOM_ACM_SYC701_CELP68">
+            <summary>
+            SyCom Technologies
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_KNOWLEDGE_ADVENTURE_ADPCM">
+            <summary>
+            Knowledge Adventure, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_FRAUNHOFER_IIS_MPEG2_AAC">
+            <summary>
+            Fraunhofer IIS
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DTS_DS">
+            <summary>
+            Digital Theatre Systems, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_CREATIVE_ADPCM">
+            <summary>
+            Creative Labs, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_CREATIVE_FASTSPEECH8">
+            <summary>
+            Creative Labs, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_CREATIVE_FASTSPEECH10">
+            <summary>
+            Creative Labs, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_UHER_ADPCM">
+            <summary>
+            UHER informatic GmbH
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ULEAD_DV_AUDIO">
+            <summary>
+            Ulead Systems, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ULEAD_DV_AUDIO_1">
+            <summary>
+            Ulead Systems, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_QUARTERDECK">
+            <summary>
+            Quarterdeck Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ILINK_VC">
+            <summary>
+            I-link Worldwide
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_RAW_SPORT">
+            <summary>
+            Aureal Semiconductor
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ESST_AC3">
+            <summary>
+            ESS Technology, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_GENERIC_PASSTHRU">
+            <summary>
+            Generic Passthru
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_IPI_HSX">
+            <summary>
+            Interactive Products, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_IPI_RPELP">
+            <summary>
+            Interactive Products, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_CS2">
+            <summary>
+            Consistent Software
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SONY_SCX">
+            <summary>
+            Sony Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SONY_SCY">
+            <summary>
+            Sony Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SONY_ATRAC3">
+            <summary>
+            Sony Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SONY_SPC">
+            <summary>
+            Sony Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_TELUM_AUDIO">
+            <summary>
+            Telum Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_TELUM_IA_AUDIO">
+            <summary>
+            Telum Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_NORCOM_VOICE_SYSTEMS_ADPCM">
+            <summary>
+            Norcom Electronics Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_FM_TOWNS_SND">
+            <summary>
+            Fujitsu Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MICRONAS">
+            <summary>
+            Micronas Semiconductors, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MICRONAS_CELP833">
+            <summary>
+            Micronas Semiconductors, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_BTV_DIGITAL">
+            <summary>
+            Brooktree Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_INTEL_MUSIC_CODER">
+            <summary>
+            Intel Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_INDEO_AUDIO">
+            <summary>
+            Ligos
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_QDESIGN_MUSIC">
+            <summary>
+            QDesign Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ON2_VP7_AUDIO">
+            <summary>
+            On2 Technologies
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ON2_VP6_AUDIO">
+            <summary>
+            On2 Technologies
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VME_VMPCM">
+            <summary>
+            AT&amp;T Labs, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_TPC">
+            <summary>
+            AT&amp;T Labs, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_LIGHTWAVE_LOSSLESS">
+            <summary>
+            Clearjump
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_OLIGSM">
+            <summary>
+            Ing C. Olivetti &amp; C., S.p.A.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_OLIADPCM">
+            <summary>
+            Ing C. Olivetti &amp; C., S.p.A.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_OLICELP">
+            <summary>
+            Ing C. Olivetti &amp; C., S.p.A.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_OLISBC">
+            <summary>
+            Ing C. Olivetti &amp; C., S.p.A.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_OLIOPR">
+            <summary>
+            Ing C. Olivetti &amp; C., S.p.A.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_LH_CODEC">
+            <summary>
+            Lernout &amp; Hauspie
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_LH_CODEC_CELP">
+            <summary>
+            Lernout &amp; Hauspie
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_LH_CODEC_SBC8">
+            <summary>
+            Lernout &amp; Hauspie
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_LH_CODEC_SBC12">
+            <summary>
+            Lernout &amp; Hauspie
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_LH_CODEC_SBC16">
+            <summary>
+            Lernout &amp; Hauspie
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_NORRIS">
+            <summary>
+            Norris Communications, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ISIAUDIO_2">
+            <summary>
+            ISIAudio
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SOUNDSPACE_MUSICOMPRESS">
+            <summary>
+            AT&amp;T Labs, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MPEG_ADTS_AAC">
+            <summary>
+            Microsoft Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MPEG_RAW_AAC">
+            <summary>
+            Microsoft Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MPEG_LOAS">
+            <summary>
+            Microsoft Corporation (MPEG-4 Audio Transport Streams (LOAS/LATM)
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_NOKIA_MPEG_ADTS_AAC">
+            <summary>
+            Microsoft Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_NOKIA_MPEG_RAW_AAC">
+            <summary>
+            Microsoft Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VODAFONE_MPEG_ADTS_AAC">
+            <summary>
+            Microsoft Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VODAFONE_MPEG_RAW_AAC">
+            <summary>
+            Microsoft Corporation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MPEG_HEAAC">
+            <summary>
+            Advanced Audio Coding (AAC).
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOXWARE_RT24_SPEECH">
+            <summary>
+            Voxware Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SONICFOUNDRY_LOSSLESS">
+            <summary>
+            Sonic Foundry
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_INNINGS_TELECOM_ADPCM">
+            <summary>
+            Innings Telecom Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_LUCENT_SX8300P">
+            <summary>
+            Lucent Technologies
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_LUCENT_SX5363S">
+            <summary>
+            Lucent Technologies
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_CUSEEME">
+            <summary>
+            CUSeeMe
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_NTCSOFT_ALF2CM_ACM">
+            <summary>
+            NTCSoft
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DVM">
+            <summary>
+            FAST Multimedia AG
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DTS2">
+            <summary>
+            Digital Theater Systems (DTS) audio.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MAKEAVIS">
+            <summary>
+            WAVE_FORMAT_MAKEAVIS
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DIVIO_MPEG4_AAC">
+            <summary>
+            Divio, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_NOKIA_ADAPTIVE_MULTIRATE">
+            <summary>
+            Nokia
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_DIVIO_G726">
+            <summary>
+            Divio, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_LEAD_SPEECH">
+            <summary>
+            LEAD Technologies
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_LEAD_VORBIS">
+            <summary>
+            LEAD Technologies
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_WAVPACK_AUDIO">
+            <summary>
+            xiph.org
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_OGG_VORBIS_MODE_1">
+            <summary>
+            Ogg Vorbis
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_OGG_VORBIS_MODE_2">
+            <summary>
+            Ogg Vorbis
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_OGG_VORBIS_MODE_3">
+            <summary>
+            Ogg Vorbis
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_OGG_VORBIS_MODE_1_PLUS">
+            <summary>
+            Ogg Vorbis
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_OGG_VORBIS_MODE_2_PLUS">
+            <summary>
+            Ogg Vorbis
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_OGG_VORBIS_MODE_3_PLUS">
+            <summary>
+            Ogg Vorbis
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_3COM_NBX">
+            <summary>
+            3COM Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_FAAD_AAC">
+            <summary>
+            WAVE_FORMAT_FAAD_AAC
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_AMR_NB">
+            <summary>
+            Adaptative Multi-Rate audio.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_AMR_WB">
+            <summary>
+            Adaptative Multi-Rate Wideband audio.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_AMR_WP">
+            <summary>
+            AMR Wideband Plus
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_GSM_AMR_CBR">
+            <summary>
+            GSMA/3GPP
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_GSM_AMR_VBR_SID">
+            <summary>
+            GSMA/3GPP
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_COMVERSE_INFOSYS_G723_1">
+            <summary>
+            Comverse Infosys
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_COMVERSE_INFOSYS_AVQSBC">
+            <summary>
+            Comverse Infosys
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_COMVERSE_INFOSYS_SBC">
+            <summary>
+            Comverse Infosys
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SYMBOL_G729_A">
+            <summary>
+            Symbol Technologies
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOICEAGE_AMR_WB">
+            <summary>
+            VoiceAge Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_INGENIENT_G726">
+            <summary>
+            Ingenient Technologies, Inc.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_MPEG4_AAC">
+            <summary>
+            ISO/MPEG-4
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ENCORE_G726">
+            <summary>
+            Encore Software
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_ZOLL_ASAO">
+            <summary>
+            ZOLL Medical Corp.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_SPEEX_VOICE">
+            <summary>
+            xiph.org
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VIANIX_MASC">
+            <summary>
+            Vianix LLC
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_WM9_SPECTRUM_ANALYZER">
+            <summary>
+            Microsoft
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_WMF_SPECTRUM_ANAYZER">
+            <summary>
+            Microsoft
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_GSM_610">
+            <summary>
+            WAVE_FORMAT_GSM_610
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_GSM_620">
+            <summary>
+            WAVE_FORMAT_GSM_620
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_GSM_660">
+            <summary>
+            WAVE_FORMAT_GSM_660
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_GSM_690">
+            <summary>
+            WAVE_FORMAT_GSM_690
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_GSM_ADAPTIVE_MULTIRATE_WB">
+            <summary>
+            WAVE_FORMAT_GSM_ADAPTIVE_MULTIRATE_WB
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_POLYCOM_G722">
+            <summary>
+            Polycom
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_POLYCOM_G728">
+            <summary>
+            Polycom
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_POLYCOM_G729_A">
+            <summary>
+            Polycom
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_POLYCOM_SIREN">
+            <summary>
+            Polycom
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_GLOBAL_IP_ILBC">
+            <summary>
+            Global IP
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_RADIOTIME_TIME_SHIFT_RADIO">
+            <summary>
+            RadioTime
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_NICE_ACA">
+            <summary>
+            Nice Systems
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_NICE_ADPCM">
+            <summary>
+            Nice Systems
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOCORD_G721">
+            <summary>
+            Vocord Telecom
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOCORD_G726">
+            <summary>
+            Vocord Telecom
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOCORD_G722_1">
+            <summary>
+            Vocord Telecom
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOCORD_G728">
+            <summary>
+            Vocord Telecom
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOCORD_G729">
+            <summary>
+            Vocord Telecom
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOCORD_G729_A">
+            <summary>
+            Vocord Telecom
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOCORD_G723_1">
+            <summary>
+            Vocord Telecom
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_VOCORD_LBC">
+            <summary>
+            Vocord Telecom
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_NICE_G728">
+            <summary>
+            Nice Systems
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_FRACE_TELECOM_G729">
+            <summary>
+            France Telecom
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_CODIAN">
+            <summary>
+            CODIAN
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_FLAC">
+            <summary>
+            Free Lossless Audio Codec.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Audio.WaveFormatTag.WAVE_FORMAT_EXTENSIBLE">
+            <summary>
+            Extensible WAVEFORMATEX structure (see <see cref="T:Microsoft.Psi.Audio.WaveFormatEx"/>).
+            </summary>
+        </member>
+    </members>
+</doc>
