@@ -10,14 +10,10 @@
 #pragma warning(pop)
 
 
-namespace Microsoft
+namespace NU
 {
-	namespace Psi
+	namespace Kiosk
 	{
-		namespace Samples
-		{
-			namespace OpenCV
-			{
 				public class FaceLandmarkUnm
 				{
 				public:
@@ -25,7 +21,5 @@ namespace Microsoft
 					cv::Ptr<cv::face::Facemark> face_landmark;
 					void setFaceLandmark();
 				};
-			}
-		}
 	}
 }

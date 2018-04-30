@@ -3,14 +3,10 @@
 
 #include "stdafx.h"
 
-namespace Microsoft
+namespace NU
 {
-	namespace Psi
+	namespace Kiosk
 	{
-		namespace Samples
-		{
-			namespace OpenCV
-			{
 				public ref class ImageBuffer
 				{
 				public:
@@ -21,7 +17,5 @@ namespace Microsoft
 
 					ImageBuffer(int width, int height, System::IntPtr data, int stride);
 				};
-			}
-		}
 	}
 }

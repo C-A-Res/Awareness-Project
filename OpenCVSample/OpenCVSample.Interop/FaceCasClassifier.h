@@ -11,14 +11,10 @@
 #pragma warning(pop)
 
 
-namespace Microsoft
+namespace NU
 {
-	namespace Psi
+	namespace Kiosk
 	{
-		namespace Samples
-		{
-			namespace OpenCV
-			{
 				public ref class FaceCasClassifier
 				{
 				public:
@@ -29,7 +25,5 @@ namespace Microsoft
 					FaceCasClassifier();
 
 				};
-			}
-		}
 	}
 }

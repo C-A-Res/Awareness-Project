@@ -10,14 +10,10 @@
 #include <opencv2/face/face_alignment.hpp>
 #pragma warning(pop)
 
-namespace Microsoft
+namespace NU
 {
-	namespace Psi
+	namespace Kiosk
 	{
-		namespace Samples
-		{
-			namespace OpenCV
-			{
 				
 				FaceCasClassifier::FaceCasClassifier()
 				{
@@ -33,7 +29,5 @@ namespace Microsoft
 					this->facemark = new FaceLandmarkUnm();
 					this->facemark->setFaceLandmark();
 				}
-			}
-		}
 	}
 }

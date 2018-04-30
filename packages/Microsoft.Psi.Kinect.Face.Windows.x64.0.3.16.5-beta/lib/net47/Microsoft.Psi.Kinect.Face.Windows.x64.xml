@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Psi.Kinect.Face.Windows.x64</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Psi.Kinect.Face.IKinectFaceDetector">
+            <summary>
+            Defines interface to kinect sensor for handling face detection/tracking
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Face.IKinectFaceDetector.Faces">
+            <summary>
+            Gets and emitter that emits a stream of KinectFace samples
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.Face.KinectFace">
+            <summary>
+            KinectFace defines the object returned on the KinectSensor.Faces stream
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Face.KinectFace.TrackingId">
+            <summary>
+            Gets or sets the tracking ID used to associate a given face to a KinectBody
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Face.KinectFace.FaceBoundingBoxInColorSpace">
+            <summary>
+            Gets or sets the face's bounding box in pixels relative to the color image
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Face.KinectFace.FaceBoundingBoxInInfraredSpace">
+            <summary>
+            Gets or sets the face's bounding box in pixels relative to the infrared image
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Face.KinectFace.FaceFrameFeatures">
+            <summary>
+            Gets or sets which facial features are returned by face tracking
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Face.KinectFace.FacePointsInColorSpace">
+            <summary>
+            Gets or sets a list of points for each face point. Points are defined in pixels relative to the color image.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Face.KinectFace.FacePointsInInfraredSpace">
+            <summary>
+            Gets or sets a list of points for each face point. Points are defined in pixels relative to the infared image.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Face.KinectFace.FaceProperties">
+            <summary>
+            Gets or sets a dictionary of results as to whether some face property has been detected
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Face.KinectFace.FaceRotationQuaternion">
+            <summary>
+            Gets or sets the relative orientation of the face as a quaternion
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.Face.KinectFaceDetector">
+            <summary>
+            Used for receiving information from a Kinect sensor
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.Face.KinectFaceDetector.#ctor(Microsoft.Psi.Pipeline,Microsoft.Psi.Kinect.KinectSensor,Microsoft.Psi.Kinect.Face.KinectFaceDetectorConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Kinect.Face.KinectFaceDetector"/> class.
+            </summary>
+            <param name="pipeline">Pipeline this sensor is a part of</param>
+            <param name="kinectSensor">Psi Kinect device from which we get our associated bodies</param>
+            <param name="configuration">Configuration to use</param>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Face.KinectFaceDetector.Faces">
+            <summary>
+            Gets the list of faces from the Kinect
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.Face.KinectFaceDetector.UpdateFaceTracking(System.Collections.Generic.List{Microsoft.Psi.Kinect.KinectBody},Microsoft.Psi.Envelope)">
+            <summary>
+            Called with a list of bodies we got from our Kinect sensor
+            </summary>
+            <param name="kinectBodies">List of KinectBody</param>
+            <param name="e">Envelope containing originating time of the kinect bodies</param>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.Face.KinectFaceDetector.Microsoft#Psi#Components#IStartable#Start(System.Action,Microsoft.Psi.ReplayDescriptor)">
+            <summary>
+            IStartable called by the pipeline when KinectSensor is activated in the pipeline
+            </summary>
+            <param name="onCompleted">Unused</param>
+            <param name="descriptor">Parameter Unused</param>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.Face.KinectFaceDetector.Microsoft#Psi#Components#IStartable#Stop">
+            <summary>
+            Called by the pipeline to stop the sensor
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.Face.KinectFaceDetector.Dispose">
+            <summary>
+            Called to release the sensor
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.Face.KinectFaceDetector.FaceFrameReader_FrameArrived(System.Object,Microsoft.Kinect.Face.FaceFrameArrivedEventArgs)">
+            <summary>
+            Defines callback for handling when a face frame arrives from the kinect sensor
+            </summary>
+            <param name="sender">Kinect device sending this event</param>
+            <param name="e">Event data</param>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.Face.KinectFaceDetector.KinectBodyReceiver">
+            <summary>
+            Define an internal component used to receive KinectBody's from
+            our Kinect sensor device associated with this face detector
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.Face.KinectFaceDetector.KinectBodyReceiver.#ctor(Microsoft.Psi.Pipeline,Microsoft.Psi.Kinect.Face.KinectFaceDetector)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Kinect.Face.KinectFaceDetector.KinectBodyReceiver"/> class.
+            Defines an internal receiver for receiving the KinectBody from our associated Kinect sensor
+            </summary>
+            <param name="pipeline">Pipeline sensor is running in</param>
+            <param name="faceDetector">Our parent face detector</param>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Face.KinectFaceDetector.KinectBodyReceiver.In">
+            <summary>
+            Gets or sets receives the KinectBody
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.Face.KinectFaceDetector.KinectBodyReceiver.ReceiveInput(System.Collections.Generic.List{Microsoft.Psi.Kinect.KinectBody},Microsoft.Psi.Envelope)">
+            <summary>
+            Callback for processing a list of KinectBodys once it is received from the Kinect sensor
+            </summary>
+            <param name="kinectBodies">List of Kinect bodies</param>
+            <param name="e">Envelope</param>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.Face.KinectFaceDetectorConfiguration">
+            <summary>
+            Defines settings used to configure the Kinect's Face detector/tracking
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Kinect.Face.KinectFaceDetectorConfiguration.Default">
+            <summary>
+            Defines the default configuration settings
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Face.KinectFaceDetectorConfiguration.FaceFrameFeatures">
+            <summary>
+            Gets or sets which face detection features are reported
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -4,14 +4,10 @@
 #include "stdafx.h"
 #include "ImageBuffer.h"
 
-namespace Microsoft
+namespace NU
 {
-	namespace Psi
+	namespace Kiosk
 	{
-		namespace Samples
-		{
-			namespace OpenCV
-			{
 				ImageBuffer::ImageBuffer(int width, int height, System::IntPtr data, int stride)
 				{
 					this->Width = width;
@@ -19,7 +15,5 @@ namespace Microsoft
 					this->Data = data;
 					this->Stride = stride;
 				}
-			}
-		}
 	}
 }

@@ -1,0 +1,888 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Psi.Kinect.Windows</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Psi.Kinect.DepthExtensions">
+            <summary>
+            Define set of extensions for dealing with depth maps
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.DepthExtensions.ToColor(Microsoft.Psi.IProducer{Microsoft.Psi.Shared{Microsoft.Psi.Imaging.Image}},Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Simple producer for converting from depth map to colored version of depth map
+            </summary>
+            <param name="depthImage">Depth image to convert</param>
+            <param name="deliveryPolicy">Delivery policy</param>
+            <returns>Returns colored representation of the depth map</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.DepthExtensions.GZipCompressDepthImage(Microsoft.Psi.IProducer{Microsoft.Psi.Shared{Microsoft.Psi.Imaging.Image}},Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Creates a gzipped byte array of the depth image
+            </summary>
+            <param name="depthImage">Depth image to compress</param>
+            <param name="deliveryPolicy">Delivery policy</param>
+            <returns>Byte array containing the compressed depth map</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.DepthExtensions.GZipUncompressDepthImage(Microsoft.Psi.IProducer{System.Byte[]},Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Uncompressed a depth map that was previously compressed with GZip
+            </summary>
+            <param name="compressedDepthBytes">Byte array of compressed depth values</param>
+            <param name="deliveryPolicy">Delivery policy</param>
+            <returns>Uncompressed depth map as an image</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.DepthExtensions.IntersectLineWithDepthMesh(Microsoft.Psi.Kinect.IKinectCalibration,MathNet.Spatial.Euclidean.Line3D,Microsoft.Psi.Imaging.Image,System.Double,System.Boolean)">
+            <summary>
+            Performs a ray/mesh intersection with the depth map
+            </summary>
+            <param name="kinectCalibration">Defines the calibration (extrinsics and intrinsics) for the Kinect</param>
+            <param name="line">Ray to intersect against depth map</param>
+            <param name="depthImage">Depth map to ray cast against</param>
+            <param name="skipFactor">Distance to march on each step along ray</param>
+            <param name="undistort">Should undistortion be applied to the point?</param>
+            <returns>Returns point of intersection</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.DepthToColorConverter">
+            <summary>
+            DepthToColorConverter defines a component for converting a depth image from the Kinect
+            into a color image (where more distant objects are blue, and closer objects are reddish)
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.DepthToColorConverter.#ctor(Microsoft.Psi.Pipeline)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Kinect.DepthToColorConverter"/> class.
+            </summary>
+            <param name="pipeline">Pipeline this component is a part of</param>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.DepthToColorConverter.Receive(Microsoft.Psi.Shared{Microsoft.Psi.Imaging.Image},Microsoft.Psi.Envelope)">
+            <summary>
+            Pipeline callback for converting depth image to colored image
+            </summary>
+            <param name="depthImage">Depth image</param>
+            <param name="e">Pipeline information about current depthImage sample</param>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.DepthToColorConverter.Saturate(System.Int32)">
+            <summary>
+            Simple saturate (clamp between 0..255) helper
+            </summary>
+            <param name="value">Value to saturate</param>
+            <returns>Clamped color value</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.IKinectCalibration">
+            <summary>
+            IKinectCalibration defines a calibration object that handles both extrinsics and intrinsics for a Kinect camera
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.IKinectCalibration.ColorExtrinsics">
+            <summary>
+            Gets or sets the extrinsics associated with the Kinect's color image
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.IKinectCalibration.ColorIntrinsics">
+            <summary>
+            Gets or sets the intrinsics associated with the Kinect's color image
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.IKinectCalibration.DepthExtrinsics">
+            <summary>
+            Gets or sets the extrinsics associated with the Kinect's depth image
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.IKinectCalibration.DepthIntrinsics">
+            <summary>
+            Gets or sets the intrinsics associated with the Kinect's depth image
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.IKinectSensor">
+            <summary>
+            IKinectSensor defines the interface used to interact with the Kinect
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.IKinectSensor.Bodies">
+            <summary>
+            Gets and emitter that emits a stream of KinectBody samples
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.IKinectSensor.ColorImage">
+            <summary>
+            Gets and emitter that emits a stream of image samples for the Kinect's color camera
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.IKinectSensor.DepthImage">
+            <summary>
+            Gets and emitter that emits a stream of image samples for the Kinect's depth camera
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.IKinectSensor.InfraredImage">
+            <summary>
+            Gets and emitter that emits a stream of image samples for the Kinect's infrared feed
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.IKinectSensor.LongExposureInfraredImage">
+            <summary>
+            Gets an emitter that emits a stream of image samples for the Kinect's long exposure infrared feed
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.IKinectSensor.Calibration">
+            <summary>
+            Gets calibration emits a stream of IKinectCalibration samples from the Kinect
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.IKinectSensor.Audio">
+            <summary>
+            Gets and emitter that emits a stream of AudioBuffer samples from the Kinect
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.IKinectSensor.AudioBeamInfo">
+            <summary>
+            Gets and emitter that emits a stream of KinectAudioBeamInfo samples from the Kinect
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.IKinectSensor.AudioBodyCorrelations">
+            <summary>
+            Gets and emitter that emits a stream of IList.ulong samples from the Kinect
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.KinectAudioBeamInfo">
+            <summary>
+            Defines structure that contains information about the Audio Beam from a Kinect
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectAudioBeamInfo.#ctor(System.Single,System.Single)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Kinect.KinectAudioBeamInfo"/> struct.
+            </summary>
+            <param name="angle">Direction sensor is set for listening</param>
+            <param name="confidence">Confidence in given direction</param>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectAudioBeamInfo.Angle">
+            <summary>
+            Gets the angle
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectAudioBeamInfo.Confidence">
+            <summary>
+            Gets the confidence
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.KinectBody">
+            <summary>
+            KinectBody holds information about a body detected by the Kinect
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectBody.JointCount">
+            <summary>
+            Gets the number of joints in body's skeleton
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectBody.ClippedEdges">
+            <summary>
+            Gets or sets the clipped edges
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectBody.FloorClipPlane">
+            <summary>
+            Gets or sets the floor's clip plane
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectBody.HandLeftConfidence">
+            <summary>
+            Gets or sets confidence in position/pose of left hand
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectBody.HandLeftState">
+            <summary>
+            Gets or sets state of left hand
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectBody.HandRightConfidence">
+            <summary>
+            Gets or sets confidence in position/pose of right hand
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectBody.HandRightState">
+            <summary>
+            Gets or sets state of right hand
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectBody.IsRestricted">
+            <summary>
+            Gets or sets a value indicating whether the body is restricted
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectBody.IsTracked">
+            <summary>
+            Gets or sets a value indicating whether the body is tracked
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectBody.JointOrientations">
+            <summary>
+            Gets or sets the joint orientations
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectBody.Joints">
+            <summary>
+            Gets or sets the joints
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectBody.Lean">
+            <summary>
+            Gets or sets the lean point
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectBody.LeanTrackingState">
+            <summary>
+            Gets or sets the lean tracking state
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectBody.TrackingId">
+            <summary>
+            Gets or sets the body's tracking ID
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.KinectCalibration">
+            <summary>
+            KinectCalibration holds the intrinsics and extrinsics for a Kinect camera
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Kinect.KinectCalibration.Default">
+            <summary>
+            The default calibration
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectCalibration.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Kinect.KinectCalibration"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectCalibration.#ctor(System.Int32,System.Int32,MathNet.Numerics.LinearAlgebra.Matrix{System.Double},System.Double,System.Double,System.Double,System.Double,MathNet.Numerics.LinearAlgebra.Matrix{System.Double},System.Int32,System.Int32,MathNet.Numerics.LinearAlgebra.Matrix{System.Double},System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Kinect.KinectCalibration"/> class.
+            </summary>
+            <param name="colorWidth">Width of color camera in pixels</param>
+            <param name="colorHeight">Height of color camera in pixels</param>
+            <param name="colorTransform">Transform to be applied to color image</param>
+            <param name="colorRadial0">1st Radial distortion parameter</param>
+            <param name="colorRadial1">2nd Radial distortion parameter</param>
+            <param name="colorTangential0">1st Tangential distortion parameter</param>
+            <param name="colorTangential1">2nd Tangential distortion parameter</param>
+            <param name="depthToColorTransform">Transform from depth to color camera</param>
+            <param name="depthWidth">Width of depth image in pixels</param>
+            <param name="depthHeight">Height of depth image in pixels</param>
+            <param name="depthTransform">Transform to be applied to depth image</param>
+            <param name="depthRadial0">1st Radial distortion parameter for depth image</param>
+            <param name="depthRadial1">2nd Radial distortion parameter for depth image</param>
+            <param name="depthTangential0">1st Tangential distortion parameter for depth image</param>
+            <param name="depthTangential1">2nd Tangential distortion parameter for depth image</param>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectCalibration.ColorExtrinsics">
+            <summary>
+            Gets or sets the color camera's extrinsics
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectCalibration.ColorIntrinsics">
+            <summary>
+            Gets or sets the color camera's intrinsics
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectCalibration.DepthExtrinsics">
+            <summary>
+            Gets or sets the depth camera's extrinsics
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectCalibration.DepthIntrinsics">
+            <summary>
+            Gets or sets the depth camera's intrinsics
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectCalibration.DepthToColorTransform">
+            <summary>
+            Gets or sets the transform to go from the depth camera to the color camera
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.KinectExtensions">
+            <summary>
+            Implements stream operator methods for Kinect
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.GetJointPosition(Microsoft.Psi.IProducer{Microsoft.Psi.Kinect.KinectBody},Microsoft.Kinect.JointType,Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Returns the position of a given joint in the body
+            </summary>
+            <param name="source">The stream of kinect body</param>
+            <param name="jointType">The type of joint</param>
+            <param name="deliveryPolicy">Delivery policy</param>
+            <returns>The joint position as a camera space point</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.ProjectTo3D(Microsoft.Psi.IProducer{System.ValueTuple{Microsoft.Psi.Shared{Microsoft.Psi.Imaging.Image},System.Collections.Generic.List{MathNet.Spatial.Euclidean.Point2D},Microsoft.Psi.Kinect.IKinectCalibration}},Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Projects set of points into 3D
+            </summary>
+            <param name="source">Tuple of image, list of points to project, and calibration</param>
+            <param name="deliveryPolicy">Delivery policy</param>
+            <returns>Returns a producer that generates a list of transformed points</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.ProjectTo3D(Microsoft.Psi.IProducer{System.ValueTuple{Microsoft.Psi.Shared{Microsoft.Psi.Imaging.Image},System.Collections.Generic.List{MathNet.Spatial.Euclidean.Point2D}}},Microsoft.Psi.IProducer{Microsoft.Psi.Kinect.IKinectCalibration},Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Projects set of points into 3D
+            </summary>
+            <param name="source">Producer of image and list of points</param>
+            <param name="calibration">Producer of IKinectCalibration</param>
+            <param name="deliveryPolicy">Delivery policy</param>
+            <returns>Returns a producer that generates a list of transformed points</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.Transform(MathNet.Spatial.Euclidean.CoordinateSystem,Microsoft.Kinect.CameraSpacePoint)">
+            <summary>
+            Transforms a point in camera space to another coordinate system
+            </summary>
+            <param name="cs">Coordinate system to transform to</param>
+            <param name="csp">point in camera space</param>
+            <returns>New point</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.Transform(MathNet.Spatial.Euclidean.CoordinateSystem,Microsoft.Kinect.Joint)">
+            <summary>
+            Transforms a joint to the specified coordinate system
+            </summary>
+            <param name="cs">Coordinate system to transform to</param>
+            <param name="joint">Joint to be transformed</param>
+            <returns>Transformed joint</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.Transform(MathNet.Spatial.Euclidean.CoordinateSystem,Microsoft.Psi.Kinect.KinectBody)">
+            <summary>
+            Transforms joint orientations in the specified body to the specified coordinate system.
+            </summary>
+            <param name="cs">Cordinate systemt to transform to</param>
+            <param name="psiBody">Body to transform</param>
+            <returns>Body with transformed joints</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.ToColorSpace(Microsoft.Psi.IProducer{MathNet.Spatial.Euclidean.Point3D},Microsoft.Psi.IProducer{Microsoft.Psi.Kinect.IKinectCalibration},Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Transforms the specified point by the specified calibration.
+            NOTE: This method has been deprecated. Use version that takes a tuple instead.
+            </summary>
+            <param name="point">Point/Calibration to transform</param>
+            <param name="calibration">Kinect calibration object</param>
+            <param name="deliveryPolicy">Delivery policy</param>
+            <returns>A producer that generates transformed points</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.ToColorSpace(Microsoft.Psi.IProducer{System.ValueTuple{MathNet.Spatial.Euclidean.Point3D,Microsoft.Psi.Kinect.IKinectCalibration}},Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Transforms the specified point by the specified calibration
+            </summary>
+            <param name="point">Point/Calibration to transform</param>
+            <param name="deliveryPolicy">Delivery policy</param>
+            <returns>A producer that generates transformed points</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.ToPoint2D(Microsoft.Psi.IProducer{System.Nullable{Microsoft.Kinect.ColorSpacePoint}},Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Converts points in color space into pixel coordinates
+            </summary>
+            <param name="source">Source of color space points</param>
+            <param name="deliveryPolicy">Delivery policy</param>
+            <returns>Returns a producer that generates transformed points</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.ToPoint2D(Microsoft.Psi.IProducer{Microsoft.Kinect.ColorSpacePoint},Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Converts points in color space into pixel coordinates
+            </summary>
+            <param name="source">Source of color space points</param>
+            <param name="deliveryPolicy">Delivery policy</param>
+            <returns>Returns a producer that generates transformed points</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.ToPoint3D(Microsoft.Psi.IProducer{Microsoft.Kinect.CameraSpacePoint},Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Converts points in color space into 3D coordinates
+            </summary>
+            <param name="source">Source of color space points</param>
+            <param name="deliveryPolicy">Delivery policy</param>
+            <returns>Returns a producer that generates transformed points</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.GetTrackedJointPosition(Microsoft.Psi.IProducer{Microsoft.Psi.Kinect.KinectBody},Microsoft.Kinect.JointType,Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Tracks a joint on the Kinect Body
+            </summary>
+            <param name="source">Source of Kinect Bodies</param>
+            <param name="jointType">Which joint to track</param>
+            <param name="deliveryPolicy">Delivery policy</param>
+            <returns>Returns a producer that generates the transformed joint's coordinate system</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.GetTrackedJointPositionOrDefault(Microsoft.Psi.IProducer{Microsoft.Psi.Kinect.KinectBody},Microsoft.Kinect.JointType,Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Tracks a joint on the Kinect Body
+            </summary>
+            <param name="source">Source of Kinect Bodies</param>
+            <param name="jointType">Which joint to track</param>
+            <param name="deliveryPolicy">Delivery policy</param>
+            <returns>Returns a producer that generates the coordiante system for the tracked joint</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.ToPoint3D(Microsoft.Kinect.CameraSpacePoint)">
+            <summary>
+            Converts a point from camera space to a 3D point
+            </summary>
+            <param name="cameraSpacePoint">Point to convert</param>
+            <returns>Returns the point as a Point3D</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.ToCameraSpacePoint(MathNet.Spatial.Euclidean.Point3D)">
+            <summary>
+            Converts a generate 3D point to a point in camera space
+            </summary>
+            <param name="point">Point to convert</param>
+            <returns>Returns the generate 3D point as a point in camera space</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.ToCameraSpacePoint(Microsoft.Psi.IProducer{MathNet.Spatial.Euclidean.Point3D},Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Given a producer of generic 3D points this method returns the point as a camera space point
+            </summary>
+            <param name="point">Point to convert</param>
+            <param name="deliveryPolicy">Delivery policy</param>
+            <returns>Returns a producer that generates of camera space points</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.GZipCompressImageProjection(Microsoft.Psi.IProducer{Microsoft.Kinect.CameraSpacePoint[]},Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Compresses a list of camera space points
+            </summary>
+            <param name="cameraSpacePoints">List of points in camera space</param>
+            <param name="deliveryPolicy">Delivery policy</param>
+            <returns>Returns a producer that generates a compressed byte array of the camera space points</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.GZipUncompressImageProjection(Microsoft.Psi.IProducer{System.Byte[]},Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Given a producer of compressed image projection points this method generates
+            the uncompressed points
+            </summary>
+            <param name="compressedBytes">Producer that generates compressed image projection points</param>
+            <param name="deliveryPolicy">Delivery policy</param>
+            <returns>Returns a generator that returns a list of points</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.QuaterionAsAxisAngle(Microsoft.Kinect.Vector4)">
+            <summary>
+            Converts a quaternion into an axis/angle representation
+            </summary>
+            <param name="quat">Quaternion to convert</param>
+            <returns>Axis angle representation</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.QuaternionToMatrix(Microsoft.Kinect.Vector4)">
+            <summary>
+            Converts a quaternion into a matrix
+            </summary>
+            <param name="quat">Quaternion to convert</param>
+            <returns>Rotation matrix that quaternion represents</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectExtensions.MatrixToQuaternion(MathNet.Numerics.LinearAlgebra.Matrix{System.Double})">
+            <summary>
+            Converts a rotation matrix to a quaternion
+            </summary>
+            <param name="mat">Rotation matrix to convert</param>
+            <returns>Quaternion that represents the rotation</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectInternalCalibration.ToColorSpacePoint(Microsoft.Kinect.CameraSpacePoint)">
+            <summary>
+            Converts a camera space point (3D) to the corresponding color space point (2D-RGB camera)
+            </summary>
+            <param name="cameraSpacePoint">The color space point to convert</param>
+            <returns>The corresponding camera space point</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectInternalCalibration.ToDepthSpacePoint(Microsoft.Kinect.CameraSpacePoint)">
+            <summary>
+            Converts a cameras space point to a depth space point
+            </summary>
+            <param name="cameraSpacePoint">The color space point to convert</param>
+            <returns>The corresponding camera space point</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.KinectSensor">
+            <summary>
+            Used for receiving information from a Kinect sensor
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectSensor.#ctor(Microsoft.Psi.Pipeline,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Kinect.KinectSensor"/> class.
+            </summary>
+            <param name="pipeline">Pipeline this sensor is a part of</param>
+            <param name="configurationFilename">Name of configuration file</param>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectSensor.#ctor(Microsoft.Psi.Pipeline,Microsoft.Psi.Kinect.KinectSensorConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Kinect.KinectSensor"/> class.
+            </summary>
+            <param name="pipeline">Pipeline this sensor is a part of</param>
+            <param name="configuration">Configuration to use</param>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectSensor.#ctor(Microsoft.Psi.Pipeline)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Kinect.KinectSensor"/> class.
+            </summary>
+            <param name="pipeline">Pipeline this sensor is a part of</param>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensor.Bodies">
+            <summary>
+            Gets the list of bodies from the Kinect
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensor.ColorImage">
+            <summary>
+            Gets the current image from the color camera
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensor.RGBDImage">
+            <summary>
+            Gets the current color+depth image
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensor.DepthImage">
+            <summary>
+            Gets the current image from the depth camera
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensor.InfraredImage">
+            <summary>
+            Gets the current image from the infrared camera
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensor.LongExposureInfraredImage">
+            <summary>
+            Gets the current long exposure image from the infrared camera
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensor.DepthFrameToCameraSpaceTable">
+            <summary>
+            Gets the table of camera space points as returned by <see cref="M:Microsoft.Kinect.CoordinateMapper.GetDepthFrameToCameraSpaceTable"/>.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensor.Calibration">
+            <summary>
+            Gets the Kinect's calibration object
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensor.Audio">
+            <summary>
+            Gets the emitter that returns the Kinect's audio samples
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensor.AudioBeamInfo">
+            <summary>
+            Gets the KinectAudioBeamInfo which returns information about the Kinect's audio beam
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensor.AudioBodyCorrelations">
+            <summary>
+            Gets??
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensor.ColorToCameraMapper">
+            <summary>
+            Gets a emitter that maps color points to camera space points
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensor.KinectDevice">
+            <summary>
+            Gets the underlying Kinect sensor device
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectSensor.Microsoft#Psi#Components#IStartable#Start(System.Action,Microsoft.Psi.ReplayDescriptor)">
+            <summary>
+            IStartable called by the pipeline when KinectSensor is activated in the pipeline
+            </summary>
+            <param name="onCompleted">Unused</param>
+            <param name="descriptor">Parameter Unused</param>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectSensor.Microsoft#Psi#Components#IStartable#Stop">
+            <summary>
+            Called by the pipeline to stop the sensor
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.KinectSensor.Dispose">
+            <summary>
+            Called to release the sensor
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.KinectSensorConfiguration">
+            <summary>
+            KinectSensorConfiguration defines how to configure the Kinect
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Kinect.KinectSensorConfiguration.Default">
+            <summary>
+            Default returns a default configuration for the Kinect
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensorConfiguration.OutputDepth">
+            <summary>
+            Gets or sets a value indicating whether the depth stream is emitted from the Kinect
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensorConfiguration.OutputColor">
+            <summary>
+            Gets or sets a value indicating whether the color stream is emitted from the Kinect
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensorConfiguration.OutputInfrared">
+            <summary>
+            Gets or sets a value indicating whether the infrared stream is emitted from the Kinect
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensorConfiguration.OutputLongExposureInfrared">
+            <summary>
+            Gets or sets a value indicating whether the long exposure infrared stream is emitted from the Kinect
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensorConfiguration.OutputBodies">
+            <summary>
+            Gets or sets a value indicating whether the bodies stream is emitted from the Kinect
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensorConfiguration.OutputRGBD">
+            <summary>
+            Gets or sets a value indicating whether to output an RGB (color) + D (depth) image.
+            Each component in the image is 16b per pixel
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensorConfiguration.OutputAudio">
+            <summary>
+            Gets or sets a value indicating whether the audio stream is emitted
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensorConfiguration.OutputCalibration">
+            <summary>
+            Gets or sets a value indicating whether the calibration stream is emitted
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.KinectSensorConfiguration.OutputColorToCameraMapping">
+            <summary>
+            Gets or sets a value indicating whether a mapping from color to depth is emitted
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.LevenbergMarquardt">
+            <summary>
+            Defines a class for performing Levenberg-Marquardt optimization
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.LevenbergMarquardt.#ctor(Microsoft.Psi.Kinect.LevenbergMarquardt.Function)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Kinect.LevenbergMarquardt"/> class.
+            </summary>
+            <param name="function">Cost function</param>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.LevenbergMarquardt.#ctor(Microsoft.Psi.Kinect.LevenbergMarquardt.Function,Microsoft.Psi.Kinect.LevenbergMarquardt.Jacobian)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Kinect.LevenbergMarquardt"/> class.
+            </summary>
+            <param name="function">Cost function</param>
+            <param name="jacobianFunction">Jacobian</param>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.LevenbergMarquardt.Function">
+            <summary>
+            y_i - f(x_i, parameters) as column vector
+            </summary>
+            <param name="parameters">Parameters</param>
+            <returns>Matrix</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.LevenbergMarquardt.Jacobian">
+            <summary>
+            J_ij, ith error from function, jth parameter
+            </summary>
+            <param name="parameters">Parameters</param>
+            <returns>Matrix</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.LevenbergMarquardt.States">
+            <summary>
+            States for optimization
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.LevenbergMarquardt.RMSError">
+            <summary>
+            Gets the RMS error
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.LevenbergMarquardt.State">
+            <summary>
+            Gets the optimization state
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.LevenbergMarquardt.Test">
+            <summary>
+            Performs unit test
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.LevenbergMarquardt.Minimize(Microsoft.Psi.Kinect.Matrix)">
+            <summary>
+            Minimizes function
+            </summary>
+            <param name="parameters">Parameters</param>
+            <returns>Returns the RMS</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.LevenbergMarquardt.WriteMatrixToFile(Microsoft.Psi.Kinect.Matrix,System.String)">
+            <summary>
+            Writes the specified matrix to the specified file
+            </summary>
+            <param name="matA">Matrix to write</param>
+            <param name="filename">Name of output file</param>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.LevenbergMarquardt.MinimizeOneStep(Microsoft.Psi.Kinect.Matrix)">
+            <summary>
+            Single step of the optimization
+            </summary>
+            <param name="parameters">Parameters</param>
+            <returns>Returns the error</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.LevenbergMarquardt.NumericalDifferentiation">
+            <summary>
+            Class for doing numerical differentiation
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.LevenbergMarquardt.NumericalDifferentiation.#ctor(Microsoft.Psi.Kinect.LevenbergMarquardt.Function)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Kinect.LevenbergMarquardt.NumericalDifferentiation"/> class.
+            </summary>
+            <param name="function">Cost function</param>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.LevenbergMarquardt.NumericalDifferentiation.Jacobian(Microsoft.Psi.Kinect.Matrix)">
+            <summary>
+            Returns the Jacobian
+            J_ij, ith error from function, jth parameter
+            </summary>
+            <param name="parameters">Parameters</param>
+            <returns>Returns Jacobian</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.Matrix">
+            <summary>
+            Defines a Matrix class
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.Matrix.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Kinect.Matrix"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.Matrix.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Kinect.Matrix"/> class.
+            </summary>
+            <param name="m">Number of rows in matrix</param>
+            <param name="n">Number of columns in matrix</param>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.Matrix.#ctor(Microsoft.Psi.Kinect.Matrix)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Kinect.Matrix"/> class.
+            </summary>
+            <param name="mat">Matrix to copy from</param>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Matrix.ValuesByColumn">
+            <summary>
+            Gets or sets a column of values in the matrix
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Matrix.Rows">
+            <summary>
+            Gets number of rows in the matrix
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Matrix.Cols">
+            <summary>
+            Gets number of columns in the matrix
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Matrix.Size">
+            <summary>
+            Gets the total number of elements in the matrix
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Matrix.Item(System.Int32,System.Int32)">
+            <summary>
+            Indexer into the matrix
+            </summary>
+            <param name="i">Row to access</param>
+            <param name="j">Column to access</param>
+            <returns>The entry at specified row/column</returns>
+        </member>
+        <member name="P:Microsoft.Psi.Kinect.Matrix.Item(System.Int32)">
+            <summary>
+            Indexer that treats the matrix as a flat array
+            </summary>
+            <param name="i">Index to access</param>
+            <returns>Value at Ith element in the matrix</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.Matrix.Identity(System.Int32,System.Int32)">
+            <summary>
+            Returns an identity matrix
+            </summary>
+            <param name="m">Number of rows in matrix</param>
+            <param name="n">Number of columns in matrix</param>
+            <returns>New identity matrix of size MxN</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.Matrix.Zero(System.Int32,System.Int32)">
+            <summary>
+            Returns an zero matrix
+            </summary>
+            <param name="m">Number of rows in matrix</param>
+            <param name="n">Number of columns in matrix</param>
+            <returns>New zero matrix of size MxN</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.Matrix.CopyRange(Microsoft.Psi.Kinect.Matrix,System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.Psi.Kinect.Matrix,System.Int32,System.Int32)">
+            <summary>
+            Copies a submatrix from matA into matB
+            </summary>
+            <param name="matA">Matrix to copy from</param>
+            <param name="ai">Row offset to start copying from</param>
+            <param name="aj">Column offset to start copying from</param>
+            <param name="m">Number of rows to copy</param>
+            <param name="n">Number of columns to copy</param>
+            <param name="matB">Matrix to copy to</param>
+            <param name="bi">Row offset to copy to</param>
+            <param name="bj">Column offset to copy to</param>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.Matrix.CopyRow(Microsoft.Psi.Kinect.Matrix,System.Int32,Microsoft.Psi.Kinect.Matrix)">
+            <summary>
+            Copies a single row from matA to matB
+            </summary>
+            <param name="matA">Matrix to copy from</param>
+            <param name="row">Row to copy</param>
+            <param name="matB">Matrix to copy to</param>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.Matrix.CopyCol(Microsoft.Psi.Kinect.Matrix,System.Int32,Microsoft.Psi.Kinect.Matrix)">
+            <summary>
+            Copies a single column from matA to matB
+            </summary>
+            <param name="matA">Matrix to copy from</param>
+            <param name="col">Column to copy</param>
+            <param name="matB">Matrix to copy to</param>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.Matrix.CopyDiag(Microsoft.Psi.Kinect.Matrix,Microsoft.Psi.Kinect.Matrix)">
+            <summary>
+            Copies the diagonal from matA to matB
+            </summary>
+            <param name="matA">Matrix to copy from</param>
+            <param name="matB">Matrix to copy to</param>
+        </member>
+        <member name="T:Microsoft.Psi.Kinect.ProjectTo3D">
+            <summary>
+            Producer that project points into 3D
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.ProjectTo3D.#ctor(Microsoft.Psi.Pipeline)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Kinect.ProjectTo3D"/> class.
+            </summary>
+            <param name="pipeline">Pipeline this component is a part of</param>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.ProjectTo3D.ColorPointToWorldSpace(Microsoft.Psi.Kinect.IKinectCalibration,MathNet.Spatial.Euclidean.Point2D,MathNet.Numerics.LinearAlgebra.Matrix{System.Double},Microsoft.Psi.Shared{Microsoft.Psi.Imaging.Image})">
+            <summary>
+            Method for projecting a point in pixel coordinate from the color camera into the world coordinates by determining the corresponding depth pixel.
+            </summary>
+            <param name="kinectCalibration">Calibration object for the Kinect camera</param>
+            <param name="point2D">Pixel coordinates in the color camera</param>
+            <param name="colorExtrinsicsInverse">The inverse of the color extrinsics matrix (kinectCalibration.ColorExtrinsics). Passed in so that it isn't computed each time this method is called.</param>
+            <param name="depthImage">Depth map</param>
+            <returns>Point in world coordinates</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Kinect.ProjectTo3D.Receive(System.ValueTuple{Microsoft.Psi.Shared{Microsoft.Psi.Imaging.Image},System.Collections.Generic.List{MathNet.Spatial.Euclidean.Point2D},Microsoft.Psi.Kinect.IKinectCalibration},Microsoft.Psi.Envelope)">
+            <summary>
+            Callback from pipeline that receives an image, a list of points, and a calibration
+            </summary>
+            <param name="data">list of points to transform, associated camera image, and calibration</param>
+            <param name="e">Pipeline sample information</param>
+        </member>
+    </members>
+</doc>

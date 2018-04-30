@@ -10,21 +10,15 @@
 #pragma warning(pop)
 
 
-namespace Microsoft
+namespace NU
 {
-	namespace Psi
+	namespace Kiosk
 	{
-		namespace Samples
-		{
-			namespace OpenCV
-			{
 				public class CascadeClassifierUnm
 				{
 				public:
 					cv::CascadeClassifier face_cas;
 					void setFaceDetector();
 				};
-			}
-		}
 	}
 }

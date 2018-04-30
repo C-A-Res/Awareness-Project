@@ -81,27 +81,27 @@
     <PostBuildEvent>
       <Command>if not exist $(OutDir)..\..\..\OpenCVSample\bin\Debug (mkdir $(OutDir)..\..\..\OpenCVSample\bin\Debug)
 copy $(OutDir)$(TargetName)$(TargetExt) $(OutDir)..\..\..\OpenCVSample\bin\Debug\$(TargetName)$(TargetExt)
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_calib3d341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_ccalib341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_core341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_dnn341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_face341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_features2d341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_flann341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_highgui341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_imgcodecs341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_imgproc341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_ml341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_objdetect341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_photo341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_shape341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_stitching341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_superres341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_text341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_tracking341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_video341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_videoio341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug
-copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_videostab341d.dll $(OutDir)..\..\..\OpenCVSample\bin\Debug</Command>
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_calib3d341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_ccalib341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_core341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_dnn341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_face341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_features2d341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_flann341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_highgui341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_imgcodecs341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_imgproc341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_ml341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_objdetect341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_photo341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_shape341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_stitching341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_superres341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_text341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_tracking341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_video341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_videoio341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_videostab341d.dll $(OutDir)..\..\..\..\KioskMain\bin\Debug</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

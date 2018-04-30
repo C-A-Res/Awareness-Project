@@ -11,19 +11,13 @@
 #pragma warning(pop)
 
 
-namespace Microsoft
+namespace NU
 {
-	namespace Psi
+	namespace Kiosk
 	{
-		namespace Samples
-		{
-			namespace OpenCV
-			{
 				void CascadeClassifierUnm::setFaceDetector()
 				{
 					this->face_cas.load("C:/cv341/opencv/sources/data/haarcascades/haarcascade_frontalface_alt.xml");
 				}
-			}
-		}
 	}
 }

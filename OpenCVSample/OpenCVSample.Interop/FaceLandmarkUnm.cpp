@@ -11,14 +11,10 @@
 #pragma warning(pop)
 
 
-namespace Microsoft
+namespace NU
 {
-	namespace Psi
+	namespace Kiosk
 	{
-		namespace Samples
-		{
-			namespace OpenCV
-			{
 				void FaceLandmarkUnm::setFaceLandmark()
 				{
 					cv::face::FacemarkKazemi::Params params;
@@ -27,7 +23,5 @@ namespace Microsoft
 					this->face_landmark = cv::face::FacemarkLBF::create();
 					this->face_landmark->loadModel("C:/cv341/data/face-alignment/model/lbfmodel.yaml");
 				}
-			}
-		}
 	}
 }

@@ -1,32 +1,122 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace NU.Kiosk
 {
+    using System;
+    using System.Diagnostics;
+    using System.Windows;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
     using Microsoft.Psi;
+    using Microsoft.Psi.Imaging;
+    using Microsoft.Psi.Media;
     using Microsoft.Psi.Audio;
     using Microsoft.Psi.Data;
     using Microsoft.Psi.Speech;
     using Microsoft.Psi.Visualization.Client;
-    using NU.Kqml;
+
+
+    public static class OpenCV
+    {
+        /// <summary>
+        /// Helper to wrap a Psi Image into an ImageBuffer suitable for passing to our C++ interop layer
+        /// </summary>
+        /// <param name="source">Image to wrap</param>
+        /// <returns>A Psi image wrapped as an ImageBuffer</returns>
+        public static ImageBuffer ToImageBuffer(this Shared<Image> source)
+        {
+            return new ImageBuffer(source.Resource.Width, source.Resource.Height, source.Resource.ImageData, source.Resource.Stride);
+        }
+
+        /// <summary>
+        /// Here we define an Psi extension. This extension will take a stream of images (source)
+        /// and create a new stream of converted images.
+        /// </summary>
+        /// <param name="source">Our source producer (source stream of image samples)</param>
+        /// <param name="f">A wapper face classifier object (null means use the default)</param>
+        /// <param name="framecount">A integer to control the frame number</param>
+        /// <param name="deliveryPolicy">Our delivery policy (null means use the default)</param>
+        /// <returns>The new stream of converted images.</returns>
+        public static IProducer<Shared<Image>> ToGrayViaOpenCV(this IProducer<Shared<Image>> source, FaceCasClassifier f = null, DeliveryPolicy deliveryPolicy = null)
+        {
+            // Process informs the pipeline that we want to call our lambda ("(srcImage, env, e) =>{...}") with each image
+            // from the stream.
+            return source.Process<Shared<Image>, Shared<Image>>(
+                (srcImage, env, e) =>
+                {
+                    // Our lambda here is called with each image sample from our stream and calls OpenCV to convert
+                    // the image into a grayscale image. We then post the resulting gray scale image to our event queu
+                    // so that the Psi pipeline will send it to the next component.
+
+                    // Have Psi allocate a new image. We will convert the current image ('srcImage') into this new image.
+                    using (var destImage = ImagePool.GetOrCreate(srcImage.Resource.Width, srcImage.Resource.Height, PixelFormat.Gray_8bpp))
+                    {
+                        // Call into our OpenCV wrapper to convert the source image ('srcImage') into the newly created image ('destImage')
+                        // Note: since srcImage & destImage are Shared<> we need to access the Microsoft.Psi.Imaging.Image data via the Resource member
+                        OpenCVMethods.ToGray(srcImage.ToImageBuffer(), destImage.ToImageBuffer(), f, ref Program.DisNose, ref Program.DisLipMiddle, ref Program.DisLipRight, ref Program.DisLipLeft);
+
+                        // Debug.WriteLine(MainWindow.MouthOpen);
+                        e.Post(destImage, env.OriginatingTime);
+                    }
+                }, deliveryPolicy);
+        }
+    }
+
 
     class Program
     {
         private static string AppName = "Kiosk";
 
+        public static double DisNose;
+        public static double DisLipMiddle;
+        public static double DisLipRight;
+        public static double DisLipLeft;
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Starting");
+            DisNose = 0.0;
+            DisLipMiddle = 0.0;
+            DisLipRight = 0.0;
+            DisLipLeft = 0.0;
+            bool exit = false;
 
+            Console.WriteLine("Starting");
+            Console.WriteLine();
+            while (!exit)
+            {
+                Console.WriteLine("================================================================================");
+                Console.WriteLine("                               Kiosk Awareness sample");
+                Console.WriteLine("================================================================================");
+                Console.WriteLine("1) Start listening and looking. ");
+                Console.WriteLine("Q) QUIT");
+                Console.Write("Enter selection: ");
+                ConsoleKey key = Console.ReadKey().Key;
+                Console.WriteLine();
+                exit = false;
+
+                if (key == ConsoleKey.D1)
+                {
+                    StartListeningAndLooking(args);
+                }
+                else
+                {
+                    exit = true;
+                }
+
+            }
+        }
+
+        public static void StartListeningAndLooking(string[] args)
+        {
             using (Pipeline pipeline = Pipeline.Create())
             {
                 bool usingKqml = false;
                 string facilitatorIP = null;
                 int facilitatorPort = -1;
                 int localPort = -1;
+
                 if (args.Length > 0)
                 {
                     if (args.Length < 3)
@@ -49,10 +139,10 @@ namespace NU.Kiosk
                 DateTime startTime = DateTime.Now;
 
                 // Use either live audio from the microphone or audio from a previously saved log
-                IProducer<AudioBuffer> audioInput = setupAudioInput(pipeline, inputLogPath, ref startTime);
+                IProducer<AudioBuffer> audioInput = SetupAudioInput(pipeline, inputLogPath, ref startTime);
 
                 // Create our webcam
-                MediaCapture webcam = new MediaCapture(this.pipeline, 640, 480, 10);
+                MediaCapture webcam = new MediaCapture(pipeline, 640, 480, 10);
 
                 FaceCasClassifier f = new FaceCasClassifier();
 
@@ -61,31 +151,33 @@ namespace NU.Kiosk
 
                 // Bind the webcam's output to our display image.
                 // The "Do" operator is executed on each sample from the stream (webcam.Out), which are the images coming from the webcam
-                webcam.Out.ToGrayViaOpenCV(f).Do(
-                    (img, e) =>
+                var mouthOpenAsBool = webcam.Out.ToGrayViaOpenCV(f).Select(
+                (img, e) =>
+                {
+                    // Debug.WriteLine(FrameCount % 10);
+                    bool mouthOpen = false;
+                    if ((Math.Abs(DisNose) / (4 * Math.Abs(DisLipMiddle))) < 0.7)
                     {
-                        string mouthOpen = "Close";
-                        if ((Math.Abs(DisNose) / (4 * Math.Abs(DisLipMiddle))) < 1)
-                        {
-                            mouthOpen = "Open";
-                        }
-                        else
-                        {
-                            mouthOpen = "Close";
-                        }
-                        Console.WriteLine(Math.Abs(DisLipMiddle) + " " + Math.Abs(DisLipRight) + " " + Math.Abs(DisLipLeft) + " " + (Math.Abs(DisNose) / (4 * Math.Abs(DisLipMiddle))) + " " + mouthOpen);
-                        return mouthOpen;
-                    });
+                        mouthOpen = true;
+                    }
+                    else
+                    {
+                        mouthOpen = false;
+                    }
+                    // Console.WriteLine(Math.Abs(DisLipMiddle) + " " + Math.Abs(DisLipRight) + " " + Math.Abs(DisLipLeft) + " " + (Math.Abs(DisNose) / (4 * Math.Abs(DisLipMiddle))) + " " + mouthOpen);
 
-                IProducer<bool> mouthSignal = null;
-                var mouthAndSpeech = mouthSignal.Join(audioInput);
+                    return mouthOpen;
+                });
 
-                SystemSpeechRecognizer recognizer = setupSpeechRecognizer(pipeline);
+                var mouthAndSpeech = audioInput.Pair(mouthOpenAsBool).Where(t => true).Select(t => {
+                    return t.Item1;
+                }
+                );
+
+                SystemSpeechRecognizer recognizer = SetupSpeechRecognizer(pipeline);
 
                 // Subscribe the recognizer to the input audio
-                mouthAndSpeech.Where(x => x.Item1).Select(y => {
-                    return y.Item2;
-                }).PipeTo(recognizer);
+                mouthAndSpeech.PipeTo(recognizer);
                 //audioInput.PipeTo(recognizer);
 
                 // Partial and final speech recognition results are posted on the same stream. Here
@@ -107,13 +199,16 @@ namespace NU.Kiosk
                 });
 
                 // Setup KQML connection to Companion
+
+                /*
                 SocketStringConsumer kqml = null;
                 if (usingKqml)
                 {
                     kqml = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
-                    
+
                     text.PipeTo(kqml.In)
                 }
+                */
 
                 // Create a data store to log the data to if necessary. A data store is necessary
                 // only if output logging or live visualization are enabled.
@@ -157,11 +252,11 @@ namespace NU.Kiosk
                 Console.WriteLine("Press any key to exit...");
                 Console.ReadKey(true);
 
-                if (kqml != null) kqml.Stop();
+               // if (kqml != null) kqml.Stop();
             }
         }
 
-        private static SystemSpeechRecognizer setupSpeechRecognizer(Pipeline pipeline)
+        private static SystemSpeechRecognizer SetupSpeechRecognizer(Pipeline pipeline)
         {
             // Create System.Speech recognizer component
             return new SystemSpeechRecognizer(
@@ -177,7 +272,7 @@ namespace NU.Kiosk
                 });
         }
 
-        private static IProducer<AudioBuffer> setupAudioInput(Pipeline pipeline, string inputLogPath, ref DateTime startTime)
+        private static IProducer<AudioBuffer> SetupAudioInput(Pipeline pipeline, string inputLogPath, ref DateTime startTime)
         {
             IProducer<AudioBuffer> audioInput = null;
             if (inputLogPath != null)

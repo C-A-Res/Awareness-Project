@@ -14,14 +14,10 @@
 #include "ImageBuffer.h"
 #include "FaceCasClassifier.h"
 
-namespace Microsoft
+namespace NU
 {
-	namespace Psi
+	namespace Kiosk
 	{
-		namespace Samples
-		{
-			namespace OpenCV
-			{
 				public ref class OpenCVMethods
 				{
 					// helper function
@@ -106,7 +102,5 @@ namespace Microsoft
 						delete &matImg;
 					}
 				};
-			}
-		}
 	}
 }
