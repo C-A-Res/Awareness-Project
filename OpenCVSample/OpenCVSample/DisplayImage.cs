@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Microsoft.Psi.Samples.OpenCV
+namespace NU.Kiosk
 {
     using System;
     using System.ComponentModel;
@@ -9,13 +9,14 @@ namespace Microsoft.Psi.Samples.OpenCV
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using Microsoft.Psi;
+    using Microsoft.Psi.Imaging;
 
     /// <summary>
     /// DisplayImage is a helper class that is used to bind a WPF <image/> to a Psi image.
     /// </summary>
     public class DisplayImage : INotifyPropertyChanged
     {
-        private Shared<Imaging.Image> psiImage;
+        private Shared<Image> psiImage;
         private FrameCounter renderedFrames = new FrameCounter();
         private FrameCounter receivedFrames = new FrameCounter();
         private WriteableBitmap image;
@@ -80,7 +81,7 @@ namespace Microsoft.Psi.Samples.OpenCV
         /// update its display.
         /// </summary>
         /// <param name="dispImage">The image to display.</param>
-        public void UpdateImage(Shared<Imaging.Image> dispImage)
+        public void UpdateImage(Shared<Image> dispImage)
         {
             lock (this)
             {
@@ -106,26 +107,26 @@ namespace Microsoft.Psi.Samples.OpenCV
                             || this.Image.PixelHeight != this.psiImage.Resource.Height
                             || this.Image.BackBufferStride != this.psiImage.Resource.Stride)
                     {
-                        PixelFormat pixelFormat;
+                        System.Windows.Media.PixelFormat pixelFormat;
                         switch (this.psiImage.Resource.PixelFormat)
                         {
-                            case Imaging.PixelFormat.Gray_8bpp:
+                            case Microsoft.Psi.Imaging.PixelFormat.Gray_8bpp:
                                 pixelFormat = PixelFormats.Gray8;
                                 break;
 
-                            case Imaging.PixelFormat.Gray_16bpp:
+                            case Microsoft.Psi.Imaging.PixelFormat.Gray_16bpp:
                                 pixelFormat = PixelFormats.Gray16;
                                 break;
 
-                            case Imaging.PixelFormat.BGR_24bpp:
+                            case Microsoft.Psi.Imaging.PixelFormat.BGR_24bpp:
                                 pixelFormat = PixelFormats.Bgr24;
                                 break;
 
-                            case Imaging.PixelFormat.BGRX_32bpp:
+                            case Microsoft.Psi.Imaging.PixelFormat.BGRX_32bpp:
                                 pixelFormat = PixelFormats.Bgr32;
                                 break;
 
-                            case Imaging.PixelFormat.BGRA_32bpp:
+                            case Microsoft.Psi.Imaging.PixelFormat.BGRA_32bpp:
                                 pixelFormat = PixelFormats.Bgra32;
                                 break;
                             default:

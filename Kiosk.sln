@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KioskMain", "KioskMain\Kios
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenCVSample.Interop", "OpenCVSample\OpenCVSample.Interop\OpenCVSample.Interop.vcxproj", "{0C0D11F0-04C4-41D3-AF43-7C2ACA90214A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KioskVisualization", "OpenCVSample\OpenCVSample\KioskVisualization.csproj", "{A04D4DFC-2843-4BC4-96A0-F03631700506}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,14 @@ Global
 		{0C0D11F0-04C4-41D3-AF43-7C2ACA90214A}.Release|Any CPU.ActiveCfg = Release|x64
 		{0C0D11F0-04C4-41D3-AF43-7C2ACA90214A}.Release|x64.ActiveCfg = Release|x64
 		{0C0D11F0-04C4-41D3-AF43-7C2ACA90214A}.Release|x64.Build.0 = Release|x64
+		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Debug|x64.Build.0 = Debug|Any CPU
+		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Release|x64.ActiveCfg = Release|Any CPU
+		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

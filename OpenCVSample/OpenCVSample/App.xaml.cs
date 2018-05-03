@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Microsoft.Psi.Samples.OpenCVSample
+namespace NU.Kiosk
 {
     using System.Windows;
 

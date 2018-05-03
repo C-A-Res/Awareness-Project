@@ -1,0 +1,1756 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Psi.Extensions</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Psi.Extensions.Annotations.AnnotatedEvent">
+            <summary>
+            Represents an time-based event that has one or more annotations.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotatedEvent.#ctor(System.DateTime,System.DateTime)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotatedEvent"/> class.
+            </summary>
+            <param name="startTime">The start time of the annotated event.</param>
+            <param name="endTime">The end time of the annotated event.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotatedEvent.Annotations">
+            <summary>
+            Gets the collection of annotations.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotatedEvent.Duration">
+            <summary>
+            Gets the duration of the annotated event.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotatedEvent.EndTime">
+            <summary>
+            Gets or sets the end time of the annotated event.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotatedEvent.StartTime">
+            <summary>
+            Gets or sets the start time of the annotated event.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotatedEvent.AddAnnotation(System.String,Microsoft.Psi.Extensions.Annotations.AnnotationSchema)">
+            <summary>
+            Adds a new annotation to the annotated event.
+            </summary>
+            <param name="value">Value of the annotation.</param>
+            <param name="schema">Schema of the annotation.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotatedEvent.RemoveAnnotation(System.Int32)">
+            <summary>
+            Remove the indicated annotation from this annotated event.
+            </summary>
+            <param name="index">The index of the annotation to remove.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotatedEvent.SetAnnotation(System.Int32,System.String,Microsoft.Psi.Extensions.Annotations.AnnotationSchema)">
+            <summary>
+            Sets an annotation on the annotated event.
+            </summary>
+            <param name="index">The index of the annotation to set.</param>
+            <param name="value">Value of the annotation.</param>
+            <param name="schema">Schema of the annotation.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotatedEvent.InitNew">
+            <summary>
+            Overridable method to allow derived object to initialize properties as part of object construction or after deserialization.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Annotations.AnnotatedEventDefinition">
+            <summary>
+            Represents a set of annotation schemas that can define an annotated event.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotatedEventDefinition.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotatedEventDefinition"/> class.
+            </summary>
+            <param name="name">The name of the annotation schema.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotatedEventDefinition.Name">
+            <summary>
+            Gets or sets the name of the annotation.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotatedEventDefinition.Schemas">
+            <summary>
+            Gets the collection of annotation schemas.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotatedEventDefinition.CreateAnnotatedEvent(System.DateTime,System.DateTime)">
+            <summary>
+            Creates a new annotated event using this defintion.
+            </summary>
+            <param name="startTime">The start time of the annotated event.</param>
+            <param name="endTime">The end time of the annotated event.</param>
+            <returns>A new instance of the <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotatedEvent"/> class.</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Annotations.AnnotationExporter">
+            <summary>
+            Component that writes messages to a Annotation store.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationExporter.#ctor(Microsoft.Psi.Pipeline,System.String,System.String,Microsoft.Psi.Extensions.Annotations.AnnotatedEventDefinition,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationExporter"/> class.
+            </summary>
+            <param name="pipeline">The pipeline that owns this instance.</param>
+            <param name="name">The name of the application that generated the persisted files, or the root name of the files</param>
+            <param name="path">The directory in which the main persisted file resides or will reside, or null to create a volatile data store</param>
+            <param name="definition">The annotated event definition used to create and validate annotated events for this store.</param>
+            <param name="createSubdirectory">If true, a numbered sub-directory is created for this store</param>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Annotations.AnnotationGenerator">
+            <summary>
+            Defines a component that plays back data from a JSON store.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationGenerator.#ctor(Microsoft.Psi.Pipeline,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationGenerator"/> class.
+            </summary>
+            <param name="pipeline">Pipeline this component is a part of.</param>
+            <param name="name">The name of the application that generated the persisted files, or the root name of the files.</param>
+            <param name="path">The directory in which the main persisted file resides.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Annotations.AnnotationSchema">
+            <summary>
+            Represents an annotation schema that can be used when adding an annotation to a time-based annotated event.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSchema.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationSchema"/> class.
+            </summary>
+            <param name="name">The name of the annotation schema.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotationSchema.Name">
+            <summary>
+            Gets or sets the name of the annotation schema.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotationSchema.Dynamic">
+            <summary>
+            Gets or sets a value indicating whether the annotation schema is dynamic (i.e. new values can be added).
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotationSchema.Values">
+            <summary>
+            Gets the collection of annotation schema values that define this annotation schema.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotationSchema.InternalValues">
+            <summary>
+            Gets the collection of values that define this annotation schema.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSchema.AddSchemaValue(System.String,System.Drawing.Color,System.String)">
+            <summary>
+            Creates and adds a new annotation schema value to the current annotation schema.
+            </summary>
+            <param name="value">The value of the annotation schema value.</param>
+            <param name="color">The color to use when displaying annotations of this value</param>
+            <param name="description">The description of this annotation schema value.</param>
+            <returns>The newly added annotation schema value.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSchema.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSchema.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSchema.IsValidValue(System.String)">
+            <summary>
+            Determines if the given value is a valid value of an annotation schema value found in this annotation schema.
+            </summary>
+            <param name="value">The value of an annotation schema value to validate.</param>
+            <returns>true if the specified value is found in one of the current annotation schema values; otherwise, false.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSchema.RemoveSchemaValue(Microsoft.Psi.Extensions.Annotations.AnnotationSchemaValue)">
+            <summary>
+            Removes an annotation schema value from the current annotation schema.
+            </summary>
+            <param name="schemaValue">The annotation schema value to remove from teh current annotation schema.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Annotations.AnnotationSchemaRegistry">
+            <summary>
+            Provides a singleton resistry for annotation schemas.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Annotations.AnnotationSchemaRegistry.Default">
+            <summary>
+            The singleton instance of the <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationSchemaRegistry"/>.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotationSchemaRegistry.Schemas">
+            <summary>
+            Gets collection of annotation schemas.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSchemaRegistry.Register(Microsoft.Psi.Extensions.Annotations.AnnotationSchema)">
+            <summary>
+            Registers an annotation schema with the registry.
+            </summary>
+            <param name="schema">The annotation schema to register.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSchemaRegistry.Unregister(Microsoft.Psi.Extensions.Annotations.AnnotationSchema)">
+            <summary>
+            Unregisters an annotation schema with the registry.
+            </summary>
+            <param name="schema">The annotation schema to unregister.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSchemaRegistry.InitNew">
+            <summary>
+            Overridable method to allow derived object to initialize properties as part of object construction or after deserialization.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Annotations.AnnotationSchemaValue">
+            <summary>
+            Represents an annotation schema value that can be used to construct an annotation schema.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSchemaValue.#ctor(System.String,System.Drawing.Color,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationSchemaValue"/> class.
+            </summary>
+            <param name="value">The value of this annotation schema value.</param>
+            <param name="color">The color to use when displaying annotations of this value.</param>
+            <param name="description">The description of this annotation schema value.</param>
+            <param name="shortcut">The keyboard shortcut of this annotation schema value.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotationSchemaValue.Color">
+            <summary>
+            Gets or sets the color to use when displaying annotations of this value.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotationSchemaValue.Description">
+            <summary>
+            Gets or sets the description of this annotation schema value.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotationSchemaValue.Shortcut">
+            <summary>
+            Gets or sets the keyboard shortcut of this annotation schema value.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotationSchemaValue.Value">
+            <summary>
+            Gets or sets the value of this annotation schema value.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSchemaValue.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSchemaValue.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleReader">
+            <summary>
+            Represents the default simple reader for Annotation data stores.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleReader.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleReader"/> class.
+            </summary>
+            <param name="name">The name of the application that generated the persisted files, or the root name of the files</param>
+            <param name="path">The directory in which the main persisted file resides or will reside, or null to create a volatile data store</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleReader.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleReader"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleReader.#ctor(Microsoft.Psi.Extensions.Annotations.AnnotationSimpleReader)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleReader"/> class.
+            </summary>
+            <param name="that">Existing <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleReader"/> used to initialize new instance.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleReader.Definition">
+            <summary>
+            Gets the annotated event definition for this store.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleReader.OpenNew">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleReader.OpenStore(System.String,System.String,Microsoft.Psi.Serialization.KnownSerializers)">
+            <inheritdoc />
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleWriter">
+            <summary>
+            Represents the default simple writer for Annotation data stores.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleWriter.#ctor(System.String,System.String,Microsoft.Psi.Extensions.Annotations.AnnotatedEventDefinition,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleWriter"/> class.
+            </summary>
+            <param name="name">The name of the application that generated the persisted files, or the root name of the files.</param>
+            <param name="path">The directory in which the main persisted file resides or will reside, or null to create a volatile data store.</param>
+            <param name="definition">The annotated event definition used to create and validate annotated events for this store.</param>
+            <param name="createSubdirectory">If true, a numbered subdirectory is created for this store.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleWriter.#ctor(Microsoft.Psi.Extensions.Annotations.AnnotatedEventDefinition)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleWriter"/> class.
+            </summary>
+            <param name="definition">The annotated event definition used to create and validate annotated events for this store.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleWriter.Definition">
+            <summary>
+            Gets the annotated event definition for this store.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationSimpleWriter.CreateStore(System.String,System.String,System.Boolean,Microsoft.Psi.Serialization.KnownSerializers)">
+            <inheritdoc />
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Annotations.AnnotationStore">
+            <summary>
+            Provides static methods to access Annotation stores.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationStore.Create(Microsoft.Psi.Pipeline,System.String,System.String,Microsoft.Psi.Extensions.Annotations.AnnotatedEventDefinition,System.Boolean)">
+            <summary>
+            Creates a new Annotation store and returns an <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationExporter"/> instance which can be used to write streams to this store.
+            </summary>
+            <param name="pipeline">The <see cref="T:Microsoft.Psi.Pipeline"/> that owns the <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationExporter"/></param>
+            <param name="name">The name of the store to create</param>
+            <param name="path">The path to use. If null, an in-memory store is created.</param>
+            <param name="definition">The annotated event definition used to create and validate annotated events for this store.</param>
+            <param name="createSubdirectory">Indicates whether to create a numbered subdirectory for each execution of the pipeline.</param>
+            <returns>An <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationExporter"/> instance that can be used to write streams.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationStore.Open(Microsoft.Psi.Pipeline,System.String,System.String)">
+            <summary>
+            Opens a Annotation store for read and returns an <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationGenerator"/> instance which can be used to inspect the store and open the streams.
+            </summary>
+            <param name="pipeline">The <see cref="T:Microsoft.Psi.Pipeline"/> that owns the <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationGenerator"/></param>
+            <param name="name">The name of the application that generated the persisted files, or the root name of the files</param>
+            <param name="path">The directory in which the main persisted file resides.</param>
+            <returns>A <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationGenerator"/> instance that can be used to open streams and read messages.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationStore.Write``1(Microsoft.Psi.IProducer{``0},System.String,Microsoft.Psi.Extensions.Annotations.AnnotationExporter,Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Writes the specified stream to a Annotation store.
+            </summary>
+            <typeparam name="TIn">The type of messages in the stream</typeparam>
+            <param name="source">The source stream to write</param>
+            <param name="name">The name of the persisted stream.</param>
+            <param name="writer">The store writer, created by e.g. <see cref="M:Microsoft.Psi.Extensions.Annotations.AnnotationStore.Create(Microsoft.Psi.Pipeline,System.String,System.String,Microsoft.Psi.Extensions.Annotations.AnnotatedEventDefinition,System.Boolean)"/></param>
+            <param name="policy">An optional delivery policy</param>
+            <returns>The input stream</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Annotations.AnnotationStoreCommon">
+            <summary>
+            Represents the common elements of Annotation data stores.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Annotations.AnnotationStoreCommon.AnnotationSchema">
+            <summary>
+            JSON Schema for validating annotations.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Annotations.AnnotationStoreCommon.DataSchema">
+            <summary>
+            JSON Schema for validating annotation data.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Annotations.AnnotationStoreCommon.DefaultExtension">
+            <summary>
+            Default extension for Annotation stores.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Annotations.AnnotationStoreCommon.DefinitionSchema">
+            <summary>
+            JSON Schema for validating annotation definitions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Annotations.AnnotationStoreCommon.MessageSchema">
+            <summary>
+            JSON Schema for validating annotation messages.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Annotations.AnnotationStoreCommon.AnnotationSchemaUri">
+            <summary>
+            URI to annotation schema.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Annotations.AnnotationStoreCommon.DataSchemaUri">
+            <summary>
+            URI to annotation data schema.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Annotations.AnnotationStoreCommon.DefinitionSchemaUri">
+            <summary>
+            URI to annotation definition schema.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Annotations.AnnotationStoreCommon.MessageSchemaUri">
+            <summary>
+            URI to annotation message schema.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Annotations.AnnotationStoreCommon.PreloadSchemas">
+            <summary>
+            Preloaded JSON Schemas suitable for reading and writing Annotation stores.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationStoreCommon.GetDefinitionFileName(System.String)">
+            <summary>
+            Gets the definition file name for the specified application.
+            </summary>
+            <param name="appName">The name of the application.</param>
+            <returns>The definition file name.</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Annotations.AnnotationStoreReader">
+            <summary>
+            Represents a reader for Annotation stores.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationStoreReader.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationStoreReader"/> class.
+            </summary>
+            <param name="name">The name of the application that generated the persisted files, or the root name of the files</param>
+            <param name="path">The directory in which the main persisted file resides or will reside, or null to create a volatile data store</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotationStoreReader.Definition">
+            <summary>
+            Gets the annotated event definition for this store.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Annotations.AnnotationStoreWriter">
+            <summary>
+            Represents a writer for Annotation stores.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Annotations.AnnotationStoreWriter.#ctor(System.String,System.String,Microsoft.Psi.Extensions.Annotations.AnnotatedEventDefinition,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Annotations.AnnotationStoreWriter"/> class.
+            </summary>
+            <param name="name">The name of the application that generated the persisted files, or the root name of the files.</param>
+            <param name="path">The directory in which the main persisted file resides or will reside, or null to create a volatile data store.</param>
+            <param name="definition">The annotated event definition used to create and validate annotated events for this store.</param>
+            <param name="createSubdirectory">If true, a numbered subdirectory is created for this store.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Annotations.AnnotationStoreWriter.Definition">
+            <summary>
+            Gets the annotated event definition for this store.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Base.ObservableObject">
+            <summary>
+            Provides an implementation of <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> and <see cref="T:System.ComponentModel.INotifyPropertyChanging"/> for use in implementing bindable objects.
+            </summary>
+        </member>
+        <member name="E:Microsoft.Psi.Extensions.Base.ObservableObject.PropertyChanged">
+            <inheritdoc />
+        </member>
+        <member name="E:Microsoft.Psi.Extensions.Base.ObservableObject.PropertyChanging">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Base.ObservableObject.RaisePropertyChanged(System.String)">
+            <summary>
+            Raises the property changed event for the specified property.
+            </summary>
+            <param name="propertyName">The name of the property that has changed.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Base.ObservableObject.RaisePropertyChanging(System.String)">
+            <summary>
+            Raises the property changing event for the specified property.
+            </summary>
+            <param name="propertyName">The name of the property that is about to be changed.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Base.ObservableObject.Set``1(System.String,``0@,``0)">
+            <summary>
+            Sets the value of the specified property and raises the appropriate events.
+            </summary>
+            <typeparam name="T">The type of the property to be set.</typeparam>
+            <param name="propertyName">The name of the property to be set.</param>
+            <param name="property">A reference to the property to be set.</param>
+            <param name="value">The value to set the property to.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.AnnotationPartition">
+            <summary>
+            Represents a partition from an annotation store.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.AnnotationPartition.Create(Microsoft.Psi.Extensions.Data.Session,System.String,System.String,Microsoft.Psi.Extensions.Annotations.AnnotatedEventDefinition,System.String)">
+            <summary>
+            Creates a new annotation partition given the specified parameters.
+            </summary>
+            <param name="session">The session that this partition belongs to.</param>
+            <param name="storeName">The store name of this partition.</param>
+            <param name="storePath">The store path of this partition.</param>
+            <param name="definition">The annotated event definition to use when creating new annotated events in this partition.</param>
+            <param name="name">The partition name.</param>
+            <returns>The newly created annotation partition.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.AnnotationPartition.CreateFromExistingStore(Microsoft.Psi.Extensions.Data.Session,System.String,System.String,System.String)">
+            <summary>
+            Creates a new annotation partition given the specified parameters.
+            </summary>
+            <param name="session">The session that this partition belongs to.</param>
+            <param name="storeName">The store name of this partition.</param>
+            <param name="storePath">The store path of this partition.</param>
+            <param name="name">The partition name.</param>
+            <returns>The newly created annotation partition.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.AnnotationPartition.InitNew">
+            <summary>
+            Overridable method to allow derived object to initialize properties as part of object construction or after deserialization.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.Dataset">
+            <summary>
+            Represents a dataset (collection of sessions) to be reasoned over.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Data.Dataset.DefaultName">
+            <summary>
+            Default name of a dataset.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.Dataset.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.Dataset"/> class.
+            </summary>
+            <param name="name">The name of the new dataset. Default is <see cref="F:Microsoft.Psi.Extensions.Data.Dataset.DefaultName"/>.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.Dataset.CurrentSession">
+            <summary>
+            Gets or sets the current session for this dataset.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.Dataset.FileName">
+            <summary>
+            Gets the filename of this dataset.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.Dataset.Name">
+            <summary>
+            Gets or sets the name of this dataset.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.Dataset.OriginatingTimeInterval">
+            <summary>
+            Gets or sets the orginating time interval (earliest to latest) of the messages in this dataset.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.Dataset.Sessions">
+            <summary>
+            Gets the collection of sessions in this dataset.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.Dataset.Load(System.String)">
+            <summary>
+            Loads a dataset from the specified file.
+            </summary>
+            <param name="filename">The name of the file that contains the dataset to be loaded.</param>
+            <returns>The newly loaded dataset.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.Dataset.CreateFromExistingStore(System.String,System.String,System.String)">
+            <summary>
+            Creates a new dataset from an exising data store.
+            </summary>
+            <param name="storeName">The name of the data store.</param>
+            <param name="storePath">The path of the data store.</param>
+            <param name="partitionName">The partition name.</param>
+            <returns>The newly created dataset.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.Dataset.CreateSession">
+            <summary>
+            Creates a new session within the dataset.
+            </summary>
+            <returns>The newly created session.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.Dataset.RemoveSession(Microsoft.Psi.Extensions.Data.Session)">
+            <summary>
+            Removes the specified session from the dataset.
+            </summary>
+            <param name="session">The session to remove.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.Dataset.Save(System.String)">
+            <summary>
+            Saves this dataset to the specified file.
+            </summary>
+            <param name="filename">The name of the file to save this dataet into.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.Dataset.AddSessionFromExistingStore(System.String,System.String,System.String,System.String)">
+            <summary>
+            Creates and adds a session to this dataset using the specified parameters.
+            </summary>
+            <param name="sessionName">The name of the session.</param>
+            <param name="storeName">The name of the data store.</param>
+            <param name="storePath">The path of the data store.</param>
+            <param name="partitionName">The partition name.</param>
+            <returns>The newly added session.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.Dataset.Run(System.Action{Microsoft.Psi.Pipeline,Microsoft.Psi.Extensions.Data.SessionImporter})">
+            <summary>
+            Runs the specified importer action over each session in the dataset.
+            </summary>
+            <param name="action">The action to run over a session.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.DatasetTools">
+            <summary>
+            Defines tools that are helpful in working with datasets.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.DatasetTools.ComputeDerived``1(Microsoft.Psi.Extensions.Data.Dataset,System.Action{Microsoft.Psi.Pipeline,Microsoft.Psi.Extensions.Data.SessionImporter,``0})">
+            <summary>
+            Compute derived results for each session in the dataset.
+            </summary>
+            <typeparam name="TResult">The type of data of the derived result.</typeparam>
+            <param name="dataset">The dataset over which to derive results.</param>
+            <param name="computeDerived">The action to be invoked to derive results.</param>
+            <returns>List of results.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.DatasetTools.CreateDerivedPartition(Microsoft.Psi.Extensions.Data.Dataset,System.Action{Microsoft.Psi.Pipeline,Microsoft.Psi.Extensions.Data.SessionImporter,Microsoft.Psi.Data.Exporter},System.String,System.Boolean,System.String,System.String,Microsoft.Psi.ReplayDescriptor)">
+            <summary>
+            Compute derived partion for each session in the dataset.
+            </summary>
+            <param name="dataset">The dataset over which to derive partitions.</param>
+            <param name="computeDerived">The action to be invoked to derive partitions.</param>
+            <param name="outputPartitionName">The output partition name to be created.</param>
+            <param name="overwrite">Flag indicating whether the partition should be overwritten. Default is false.</param>
+            <param name="outputStoreName">The name of the output data store. Default is null.</param>
+            <param name="outputStorePath">The path of the output data store. Default is null.</param>
+            <param name="replayDescriptor">The replay descriptor to us</param>
+            <returns>A dataset with the newly derived partitions.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.DatasetTools.CreateDerivedPartition``1(Microsoft.Psi.Extensions.Data.Dataset,System.Action{Microsoft.Psi.Pipeline,Microsoft.Psi.Extensions.Data.SessionImporter,Microsoft.Psi.Data.Exporter,``0},``0,System.String,System.Boolean,System.String,System.String,Microsoft.Psi.ReplayDescriptor)">
+            <summary>
+            Compute derived partion for each session in the dataset.
+            </summary>
+            <typeparam name="TParameter">The type of paramater passed to the action.</typeparam>
+            <param name="dataset">The dataset over which to derive partitions.</param>
+            <param name="computeDerived">The action to be invoked to derive partitions.</param>
+            <param name="parameter">The parameter to be passed to the action.</param>
+            <param name="outputPartitionName">The output partition name to be created.</param>
+            <param name="overwrite">Flag indicating whether the partition should be overwritten. Default is false.</param>
+            <param name="outputStoreName">The name of the output data store. Default is null.</param>
+            <param name="outputStorePath">The path of the output data store. Default is null.</param>
+            <param name="replayDescriptor">The replay descriptor to us</param>
+            <returns>A dataset with the newly derived partitions.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.DatasetTools.AddSessionsFromExistingStores(Microsoft.Psi.Extensions.Data.Dataset,System.String,System.String)">
+            <summary>
+            Adds sessions from data stores located in the specified path.
+            </summary>
+            <param name="dataset">The dataset to add sessions to.</param>
+            <param name="path">The path that contains the data stores.</param>
+            <param name="partitionName">The name of the partion to be added when adding a new session. Default is null.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.IPartition">
+            <summary>
+            Defines a partition that can be added to a session. A partition represents a single data stream in a data store.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IPartition.Name">
+            <summary>
+            Gets or sets the partition name.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IPartition.OriginatingTimeInterval">
+            <summary>
+            Gets the orginating time interval (earliest to latest) of the messages in this partition.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IPartition.Session">
+            <summary>
+            Gets or sets the session that this partition belongs to.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IPartition.StoreName">
+            <summary>
+            Gets the store name of this partition.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IPartition.StorePath">
+            <summary>
+            Gets the store path of this partition.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IPartition.SimpleReaderType">
+            <summary>
+            Gets the simple reader type
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.IPartition.RemovePartition">
+            <summary>
+            Removes this partition from the session that it belongs to.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.ISimpleWriter">
+            <summary>
+            Defines an interface for all simple writers of data stores.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.ISimpleWriter.Name">
+            <summary>
+            Gets the name of the data store.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.ISimpleWriter.Path">
+            <summary>
+            Gets the path of the data store.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.ISimpleWriter.CreateStore(System.String,System.String,System.Boolean,Microsoft.Psi.Serialization.KnownSerializers)">
+            <summary>
+            Creates the specified store.
+            </summary>
+            <param name="name">The name of the application that generated the persisted files, or the root name of the files.</param>
+            <param name="path">The directory in which the persisted file will reside.</param>
+            <param name="createSubdirectory">If true, a numbered subdirectory is created for this store</param>
+            <param name="serializers">Optional set of serialization configuration (known types, serializers, known assemblies)</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.ISimpleWriter.CreateStream``1(Microsoft.Psi.IStreamMetadata,System.Collections.Generic.IEnumerable{Microsoft.Psi.Message{``0}})">
+            <summary>
+            Creates a stream of messages in the data store.
+            </summary>
+            <typeparam name="TData">The underlying type of the messaging in the data store.</typeparam>
+            <param name="metadata">The metadata of the new stream.</param>
+            <param name="source">The source of message to be written to the data store.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.ISimpleWriter.WriteAll(Microsoft.Psi.ReplayDescriptor,System.Threading.CancellationToken)">
+            <summary>
+            Writes all of the created streams to the data store.
+            </summary>
+            <param name="descriptor">Replay descriptor defining the bounds to write.</param>
+            <param name="cancelationToken">The token to monitor for cancellation requests.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.IStreamTreeNode">
+            <summary>
+            Defines a node in a tree that holds information about data streams.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IStreamTreeNode.AverageLatency">
+            <summary>
+            Gets the average latency of the data stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IStreamTreeNode.AverageMessageSize">
+            <summary>
+            Gets the average message size of the data stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IStreamTreeNode.Children">
+            <summary>
+            Gets the collection of children for the this stream tree node.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IStreamTreeNode.Id">
+            <summary>
+            Gets the id of the data stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IStreamTreeNode.FirstMessageOriginatingTime">
+            <summary>
+            Gets the originating time of the first message in the data stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IStreamTreeNode.FirstMessageTime">
+            <summary>
+            Gets the time of the first message in the data stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IStreamTreeNode.LastMessageOriginatingTime">
+            <summary>
+            Gets the originating time of the last message in the data stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IStreamTreeNode.LastMessageTime">
+            <summary>
+            Gets the time of the last message in the data stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IStreamTreeNode.MessageCount">
+            <summary>
+            Gets the number of messages in the data stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IStreamTreeNode.Name">
+            <summary>
+            Gets the name of this stream tree node.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IStreamTreeNode.Partition">
+            <summary>
+            Gets the partition where this stream tree node can be found.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IStreamTreeNode.Path">
+            <summary>
+            Gets the path of the data stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IStreamTreeNode.StreamMetadata">
+            <summary>
+            Gets the stream metadata of the data stream.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IStreamTreeNode.StreamName">
+            <summary>
+            Gets the stream name of this stream tree node.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.IStreamTreeNode.TypeName">
+            <summary>
+            Gets the type of data of this stream tree node.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.IStreamTreeNode.AddPath(Microsoft.Psi.IStreamMetadata)">
+            <summary>
+            Adds a new store stream tree node based on the specified stream as child of this node.
+            </summary>
+            <param name="streamMetadata">The stream to add to the tree.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.JsonExporter">
+            <summary>
+            Component that writes messages to a multi-stream JSON store.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonExporter.#ctor(Microsoft.Psi.Pipeline,System.String,System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.JsonExporter"/> class.
+            </summary>
+            <param name="pipeline">The pipeline that owns this instance.</param>
+            <param name="name">The name of the application that generated the persisted files, or the root name of the files</param>
+            <param name="path">The directory in which the main persisted file resides or will reside, or null to create a volatile data store</param>
+            <param name="createSubdirectory">If true, a numbered sub-directory is created for this store</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonExporter.#ctor(Microsoft.Psi.Pipeline,Microsoft.Psi.Extensions.Data.JsonStoreWriter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.JsonExporter"/> class.
+            </summary>
+            <param name="pipeline">The pipeline that owns this instance.</param>
+            <param name="writer">The underlying store writer.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonExporter.Name">
+            <summary>
+            Gets the name of the store being written to
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonExporter.Path">
+            <summary>
+            Gets the path to the store being written to if the store is persisted to disk, or null if the store is volatile.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonExporter.Dispose">
+            <summary>
+            Closes the store.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonExporter.Write``1(Microsoft.Psi.Emitter{``0},System.String,Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Writes the specified stream to this multi-stream store.
+            </summary>
+            <typeparam name="T">The type of messages in the stream</typeparam>
+            <param name="source">The source stream to write</param>
+            <param name="name">The name of the persisted stream.</param>
+            <param name="policy">An optional delivery policy</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonExporter.Write(Microsoft.Psi.Emitter{Microsoft.Psi.Message{Newtonsoft.Json.Linq.JToken}},Microsoft.Psi.Extensions.Data.JsonStreamMetadata,Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Writes the specified stream to this multi-stream store.
+            </summary>
+            <param name="source">The source stream to write</param>
+            <param name="metadata">The stream metadata of the stream.</param>
+            <param name="policy">An optional delivery policy</param>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.JsonGenerator">
+            <summary>
+            Defines a component that plays back data from a JSON store.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonGenerator.#ctor(Microsoft.Psi.Pipeline,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.JsonGenerator"/> class.
+            </summary>
+            <param name="pipeline">Pipeline this component is a part of</param>
+            <param name="name">The name of the application that generated the persisted files, or the root name of the files.</param>
+            <param name="path">The directory in which the main persisted file resides.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonGenerator.#ctor(Microsoft.Psi.Pipeline,Microsoft.Psi.Extensions.Data.JsonStoreReader)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.JsonGenerator"/> class.
+            </summary>
+            <param name="pipeline">Pipeline this component is a part of.</param>
+            <param name="reader">The underlying store reader.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonGenerator.Name">
+            <summary>
+            Gets the name of the application that generated the persisted files, or the root name of the files.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonGenerator.Path">
+            <summary>
+            Gets the directory in which the main persisted file resides.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonGenerator.AvailableStreams">
+            <summary>
+            Gets an enumerable of stream metadata contained in the underlying data store.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonGenerator.OriginatingTimeInterval">
+            <summary>
+            Gets the orginating time interval (earliest to latest) of the messages in the underlying data store.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonGenerator.Contains(System.String)">
+            <summary>
+            Determines whether the underlying data store contains the specified stream.
+            </summary>
+            <param name="streamName">The name of the stream.</param>
+            <returns>true if store contains the specified stream, otherwise false.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonGenerator.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonGenerator.GetMetadata(System.String)">
+            <summary>
+            Gets the stream metadata for the specified stream.
+            </summary>
+            <param name="streamName">The name of the stream.</param>
+            <returns>The stream metadata.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonGenerator.OpenStream``1(System.String)">
+            <summary>
+            Opens the specified stream for reading and returns an emitter for use in the pipeline.
+            </summary>
+            <typeparam name="T">Type of data in underlying stream.</typeparam>
+            <param name="streamName">The name of the stream.</param>
+            <returns>The newly created emmitte that generates messages from the stream of type <typeparamref name="T"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonGenerator.GenerateNext(System.DateTime)">
+            <summary>
+            GenerateNext is called by the Generator base class when the next sample should be read
+            </summary>
+            <param name="previous">Time of previous sample</param>
+            <returns>Time for current sample</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.JsonSimpleReader">
+            <summary>
+            Represents a simple reader for JSON data stores.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleReader.#ctor(System.String,System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.Uri,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.JsonSimpleReader"/> class.
+            </summary>
+            <param name="name">The name of the application that generated the persisted files, or the root name of the files</param>
+            <param name="path">The directory in which the main persisted file resides or will reside, or null to create a volatile data store</param>
+            <param name="dataSchemaString">JSON schema used to validate data stream.</param>
+            <param name="extension">The extension for the underlying file.</param>
+            <param name="preloadSchemas">Dictionary of URis to JSON schemas to preload before validating any JSON. Would likely include schemas references by the catalog and data schemas.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleReader.#ctor(Microsoft.Psi.Extensions.Data.JsonSimpleReader)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.JsonSimpleReader"/> class.
+            </summary>
+            <param name="that">Existing <see cref="T:Microsoft.Psi.Extensions.Data.JsonSimpleReader"/> used to initialize new instance.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleReader.#ctor(System.String,System.String,System.Collections.Generic.IDictionary{System.Uri,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.JsonSimpleReader"/> class.
+            </summary>
+            <param name="dataSchemaString">JSON schema used to validate data stream.</param>
+            <param name="extension">The extension for the underlying file.</param>
+            <param name="preloadSchemas">Dictionary of URis to JSON schemas to preload before validating any JSON. Would likely include schemas references by the catalog and data schemas.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonSimpleReader.AvailableStreams">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonSimpleReader.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonSimpleReader.Path">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonSimpleReader.Reader">
+            <summary>
+            Gets or sets the underlying store reader.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleReader.CloseAllStreams">
+            <summary>
+            Closes all open streams.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleReader.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleReader.OpenNew">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleReader.OpenStore(System.String,System.String,Microsoft.Psi.Serialization.KnownSerializers)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleReader.OpenStream``1(System.String,System.Action{``0,Microsoft.Psi.Envelope},System.Func{``0})">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleReader.OpenStreamIndex``1(System.String,System.Action{Microsoft.Psi.Persistence.IndexEntry,Microsoft.Psi.Envelope})">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleReader.OriginatingTimeRange">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleReader.Read``1(Microsoft.Psi.Persistence.IndexEntry)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleReader.Read``1(Microsoft.Psi.Persistence.IndexEntry,``0@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleReader.ReadAll(Microsoft.Psi.ReplayDescriptor,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.JsonSimpleWriter">
+            <summary>
+            Represents a simple writer for JSON data stores.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleWriter.#ctor(System.String,System.String,System.String,System.Boolean,System.String,System.Collections.Generic.IDictionary{System.Uri,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.JsonSimpleWriter"/> class.
+            </summary>
+            <param name="name">The name of the application that generated the persisted files, or the root name of the files</param>
+            <param name="path">The directory in which the main persisted file resides or will reside, or null to create a volatile data store</param>
+            <param name="dataSchemaString">JSON schema used to validate data stream.</param>
+            <param name="createSubdirectory">If true, a numbered subdirectory is created for this store</param>
+            <param name="extension">The extension for the underlying file.</param>
+            <param name="preloadSchemas">Dictionary of URis to JSON schemas to preload before validating any JSON. Would likely include schemas references by the catalog and data schemas.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleWriter.#ctor(System.String,System.String,System.Collections.Generic.IDictionary{System.Uri,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.JsonSimpleWriter"/> class.
+            </summary>
+            <param name="dataSchemaString">JSON schema used to validate data stream.</param>
+            <param name="extension">The extension for the underlying file.</param>
+            <param name="preloadSchemas">Dictionary of URis to JSON schemas to preload before validating any JSON. Would likely include schemas references by the catalog and data schemas.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonSimpleWriter.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonSimpleWriter.Path">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonSimpleWriter.Writer">
+            <summary>
+            Gets or sets the underlying store writer.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleWriter.CreateStore(System.String,System.String,System.Boolean,Microsoft.Psi.Serialization.KnownSerializers)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleWriter.CreateStream``1(Microsoft.Psi.IStreamMetadata,System.Collections.Generic.IEnumerable{Microsoft.Psi.Message{``0}})">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleWriter.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonSimpleWriter.WriteAll(Microsoft.Psi.ReplayDescriptor,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.JsonStore">
+            <summary>
+            Provides static methods to access multi-stream JSON stores.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStore.Create(Microsoft.Psi.Pipeline,System.String,System.String,System.Boolean)">
+            <summary>
+            Creates a new multi-stream JSON store and returns an <see cref="T:Microsoft.Psi.Extensions.Data.JsonExporter"/> instance which can be used to write streams to this store.
+            </summary>
+            <param name="pipeline">The <see cref="T:Microsoft.Psi.Pipeline"/> that owns the <see cref="T:Microsoft.Psi.Extensions.Data.JsonExporter"/></param>
+            <param name="name">The name of the store to create</param>
+            <param name="rootPath">The path to use. If null, an in-memory store is created.</param>
+            <param name="createSubdirectory">Indicates whether to create a numbered subdirectory for each execution of the pipeline.</param>
+            <returns>An <see cref="T:Microsoft.Psi.Extensions.Data.JsonExporter"/> instance that can be used to write streams.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStore.Open(Microsoft.Psi.Pipeline,System.String,System.String)">
+            <summary>
+            Opens a multi-stream JSON store for read and returns an <see cref="T:Microsoft.Psi.Extensions.Data.JsonGenerator"/> instance which can be used to inspect the store and open the streams.
+            </summary>
+            <param name="pipeline">The <see cref="T:Microsoft.Psi.Pipeline"/> that owns the <see cref="T:Microsoft.Psi.Extensions.Data.JsonGenerator"/></param>
+            <param name="name">The name of the application that generated the persisted files, or the root name of the files</param>
+            <param name="path">The directory in which the main persisted file resides.</param>
+            <returns>A <see cref="T:Microsoft.Psi.Extensions.Data.JsonGenerator"/> instance that can be used to open streams and read messages.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStore.Write``1(Microsoft.Psi.IProducer{``0},System.String,Microsoft.Psi.Extensions.Data.JsonExporter,Microsoft.Psi.DeliveryPolicy)">
+            <summary>
+            Writes the specified stream to a multi-stream JSON store.
+            </summary>
+            <typeparam name="TIn">The type of messages in the stream</typeparam>
+            <param name="source">The source stream to write</param>
+            <param name="name">The name of the persisted stream.</param>
+            <param name="writer">The store writer, created by e.g. <see cref="M:Microsoft.Psi.Extensions.Data.JsonStore.Create(Microsoft.Psi.Pipeline,System.String,System.String,System.Boolean)"/></param>
+            <param name="policy">An optional delivery policy</param>
+            <returns>The input stream</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.JsonStoreBase">
+            <summary>
+            Represents the common elements of JSON data stores.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Data.JsonStoreBase.CatalogSchemaString">
+            <summary>
+            JSON Schema for validating catalogs.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Data.JsonStoreBase.DataSchemaString">
+            <summary>
+            JSON Schema for validating data streams.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Data.JsonStoreBase.DefaultExtension">
+            <summary>
+            Default extension for the underlying file.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Data.JsonStoreBase.EnvelopeSchemaString">
+            <summary>
+            JSON Schema for validating message envelopes.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Data.JsonStoreBase.MessageSchemaString">
+            <summary>
+            JSON Schema for validating messages.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Data.JsonStoreBase.MetadataSchemaString">
+            <summary>
+            JSON Schema for validating stream metadata.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Data.JsonStoreBase.CatalogSchemaUri">
+            <summary>
+            URI to catalog schema.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Data.JsonStoreBase.DataSchemaUri">
+            <summary>
+            URI to data stream schema.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Data.JsonStoreBase.EnvelopeSchemaUri">
+            <summary>
+            URI to message envelope schema.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Data.JsonStoreBase.MessageSchemaUri">
+            <summary>
+            URI to message schema.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Data.JsonStoreBase.MetadataSchemaUri">
+            <summary>
+            URI to stream metadata schema.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Data.JsonStoreBase.PreloadedResolver">
+            <summary>
+            JSON schema resolver preloaded with schemas suitable for reading and writing JSON stores.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreBase.#ctor(System.String,System.String,System.Collections.Generic.IDictionary{System.Uri,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.JsonStoreBase"/> class.
+            </summary>
+            <param name="dataSchemaString">JSON schema used to validate data stream.</param>
+            <param name="extension">The extension for the underlying file.</param>
+            <param name="preloadSchemas">Dictionary of URis to JSON schemas to preload before validating any JSON. Would likely include schemas references by the catalog and data schemas.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreBase.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.JsonStoreBase"/> class.
+            </summary>
+            <param name="extension">The extension for the underlying file.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStoreBase.CatalogSchema">
+            <summary>
+            Gets or sets the catalog JSON schema.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStoreBase.DataSchema">
+            <summary>
+            Gets or sets the data JSON schema.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStoreBase.Extension">
+            <summary>
+            Gets or sets the underlying file extension.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStoreBase.Name">
+            <summary>
+            Gets or sets the name of the data store.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStoreBase.Path">
+            <summary>
+            Gets or sets the path of the data store.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStoreBase.Resolver">
+            <summary>
+            Gets or sets the JSON schema resolver.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStoreBase.Serializer">
+            <summary>
+            Gets or sets the JSON serializer.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreBase.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.JsonStoreReader">
+            <summary>
+            Represents a reader for JSON data stores.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreReader.#ctor(System.String,System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.Uri,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.JsonStoreReader"/> class.
+            </summary>
+            <param name="name">The name of the application that generated the persisted files, or the root name of the files</param>
+            <param name="path">The directory in which the main persisted file resides or will reside, or null to create a volatile data store</param>
+            <param name="dataSchemaString">JSON schema used to validate data stream.</param>
+            <param name="extension">The extension for the underlying file.</param>
+            <param name="preloadSchemas">Dictionary of URis to JSON schemas to preload before validating any JSON. Would likely include schemas references by the catalog and data schemas.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreReader.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.JsonStoreReader"/> class.
+            </summary>
+            <param name="name">The name of the application that generated the persisted files, or the root name of the files</param>
+            <param name="path">The directory in which the main persisted file resides or will reside, or null to create a volatile data store</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStoreReader.AvailableStreams">
+            <summary>
+            Gets an enumerable of stream metadata contained in the underlying data store.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStoreReader.OriginatingTimeInterval">
+            <summary>
+            Gets the orginating time interval (earliest to latest) of the messages in the data store.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreReader.CloseStream(System.String)">
+            <summary>
+            Closes the specified stream.
+            </summary>
+            <param name="streamName">The name of the stream.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreReader.CloseStream(System.Int32)">
+            <summary>
+            Closes the specified stream.
+            </summary>
+            <param name="id">The id of the stream.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreReader.CloseAllStreams">
+            <summary>
+            Close all streams.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreReader.Contains(System.String)">
+            <summary>
+            Determines whether the data store contains the specified stream.
+            </summary>
+            <param name="streamName">The name of the stream.</param>
+            <returns>true if store contains the specified stream, otherwise false.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreReader.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreReader.GetMetadata(System.String)">
+            <summary>
+            Gets the stream metadata for the specified stream
+            </summary>
+            <param name="streamName">The name of the stream.</param>
+            <returns>The stream metadata.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreReader.GetMetadata(System.Int32)">
+            <summary>
+            Gets the stream metadata for the specified stream
+            </summary>
+            <param name="id">The id of the stream.</param>
+            <returns>The stream metadata.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreReader.OpenStream(System.String)">
+            <summary>
+            Opens the stream for the specified stream
+            </summary>
+            <param name="streamName">The name of the stream.</param>
+            <returns>The stream metadata.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreReader.OpenStream(System.Int32)">
+            <summary>
+            Opens the stream for the specified stream
+            </summary>
+            <param name="id">The id of the stream.</param>
+            <returns>The stream metadata.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreReader.OpenStream(Microsoft.Psi.Extensions.Data.JsonStreamMetadata)">
+            <summary>
+            Opens the stream for the specified stream
+            </summary>
+            <param name="metadata">The metadata of the stream.</param>
+            <returns>true if the stream was opened; otherwise false.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreReader.MoveNext(Microsoft.Psi.Envelope@)">
+            <summary>
+            Positions the reader to the next message.
+            </summary>
+            <param name="envelope">The envelope associated with the message read.</param>
+            <returns>True if there are more messages, false if no more messages are available.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreReader.Read(Newtonsoft.Json.Linq.JToken@)">
+            <summary>
+            Reads the next message from any one of the enabled streams (in serialized form) into the specified buffer.
+            </summary>
+            <param name="data">The data associated with the message read.</param>
+            <returns>True if there are more messages, false if no more messages are available.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreReader.Seek(Microsoft.Psi.ReplayDescriptor)">
+            <summary>
+            Seek to envelope in stream according to specified replay descriptor.
+            </summary>
+            <param name="descriptor">The replay descriptor.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.JsonStoreWriter">
+            <summary>
+            Represents a writer for JSON data stores.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreWriter.#ctor(System.String,System.String,System.String,System.Boolean,System.String,System.Collections.Generic.IDictionary{System.Uri,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.JsonStoreWriter"/> class.
+            </summary>
+            <param name="name">The name of the application that generated the persisted files, or the root name of the files</param>
+            <param name="path">The directory in which the main persisted file resides or will reside, or null to create a volatile data store</param>
+            <param name="dataSchemaString">JSON schema used to validate data stream.</param>
+            <param name="createSubdirectory">If true, a numbered subdirectory is created for this store</param>
+            <param name="extension">The extension for the underlying file.</param>
+            <param name="preloadSchemas">Dictionary of URis to JSON schemas to preload before validating any JSON. Would likely include schemas references by the catalog and data schemas.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreWriter.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.JsonStoreWriter"/> class.
+            </summary>
+            <param name="name">The name of the application that generated the persisted files, or the root name of the files</param>
+            <param name="path">The directory in which the main persisted file resides or will reside, or null to create a volatile data store</param>
+            <param name="createSubdirectory">If true, a numbered subdirectory is created for this store</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreWriter.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreWriter.OpenStream(Microsoft.Psi.Extensions.Data.JsonStreamMetadata)">
+            <summary>
+            Opens the stream for the specified stream
+            </summary>
+            <param name="metadata">The metadata of the stream.</param>
+            <returns>The stream metadata.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreWriter.OpenStream(System.Int32,System.String,System.String)">
+            <summary>
+            Opens the stream for the specified stream
+            </summary>
+            <param name="streamId">The stream id.</param>
+            <param name="streamName">The stream name.</param>
+            <param name="typeName">The stream type name..</param>
+            <returns>The stream metadata.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStoreWriter.Write(Newtonsoft.Json.Linq.JToken,Microsoft.Psi.Envelope)">
+            <summary>
+            Writes the next message to the data store.
+            </summary>
+            <param name="data">The data associated with the message write.</param>
+            <param name="envelope">The envelope associated with the message write.</param>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.JsonStreamMetadata">
+            <summary>
+            Represents metadata used in storing stream data in a JSON store.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStreamMetadata.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.JsonStreamMetadata"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStreamMetadata.#ctor(System.String,System.Int32,System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.JsonStreamMetadata"/> class.
+            </summary>
+            <param name="name">The name of the stream the metadata represents.</param>
+            <param name="id">The id of the stream the metadata represents.</param>
+            <param name="typeName">The name of the type of data conatined in the stream the metadata represents.</param>
+            <param name="partitionName">The name of the partation where the stream is stored.</param>
+            <param name="partitionPath">The path of the partation where the stream is stored.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStreamMetadata.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStreamMetadata.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStreamMetadata.TypeName">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStreamMetadata.PartitionName">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStreamMetadata.PartitionPath">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStreamMetadata.FirstMessageTime">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStreamMetadata.LastMessageTime">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStreamMetadata.FirstMessageOriginatingTime">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStreamMetadata.LastMessageOriginatingTime">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStreamMetadata.AverageMessageSize">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStreamMetadata.AverageLatency">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.JsonStreamMetadata.MessageCount">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStreamMetadata.Reset">
+            <summary>
+            Reset statistics for this stream metadata instance.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.JsonStreamMetadata.Update(Microsoft.Psi.Envelope,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.PartitionBase">
+            <summary>
+            Defines a base calls of partitions that can be added to a session.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.PartitionBase.#ctor(Microsoft.Psi.Extensions.Data.Session,System.String,System.String,System.String,System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.PartitionBase"/> class.
+            </summary>
+            <param name="session">The session that this partition belongs to.</param>
+            <param name="storeName">The store name of this partition.</param>
+            <param name="storePath">The store path of this partition.</param>
+            <param name="name">The partition name.</param>
+            <param name="simpleReaderType">The SimpleReader type</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.PartitionBase.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.PartitionBase"/> class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.PartitionBase.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.PartitionBase.OriginatingTimeInterval">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.PartitionBase.Reader">
+            <summary>
+            Gets or setst the data store reader for this partition.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.PartitionBase.Session">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.PartitionBase.StoreName">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.PartitionBase.StorePath">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.PartitionBase.StreamTreeRoot">
+            <summary>
+            Gets or sets the root stream tree node of this partition.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.PartitionBase.SimpleReaderType">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.PartitionBase.RemovePartition">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.PartitionBase.CreateStreamTree">
+            <summary>
+            After initialization, called by InitNew to create stream tree from available streams.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.PartitionBase.InitNew">
+            <summary>
+            Overridable method to allow derived object to initialize properties as part of object construction or after deserialization.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.Session">
+            <summary>
+            Represents a sesion (collection of partitions) to be reasoned over.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Psi.Extensions.Data.Session.DefaultName">
+            <summary>
+            Default name of a session.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.Session.#ctor(Microsoft.Psi.Extensions.Data.Dataset,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.Session"/> class.
+            </summary>
+            <param name="dataset">The dataset that this session belongs to.</param>
+            <param name="name">The session name.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.Session.Dataset">
+            <summary>
+            Gets the dataset that this session belongs to.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.Session.Name">
+            <summary>
+            Gets or sets the session name.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.Session.OriginatingTimeInterval">
+            <summary>
+            Gets the orginating time interval (earliest to latest) of the messages in this session.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.Session.Partitions">
+            <summary>
+            Gets the collection of partitions in this session.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.Session.AddAnnotationPartition(System.String,System.String,System.String)">
+            <summary>
+            Creates and adds an annotation partition from an existing annotation store.
+            </summary>
+            <param name="storeName">The name of the annotation store.</param>
+            <param name="storePath">The path of the annotation store.</param>
+            <param name="partitionName">The partition name. Default is null.</param>
+            <returns>The newly added annotation partition.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.Session.AddStorePartition(System.String,System.String,System.String)">
+            <summary>
+            Creates and adds a data partition from an existing data store.
+            </summary>
+            <param name="storeName">The name of the data store.</param>
+            <param name="storePath">The path of the data store.</param>
+            <param name="partitionName">The partition name. Default is null.</param>
+            <returns>The newly added data partition.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.Session.CreateAnnotationPartition(System.String,System.String,Microsoft.Psi.Extensions.Annotations.AnnotatedEventDefinition,System.String)">
+            <summary>
+            Creates and adds an new annotation partition.
+            </summary>
+            <param name="storeName">The name of the annotation store.</param>
+            <param name="storePath">The path of the annotation store.</param>
+            <param name="definition">The annotated event definition to use when creating new annoted events in the newly created annotation partition.</param>
+            <param name="partitionName">The partition name. Default is null.</param>
+            <returns>The newly added annotation partition.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.Session.CreateStorePartition(System.String,System.String,System.String)">
+            <summary>
+            Creates and adds a new data partition.
+            </summary>
+            <param name="storeName">The name of the data store.</param>
+            <param name="storePath">The path of the data store.</param>
+            <param name="partitionName">The partition name. Default is null.</param>
+            <returns>The newly added data partition.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.Session.RemovePartition(Microsoft.Psi.Extensions.Data.IPartition)">
+            <summary>
+            Removes a specified partition from the session.
+            </summary>
+            <param name="partition">The partition to remove.</param>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.Session.RemoveSession">
+            <summary>
+            Removes this session from the dataset it belongs to.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.SessionImporter">
+            <summary>
+            Defines a class used in importing data into a session.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.SessionImporter.Name">
+            <summary>
+            Gets the name of the session.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.SessionImporter.OriginatingTimeInterval">
+            <summary>
+            Gets the orginating time interval (earliest to latest) of the messages in the session.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.SessionImporter.PartitionImporters">
+            <summary>
+            Gets a dictionary of named importers.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.SessionImporter.Open(Microsoft.Psi.Pipeline,Microsoft.Psi.Extensions.Data.Session)">
+            <summary>
+            Opens a session importer.
+            </summary>
+            <param name="pipeline">Pipeline to use for imports.</param>
+            <param name="session">Session to import into.</param>
+            <returns>The newly created session importer.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.SessionImporter.HasStream(System.String)">
+            <summary>
+            Determines if any importer contains the named stream.
+            </summary>
+            <param name="streamName">The stream to search for.</param>
+            <returns>true if any importer contains the named stream; otherwise false.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.SessionImporter.HasStream(System.String,System.String)">
+            <summary>
+            Determines if a specicif importer contains the named stream.
+            </summary>
+            <param name="partitionName">Partition name of the specific importer.</param>
+            <param name="streamName">The stream to search for.</param>
+            <returns>true if the specific importer contains the named stream; otherwise false.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.SessionImporter.OpenStream``1(System.String)">
+            <summary>
+            Opens the first stream that matched the specified name.
+            </summary>
+            <typeparam name="T">The type of stream to open.</typeparam>
+            <param name="streamName">The name of stream to open.</param>
+            <returns>The opened stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.SessionImporter.OpenStream``1(System.String,System.String)">
+            <summary>
+            Opens the named stream in a specific partition.
+            </summary>
+            <typeparam name="T">The type of stream to open.</typeparam>
+            <param name="partitionName">The partition to open stream in.</param>
+            <param name="streamName">The name of stream to open.</param>
+            <returns>The opened stream.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.SessionImporter.GetContainingUsages(System.String)">
+            <summary>
+            Gets list of importer names that contain the named stream.
+            </summary>
+            <param name="streamName">The stream to search for.</param>
+            <returns>The list of importer names that contain the named stream.</returns>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.StorePartition">
+            <summary>
+            Represents a partition from a data store.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.StorePartition.Create(Microsoft.Psi.Extensions.Data.Session,System.String,System.String,System.String)">
+            <summary>
+            Creates a new store partition with the specified parameters.
+            </summary>
+            <param name="session">The session that this partition belongs to.</param>
+            <param name="storeName">The store name of this partition.</param>
+            <param name="storePath">The store path of this partition.</param>
+            <param name="name">The partition name.</param>
+            <returns>The newly created store partition.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.StorePartition.CreateFromExistingStore(Microsoft.Psi.Extensions.Data.Session,System.String,System.String,System.String)">
+            <summary>
+            Creates a store partition from an exisitng data store.
+            </summary>
+            <param name="session">The session that this partition belongs to.</param>
+            <param name="storeName">The store name of this partition.</param>
+            <param name="storePath">The store path of this partition.</param>
+            <param name="name">The partition name.</param>
+            <returns>The newly created store partition.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.StorePartition.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.StorePartition.InitNew">
+            <summary>
+            Overridable method to allow derived object to initialize properties as part of object construction or after deserialization.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Psi.Extensions.Data.StreamTreeNode">
+            <summary>
+            Defines a base class for nodes in a tree that hold information about data streams.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.StreamTreeNode.#ctor(Microsoft.Psi.Extensions.Data.IPartition)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Psi.Extensions.Data.StreamTreeNode"/> class.
+            </summary>
+            <param name="partition">The partition where this stream tree node can be found.</param>
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.StreamTreeNode.AverageLatency">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.StreamTreeNode.AverageMessageSize">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.StreamTreeNode.Children">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.StreamTreeNode.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.StreamTreeNode.FirstMessageOriginatingTime">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.StreamTreeNode.FirstMessageTime">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.StreamTreeNode.LastMessageOriginatingTime">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.StreamTreeNode.LastMessageTime">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.StreamTreeNode.MessageCount">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.StreamTreeNode.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.StreamTreeNode.Partition">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.StreamTreeNode.Path">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.StreamTreeNode.StreamMetadata">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.StreamTreeNode.StreamName">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.StreamTreeNode.TypeName">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Psi.Extensions.Data.StreamTreeNode.InternalChildren">
+            <summary>
+            Gets the internal collection of children for the this stream tree node.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Psi.Extensions.Data.StreamTreeNode.AddPath(Microsoft.Psi.IStreamMetadata)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

@@ -4,6 +4,159 @@
         "Microsoft.Psi.Media_Interop.Windows.x64"
     </assembly>
     <members>
+        <member name="M:Microsoft.Psi.Media_Interop.CaptureFormat.FromMediaType(IMFMediaType*)">
+            <summary>
+Create the Capture Format from the given media type.
+</summary>
+            <param name="pMediaType"> The media type for the capture format</param>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.RGBCameraEnumerator.get_Current">
+            <summary>
+ Instantiates a capture device for the currently selected device
+</summary>
+            <returns>An instance of the RGBCamera class.</returns>
+            <exceptions> InvalidOperationException - thrown if the cursor is out of bounds </exceptions>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.RGBCameraEnumerator.Reset">
+            <summary>
+ Resets the cursor to before the first element.
+</summary>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.RGBCameraEnumerator.MoveNext">
+            <summary>
+ Advances the cursor through the collection.
+</summary>
+            <returns> True if the cursor is still within the collection. </returns>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.RGBCameraEnumerator.Dispose">
+            <summary>
+ dtor that releases and frees the device activate instances and frees the
+ storage used.
+</summary>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.RGBCameraEnumerator.#ctor">
+            <summary>
+ ctor that initializes the enumerator by getting the list of source devices
+ that are registered as video capture devices
+</summary>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.SourceReaderCallback.CaptureSample(=FUNC:System.Void(System.Byte*,System.Int32,System.Int64))">
+            <summary>
+ Sets up the capture pipeline if required and sets up async sample capture
+</summary>
+            <param name="handler">Handler to call after completing read sample</param>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.SourceReaderCallback.OnReadSample(System.Int32!System.Runtime.CompilerServices.IsLong,System.UInt32!System.Runtime.CompilerServices.IsLong,System.UInt32!System.Runtime.CompilerServices.IsLong,System.Int64,IMFSample*)">
+            <summary>
+Called when the IMFSourceReader::ReadSample method completes
+</summary>
+            <param name="hrStatus">
+The status code. 
+If an error occurred while processing the next smple, this parameter contains the error code 
+</param>
+            <param name="dwStreamIndex">The zero-based index of the stream that delivered the sample</param>
+            <param name="dwStreamFlags">A bitwise OR of zero or more flags from the MF_SOURCE_READER_FLAG enumeration</param>
+            <param name="llTimestamp">
+The time stamp of the sample, or the time of the stream event indicated in dwStreamFlags. 
+The time is given in 100-nanosecond units
+</param>
+            <param name="pSample">A pointer to the IMFSample interface of a media sample. This parameter might be NULL.</param>
+            <returns> S_OK if succeeded. Error code if not.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.SourceReaderCallback.QueryInterface(_GUID!System.Runtime.CompilerServices.IsConst*!System.Runtime.CompilerServices.IsImplicitlyDereferenced,System.Void**)">
+            <summary>
+Retrieves pointers to the supported interfaces on an object
+</summary>
+            <param name="ppv">The reference to interface to be retrieved</param>
+            <returns> S_OK if succeeded. Error code if not.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.SourceReaderCallback.Release">
+            <summary>
+Decrements the reference count for an interface on an object
+</summary>
+            <returns> The method returns the new reference count.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.SourceReaderCallback.AddRef">
+            <remarks>IUnknown methods</remarks>
+            <summary>
+Increments the reference count for an interface on an object
+</summary>
+            <returns> The method returns the new reference count.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.SourceReaderCallback.Dispose">
+            <summary>
+Destructor is private. Caller should call Release.
+</summary>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.SourceReaderCallback.#ctor">
+            <summary>
+Constructor is private. Use static CreateInstance method to instantiate.
+</summary>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.SourceReaderCallback.CreateInstance(Microsoft.Psi.Media_Interop.SourceReaderCallback**)">
+            <summary>
+Creates an instance of the capture device which implements <c> IMFSourceReaderCallback </c></summary>
+            <param name="ppPlayer">The reference to the source reader to the created</param>
+            <returns> S_OK if succeeded. Error code if not.</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.VideoFormat.FromName(System.String)">
+            <summary>
+Creates a video format from the given fourcc name
+</summary>
+            <param name="name">The fourcc name for which video format needs to be constructed</param>
+            <returns>video format from the given fourcc name</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.VideoFormat.FromGuid(System.Guid)">
+            <summary>
+Creates a video format from the given guid
+</summary>
+            <param name="guid">The guid for which video format needs to be constructed</param>
+            <returns>video format from the given guid</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.VideoFormat.GetHashCode">
+            <summary>
+Returns the hash code corresponding to the video format.
+</summary>
+            <returns>Hashcode</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.VideoFormat.op_Inequality(Microsoft.Psi.Media_Interop.VideoFormat,Microsoft.Psi.Media_Interop.VideoFormat)">
+            <summary>
+Returns true if left is not equal to right, false otherwise
+</summary>
+            <param name="left">The first VideoFormat to be compared</param>
+            <param name="right">The second VideoFormat to be compared</param>
+            <returns>True if not equal, false otherwise</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.VideoFormat.op_Equality(Microsoft.Psi.Media_Interop.VideoFormat,Microsoft.Psi.Media_Interop.VideoFormat)">
+            <summary>
+Returns true if left is equal to right, false otherwise
+</summary>
+            <param name="left">The first VideoFormat to be compared</param>
+            <param name="right">The second VideoFormat to be compared</param>
+            <returns>True if equal, false otherwise</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.VideoFormat.Equals(Microsoft.Psi.Media_Interop.VideoFormat)">
+            <summary>
+Returns true if obj is equal to this, false otherwise
+</summary>
+            <param name="other">The VideoFormat to be compared</param>
+            <returns>True if equal, false otherwise</returns>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.VideoFormat.Equals(System.Object)">
+            <summary>
+Returns true if obj is equal to this, false otherwise
+</summary>
+            <param name="obj">The object to the compared</param>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.MediaFoundationUtility.GetStringProperty(IMFAttributes*,_GUID!System.Runtime.CompilerServices.IsConst*!System.Runtime.CompilerServices.IsImplicitlyDereferenced)">
+            <summary>
+ This looks up a specified string attribute on an attribute object
+</summary>
+            <param name="pAttributes">The attribute store to read from</param>
+            <param name="key">The attribute key to look up</param>
+            <returns>The string representation of the attribute. </returns>
+@throws KeyNotFoundException - no attribute was found
+</member>
         <member name="M:Microsoft.Psi.Media_Interop.MediaCaptureDevice.get_AllDevices">
             <summary>
  Gets a list of all available capture devices
@@ -153,179 +306,6 @@ GetEnumerator for the old IEnumerator before generics.
             <summary>
 RGB Camera collection.
 </summary>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.MP4Writer.Shutdown">
-            <summary>
-Called to shutdown Media Foundation
-</summary>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.MP4Writer.Startup">
-            <summary>
-Called to initialize Media Foundation
-</summary>
-        </member>
-        <member name="T:Microsoft.Psi.Media_Interop.MP4Writer">
-            <summary>
-Class for recording video to an MPEG file via Media Foundation
-</summary>
-        </member>
-        <member name="T:Microsoft.Psi.Media_Interop.MP4WriterConfiguration">
-            <summary>
-Class for configuring our MPEG4 writer
-</summary>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.MediaFoundationUtility.GetStringProperty(IMFAttributes*,_GUID!System.Runtime.CompilerServices.IsConst*!System.Runtime.CompilerServices.IsImplicitlyDereferenced)">
-            <summary>
- This looks up a specified string attribute on an attribute object
-</summary>
-            <param name="pAttributes">The attribute store to read from</param>
-            <param name="key">The attribute key to look up</param>
-            <returns>The string representation of the attribute. </returns>
-@throws KeyNotFoundException - no attribute was found
-</member>
-        <member name="M:Microsoft.Psi.Media_Interop.VideoFormat.FromName(System.String)">
-            <summary>
-Creates a video format from the given fourcc name
-</summary>
-            <param name="name">The fourcc name for which video format needs to be constructed</param>
-            <returns>video format from the given fourcc name</returns>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.VideoFormat.FromGuid(System.Guid)">
-            <summary>
-Creates a video format from the given guid
-</summary>
-            <param name="guid">The guid for which video format needs to be constructed</param>
-            <returns>video format from the given guid</returns>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.VideoFormat.GetHashCode">
-            <summary>
-Returns the hash code corresponding to the video format.
-</summary>
-            <returns>Hashcode</returns>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.VideoFormat.op_Inequality(Microsoft.Psi.Media_Interop.VideoFormat,Microsoft.Psi.Media_Interop.VideoFormat)">
-            <summary>
-Returns true if left is not equal to right, false otherwise
-</summary>
-            <param name="left">The first VideoFormat to be compared</param>
-            <param name="right">The second VideoFormat to be compared</param>
-            <returns>True if not equal, false otherwise</returns>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.VideoFormat.op_Equality(Microsoft.Psi.Media_Interop.VideoFormat,Microsoft.Psi.Media_Interop.VideoFormat)">
-            <summary>
-Returns true if left is equal to right, false otherwise
-</summary>
-            <param name="left">The first VideoFormat to be compared</param>
-            <param name="right">The second VideoFormat to be compared</param>
-            <returns>True if equal, false otherwise</returns>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.VideoFormat.Equals(Microsoft.Psi.Media_Interop.VideoFormat)">
-            <summary>
-Returns true if obj is equal to this, false otherwise
-</summary>
-            <param name="other">The VideoFormat to be compared</param>
-            <returns>True if equal, false otherwise</returns>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.VideoFormat.Equals(System.Object)">
-            <summary>
-Returns true if obj is equal to this, false otherwise
-</summary>
-            <param name="obj">The object to the compared</param>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.RGBCameraEnumerator.get_Current">
-            <summary>
- Instantiates a capture device for the currently selected device
-</summary>
-            <returns>An instance of the RGBCamera class.</returns>
-            <exceptions> InvalidOperationException - thrown if the cursor is out of bounds </exceptions>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.RGBCameraEnumerator.Reset">
-            <summary>
- Resets the cursor to before the first element.
-</summary>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.RGBCameraEnumerator.MoveNext">
-            <summary>
- Advances the cursor through the collection.
-</summary>
-            <returns> True if the cursor is still within the collection. </returns>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.RGBCameraEnumerator.Dispose">
-            <summary>
- dtor that releases and frees the device activate instances and frees the
- storage used.
-</summary>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.RGBCameraEnumerator.#ctor">
-            <summary>
- ctor that initializes the enumerator by getting the list of source devices
- that are registered as video capture devices
-</summary>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.SourceReaderCallback.CaptureSample(=FUNC:System.Void(System.Byte*,System.Int32,System.Int64))">
-            <summary>
- Sets up the capture pipeline if required and sets up async sample capture
-</summary>
-            <param name="handler">Handler to call after completing read sample</param>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.SourceReaderCallback.OnReadSample(System.Int32!System.Runtime.CompilerServices.IsLong,System.UInt32!System.Runtime.CompilerServices.IsLong,System.UInt32!System.Runtime.CompilerServices.IsLong,System.Int64,IMFSample*)">
-            <summary>
-Called when the IMFSourceReader::ReadSample method completes
-</summary>
-            <param name="hrStatus">
-The status code. 
-If an error occurred while processing the next smple, this parameter contains the error code 
-</param>
-            <param name="dwStreamIndex">The zero-based index of the stream that delivered the sample</param>
-            <param name="dwStreamFlags">A bitwise OR of zero or more flags from the MF_SOURCE_READER_FLAG enumeration</param>
-            <param name="llTimestamp">
-The time stamp of the sample, or the time of the stream event indicated in dwStreamFlags. 
-The time is given in 100-nanosecond units
-</param>
-            <param name="pSample">A pointer to the IMFSample interface of a media sample. This parameter might be NULL.</param>
-            <returns> S_OK if succeeded. Error code if not.</returns>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.SourceReaderCallback.QueryInterface(_GUID!System.Runtime.CompilerServices.IsConst*!System.Runtime.CompilerServices.IsImplicitlyDereferenced,System.Void**)">
-            <summary>
-Retrieves pointers to the supported interfaces on an object
-</summary>
-            <param name="ppv">The reference to interface to be retrieved</param>
-            <returns> S_OK if succeeded. Error code if not.</returns>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.SourceReaderCallback.Release">
-            <summary>
-Decrements the reference count for an interface on an object
-</summary>
-            <returns> The method returns the new reference count.</returns>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.SourceReaderCallback.AddRef">
-            <remarks>IUnknown methods</remarks>
-            <summary>
-Increments the reference count for an interface on an object
-</summary>
-            <returns> The method returns the new reference count.</returns>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.SourceReaderCallback.Dispose">
-            <summary>
-Destructor is private. Caller should call Release.
-</summary>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.SourceReaderCallback.#ctor">
-            <summary>
-Constructor is private. Use static CreateInstance method to instantiate.
-</summary>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.SourceReaderCallback.CreateInstance(Microsoft.Psi.Media_Interop.SourceReaderCallback**)">
-            <summary>
-Creates an instance of the capture device which implements <c> IMFSourceReaderCallback </c></summary>
-            <param name="ppPlayer">The reference to the source reader to the created</param>
-            <returns> S_OK if succeeded. Error code if not.</returns>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.CaptureFormat.FromMediaType(IMFMediaType*)">
-            <summary>
-Create the Capture Format from the given media type.
-</summary>
-            <param name="pMediaType"> The media type for the capture format</param>
         </member>
         <member name="P:Microsoft.Psi.Media_Interop.RGBCameraEnumerator.Current">
             <summary>
@@ -512,6 +492,56 @@ To use the class,
   void OnImageAvailable(System::IntPtr buffer, int cbLength) {}
 @endcode
 </example></summary>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.MP4Writer.Shutdown">
+            <summary>
+Called to shutdown Media Foundation
+</summary>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.MP4Writer.Startup">
+            <summary>
+Called to initialize Media Foundation
+</summary>
+        </member>
+        <member name="T:Microsoft.Psi.Media_Interop.MP4Writer">
+            <summary>
+Class for recording video to an MPEG file via Media Foundation
+</summary>
+        </member>
+        <member name="T:Microsoft.Psi.Media_Interop.MP4WriterConfiguration">
+            <summary>
+Class for configuring our MPEG4 writer
+</summary>
+        </member>
+        <member name="M:Microsoft.Psi.Media_Interop.MediaFoundationUtility.ThrowExceptionForHR(System.Int32!System.Runtime.CompilerServices.IsLong)">
+            <summary>
+Throws exception corresponding to the hr value
+</summary>
+        </member>
+        <member name="T:Microsoft.Psi.Media_Interop.MediaFoundationUtility">
+            <summary>
+Utility class which converts HRESULTS to exceptions.
+</summary>
+        </member>
+        <member name="P:Microsoft.Psi.Media_Interop.Resources.HwMftFailedStartStreaming">
+            <summary>
+Gets the HwMftFailedStartStreaming resource
+</summary>
+        </member>
+        <member name="P:Microsoft.Psi.Media_Interop.Resources.AttributeNotFound">
+            <summary>
+Gets the AttributeNotFound resource
+</summary>
+        </member>
+        <member name="P:Microsoft.Psi.Media_Interop.Resources.InvalidMediaType">
+            <summary>
+Gets the InvalidMediaType resource
+</summary>
+        </member>
+        <member name="T:Microsoft.Psi.Media_Interop.Resources">
+            <summary>
+Resources for camera interop
+</summary>
         </member>
         <member name="F:Microsoft.Psi.Media_Interop.SourceReaderCallback.m_pRgbBuffer">
             <summary>
@@ -866,36 +896,6 @@ Contrast
         <member name="F:Microsoft.Psi.Media_Interop.VideoProperty.Brightness">
             <summary>
 Brightness
-</summary>
-        </member>
-        <member name="M:Microsoft.Psi.Media_Interop.MediaFoundationUtility.ThrowExceptionForHR(System.Int32!System.Runtime.CompilerServices.IsLong)">
-            <summary>
-Throws exception corresponding to the hr value
-</summary>
-        </member>
-        <member name="T:Microsoft.Psi.Media_Interop.MediaFoundationUtility">
-            <summary>
-Utility class which converts HRESULTS to exceptions.
-</summary>
-        </member>
-        <member name="P:Microsoft.Psi.Media_Interop.Resources.HwMftFailedStartStreaming">
-            <summary>
-Gets the HwMftFailedStartStreaming resource
-</summary>
-        </member>
-        <member name="P:Microsoft.Psi.Media_Interop.Resources.AttributeNotFound">
-            <summary>
-Gets the AttributeNotFound resource
-</summary>
-        </member>
-        <member name="P:Microsoft.Psi.Media_Interop.Resources.InvalidMediaType">
-            <summary>
-Gets the InvalidMediaType resource
-</summary>
-        </member>
-        <member name="T:Microsoft.Psi.Media_Interop.Resources">
-            <summary>
-Resources for camera interop
 </summary>
         </member>
         <member name="P:Microsoft.Psi.Media_Interop.CaptureFormat.subType">

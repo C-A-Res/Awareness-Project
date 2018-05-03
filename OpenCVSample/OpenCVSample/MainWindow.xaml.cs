@@ -3,7 +3,7 @@
 
 #pragma warning disable SA1649 // SA1649FileNameMustMatchTypeName
 
-namespace Microsoft.Psi.Samples.OpenCV
+namespace NU.Kiosk
 {
     using System;
     using System.Diagnostics;
@@ -11,6 +11,10 @@ namespace Microsoft.Psi.Samples.OpenCV
     using Microsoft.Psi;
     using Microsoft.Psi.Imaging;
     using Microsoft.Psi.Media;
+    using Microsoft.Psi.Audio;
+    using Microsoft.Psi.Data;
+    using Microsoft.Psi.Speech;
+    using Microsoft.Psi.Visualization.Client;
 
     public static class OpenCV
     {
@@ -49,7 +53,7 @@ namespace Microsoft.Psi.Samples.OpenCV
                     {
                         // Call into our OpenCV wrapper to convert the source image ('srcImage') into the newly created image ('destImage')
                         // Note: since srcImage & destImage are Shared<> we need to access the Microsoft.Psi.Imaging.Image data via the Resource member
-                        OpenCVMethods.ToGray(srcImage.ToImageBuffer(), destImage.ToImageBuffer(), f, ref MainWindow.DisNose, ref MainWindow.DisLipMiddle, ref MainWindow.DisLipRight, ref MainWindow.DisLipLeft );
+                        OpenCVMethods.ToGray(srcImage.ToImageBuffer(), destImage.ToImageBuffer(), f, ref MainWindow.DisNose, ref MainWindow.DisLipMiddle, ref MainWindow.DisLipRight, ref MainWindow.DisLipLeft, ref MainWindow.HasFace);
 
                         // Debug.WriteLine(MainWindow.MouthOpen);
                         e.Post(destImage, env.OriginatingTime);
@@ -64,14 +68,16 @@ namespace Microsoft.Psi.Samples.OpenCV
     public partial class MainWindow : Window
     {
         // Define our Psi Pipeline object
+        
         public static int FrameCount;
-
         public static double DisNose;
         public static double DisLipMiddle;
         public static double DisLipRight;
         public static double DisLipLeft;
+        public static int HasFace;
 
         private Pipeline pipeline;
+        private static string AppName = "Kiosk";
 
         public MainWindow()
         {
@@ -80,6 +86,11 @@ namespace Microsoft.Psi.Samples.OpenCV
             this.DataContext = this;
             this.DoConvert = true;
             this.Closing += this.MainWindow_Closing;
+            DisNose = 0.0;
+            DisLipMiddle = 0.0;
+            DisLipRight = 0.0;
+            DisLipLeft = 0.0;
+            HasFace = 0;
             FrameCount = 0;
 
             // Setup our Psi pipeline
@@ -97,61 +108,109 @@ namespace Microsoft.Psi.Samples.OpenCV
         /// </summary>
         public void SetupPsi()
         {
-            // First create the pipeline object.
+            Console.WriteLine("================================================================================");
+            Console.WriteLine("                               Kiosk Awareness sample");
+            Console.WriteLine("================================================================================");
+            Console.WriteLine();
+
             this.pipeline = Pipeline.Create();
+            
+                // Next register an event handler to catch pipeline errors
+                this.pipeline.PipelineCompletionEvent += this.PipelineCompletionEvent;
 
-            // Next register an event handler to catch pipeline errors
-            this.pipeline.PipelineCompletionEvent += this.PipelineCompletionEvent;
+                /*
+               // bool usingKqml = false;
+               string facilitatorIP = null;
+               int facilitatorPort = -1;
+               int localPort = -1;
 
-            // Create our webcam
-            MediaCapture webcam = new MediaCapture(this.pipeline, 640, 480, 10);
-            Debug.WriteLine("Open webcam");
 
-            FaceCasClassifier f = new FaceCasClassifier();
+               if (arguments.Length > 0)
+               {
+                   if (arguments.Length < 3)
+                   {
+                       Console.WriteLine("Usage for running with a facilitator: \nKioskMain facilitatorIP facilitatorPort localPort");
+                       return;
+                   }
 
-            Debug.WriteLine("Load classifier");
-            Debug.WriteLine(f);
+                   // usingKqml = true;
 
-            // Bind the webcam's output to our display image.
-            // The "Do" operator is executed on each sample from the stream (webcam.Out), which are the images coming from the webcam
-            webcam.Out.Where((img, e) =>
-            {
-                FrameCount += 1;
+                   facilitatorIP = arguments[0];
+                   facilitatorPort = int.Parse(arguments[1]);
+                   localPort = int.Parse(arguments[2]);
+               }
+               */
 
-                // Debug.WriteLine(FrameCount);
-                return this.DoConvert;
-            }).ToGrayViaOpenCV(f, FrameCount).Do(
-                (img, e) =>
-                {
+                // bool showLiveVisualization = false;
+                string inputLogPath = null;
+                // string outputLogPath = null;
+
+                DateTime startTime = DateTime.Now;
+
+                IProducer<AudioBuffer> audioInput = SetupAudioInput(this.pipeline, inputLogPath, ref startTime);
+
+                // Create our webcam
+                MediaCapture webcam = new MediaCapture(this.pipeline, 320, 240, 10);
+                Debug.WriteLine("Open webcam");
+
+                FaceCasClassifier f = new FaceCasClassifier();
+
+                Debug.WriteLine("Load classifier");
+                Debug.WriteLine(f);
+
+                var mouthOpenAsBool = webcam.Out.ToGrayViaOpenCV(f, FrameCount).Select(
+                    (img, e) =>
+                    {
                     // Debug.WriteLine(FrameCount % 10);
-                    string mouthOpen = "Close";
-                    if ((Math.Abs(DisNose) / (4 * Math.Abs(DisLipMiddle))) < 1)
-                    {
-                        mouthOpen = "Open";
-                    }
-                    else
-                    {
-                        mouthOpen = "Close";
-                    }
-                    Debug.WriteLine(Math.Abs(DisLipMiddle) + " " + Math.Abs(DisLipRight) + " " + Math.Abs(DisLipLeft) + " " + (Math.Abs(DisNose) / (4 * Math.Abs(DisLipMiddle))) + " " + mouthOpen);
+                    bool mouthOpen = false;
+                        if ((Math.Abs(DisNose) / (4 * Math.Abs(DisLipMiddle))) < 3)
+                        {
+                            mouthOpen = true;
+                        }
+                        else
+                        {
+                            mouthOpen = false;
+                        }
+                    Console.WriteLine(Math.Abs(DisLipMiddle) + " " + Math.Abs(DisLipRight) + " " + Math.Abs(DisLipLeft) + " " + (Math.Abs(DisNose) / (4 * Math.Abs(DisLipMiddle))) + " " + mouthOpen);
                     this.DispImage.UpdateImage(img);
-                });
+                        return mouthOpen;
+                    });
 
-            webcam.Out.Where((img, e) => { return !this.DoConvert; }).Do(
-                (img, e) =>
+                var mouthAndSpeech = audioInput.Pair(mouthOpenAsBool).Where(t => true).Select(t =>
                 {
-                    this.DispImage.UpdateImage(img);
+                    return t.Item1;
+                }
+                );
+
+                SystemSpeechRecognizer recognizer = SetupSpeechRecognizer(this.pipeline);
+
+                mouthAndSpeech.PipeTo(recognizer);
+
+                var finalResults = recognizer.Out.Where(result => result.IsFinal);
+
+                finalResults.Do(result =>
+                {
+                    var ssrResult = result as SpeechRecognitionResult;
+                    Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
                 });
 
-            // Finally start the pipeline running
-            try
-            {
-                this.pipeline.RunAsync();
-            }
-            catch (AggregateException exp)
-            {
-                MessageBox.Show("Error! " + exp.InnerException.Message);
-            }
+                var text = finalResults.Select(result =>
+                {
+                    var ssrResult = result as SpeechRecognitionResult;
+                    return ssrResult.Text;
+                });
+
+                // Finally start the pipeline running
+                try
+                {
+                    this.pipeline.RunAsync();
+                }
+                catch (AggregateException exp)
+                {
+                    MessageBox.Show("Error! " + exp.InnerException.Message);
+                }
+
+            
         }
 
         /// <summary>
@@ -167,15 +226,49 @@ namespace Microsoft.Psi.Samples.OpenCV
             }
         }
 
-        /// <summary>
-        /// Button_Click is the callback from WPF for handling when the user clicks the "ToRGB"/"ToGray" button
-        /// </summary>
-        /// <param name="sender">Object that sent this event</param>
-        /// <param name="e">Event arguments (unused)</param>
+        private static SystemSpeechRecognizer SetupSpeechRecognizer(Pipeline pipeline)
+        {
+            // Create System.Speech recognizer component
+            return new SystemSpeechRecognizer(
+                pipeline,
+                new SystemSpeechRecognizerConfiguration()
+                {
+                    Language = "en-US",
+
+                    Grammars = new GrammarInfo[]
+                {
+                        new GrammarInfo() { Name = AppName, FileName = "SampleGrammar.grxml" }
+                }
+                });
+        }
+
+        private static IProducer<AudioBuffer> SetupAudioInput(Pipeline pipeline, string inputLogPath, ref DateTime startTime)
+        {
+            IProducer<AudioBuffer> audioInput = null;
+            if (inputLogPath != null)
+            {
+                // Open the MicrophoneAudio stream from the last saved log
+                var store = Store.Open(pipeline, AppName, inputLogPath);
+                audioInput = store.OpenStream<AudioBuffer>($"{AppName}.MicrophoneAudio");
+
+                // Get the originating time of the start of the data in the store. We will use this
+                // to set the correct start time in the visualizer (if live visualization is on).
+                startTime = store.OriginatingTimeInterval.Left;
+            }
+            else
+            {
+                // Create the AudioSource component to capture audio from the default device in 16 kHz 1-channel
+                // PCM format as required by both the voice activity detector and speech recognition components.
+                audioInput = new AudioSource(pipeline, new AudioSourceConfiguration() { OutputFormat = WaveFormat.Create16kHz1Channel16BitPcm() });
+            }
+
+            return audioInput;
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.DoConvert = !this.DoConvert;
-            this.ConvertButton.Content = this.DoConvert ? "ToRGB" : "ToGray";
+            // this.DoConvert = !this.DoConvert;
+            // this.ConvertButton.Content = this.DoConvert ? "ToRGB" : "ToGray";
         }
 
         /// <summary>

@@ -5,16 +5,16 @@ winexe
 C#
 .cs
 C:\github\Awareness-Project\OpenCVSample\OpenCVSample\obj\Debug\
-Microsoft.Psi.Samples.OpenCVSample
+NU.Kiosk
 none
 false
-CODE_ANALYSIS;DEBUG;TRACE
+TRACE;DEBUG
 C:\github\Awareness-Project\OpenCVSample\OpenCVSample\App.xaml
 11151548125
 
-111015080630
-25448103428
+7465174981
+1531978678613
 MainWindow.xaml;
 
-True
+False
 

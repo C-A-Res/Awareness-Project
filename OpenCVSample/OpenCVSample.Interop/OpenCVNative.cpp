@@ -43,24 +43,11 @@ namespace NU
 
 						if (faces.size() == 1) {
 							hface = 1;
-
-							for (int i = 0; i < faces.size(); i++)
-							{
-								cv::Point p1(faces[i].x, faces[i].y);
-								cv::Point p2(faces[i].x + faces[i].width, faces[i].y + faces[i].height);
-								rectangle(greyMat, p1, p2, 255);
-							}
 							
 							if (f->facemark->face_landmark->fit(colorMat, faces, shapes))
 							{
 								for (int i = 0; i < faces.size(); i++)
 								{
-									/*
-									for (int j = 0; j < shapes[i].size(); j++)
-									{
-										cv::circle(greyMat, shapes[i][j], 1 , 255, CV_FILLED);
-									}
-									*/
 									cv::Point2f nose_down = shapes[i][30];
 									cv::Point2f nose_up = shapes[i][27];
 									cv::Point2f lipmiddle_bottom = shapes[i][66];
@@ -85,11 +72,35 @@ namespace NU
 									dis_lip_right = lipright_bottom.y - lipright_top.y;
 
 									dis_lip_left = lipleft_bottom.y - lipleft_top.y;
-
 								}
 							}
-							
-							
+							else {
+								dis_nose = 0.0;
+								dis_lip_middle = 0.0;
+								dis_lip_right = 0.0;
+								dis_lip_left = 0.0;
+							}
+							for (int i = 0; i < faces.size(); i++)
+							{
+								cv::Point p1(faces[i].x, faces[i].y);
+								cv::Point p2(faces[i].x + faces[i].width, faces[i].y + faces[i].height);
+								cv::Point p3(faces[i].x, faces[i].y + faces[i].height);
+								rectangle(greyMat, p1, p2, 255);
+								if ((abs(dis_nose) / (4 * abs(dis_lip_middle))) < 3) {
+									putText(greyMat, "Mouth_Open", p3, cv::FONT_HERSHEY_SIMPLEX, 0.5, 255, 1);
+								}
+								else
+								{
+									putText(greyMat, "Mouth_Close", p3, cv::FONT_HERSHEY_SIMPLEX, 0.5, 255, 1);
+								}
+								
+							}
+						}
+						else {
+							dis_nose = 0.0;
+							dis_lip_middle = 0.0;
+							dis_lip_right = 0.0;
+							dis_lip_left = 0.0;
 						}
 
 						return grayImage;
