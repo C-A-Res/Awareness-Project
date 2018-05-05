@@ -16,6 +16,7 @@ namespace NU.Kiosk
     using Microsoft.Psi.Data;
     using Microsoft.Psi.Speech;
     using Microsoft.Psi.Visualization.Client;
+    using Microsoft.Psi.Visualization.Common;
 
 
     public static class OpenCV
@@ -133,9 +134,9 @@ namespace NU.Kiosk
                     localPort = int.Parse(args[2]);
                 }
 
-                bool showLiveVisualization = false;
+                bool showLiveVisualization = true;
                 string inputLogPath = null;
-                string outputLogPath = null;
+                string outputLogPath = "C:/psi/data/";
 
                 // Needed only for live visualization
                 DateTime startTime = DateTime.Now;
@@ -144,7 +145,7 @@ namespace NU.Kiosk
                 IProducer<AudioBuffer> audioInput = SetupAudioInput(pipeline, inputLogPath, ref startTime);
 
                 // Create our webcam
-                MediaCapture webcam = new MediaCapture(pipeline, 640, 480, 10);
+                MediaCapture webcam = new MediaCapture(pipeline, 320, 240, 10);
 
                 FaceCasClassifier f = new FaceCasClassifier();
 
@@ -153,12 +154,14 @@ namespace NU.Kiosk
 
                 // Bind the webcam's output to our display image.
                 // The "Do" operator is executed on each sample from the stream (webcam.Out), which are the images coming from the webcam
-                var mouthOpenAsBool = webcam.Out.ToGrayViaOpenCV(f).Select(
+                var processedVideo = webcam.Out.ToGrayViaOpenCV(f).EncodeJpeg(90, DeliveryPolicy.LatestMessage).Out;
+
+                var mouthOpenAsBool = processedVideo.Select(
                 (img, e) =>
                 {
                     // Debug.WriteLine(FrameCount % 10);
                     bool mouthOpen = false;
-                    if ((Math.Abs(DisNose) / (4 * Math.Abs(DisLipMiddle))) < 0.7)
+                    if ((Math.Abs(DisNose) / (4 * Math.Abs(DisLipMiddle))) < 3)
                     {
                         mouthOpen = true;
                     }
@@ -186,7 +189,7 @@ namespace NU.Kiosk
                     return hasFaceboll;
                 });
 
-                var mouthAndSpeech = audioInput.Pair(hasFaceAsBool).Where(t => t.Item2).Select(t => {
+                var mouthAndSpeech = audioInput.Pair(mouthOpenAsBool).Where(t => t.Item2).Select(t => {
                     return t.Item1;
                 }
                 );
@@ -235,6 +238,7 @@ namespace NU.Kiosk
                 if (dataStore != null)
                 {
                     // Log the microphone audio and recognition results
+                    processedVideo.Write($"{Program.AppName}.WebCamProcessedVideo", dataStore);
                     audioInput.Write($"{Program.AppName}.MicrophoneAudio", dataStore);
                     finalResults.Write($"{Program.AppName}.FinalRecognitionResults", dataStore);
                 }
@@ -250,6 +254,10 @@ namespace NU.Kiosk
 
                     // Create the visualization client to visualize live data
                     visualizationClient.SetLiveMode(startTime);
+
+                    // Plot the video stream in a new panel
+                    visualizationClient.AddTimelinePanel();
+                    processedVideo.Show(visualizationClient);
 
                     // Plot the microphone audio stream in a new panel
                     visualizationClient.AddTimelinePanel();
