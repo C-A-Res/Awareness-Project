@@ -59,7 +59,7 @@ namespace NU.Kiosk
                         OpenCVMethods.ToGray(srcImage.ToImageBuffer(), destImage.ToImageBuffer(), f, ref Program.DisNose, ref Program.DisLipMiddle, ref Program.DisLipRight, ref Program.DisLipLeft, ref Program.HasFace);
 
                         // Debug.WriteLine(MainWindow.MouthOpen);
-                        e.Post(destImage, env.OriginatingTime);
+                        e.Post(srcImage, env.OriginatingTime);
                     }
                 }, deliveryPolicy);
         }

@@ -9,6 +9,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/core/cvdef.h>
 #include <opencv2/objdetect/objdetect.hpp>
+#include <opencv2/tracking/tracking.hpp>
 #pragma warning(pop)
 #include <msclr/marshal_cppstd.h>
 #include "ImageBuffer.h"
@@ -65,6 +66,15 @@ namespace NU
 									cv::circle(greyMat, lipright_bottom, 1, 255, CV_FILLED);
 									cv::circle(greyMat, lipright_top, 1, 255, CV_FILLED);
 
+									cv::circle(colorMat, nose_down, 1, cv::Scalar(255, 0, 0), CV_FILLED);
+									cv::circle(colorMat, nose_up, 1, cv::Scalar(255, 0, 0), CV_FILLED);
+									cv::circle(colorMat, lipmiddle_bottom, 1, cv::Scalar(255, 0, 0), CV_FILLED);
+									cv::circle(colorMat, lipmiddle_top, 1, cv::Scalar(255, 0, 0), CV_FILLED);
+									cv::circle(colorMat, lipleft_bottom, 1, cv::Scalar(255, 0, 0), CV_FILLED);
+									cv::circle(colorMat, lipleft_top, 1, cv::Scalar(255, 0, 0), CV_FILLED);
+									cv::circle(colorMat, lipright_bottom, 1, cv::Scalar(255, 0, 0), CV_FILLED);
+									cv::circle(colorMat, lipright_top, 1, cv::Scalar(255, 0, 0), CV_FILLED);
+
 									dis_nose = nose_down.y - nose_up.y;
 
 									dis_lip_middle = lipmiddle_bottom.y - lipmiddle_top.y;
@@ -86,14 +96,35 @@ namespace NU
 								cv::Point p2(faces[i].x + faces[i].width, faces[i].y + faces[i].height);
 								cv::Point p3(faces[i].x, faces[i].y + faces[i].height);
 								rectangle(greyMat, p1, p2, 255);
+								rectangle(colorMat, p1, p2, cv::Scalar(255,0,0));
 								if ((abs(dis_nose) / (4 * abs(dis_lip_middle))) < 3) {
 									putText(greyMat, "Mouth_Open", p3, cv::FONT_HERSHEY_SIMPLEX, 0.5, 255, 1);
+									putText(colorMat, "Mouth_Open", p3, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 1);
 								}
 								else
 								{
 									putText(greyMat, "Mouth_Close", p3, cv::FONT_HERSHEY_SIMPLEX, 0.5, 255, 1);
+									putText(colorMat, "Mouth_Close", p3, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 1);
 								}
-								
+
+								/*
+								if (f->facetracker->flag == 0)
+								{
+									std::cout << f->facetracker->flag;
+									cv::Rect2d bbox(faces[i].x, faces[i].y, faces[i].height, faces[i].width);
+									f->facetracker->tracker->init(colorMat, bbox);
+									f->facetracker->previous_bbox = bbox;
+									f->facetracker->flag = 1;
+								}
+								else
+								{
+									bool ok = f->facetracker->tracker->update(colorMat, f->facetracker->previous_bbox);
+									if (ok)
+									{
+										rectangle(colorMat, f->facetracker->previous_bbox, cv::Scalar(0, 255, 0));
+									}
+								}
+								*/
 							}
 						}
 						else {

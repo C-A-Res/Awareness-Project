@@ -8,6 +8,7 @@
 #include <opencv2/face.hpp>
 #include "CascadeClassifierUnm.h"
 #include "FaceLandmarkUnm.h"
+#include "FaceTrackingUnm.h"
 #pragma warning(pop)
 
 
@@ -20,8 +21,7 @@ namespace NU
 				public:
 					CascadeClassifierUnm * face_cascade;
 					FaceLandmarkUnm * facemark;
-					// cv::CascadeClassifier* classifier;
-					// cv::face::FacemarkKazemi * facemark;
+					FaceTrackingUnm * facetracker;
 					FaceCasClassifier();
 
 				};

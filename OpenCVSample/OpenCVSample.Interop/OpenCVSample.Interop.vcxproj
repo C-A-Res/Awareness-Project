@@ -138,6 +138,7 @@ copy $(OpenCVDir)\build\x64\vc14\bin\opencv_world330.dll $(OutDir)..\..\..\OpenC
     <ClInclude Include="CascadeClassifierUnm.h" />
     <ClInclude Include="FaceCasClassifier.h" />
     <ClInclude Include="FaceLandmarkUnm.h" />
+    <ClInclude Include="FaceTrackingUnm.h" />
     <ClInclude Include="ImageBuffer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stdafx.h" />
@@ -149,6 +150,7 @@ copy $(OpenCVDir)\build\x64\vc14\bin\opencv_world330.dll $(OutDir)..\..\..\OpenC
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</CompileAsManaged>
     </ClCompile>
     <ClCompile Include="FaceLandmarkUnm.cpp" />
+    <ClCompile Include="FaceTrackingUnm.cpp" />
     <ClCompile Include="ImageBuffer.cpp" />
     <ClCompile Include="OpenCVNative.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</CompileAsManaged>
