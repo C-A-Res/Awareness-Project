@@ -19,18 +19,21 @@ namespace NU
 {
 	namespace Kiosk
 	{
-				public ref class OpenCVMethods
-				{
-					// helper function
+			public ref class OpenCVMethods
+			{
+				// helper function
+				
 
-					static cv::Mat WrapInMat(ImageBuffer ^img)
-					{
-						cv::Mat ret = cv::Mat(img->Height, img->Width, CV_MAKETYPE(CV_8U, img->Stride / img->Width), (void *)img->Data, cv::Mat::AUTO_STEP);
-						return ret;
-					}
+				static cv::Mat WrapInMat(ImageBuffer ^img)
+				{
+					cv::Mat ret = cv::Mat(img->Height, img->Width, CV_MAKETYPE(CV_8U, img->Stride / img->Width), (void *)img->Data, cv::Mat::AUTO_STEP);
+					return ret;
+				}
 
 
 				public:
+					static System::Collections::Generic::List<bool>^ openRecord = gcnew System::Collections::Generic::List<bool>();
+
 					static ImageBuffer^ ToGray( ImageBuffer ^colorImage, ImageBuffer ^grayImage, FaceCasClassifier ^f, double% dis_nose, double% dis_lip_middle, double% dis_lip_right, double% dis_lip_left, int% hface)
 					{
 						cv::Mat greyMat = WrapInMat(grayImage);
@@ -45,66 +48,104 @@ namespace NU
 						if (faces.size() == 1) {
 							hface = 1;
 							
-							if (f->facemark->face_landmark->fit(colorMat, faces, shapes))
-							{
-								for (int i = 0; i < faces.size(); i++)
+							try {
+								if (f->facemark->face_landmark->fit(colorMat, faces, shapes))
 								{
-									cv::Point2f nose_down = shapes[i][30];
-									cv::Point2f nose_up = shapes[i][27];
-									cv::Point2f lipmiddle_bottom = shapes[i][66];
-									cv::Point2f lipmiddle_top = shapes[i][62];
-									cv::Point2f lipleft_bottom = shapes[i][67];
-									cv::Point2f lipleft_top = shapes[i][61];
-									cv::Point2f lipright_bottom = shapes[i][65];
-									cv::Point2f lipright_top = shapes[i][63];
-									cv::circle(greyMat, nose_down, 1, 255, CV_FILLED);
-									cv::circle(greyMat, nose_up, 1, 255, CV_FILLED);
-									cv::circle(greyMat, lipmiddle_bottom, 1, 255, CV_FILLED);
-									cv::circle(greyMat, lipmiddle_top, 1, 255, CV_FILLED);
-									cv::circle(greyMat, lipleft_bottom, 1, 255, CV_FILLED);
-									cv::circle(greyMat, lipleft_top, 1, 255, CV_FILLED);
-									cv::circle(greyMat, lipright_bottom, 1, 255, CV_FILLED);
-									cv::circle(greyMat, lipright_top, 1, 255, CV_FILLED);
+									for (int i = 0; i < faces.size(); i++)
+									{
+										cv::Point2f nose_down = shapes[i][30];
+										cv::Point2f nose_up = shapes[i][27];
+										cv::Point2f lipmiddle_bottom = shapes[i][66];
+										cv::Point2f lipmiddle_top = shapes[i][62];
+										cv::Point2f lipleft_bottom = shapes[i][67];
+										cv::Point2f lipleft_top = shapes[i][61];
+										cv::Point2f lipright_bottom = shapes[i][65];
+										cv::Point2f lipright_top = shapes[i][63];
+										cv::circle(greyMat, nose_down, 1, 255, CV_FILLED);
+										cv::circle(greyMat, nose_up, 1, 255, CV_FILLED);
+										cv::circle(greyMat, lipmiddle_bottom, 1, 255, CV_FILLED);
+										cv::circle(greyMat, lipmiddle_top, 1, 255, CV_FILLED);
+										cv::circle(greyMat, lipleft_bottom, 1, 255, CV_FILLED);
+										cv::circle(greyMat, lipleft_top, 1, 255, CV_FILLED);
+										cv::circle(greyMat, lipright_bottom, 1, 255, CV_FILLED);
+										cv::circle(greyMat, lipright_top, 1, 255, CV_FILLED);
 
-									cv::circle(colorMat, nose_down, 1, cv::Scalar(255, 0, 0), CV_FILLED);
-									cv::circle(colorMat, nose_up, 1, cv::Scalar(255, 0, 0), CV_FILLED);
-									cv::circle(colorMat, lipmiddle_bottom, 1, cv::Scalar(255, 0, 0), CV_FILLED);
-									cv::circle(colorMat, lipmiddle_top, 1, cv::Scalar(255, 0, 0), CV_FILLED);
-									cv::circle(colorMat, lipleft_bottom, 1, cv::Scalar(255, 0, 0), CV_FILLED);
-									cv::circle(colorMat, lipleft_top, 1, cv::Scalar(255, 0, 0), CV_FILLED);
-									cv::circle(colorMat, lipright_bottom, 1, cv::Scalar(255, 0, 0), CV_FILLED);
-									cv::circle(colorMat, lipright_top, 1, cv::Scalar(255, 0, 0), CV_FILLED);
+										cv::circle(colorMat, nose_down, 1, cv::Scalar(255, 0, 0), CV_FILLED);
+										cv::circle(colorMat, nose_up, 1, cv::Scalar(255, 0, 0), CV_FILLED);
+										cv::circle(colorMat, lipmiddle_bottom, 1, cv::Scalar(255, 0, 0), CV_FILLED);
+										cv::circle(colorMat, lipmiddle_top, 1, cv::Scalar(255, 0, 0), CV_FILLED);
+										cv::circle(colorMat, lipleft_bottom, 1, cv::Scalar(255, 0, 0), CV_FILLED);
+										cv::circle(colorMat, lipleft_top, 1, cv::Scalar(255, 0, 0), CV_FILLED);
+										cv::circle(colorMat, lipright_bottom, 1, cv::Scalar(255, 0, 0), CV_FILLED);
+										cv::circle(colorMat, lipright_top, 1, cv::Scalar(255, 0, 0), CV_FILLED);
 
-									dis_nose = nose_down.y - nose_up.y;
+										dis_nose = nose_down.y - nose_up.y;
 
-									dis_lip_middle = lipmiddle_bottom.y - lipmiddle_top.y;
+										dis_lip_middle = lipmiddle_bottom.y - lipmiddle_top.y;
 
-									dis_lip_right = lipright_bottom.y - lipright_top.y;
+										dis_lip_right = lipright_bottom.y - lipright_top.y;
 
-									dis_lip_left = lipleft_bottom.y - lipleft_top.y;
+										dis_lip_left = lipleft_bottom.y - lipleft_top.y;
+									}
+								}
+								else {
+									dis_nose = 0.0;
+									dis_lip_middle = 0.0;
+									dis_lip_right = 0.0;
+									dis_lip_left = 0.0;
 								}
 							}
-							else {
-								dis_nose = 0.0;
-								dis_lip_middle = 0.0;
-								dis_lip_right = 0.0;
-								dis_lip_left = 0.0;
+							catch (std::exception e) {
+								// f->facemark = new FaceLandmarkUnm();
+								// f->facemark->setFaceLandmark();
+								std::cout << "Fail!";
 							}
+
 							for (int i = 0; i < faces.size(); i++)
 							{
 								cv::Point p1(faces[i].x, faces[i].y);
 								cv::Point p2(faces[i].x + faces[i].width, faces[i].y + faces[i].height);
 								cv::Point p3(faces[i].x, faces[i].y + faces[i].height);
-								rectangle(greyMat, p1, p2, 255);
+								// rectangle(greyMat, p1, p2, 255);
 								rectangle(colorMat, p1, p2, cv::Scalar(255,0,0));
-								if ((abs(dis_nose) / (4 * abs(dis_lip_middle))) < 3) {
-									putText(greyMat, "Mouth_Open", p3, cv::FONT_HERSHEY_SIMPLEX, 0.5, 255, 1);
+
+								bool mouthOpen = (1.0*abs(dis_nose) / (4 * abs(dis_lip_middle))) < 3;
+								openRecord->Add(mouthOpen);
+
+								if (mouthOpen) {
+									// putText(greyMat, "Mouth_Open", p3, cv::FONT_HERSHEY_SIMPLEX, 0.5, 255, 1);
 									putText(colorMat, "Mouth_Open", p3, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 1);
 								}
 								else
 								{
-									putText(greyMat, "Mouth_Close", p3, cv::FONT_HERSHEY_SIMPLEX, 0.5, 255, 1);
-									putText(colorMat, "Mouth_Close", p3, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 1);
+									
+									int openFrequencyIn2s = 0;
+									int nearestOpenDistance = -1;
+									for (int i = openRecord->Count - 1; i >= 0 && (i >= openRecord->Count - 10); i--)
+									{
+										if (openRecord[i])
+										{
+											openFrequencyIn2s++;
+											if (nearestOpenDistance == -1)
+											{
+												nearestOpenDistance = openRecord->Count - 1 - i;
+											}											
+										}
+									}
+
+									if (1.0*openFrequencyIn2s / min(10, openRecord->Count) >= 0.3 && nearestOpenDistance > 0 && nearestOpenDistance <= 8)
+									{
+										//mouthOpen = true;
+										//putText(greyMat, "Mouth_Open", p3, cv::FONT_HERSHEY_SIMPLEX, 0.5, 255, 1);
+										putText(colorMat, "Mouth_Open", p3, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 1);
+									}
+									else
+									{
+										// putText(greyMat, "Mouth_Close", p3, cv::FONT_HERSHEY_SIMPLEX, 0.5, 255, 1);
+										putText(colorMat, "Mouth_Close", p3, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 1);
+									}
+									
+									//putText(colorMat, "Mouth_Close", p3, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 1);
 								}
 
 								/*
@@ -144,6 +185,6 @@ namespace NU
 						cv::imwrite(fn, matImg);
 						delete &matImg;
 					}
-				};
+			};
 	}
 }

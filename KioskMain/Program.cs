@@ -75,6 +75,7 @@ namespace NU.Kiosk
         public static double DisLipRight;
         public static double DisLipLeft;
         public static int HasFace;
+        public static List<bool> PastMouthStatus = new List<bool>();
 
         static void Main(string[] args)
         {
@@ -134,9 +135,10 @@ namespace NU.Kiosk
                     localPort = int.Parse(args[2]);
                 }
 
+
                 bool showLiveVisualization = true;
                 string inputLogPath = null;
-                string outputLogPath = "C:/psi/data/";
+                string outputLogPath = "D:/recordings";
 
                 // Needed only for live visualization
                 DateTime startTime = DateTime.Now;
@@ -154,8 +156,8 @@ namespace NU.Kiosk
 
                 // Bind the webcam's output to our display image.
                 // The "Do" operator is executed on each sample from the stream (webcam.Out), which are the images coming from the webcam
-                var processedVideo = webcam.Out.ToGrayViaOpenCV(f).EncodeJpeg(90, DeliveryPolicy.LatestMessage).Out;
-
+                var rawVideo = webcam.Out.EncodeJpeg(90, DeliveryPolicy.LatestMessage).Out;
+                var processedVideo = webcam.Out.ToGrayViaOpenCV(f).EncodeJpeg(90, DeliveryPolicy.LatestMessage).Out;                
                 var mouthOpenAsBool = processedVideo.Select(
                 (img, e) =>
                 {
@@ -169,8 +171,31 @@ namespace NU.Kiosk
                     {
                         mouthOpen = false;
                     }
-                    // Console.WriteLine(Math.Abs(DisLipMiddle) + " " + Math.Abs(DisLipRight) + " " + Math.Abs(DisLipLeft) + " " + (Math.Abs(DisNose) / (4 * Math.Abs(DisLipMiddle))) + " " + mouthOpen);
 
+                    
+                    PastMouthStatus.Add(mouthOpen);
+                    if (!mouthOpen)
+                    {
+                        int openFrequencyIn2s = 0;
+                        int nearestOpenDistance = -1;
+                        for (var i = PastMouthStatus.Count - 1; i >= 0 && (i >= PastMouthStatus.Count - 10); i--)
+                        {
+                            if (PastMouthStatus[i])
+                            {
+                                openFrequencyIn2s++;
+                                nearestOpenDistance = PastMouthStatus.Count - 1 - i;
+                            }
+                        }
+
+                        if (1.0*openFrequencyIn2s / Math.Min(10, PastMouthStatus.Count) >= 0.3 && nearestOpenDistance > 0 && nearestOpenDistance <= 8)
+                        {
+                            mouthOpen = true;
+                        }
+                    }
+                    // Console.WriteLine(Math.Abs(DisLipMiddle) + " " + Math.Abs(DisLipRight) + " " + Math.Abs(DisLipLeft) + " " + (Math.Abs(DisNose) / (4 * Math.Abs(DisLipMiddle))) + " " + mouthOpen);
+                    //Console.WriteLine(mouthOpen);
+
+                    
                     return mouthOpen;
                 });
 
@@ -238,6 +263,7 @@ namespace NU.Kiosk
                 if (dataStore != null)
                 {
                     // Log the microphone audio and recognition results
+                    rawVideo.Write($"{Program.AppName}.WebCamRawVideo", dataStore);
                     processedVideo.Write($"{Program.AppName}.WebCamProcessedVideo", dataStore);
                     audioInput.Write($"{Program.AppName}.MicrophoneAudio", dataStore);
                     finalResults.Write($"{Program.AppName}.FinalRecognitionResults", dataStore);

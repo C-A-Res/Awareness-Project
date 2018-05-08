@@ -21,7 +21,7 @@ namespace NU
 					// this->face_landmark = cv::face::FacemarkKazemi::create();
 					// this->face_landmark->loadModel("C:/cv341/data/face-alignment/model/face_landmark_model.dat");
 					this->face_landmark = cv::face::FacemarkLBF::create();
-					this->face_landmark->loadModel("C:/cv341/data/face-alignment/model/lbfmodel.yaml");
+					this->face_landmark->loadModel("D:/opencv/data/lbfmodel.yaml");
 				}
 	}
 }
