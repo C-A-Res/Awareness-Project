@@ -23,7 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -273,6 +273,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\KioskSpeech\KioskSpeech\KioskSpeech.csproj">
+      <Project>{c5ab7394-68fb-4641-bdae-8a956edc44a9}</Project>
+      <Name>KioskSpeech</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenCVSample\OpenCVSample.Interop\OpenCVSample.Interop.vcxproj">
       <Project>{0c0d11f0-04c4-41d3-af43-7c2aca90214a}</Project>
       <Name>OpenCVSample.Interop</Name>

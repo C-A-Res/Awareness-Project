@@ -51,7 +51,6 @@ Global
 		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Release|x64.ActiveCfg = Release|Any CPU
-		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

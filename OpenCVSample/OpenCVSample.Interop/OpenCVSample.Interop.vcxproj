@@ -58,7 +58,7 @@
     <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
     <LinkKeyFile>
     </LinkKeyFile>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(OpenCVDir)\build\include;$(OpenCVDir)\sources\modules\highgui\include;$(OpenCVDir)\sources\modules\core\include;$(OpenCVDir)\sources\modules\videostab\include;$(OpenCVDir)\sources\modules\imgcodecs\include;$(OpenCVDir)\sources\modules\imgproc\include;$(OpenCVDir)\sources\modules\videoio\include;;$(OpenCVDir)\sources\include</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(OPENCV_EXTEND_DIR)\build\install\include</IncludePath>
     <OutDir>$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)\$(Platform)\$(Configuration)\</IntDir>
     <CodeAnalysisRuleSet>..\..\..\Build\Microsoft.Psi.ruleset</CodeAnalysisRuleSet>
@@ -116,7 +116,7 @@ copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_videostab341d.dll $(
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>"$(OpenCVDir)\build\x64\vc14\lib\opencv_world330.lib";kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_calib3d341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_ccalib341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_core341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_dnn341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_face341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_features2d341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_flann341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_highgui341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_imgcodecs341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_imgproc341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_ml341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_objdetect341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_photo341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_shape341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_stitching341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_superres341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_text341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_tracking341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_video341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_videoio341.lib";"$(OPENCV_EXTEND_DIR)\build\install\x64\vc15\lib\opencv_videostab341.lib";kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
@@ -124,9 +124,29 @@ copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_videostab341d.dll $(
       <PreserveSbr>true</PreserveSbr>
     </Bscmake>
     <PostBuildEvent>
-      <Command>if not exist $(OutDir)..\..\..\OpenCVSample\bin\Release (mkdir $(OutDir)..\..\..\OpenCVSample\bin\Release)
-copy $(OutDir)$(TargetName)$(TargetExt) $(OutDir)..\..\..\OpenCVSample\bin\Release\$(TargetName)$(TargetExt)
-copy $(OpenCVDir)\build\x64\vc14\bin\opencv_world330.dll $(OutDir)..\..\..\OpenCVSample\bin\Release</Command>
+      <Command>if not exist $(OutDir)..\..\..\..\KioskMain\bin\Release (mkdir $(OutDir)..\..\..\..\KioskMain\bin\Release)
+copy $(OutDir)$(TargetName)$(TargetExt) $(OutDir)..\..\..\..\KioskMain\bin\Release\$(TargetName)$(TargetExt)
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_calib3d341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_ccalib341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_core341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_dnn341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_face341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_features2d341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_flann341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_highgui341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_imgcodecs341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_imgproc341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_ml341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_objdetect341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_photo341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_shape341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_stitching341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_superres341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_text341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_tracking341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_video341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_videoio341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release
+copy $(OPENCV_EXTEND_DIR)\build\install\x64\vc15\bin\opencv_videostab341.dll $(OutDir)..\..\..\..\KioskMain\bin\Release</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

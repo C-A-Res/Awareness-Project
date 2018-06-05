@@ -21,7 +21,7 @@ namespace NU
 			int flag;
 			cv::Rect2d previous_bbox;
 			cv::Ptr<cv::Tracker> tracker;
-			void setFaceTracker();
+			void setFaceTracker(int selection);
 		};
 	}
 }

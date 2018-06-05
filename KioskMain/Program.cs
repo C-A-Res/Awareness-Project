@@ -3,12 +3,9 @@
 namespace NU.Kiosk
 {
     using System;
-    using System.Diagnostics;
-    using System.Windows;
+    using System.IO;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Microsoft.Psi;
     using Microsoft.Psi.Imaging;
     using Microsoft.Psi.Media;
@@ -16,7 +13,6 @@ namespace NU.Kiosk
     using Microsoft.Psi.Data;
     using Microsoft.Psi.Speech;
     using Microsoft.Psi.Visualization.Client;
-    using Microsoft.Psi.Visualization.Common;
 
 
     public static class OpenCV
@@ -56,7 +52,7 @@ namespace NU.Kiosk
                     {
                         // Call into our OpenCV wrapper to convert the source image ('srcImage') into the newly created image ('destImage')
                         // Note: since srcImage & destImage are Shared<> we need to access the Microsoft.Psi.Imaging.Image data via the Resource member
-                        OpenCVMethods.ToGray(srcImage.ToImageBuffer(), destImage.ToImageBuffer(), f, ref Program.DisNose, ref Program.DisLipMiddle, ref Program.DisLipRight, ref Program.DisLipLeft, ref Program.HasFace);
+                        OpenCVMethods.ToGray(srcImage.ToImageBuffer(), destImage.ToImageBuffer(), f, ref Program.HasFace, ref Program.MouthOpen, ref Program.Test);
 
                         // Debug.WriteLine(MainWindow.MouthOpen);
                         e.Post(srcImage, env.OriginatingTime);
@@ -69,40 +65,66 @@ namespace NU.Kiosk
     class Program
     {
         private static string AppName = "Kiosk";
-
-        public static double DisNose;
-        public static double DisLipMiddle;
-        public static double DisLipRight;
-        public static double DisLipLeft;
         public static int HasFace;
-        public static List<bool> PastMouthStatus = new List<bool>();
+        public static int MouthOpen;
+        public static int Test;
 
         static void Main(string[] args)
         {
-            DisNose = 0.0;
-            DisLipMiddle = 0.0;
-            DisLipRight = 0.0;
-            DisLipLeft = 0.0;
             HasFace = 0;
+            MouthOpen = -1;
             bool exit = false;
+            Test = 0;
 
             Console.WriteLine("Starting");
             Console.WriteLine();
+            string[] paralines = System.IO.File.ReadAllLines("para_config.txt");
+            String storeInputPath = paralines[0].Split(new[] { " | " }, StringSplitOptions.None)[1];
+            String companionIP = paralines[1].Split(new[] { " | " }, StringSplitOptions.None)[1];
+            String companionPort = paralines[2].Split(new[] { " | " }, StringSplitOptions.None)[1];
+            String localPort = paralines[3].Split(new[] { " | " }, StringSplitOptions.None)[1];
+
             while (!exit)
             {
                 Console.WriteLine("================================================================================");
                 Console.WriteLine("                               Kiosk Awareness sample");
                 Console.WriteLine("================================================================================");
-                Console.WriteLine("1) Start listening and looking. ");
+                Console.WriteLine("1) Start listening and looking with visualization. ");
+                Console.WriteLine("2) Start listening and looking without visualization. ");
+                Console.WriteLine("3) Visualize the stored data streams. ");
+                Console.WriteLine("4) Start listening, looking and reasoning via Companions agent. ");
                 Console.WriteLine("Q) QUIT");
                 Console.Write("Enter selection: ");
                 ConsoleKey key = Console.ReadKey().Key;
                 Console.WriteLine();
+
                 exit = false;
 
                 if (key == ConsoleKey.D1)
                 {
-                    StartListeningAndLooking(args);
+                    String storePath = storeInputPath;
+                    StartListeningAndLooking(args, true, false, null, storePath, false, null);
+                }
+                else if (key == ConsoleKey.D2)
+                {
+                    String storePath = storeInputPath;
+                    StartListeningAndLooking(args, false, false, null, storePath, false, null);
+                }
+                else if (key == ConsoleKey.D3)
+                {
+                    Console.WriteLine("Enter a file that contains the recorded data (Press ENTER key to continue with null) :");
+                    String storeFile = Console.ReadLine();
+                    String storePath = storeInputPath + storeFile;
+                    StartListeningAndLooking(args, false, true, storePath, null, false, null);
+                }
+                else if (key == ConsoleKey.D4)
+                {
+                    String storePath = storeInputPath;
+                    String[] compargs = new String[3];
+                    compargs[0] = companionIP;
+                    compargs[1] = companionPort;
+                    compargs[2] = localPort;
+                    StartListeningAndLooking(args, true, false, null, storePath, true, compargs);
                 }
                 else
                 {
@@ -112,15 +134,15 @@ namespace NU.Kiosk
             }
         }
 
-        public static void StartListeningAndLooking(string[] args)
+        public static void StartListeningAndLooking(string[] args, bool live_visual_flag, bool store_visual_flag, string inputStorePath, string outputStorePath, bool usingKqml, String[] compargs)
         {
             using (Pipeline pipeline = Pipeline.Create())
             {
-                bool usingKqml = false;
                 string facilitatorIP = null;
                 int facilitatorPort = -1;
                 int localPort = -1;
 
+                /*
                 if (args.Length > 0)
                 {
                     if (args.Length < 3)
@@ -134,11 +156,25 @@ namespace NU.Kiosk
                     facilitatorPort = int.Parse(args[1]);
                     localPort = int.Parse(args[2]);
                 }
+                */
+                string outputLogPath = null;
 
+                if (outputStorePath != null && outputStorePath != "" && Directory.Exists(outputStorePath))
+                {
+                    outputLogPath = outputStorePath;
 
-                bool showLiveVisualization = true;
+                }
+                Console.WriteLine(outputLogPath == null);
+
                 string inputLogPath = null;
-                string outputLogPath = "D:/recordings";
+
+                if (inputStorePath != null && inputStorePath != "" && Directory.Exists(inputStorePath))
+                {
+                    inputLogPath = inputStorePath;
+                }
+                Console.WriteLine(inputLogPath == null);
+
+                bool showLiveVisualization = live_visual_flag;
 
                 // Needed only for live visualization
                 DateTime startTime = DateTime.Now;
@@ -156,65 +192,34 @@ namespace NU.Kiosk
 
                 // Bind the webcam's output to our display image.
                 // The "Do" operator is executed on each sample from the stream (webcam.Out), which are the images coming from the webcam
-                var rawVideo = webcam.Out.EncodeJpeg(90, DeliveryPolicy.LatestMessage).Out;
-                var processedVideo = webcam.Out.ToGrayViaOpenCV(f).EncodeJpeg(90, DeliveryPolicy.LatestMessage).Out;                
-                var mouthOpenAsBool = processedVideo.Select(
+                var processedVideo = inputLogPath != null ? SetupVideoInput(pipeline, inputLogPath, ref startTime) : webcam.Out.ToGrayViaOpenCV(f).EncodeJpeg(90, DeliveryPolicy.LatestMessage);
+                var mouthOpenAsInt = processedVideo.Select(
                 (img, e) =>
                 {
-                    // Debug.WriteLine(FrameCount % 10);
-                    bool mouthOpen = false;
-                    if ((Math.Abs(DisNose) / (4 * Math.Abs(DisLipMiddle))) < 3)
-                    {
-                        mouthOpen = true;
-                    }
-                    else
-                    {
-                        mouthOpen = false;
-                    }
-
-                    
-                    PastMouthStatus.Add(mouthOpen);
-                    if (!mouthOpen)
-                    {
-                        int openFrequencyIn2s = 0;
-                        int nearestOpenDistance = -1;
-                        for (var i = PastMouthStatus.Count - 1; i >= 0 && (i >= PastMouthStatus.Count - 10); i--)
-                        {
-                            if (PastMouthStatus[i])
-                            {
-                                openFrequencyIn2s++;
-                                nearestOpenDistance = PastMouthStatus.Count - 1 - i;
-                            }
-                        }
-
-                        if (1.0*openFrequencyIn2s / Math.Min(10, PastMouthStatus.Count) >= 0.3 && nearestOpenDistance > 0 && nearestOpenDistance <= 8)
-                        {
-                            mouthOpen = true;
-                        }
-                    }
-                    // Console.WriteLine(Math.Abs(DisLipMiddle) + " " + Math.Abs(DisLipRight) + " " + Math.Abs(DisLipLeft) + " " + (Math.Abs(DisNose) / (4 * Math.Abs(DisLipMiddle))) + " " + mouthOpen);
-                    //Console.WriteLine(mouthOpen);
-
-                    
-                    return mouthOpen;
+                    // Debug.WriteLine(FrameCount % 10);                   
+                    // Console.WriteLine(Math.Abs(DisLipMiddle) + " " + Math.Abs(DisLipRight) + " " + Math.Abs(DisLipLeft) + " " + (Math.Abs(DisNose) / (4 * Math.Abs(DisLipMiddle))) + " " + mouthOpen);                  
+                    //return MouthOpen;
+                    return MouthOpen;
                 });
 
+                /*
                 var hasFaceAsBool = webcam.Out.ToGrayViaOpenCV(f).Select(
                 (img, e) =>
                 {
-                    bool hasFaceboll = false;
+                    bool hasFacebool = false;
                     if (HasFace == 1)
                     {
-                        hasFaceboll = true;
+                        hasFacebool = true;
                     }
                     else
                     {
-                        hasFaceboll = false;
+                        hasFacebool = false;
                     }
-                    return hasFaceboll;
+                    return hasFacebool;
                 });
+                */
 
-                var mouthAndSpeech = audioInput.Pair(mouthOpenAsBool).Where(t => t.Item2).Select(t => {
+                var mouthAndSpeech = audioInput.Pair(mouthOpenAsInt).Where(t => t.Item2 > -1).Select(t => {
                     return t.Item1;
                 }
                 );
@@ -227,7 +232,7 @@ namespace NU.Kiosk
 
                 // Partial and final speech recognition results are posted on the same stream. Here
                 // we use Psi's Where() operator to filter out only the final recognition results.
-                var finalResults = recognizer.Out.Where(result => result.IsFinal);
+                var finalResults = inputLogPath != null ? SetupSpeechInput(pipeline, inputLogPath, ref startTime) : recognizer.Out.Where(result => result.IsFinal);
 
                 // Print the recognized text of the final recognition result to the console.
                 finalResults.Do(result =>
@@ -236,37 +241,53 @@ namespace NU.Kiosk
                     Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
                 });
 
-                // Get just the text from the Speech Recognizer.  We may want to add another filter to only get text if confidence > 0.8
-                var text = finalResults.Select(result =>
+                var finalResultsHighCf = finalResults.Where(t => (t as SpeechRecognitionResult).Confidence > 0.6).Select(t =>
                 {
-                    var ssrResult = result as SpeechRecognitionResult;
-                    return ssrResult.Text;
+                    Console.WriteLine("Good Confidence!");
+                    return t;
+                }); 
+
+                // Get just the text from the Speech Recognizer.  We may want to add another filter to only get text if confidence > 0.8
+                var text = finalResultsHighCf.Pair(mouthOpenAsInt).Select(result =>
+                {
+                    var ssrResult = result.Item1 as SpeechRecognitionResult;
+                    int userid = result.Item2;
+                    Console.WriteLine("user" + userid + "+" + ssrResult.Text);
+                    return "user" + userid + "+" + ssrResult.Text;
                 });
 
                 // Setup KQML connection to Companion
 
-                /*
-                SocketStringConsumer kqml = null;
+                NU.Kqml.SocketStringConsumer kqml = null;
                 if (usingKqml)
                 {
-                    kqml = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
+                    facilitatorIP = compargs[0];
+                    facilitatorPort = Convert.ToInt32(compargs[1]);
+                    localPort = Convert.ToInt32(compargs[2]);
+                    Console.WriteLine("Your Companion IP address is: " + facilitatorIP);
+                    Console.WriteLine("Your Companion port is: " + facilitatorPort);
+                    Console.WriteLine("Your local port is: " + localPort);
 
-                    text.PipeTo(kqml.In)
+                    kqml = new NU.Kqml.SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
+
+                    text.PipeTo(kqml.In);
                 }
-                */
 
                 // Create a data store to log the data to if necessary. A data store is necessary
                 // only if output logging or live visualization are enabled.
+                Console.WriteLine(outputLogPath == null);
                 var dataStore = CreateDataStore(pipeline, outputLogPath, showLiveVisualization);
-
+                Console.WriteLine(dataStore == null);
+                Console.WriteLine("dataStore is empty");
                 // For disk logging or live visualization only
                 if (dataStore != null)
                 {
                     // Log the microphone audio and recognition results
-                    rawVideo.Write($"{Program.AppName}.WebCamRawVideo", dataStore);
                     processedVideo.Write($"{Program.AppName}.WebCamProcessedVideo", dataStore);
                     audioInput.Write($"{Program.AppName}.MicrophoneAudio", dataStore);
                     finalResults.Write($"{Program.AppName}.FinalRecognitionResults", dataStore);
+
+                    Console.WriteLine("Stored the data here! ");
                 }
 
                 // Ignore this block if live visualization is not enabled
@@ -282,7 +303,7 @@ namespace NU.Kiosk
                     visualizationClient.SetLiveMode(startTime);
 
                     // Plot the video stream in a new panel
-                    visualizationClient.AddTimelinePanel();
+                    visualizationClient.AddXYPanel();
                     processedVideo.Show(visualizationClient);
 
                     // Plot the microphone audio stream in a new panel
@@ -292,6 +313,32 @@ namespace NU.Kiosk
                     // Plot the recognition results in a new panel
                     visualizationClient.AddTimelinePanel();
                     finalResults.Show(visualizationClient);
+
+                }
+
+                if (store_visual_flag)
+                {
+                    // Create the visualization client
+                    var visualizationClient = new VisualizationClient();
+
+                    // Clear all data if the visualizer is already open
+                    visualizationClient.ClearAll();
+
+                    // Create the visualization client to visualize live data
+                    visualizationClient.SetLiveMode(startTime);
+
+                    // Plot the video stream in a new panel
+                    visualizationClient.AddXYPanel();
+                    processedVideo.Show(visualizationClient);
+
+                    // Plot the microphone audio stream in a new panel
+                    visualizationClient.AddTimelinePanel();
+                    audioInput.Show(visualizationClient);
+
+                    // Plot the recognition results in a new panel
+                    visualizationClient.AddTimelinePanel();
+                    finalResults.Show(visualizationClient);
+
                 }
 
                 // Register an event handler to catch pipeline errors
@@ -303,7 +350,7 @@ namespace NU.Kiosk
                 Console.WriteLine("Press any key to exit...");
                 Console.ReadKey(true);
 
-               // if (kqml != null) kqml.Stop();
+                // if (kqml != null) kqml.Stop();
             }
         }
 
@@ -340,10 +387,33 @@ namespace NU.Kiosk
             {
                 // Create the AudioSource component to capture audio from the default device in 16 kHz 1-channel
                 // PCM format as required by both the voice activity detector and speech recognition components.
-                audioInput = new AudioSource(pipeline, new AudioSourceConfiguration() { OutputFormat = WaveFormat.Create16kHz1Channel16BitPcm() });
+                audioInput = new AudioSource(pipeline, new AudioSourceConfiguration()
+                {
+                    DropOutOfOrderPackets = true,
+                    OutputFormat = WaveFormat.Create16kHz1Channel16BitPcm()
+                });
             }
 
             return audioInput;
+        }
+
+
+        private static IProducer<Shared<EncodedImage>> SetupVideoInput(Pipeline pipeline, string inputLogPath, ref DateTime startTime)
+        {
+            IProducer<Shared<EncodedImage>> videoInput = null;
+            var store = Store.Open(pipeline, Program.AppName, inputLogPath);
+            videoInput = store.OpenStream<Shared<EncodedImage>>($"{Program.AppName}.WebCamProcessedVideo");
+            startTime = store.OriginatingTimeInterval.Left;
+            return videoInput;
+        }
+
+        private static IProducer<IStreamingSpeechRecognitionResult> SetupSpeechInput(Pipeline pipeline, string inputLogPath, ref DateTime startTime)
+        {
+            IProducer<IStreamingSpeechRecognitionResult> speechInput = null;
+            var store = Store.Open(pipeline, Program.AppName, inputLogPath);
+            speechInput = store.OpenStream<IStreamingSpeechRecognitionResult>($"{Program.AppName}.FinalRecognitionResults");
+            startTime = store.OriginatingTimeInterval.Left;
+            return speechInput;
         }
 
         /// <summary>

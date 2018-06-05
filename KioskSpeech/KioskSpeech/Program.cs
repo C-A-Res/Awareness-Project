@@ -15,7 +15,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
     using Microsoft.Psi.Visualization.Client;
     using NU.Kqml;
     using System.Speech.Recognition;
-    
+
     public static class Program
     {
         private const string AppName = "PsiSpeechSample";
@@ -48,7 +48,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
 
             RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization, facilitatorIP, facilitatorPort, localPort);
             if (python != null) python.Stop();
-            
+
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
         /// <param name="outputLogPath">The path under which to write log data.</param>
         /// <param name="inputLogPath">The path from which to read audio input data.</param>
         /// <param name="showLiveVisualization">A flag indicating whether to display live data in PsiStudio as the pipeline is running.</param>
-        public static void RunSystemSpeech(string outputLogPath = null, string inputLogPath = null, bool showLiveVisualization = true, 
+        public static void RunSystemSpeech(string outputLogPath = null, string inputLogPath = null, bool showLiveVisualization = true,
             string facilitatorIP = "localhost", int facilitatorPort = 9000, int localPort = 8090)
         {
             // Create the pipeline object.
@@ -99,7 +99,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
                     //});
                     pipeline);
 
-                
+
                 // Subscribe the recognizer to the input audio
                 audioInput.PipeTo(recognizer);
 
@@ -123,7 +123,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
 
                 //python = new WebSocketStringConsumer(pipeline, 9001);
                 python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
-                
+
                 var text = finalResults.Select(result =>
                 {
                     var ssrResult = result as SpeechRecognitionResult;
@@ -144,27 +144,6 @@ namespace Microsoft.Psi.Samples.SpeechSample
                     finalResults.Write($"{Program.AppName}.FinalRecognitionResults", dataStore);
                 }
 
-                // Ignore this block if live visualization is not enabled
-                if (showLiveVisualization)
-                {
-                    // Create the visualization client
-                    var visualizationClient = new VisualizationClient();
-
-                    // Clear all data if the visualizer is already open
-                    visualizationClient.ClearAll();
-
-                    // Create the visualization client to visualize live data
-                    visualizationClient.SetLiveMode(startTime);
-
-                    // Plot the microphone audio stream in a new panel
-                    visualizationClient.AddTimelinePanel();
-                    audioInput.Show(visualizationClient);
-
-                    // Plot the recognition results in a new panel
-                    visualizationClient.AddTimelinePanel();
-                    finalResults.Show(visualizationClient);
-                }
-
                 // Register an event handler to catch pipeline errors
                 pipeline.PipelineCompletionEvent += PipelineCompletionEvent;
 
@@ -175,7 +154,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
                 Console.ReadKey(true);
             }
         }
-        
+
 
         /// <summary>
         /// Event handler for the PipelineCompletion event.
@@ -215,6 +194,6 @@ namespace Microsoft.Psi.Samples.SpeechSample
             // Create the store only if it is needed (logging to disk or live visualization).
             return (dataStoreName != null) ? Store.Create(pipeline, dataStoreName, outputLogPath) : null;
         }
-        
+
     }
 }

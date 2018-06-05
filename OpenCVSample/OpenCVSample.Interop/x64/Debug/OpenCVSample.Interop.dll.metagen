@@ -1,0 +1,35 @@
+ImageRuntimeVersion: v4.0.30319
+Assembly OpenCVSample.Interop, Version=0.3.*, Culture=Invariant Language (Invariant Country): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Struct NU.Kiosk.CascadeClassifierUnm: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+Struct NU.Kiosk.FaceLandmarkUnm: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+Struct NU.Kiosk.FaceTrackingUnm: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+Class NU.Kiosk.FaceCasClassifier: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    NU.Kiosk.CascadeClassifierUnm* face_cascade : Public
+    NU.Kiosk.FaceLandmarkUnm* facemark : Public
+    NU.Kiosk.FaceTrackingUnm* facetracker : Public
+Class NU.Kiosk.ImageBuffer: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(Int32, Int32, IntPtr, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Int32 Width : Public
+    Int32 Height : Public
+    IntPtr Data : Public
+    Int32 Stride : Public
+Class NU.Kiosk.OpenCVMethods: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    ToGray(ImageBuffer, ImageBuffer, FaceCasClassifier, Double&, Double&, Double&, Double&, Int32&): PrivateScope, Public, Static, HideBySig
+    SaveImage(ImageBuffer, String): PrivateScope, Public, Static, HideBySig

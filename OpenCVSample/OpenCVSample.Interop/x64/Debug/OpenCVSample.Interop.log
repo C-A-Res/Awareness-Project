@@ -1,0 +1,34 @@
+﻿  Stdafx.cpp
+  AssemblyInfo.cpp
+  CascadeClassifierUnm.cpp
+  FaceCasClassifier.cpp
+  FaceLandmarkUnm.cpp
+  FaceTrackingUnm.cpp
+  ImageBuffer.cpp
+  OpenCVNative.cpp
+  Generating Code...
+  .NETFramework,Version=v4.7.AssemblyAttributes.cpp
+  OpenCVSample.Interop.vcxproj -> C:\github\Awareness-Project\OpenCVSample\OpenCVSample.Interop\x64\Debug\OpenCVSample.Interop.dll
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+  Built sample using OpenCVDir='C:\cv341\opencv'

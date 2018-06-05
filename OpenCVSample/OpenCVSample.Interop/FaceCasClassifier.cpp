@@ -28,7 +28,7 @@ namespace NU
 					this->face_cascade->setFaceDetector();
 					this->facemark = new FaceLandmarkUnm();
 					this->facetracker = new FaceTrackingUnm();
-					this->facetracker->setFaceTracker();
+					this->facetracker->setFaceTracker(1);
 					this->facemark->setFaceLandmark();
 				}
 	}

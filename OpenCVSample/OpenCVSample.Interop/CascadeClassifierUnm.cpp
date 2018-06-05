@@ -17,7 +17,7 @@ namespace NU
 	{
 				void CascadeClassifierUnm::setFaceDetector()
 				{
-					this->face_cas.load("D:/opencv/data/haarcascade_frontalface_alt.xml");
+					this->face_cas.load("C:/cv341/data/face-alignment/model/haarcascade_frontalface_alt.xml");
 				}
 	}
 }

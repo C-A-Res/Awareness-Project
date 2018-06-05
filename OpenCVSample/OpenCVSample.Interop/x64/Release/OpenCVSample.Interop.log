@@ -1,0 +1,41 @@
+﻿  Stdafx.cpp
+  AssemblyInfo.cpp
+  CascadeClassifierUnm.cpp
+  FaceCasClassifier.cpp
+  FaceLandmarkUnm.cpp
+  FaceTrackingUnm.cpp
+  ImageBuffer.cpp
+  OpenCVNative.cpp
+c:\github\awareness-project\opencvsample\opencvsample.interop\opencvnative.cpp(36): warning C4434: a static constructor must have private accessibility; changing to private access
+c:\github\awareness-project\opencvsample\opencvsample.interop\opencvnative.cpp(103): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\github\awareness-project\opencvsample\opencvsample.interop\opencvnative.cpp(54): warning C4100: 'test': unreferenced formal parameter
+c:\github\awareness-project\opencvsample\opencvsample.interop\opencvnative.cpp(82): warning C4189: 'centerY': local variable is initialized but not referenced
+c:\github\awareness-project\opencvsample\opencvsample.interop\opencvnative.cpp(81): warning C4189: 'centerX': local variable is initialized but not referenced
+c:\github\awareness-project\opencvsample\opencvsample.interop\opencvnative.cpp(144): warning C4189: 'dis_lip_left': local variable is initialized but not referenced
+c:\github\awareness-project\opencvsample\opencvsample.interop\opencvnative.cpp(143): warning C4189: 'dis_lip_right': local variable is initialized but not referenced
+  Generating Code...
+  .NETFramework,Version=v4.7.AssemblyAttributes.cpp
+  OpenCVSample.Interop.vcxproj -> C:\github\Awareness-Project\OpenCVSample\OpenCVSample.Interop\x64\Release\OpenCVSample.Interop.dll
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+  Built sample using OpenCVDir='C:\cv341\opencv'

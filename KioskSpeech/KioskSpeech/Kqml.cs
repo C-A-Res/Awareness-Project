@@ -4,13 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebSocketSharp;
 
 namespace NU.Kqml
 {
     using Microsoft.Psi;
 
-    public class SocketStringConsumer :  IConsumer<string> , Microsoft.Psi.Components.IStartable
+    public class SocketStringConsumer : IConsumer<string>, Microsoft.Psi.Components.IStartable
     {
         //private readonly Pipeline pipeline;
         private readonly int localPort;
@@ -31,7 +30,7 @@ namespace NU.Kqml
             this.localPort = localP;
             this.facilitatorIp = fIP;
             this.facilitatorPort = fP;
-            this.In = pipeline.CreateReceiver<string>(this, ReceiveString, "SocketReceiver");  
+            this.In = pipeline.CreateReceiver<string>(this, ReceiveString, "SocketReceiver");
         }
 
         //public Receiver<string> In => ((IConsumer<string>)receiver).In;
@@ -42,12 +41,12 @@ namespace NU.Kqml
             //Console.WriteLine($"Consuming {message}");
             if (ready && message.Length > 5)
             {
-                var kqml = KQMLMessage.createAchieve(name, "interaction-manager", nextMsgId(), null, $"(runQAQuestion \"{message}\" fweiofwjeo HandMadeEEs-Library)");
+                var kqml = KQMLMessage.createAchieve(name, "interaction-manager", nextMsgId(), null, $"(processUserUtterance HandMadeEEs-Library \"{message}\")");
                 facilitator.Connect();
                 facilitator.Send(kqml.ToString());
             }
         }
-        
+
         public void Start(Action onCompleted, ReplayDescriptor descriptor)
         {
             // register with facilitator
@@ -59,8 +58,9 @@ namespace NU.Kqml
 
             // advertise - this is not right yet
             string fn = "test";
-            var admsg = $"(advertise :sender {this.name} :receiver facilitator :reply-with {nextMsgId()} " + 
-                $":content (ask-all :receiver {this.name} :in-reply-to {nextMsgId()} :content {fn}))";
+            string msgid = nextMsgId();
+            var admsg = $"(advertise :sender {this.name} :receiver facilitator :reply-with {msgid} " +
+                $":content (ask-all :receiver {this.name} :in-reply-to {msgid} :content {fn}))";
             facilitator.Connect();
             facilitator.Send(admsg);
             facilitator.Close();
@@ -90,7 +90,8 @@ namespace NU.Kqml
             Console.WriteLine($"\nFacilitator says: {data}\n");
             KQMLMessage kqml = KQMLMessage.parseMessage(data);
             //Console.WriteLine("Facilitator says: " + kqml.ToString());
-            if (kqml != null) {
+            if (kqml != null)
+            {
                 if (kqml.performative == "ping")
                 {
                     handlePing(kqml, socket);
@@ -144,57 +145,6 @@ namespace NU.Kqml
         }
     }
 
-    class WebSocketStringConsumer : Microsoft.Psi.Components.IStartable, IConsumer<string>
-    {
-        private readonly Pipeline pipeline;
-        private readonly int port;
-        private WebSocket ws;
-        private string serverName = "python"; // need to set this after connecting, I think
-
-        public WebSocketStringConsumer(Microsoft.Psi.Pipeline pipeline, int port)
-        {
-            this.pipeline = pipeline;
-            this.port = port;
-            //this.Velocity = pipeline.CreateReceiver<Tuple<float, float>>(this, (c, _) => this.turtle.Velocity(c.Item1, c.Item2), nameof(this.Velocity));
-            this.receiver = pipeline.CreateReceiver<String>(this, (c, _) => Receive(c), "WebSocketReceiver");
-
-        }
-
-        public Receiver<String> receiver
-        {
-            get;
-        }
-
-        public Receiver<string> In => ((IConsumer<string>)receiver).In;
-
-        public void Receive(string message)
-        {
-            var kqml = KQMLMessage.createAchieve("psi", serverName, "2", "1", KQMLMessage.createTask("psi", serverName, "2", "1", message));
-            if (ws.ReadyState == WebSocketState.Open) ws.Send(kqml.ToString());
-        }
-
-
-        public void Start(Action onCompleted, ReplayDescriptor descriptor)
-        {
-            var address = "ws://localhost:" + this.port + "/";
-            this.ws = new WebSocket(address);
-            Console.WriteLine("connecting to " + address);
-            this.ws.Connect();
-            this.ws.OnMessage += (sender, e) => handleRemoteMessage(sender, e);
-            this.ws.Log.Level = LogLevel.Trace;
-        }
-
-        private void handleRemoteMessage(object sender, MessageEventArgs e)
-        {
-            Console.WriteLine("Python says: " + e.Data);
-        }
-
-        public void Stop()
-        {
-            if (ws.ReadyState == WebSocketState.Open) ws.Close();
-        }
-    }
-
     class KQMLMessage
     {
         public string performative { get; private set; }
@@ -203,7 +153,7 @@ namespace NU.Kqml
         public string reply_with;
         public string reply_to;
         public object content { get; private set; }
-        Dictionary<string,object> other = new Dictionary<string, object>();
+        Dictionary<string, object> other = new Dictionary<string, object>();
 
         private string[] standard_keys = new string[] { ":sender", ":receiver", ":reply-with", ":in-reply-to", ":content" };
 
@@ -217,7 +167,7 @@ namespace NU.Kqml
             this.content = cont;
         }
 
-        private KQMLMessage(string perf, Dictionary<string,object> dict) 
+        private KQMLMessage(string perf, Dictionary<string, object> dict)
         {
             this.performative = perf;
             object temp = null;
@@ -241,9 +191,9 @@ namespace NU.Kqml
             {
                 this.content = temp;
             }
-            foreach(KeyValuePair<string,object> entry in dict)
+            foreach (KeyValuePair<string, object> entry in dict)
             {
-                if (!standard_keys.Contains(entry.Key)) 
+                if (!standard_keys.Contains(entry.Key))
                 {
                     other.Add(entry.Key, entry.Value);
                 }
@@ -303,7 +253,8 @@ namespace NU.Kqml
                 while (next != ')')
                 {
                     string key = parseKey(sr);
-                    if (key != null) {
+                    if (key != null)
+                    {
                         object value = parseValue(sr);
                         dict.Add(key, value);
                     }
@@ -311,7 +262,8 @@ namespace NU.Kqml
                 }
 
                 return new KQMLMessage(perf, dict);
-            } else
+            }
+            else
             {
                 return null;
             }
@@ -360,7 +312,7 @@ namespace NU.Kqml
             }
         }
 
-        
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder("(");
@@ -398,9 +350,9 @@ namespace NU.Kqml
                     }
                 }
             }
-            return sb.Append(")").ToString();            
+            return sb.Append(")").ToString();
         }
     }
 
-    
+
 }

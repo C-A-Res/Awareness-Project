@@ -15,10 +15,33 @@ namespace NU
 {
 	namespace Kiosk
 	{
-		void FaceTrackingUnm::setFaceTracker()
+		void FaceTrackingUnm::setFaceTracker(int selection)
 		{
 			this->flag = 0;
-			this->tracker = cv::TrackerMIL::create();
+			if (selection == 0)
+			{
+				this->tracker = cv::TrackerBoosting::create();
+			}
+			else if (selection == 1)
+			{
+				this->tracker = cv::TrackerMIL::create();
+			}
+			else if (selection == 2)
+			{
+				this->tracker = cv::TrackerKCF::create();
+			}
+			else if (selection == 3)
+			{
+				this->tracker = cv::TrackerTLD::create();
+			}
+			else if (selection == 4)
+			{
+				this->tracker = cv::TrackerMedianFlow::create();
+			}
+			else if (selection == 5)
+			{
+				this->tracker = cv::TrackerGOTURN::create();
+			}
 		}
 	}
 }
