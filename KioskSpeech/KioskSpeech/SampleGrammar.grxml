@@ -61,12 +61,16 @@
       <item>Where can I find <ruleref uri="#location"/>?</item>
       <item>Where am I?</item>
       <item>Where does <ruleref uri="#KnownPersons"/> work?</item>
+      <item>Can you tell me where <ruleref uri="#KnownPersons"/> is?</item>
+      <item>Where is <ruleref uri="#EventName"/>?</item>
     </one-of>
   </rule>
   <rule id="location">
     <one-of>
       <item>the bathroom</item>
+      <item>something to eat</item>
       <item><ruleref uri="#KnownPersons"/>'s office</item>
+      <item>Ford <ruleref uri="#OfficeNumber"/></item>
     </one-of>
   </rule>
   <rule id="KnownPersons">
@@ -77,31 +81,63 @@
       <item>Tom Hinrichs</item>
       <item>Doug Downey</item>
       <item>Professor Downey</item>
+      <item><ruleref uri="#PossessivePronoun"/></item>
+    </one-of>
+  </rule>
+  <rule id="PossessivePronoun">
+    <one-of>
+      <item>her</item>
+      <item>hisr</item>
+      <item>their</item>
+      <item>my</item>
+      <item>your</item>
+      <item>our</item>
+      <item>its</item>
     </one-of>
   </rule>
   <rule id="WhenQuestion">
-    When is the colloquium?
+    <one-of>
+      <item>When is <ruleref uri="#EventName"/>?</item>
+      <item>Can you tell me when <ruleref uri="#EventName"/> is?</item>
+      <item>When does <ruleref uri="#EventName"/> meet?</item>
+    </one-of>
   </rule>
   <rule id="WhatQuestion">
     <one-of>
       <item>What time is it?</item>
       <item>What is going on today?</item>
       <item>What is <ruleref uri="#KnownPersons"/>'s email?</item>
+      <item>Can you tell me what <ruleref uri="#KnownPersons"/>'s email is?</item>
       <item>What do I have today?</item>
+      <item>What talks are today?</item>
     </one-of>
   </rule>
   <rule id="WhoQuestion">
-    Who is <ruleref uri="#KnownPersons"/>? 
-  </rule>
-  <rule id="HiOrNumbers">
     <one-of>
-      <item>hello</item>
       <item>
-        <ruleref uri="#ZeroToOneHundred"/>
+        Who is <ruleref uri="#KnownPersons"/>?
+      </item>
+      <item>
+        Can you tell me who <ruleref uri="#KnownPersons"/> is?
       </item>
     </one-of>
   </rule>
-  <rule id="ZeroToOneHundred">
+  <rule id="EventName">
+    <one-of>
+      <item>the colloquium</item>
+      <item>today's talk</item>
+      <item>the faculty meeting</item>
+      <item>Companion Studio</item>
+      <item>Intro to AI</item>
+      <item>214</item>
+    </one-of>
+  </rule>
+  <rule id="OfficeNumber">
+    <ruleref uri="#OneToNine"/>
+    <ruleref uri="#OneToNine"/>
+    <ruleref uri="#ZeroToNinetyNine"/>
+  </rule>
+  <rule id="ZeroToNinetyNine">
     <one-of>
       <item>zero</item>
       <item><ruleref uri="#OneToNine"/></item>
@@ -112,7 +148,6 @@
           <ruleref uri="#OneToNine"/>
         </item>
       </item>
-      <item>one hundred</item>
     </one-of>
   </rule>
   <rule id="OneToNine">
