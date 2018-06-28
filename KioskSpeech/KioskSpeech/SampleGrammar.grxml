@@ -37,6 +37,7 @@
       <item>cool</item>
       <item>huh?</item>
       <item>wow!</item>
+      <item>huck you</item>
     </one-of>
   </rule>
   <rule id="Question">
@@ -57,12 +58,12 @@
   </rule>
   <rule id="WhereQuestion">
     <one-of>
-      <item>Where is <ruleref uri="#location"/>?</item>
-      <item>Where can I find <ruleref uri="#location"/>?</item>
-      <item>Where am I?</item>
-      <item>Where does <ruleref uri="#KnownPersons"/> work?</item>
-      <item>Can you tell me where <ruleref uri="#KnownPersons"/> is?</item>
-      <item>Where is <ruleref uri="#EventName"/>?</item>
+      <item>Where is <ruleref uri="#location"/></item>
+      <item>Where can I find <ruleref uri="#location"/></item>
+      <item>Where am I</item>
+      <item>Where does <ruleref uri="#KnownPersons"/> work</item>
+      <item>Can you tell me where <ruleref uri="#KnownPersons"/> is</item>
+      <item>Where is <ruleref uri="#EventName"/></item>
     </one-of>
   </rule>
   <rule id="location">
@@ -81,6 +82,7 @@
       <item>Tom Hinrichs</item>
       <item>Doug Downey</item>
       <item>Professor Downey</item>
+      <item>Willie</item>
       <item><ruleref uri="#PossessivePronoun"/></item>
     </one-of>
   </rule>
@@ -97,28 +99,34 @@
   </rule>
   <rule id="WhenQuestion">
     <one-of>
-      <item>When is <ruleref uri="#EventName"/>?</item>
-      <item>Can you tell me when <ruleref uri="#EventName"/> is?</item>
-      <item>When does <ruleref uri="#EventName"/> meet?</item>
+      <item>
+        Can you tell me when <ruleref uri="#EventName"/> is
+      </item>
+      <item>
+        When does <ruleref uri="#EventName"/> meet
+      </item>
+      <item>
+        When is <ruleref uri="#EventName"/>
+      </item>
     </one-of>
   </rule>
   <rule id="WhatQuestion">
     <one-of>
-      <item>What time is it?</item>
-      <item>What is going on today?</item>
-      <item>What is <ruleref uri="#KnownPersons"/>'s email?</item>
-      <item>Can you tell me what <ruleref uri="#KnownPersons"/>'s email is?</item>
-      <item>What do I have today?</item>
-      <item>What talks are today?</item>
+      <item>What time is it</item>
+      <item>What is going on today</item>
+      <item>What is <ruleref uri="#KnownPersons"/>'s email</item>
+      <item>Can you tell me what <ruleref uri="#KnownPersons"/>'s email is</item>
+      <item>What do I have today</item>
+      <item>What talks are today</item>
     </one-of>
   </rule>
   <rule id="WhoQuestion">
     <one-of>
       <item>
-        Who is <ruleref uri="#KnownPersons"/>?
+        Who is <ruleref uri="#KnownPersons"/>
       </item>
       <item>
-        Can you tell me who <ruleref uri="#KnownPersons"/> is?
+        Can you tell me who <ruleref uri="#KnownPersons"/> is
       </item>
     </one-of>
   </rule>

@@ -87,17 +87,17 @@ namespace Microsoft.Psi.Samples.SpeechSample
 
                 // Create System.Speech recognizer component
                 var recognizer = new SystemSpeechRecognizer(
-                    //pipeline,
-                    //new SystemSpeechRecognizerConfiguration()
-                    //{
-                    //    Language = "en-US",
-                    //    Grammars = new DictationGrammar();
-                    //    //Grammars = new GrammarInfo[]
-                    //    //{
-                    //    //    new GrammarInfo() { Name = Program.AppName, FileName = "SampleGrammar.grxml" }
-                    //    //}
-                    //});
-                    pipeline);
+                    pipeline,
+                    new SystemSpeechRecognizerConfiguration()
+                    {
+                        Language = "en-US",
+                        //Grammars = new DictationGrammar();
+                        Grammars = new GrammarInfo[]
+                        {
+                            new GrammarInfo() { Name = Program.AppName, FileName = "SampleGrammar.grxml" }
+                        }
+                }); 
+            //pipeline);
 
 
                 // Subscribe the recognizer to the input audio
@@ -111,26 +111,28 @@ namespace Microsoft.Psi.Samples.SpeechSample
                 finalResults.Do(result =>
                 {
                     var ssrResult = result as SpeechRecognitionResult;
-                    Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
+                    if (ssrResult.Text.IndexOf("What")>=0 || ssrResult.Text.IndexOf("When") >= 0 || ssrResult.Text.IndexOf("Where") >= 0 || ssrResult.Text.IndexOf("Who") >= 0 || ssrResult.Text.IndexOf("Can") >= 0)
+                    {
+                        Console.WriteLine($"{ssrResult.Text}? (confidence: {ssrResult.Confidence})");
+                    } else
+                    {
+                        Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
+                    }
                 });
 
-                // Also send data across web socket.
-                //finalResults.Do(result =>
-                //{
-                //    var ssrResult = result as SystemSpeechRecognitionResult;
-                //    sendToSocket(ssrResult.Text);
-                //});
-
-                //python = new WebSocketStringConsumer(pipeline, 9001);
-                python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
-
-                var text = finalResults.Select(result =>
+                if (facilitatorIP != "none")
                 {
-                    var ssrResult = result as SpeechRecognitionResult;
-                    return ssrResult.Text;
-                });
+                    python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
 
-                text.PipeTo(python.In);
+                    var text = finalResults.Select(result =>
+                    {
+                        var ssrResult = result as SpeechRecognitionResult;
+                        return ssrResult.Text;
+                    });
+
+                    text.PipeTo(python.In);
+                }
+                
 
                 // Create a data store to log the data to if necessary. A data store is necessary
                 // only if output logging or live visualization are enabled.
