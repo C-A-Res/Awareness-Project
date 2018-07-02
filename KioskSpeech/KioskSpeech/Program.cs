@@ -91,13 +91,12 @@ namespace Microsoft.Psi.Samples.SpeechSample
                     new SystemSpeechRecognizerConfiguration()
                     {
                         Language = "en-US",
-                        //Grammars = new DictationGrammar();
                         Grammars = new GrammarInfo[]
                         {
                             new GrammarInfo() { Name = Program.AppName, FileName = "SampleGrammar.grxml" }
                         }
                 }); 
-            //pipeline);
+                //pipeline);
 
 
                 // Subscribe the recognizer to the input audio
