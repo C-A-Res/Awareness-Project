@@ -26,11 +26,13 @@ namespace Microsoft.Psi.Samples.SpeechSample
         //static WebSocketStringConsumer python = null;
         static SocketStringConsumer python = null;
 
+        private static int ReloadMessageIDCurrent = 0;
+
         public static void Main(string[] args)
         {
-            string facilitatorIP = args[0];
-            int facilitatorPort = int.Parse(args[1]);
-            int localPort = int.Parse(args[2]);
+            string facilitatorIP = "none";
+            int facilitatorPort = 2234;
+            int localPort = 1234;
 
             // The root folder under which data will be logged. This may be set to null, which will create
             // a volatile data store to which data can be written for the purposes of live visualization.
@@ -46,7 +48,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
             // Flag to exit the application
             bool exit = false;
 
-            RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization, facilitatorIP, facilitatorPort, localPort);
+            RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization);//, facilitatorIP, facilitatorPort, localPort);
             if (python != null) python.Stop();
 
         }
@@ -96,8 +98,8 @@ namespace Microsoft.Psi.Samples.SpeechSample
                         {
                             new GrammarInfo() { Name = Program.AppName, FileName = "SampleGrammar.grxml" }
                         }
-                }); 
-            //pipeline);
+                });
+                //pipeline);
 
 
                 // Subscribe the recognizer to the input audio
@@ -111,27 +113,48 @@ namespace Microsoft.Psi.Samples.SpeechSample
                 finalResults.Do(result =>
                 {
                     var ssrResult = result as SpeechRecognitionResult;
-                    if (ssrResult.Text.IndexOf("What")>=0 || ssrResult.Text.IndexOf("When") >= 0 || ssrResult.Text.IndexOf("Where") >= 0 || ssrResult.Text.IndexOf("Who") >= 0 || ssrResult.Text.IndexOf("Can") >= 0)
+                    if (ssrResult.Text.IndexOf("What") >= 0 || ssrResult.Text.IndexOf("When") >= 0 || ssrResult.Text.IndexOf("Where") >= 0 || ssrResult.Text.IndexOf("Who") >= 0 || ssrResult.Text.IndexOf("Can") >= 0)
                     {
                         Console.WriteLine($"{ssrResult.Text}? (confidence: {ssrResult.Confidence})");
-                    } else
-                    {
+                    } else if (ssrResult.Text.Equals("Reload grammars")) {
+                        DateTime post_time = new DateTime();
+                        String originalGrammar = File.ReadAllText("SampleGrammar.grxml");
+                        String newGrammar =
+                            "<grammar xmlns=\"http://www.w3.org/2001/06/grammar\"" +
+                            "         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" +
+                            "         xsi:schemaLocation=\"http://www.w3.org/2001/06/grammar " +
+                            "                             http://www.w3.org/TR/speech-grammar/grammar.xsd\"" +
+                            "         xml:lang=\"en-US\" version=\"1.0\"" +
+                            "         tag-format=\"semantics-ms/1.0\"" +
+                            "         root=\"Topalt\">" +
+                            "" +
+                            "  <rule id=\"Topalt\">" +
+                            "    <one-of>" +
+                            "      <item>Beam me up Scotty</item>" +
+                            "    </one-of>" +
+                            "  </rule>" +
+                            "</grammar>";
+                        Console.WriteLine("Requesting grammar reload...");
+                        Message<System.Collections.Generic.IEnumerable<String>> updateRequest = new Message<System.Collections.Generic.IEnumerable<String>>(new String[] { originalGrammar, newGrammar }, post_time, post_time, 9876, ReloadMessageIDCurrent++);
+                        recognizer.SetGrammars(updateRequest);
+                        Console.WriteLine("Request for reloading grammar completed.");
+                    } else {
                         Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
                     }
                 });
 
-                if (facilitatorIP != "none")
-                {
-                    python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
+                //if (facilitatorIP != "none")
+                //{
+                //    python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
 
-                    var text = finalResults.Select(result =>
-                    {
-                        var ssrResult = result as SpeechRecognitionResult;
-                        return ssrResult.Text;
-                    });
+                //    var text = finalResults.Select(result =>
+                //    {
+                //        var ssrResult = result as SpeechRecognitionResult;
+                //        return ssrResult.Text;
+                //    });
 
-                    text.PipeTo(python.In);
-                }
+                //    text.PipeTo(python.In);
+                //}
                 
 
                 // Create a data store to log the data to if necessary. A data store is necessary
