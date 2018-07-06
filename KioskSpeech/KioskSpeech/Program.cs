@@ -98,7 +98,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
                         {
                             new GrammarInfo() { Name = Program.AppName, FileName = "SampleGrammar.grxml" }
                         }
-                });
+                    });
                 //pipeline);
 
 
@@ -143,6 +143,21 @@ namespace Microsoft.Psi.Samples.SpeechSample
                     }
                 });
 
+                // testing out the speech synth
+                SystemSpeechSynthesizer speechSynth = new SystemSpeechSynthesizer(
+                    pipeline,
+                    new SystemSpeechSynthesizerConfiguration()
+                    {
+                        Voice = "Microsoft Zira Desktop",
+                        UseDefaultAudioPlaybackDevice = true
+                    });
+
+                var text = finalResults.Select(result => result.Text);
+                text.Do(x => Console.WriteLine(x));
+                text.PipeTo(speechSynth);
+                speechSynth.SpeakCompleted.Do(x => Console.WriteLine("."));
+
+
                 //if (facilitatorIP != "none")
                 //{
                 //    python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
@@ -155,7 +170,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
 
                 //    text.PipeTo(python.In);
                 //}
-                
+
 
                 // Create a data store to log the data to if necessary. A data store is necessary
                 // only if output logging or live visualization are enabled.
