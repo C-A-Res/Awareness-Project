@@ -96,7 +96,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
                         //Grammars = new DictationGrammar();
                         Grammars = new GrammarInfo[]
                         {
-                            new GrammarInfo() { Name = Program.AppName, FileName = "SampleGrammar.grxml" }
+                            new GrammarInfo() { Name = Program.AppName, FileName = @"Resources\CuratedGrammar.grxml" }
                         }
                     });
                 //pipeline);
@@ -117,27 +117,22 @@ namespace Microsoft.Psi.Samples.SpeechSample
                     {
                         Console.WriteLine($"{ssrResult.Text}? (confidence: {ssrResult.Confidence})");
                     } else if (ssrResult.Text.Equals("Reload grammars")) {
+
+                        var gw = new GrammarWriter();
+                        gw.ReadFileAndConvert();
+                        gw.WriteToFile();
+                        string updatedGrammar = gw.GetResultString();
+
                         DateTime post_time = new DateTime();
-                        String originalGrammar = File.ReadAllText("SampleGrammar.grxml");
-                        String newGrammar =
-                            "<grammar xmlns=\"http://www.w3.org/2001/06/grammar\"" +
-                            "         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" +
-                            "         xsi:schemaLocation=\"http://www.w3.org/2001/06/grammar " +
-                            "                             http://www.w3.org/TR/speech-grammar/grammar.xsd\"" +
-                            "         xml:lang=\"en-US\" version=\"1.0\"" +
-                            "         tag-format=\"semantics-ms/1.0\"" +
-                            "         root=\"Topalt\">" +
-                            "" +
-                            "  <rule id=\"Topalt\">" +
-                            "    <one-of>" +
-                            "      <item>Beam me up Scotty</item>" +
-                            "    </one-of>" +
-                            "  </rule>" +
-                            "</grammar>";
-                        Console.WriteLine("Requesting grammar reload...");
-                        Message<System.Collections.Generic.IEnumerable<String>> updateRequest = new Message<System.Collections.Generic.IEnumerable<String>>(new String[] { originalGrammar, newGrammar }, post_time, post_time, 9876, ReloadMessageIDCurrent++);
+                        //String originalGrammar = File.ReadAllText("GeneratedGrammar.grxml");
+                        
+                        Message<System.Collections.Generic.IEnumerable<String>> updateRequest = 
+                            new Message<System.Collections.Generic.IEnumerable<String>>(
+                                new String[] {
+                                    updatedGrammar
+                                    //originalGrammar
+                                }, post_time, post_time, 9876, ReloadMessageIDCurrent++);
                         recognizer.SetGrammars(updateRequest);
-                        Console.WriteLine("Request for reloading grammar completed.");
                     } else {
                         Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
                     }

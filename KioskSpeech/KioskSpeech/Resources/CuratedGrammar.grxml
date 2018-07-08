@@ -1,0 +1,676 @@
+﻿<grammar xmlns="http://www.w3.org/2001/06/grammar"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="http://www.w3.org/2001/06/grammar 
+								http://www.w3.org/TR/speech-grammar/grammar.xsd"
+			xml:lang="en-US" version="1.0"
+			tag-format="semantics-ms/1.0"
+			root="Top">
+
+
+  <rule id="Top">
+    <one-of>
+      <item>
+        <ruleref uri="#Greeting"/>
+      </item>
+      <item>
+        <ruleref uri="#Interjection"/>
+      </item>
+      <item>
+        <ruleref uri="#Question"/>
+      </item>
+      <item>
+        <ruleref uri="#Command"/>
+      </item>
+      <item>
+        <ruleref uri="#PersonReference"/>
+      </item>
+      <item>
+        <ruleref uri="#EasterEggs"/>
+      </item>
+    </one-of>
+  </rule>
+
+  <rule id="Command">
+    <one-of>
+      <item>Reload grammars</item>
+    </one-of>
+  </rule>
+  
+  <rule id="EasterEggs">
+    <one-of>
+      <item>Beam me up, Scotty!</item>
+    </one-of>
+  </rule>
+
+  <rule id="Greeting">
+    <one-of>
+      <item>Hello</item>
+      <item>Greetings</item>
+      <item>Good morning</item>
+      <item>What's Sup</item>
+      <item>Sup</item>
+    </one-of>
+  </rule>
+  <rule id="Interjection">
+    <one-of>
+      <item>okay</item>
+      <item>hm</item>
+      <item>um</item>
+      <item>ah</item>
+      <item>cool</item>
+      <item>huh?</item>
+      <item>wow!</item>
+      <item>huck you</item>
+    </one-of>
+  </rule>
+  <rule id="Question">
+    <one-of>
+      <item>
+        <ruleref uri="#WhoQuestion"/>
+      </item>
+      <item>
+        <ruleref uri="#WhatQuestion"/>
+      </item>
+      <item>
+        <ruleref uri="#WhenQuestion"/>
+      </item>
+      <item>
+        <ruleref uri="#WhereQuestion"/>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="WhereQuestion">
+    <one-of>
+      <item>
+        Where is <ruleref uri="#location"/>
+      </item>
+      <item>
+        Where can I find <ruleref uri="#location"/>
+      </item>
+      <item>Where am I</item>
+      <item>
+        Where does <ruleref uri="#PersonReference"/> work
+      </item>
+      <item>
+        Can you tell me where <ruleref uri="#PersonReference"/> is
+      </item>
+      <item>
+        Where is <ruleref uri="#EventName"/>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="location">
+    <one-of>
+      <item>the bathroom</item>
+      <item>something to eat</item>
+      <item>
+        <ruleref uri="#PersonReference"/>'s office
+      </item>
+      <item>
+        Ford <ruleref uri="#OfficeNumber"/>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="WhenQuestion">
+    <one-of>
+      <item>
+        Can you tell me when <ruleref uri="#EventName"/> is
+      </item>
+      <item>
+        When does <ruleref uri="#EventName"/> meet
+      </item>
+      <item>
+        When is <ruleref uri="#EventName"/>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="WhatQuestion">
+    <one-of>
+      <item>What time is it</item>
+      <item>What is going on today</item>
+      <item>
+        What is <ruleref uri="#PersonReference"/>'s email
+      </item>
+      <item>
+        Can you tell me what <ruleref uri="#PersonReference"/>'s email is
+      </item>
+      <item>What do I have today</item>
+      <item>What talks are today</item>
+    </one-of>
+  </rule>
+  <rule id="WhoQuestion">
+    <one-of>
+      <item>
+        Who is <ruleref uri="#PersonReference"/>
+      </item>
+      <item>
+        Can you tell me who <ruleref uri="#PersonReference"/> is
+      </item>
+    </one-of>
+  </rule>
+  <rule id="EventName">
+    <one-of>
+      <item><ruleref uri="#Courses" /></item>
+      <item>the colloquium</item>
+      <item>today's talk</item>
+      <item>the faculty meeting</item>
+      <item>Intro to AI</item>
+      <item>214</item>
+    </one-of>
+  </rule>
+  <rule id="Courses">
+    <one-of>
+      <item><ruleref uri="#Courses_name" /></item>
+      <item><ruleref uri="#Courses_id" /></item>
+    </one-of>
+  </rule>
+  <rule id="Courses_name">
+    <one-of>
+      <item>EECS four ninty five Companion Studio</item>
+      <item>Companion Studio</item>
+    </one-of>
+  </rule>
+  <rule id="Courses_id">
+    <one-of>
+      <item>
+        EECS <ruleref uri="#OneToNine" /> <ruleref uri="#ZeroToNinetyNine" />
+      </item>
+    </one-of>
+  </rule>
+    
+  <rule id="OfficeNumber">
+    <ruleref uri="#OneToNine"/>
+    <ruleref uri="#OneToNine"/>
+    <ruleref uri="#ZeroToNinetyNine"/>
+  </rule>
+  <rule id="ZeroToNinetyNine">
+    <one-of>
+      <item>zero</item>
+      <item>
+        <ruleref uri="#OneToNine"/>
+      </item>
+      <item>
+        <ruleref uri="#TenToNineteen"/>
+      </item>
+      <item>
+        <ruleref uri="#TwentyToNinety"/>
+        <item repeat="0-1">
+          <ruleref uri="#OneToNine"/>
+        </item>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="OneToNine">
+    <one-of>
+      <item>one</item>
+      <item>two</item>
+      <item>three</item>
+      <item>four</item>
+      <item>five</item>
+      <item>six</item>
+      <item>seven</item>
+      <item>eight</item>
+      <item>nine</item>
+    </one-of>
+  </rule>
+  <rule id="TenToNineteen">
+    <one-of>
+      <item>ten</item>
+      <item>eleven</item>
+      <item>twelve</item>
+      <item>thirteen</item>
+      <item>fourteen</item>
+      <item>fifteen</item>
+      <item>sixteen</item>
+      <item>seventeen</item>
+      <item>eighteen</item>
+      <item>nineteen</item>
+    </one-of>
+  </rule>
+  <rule id="TwentyToNinety">
+    <one-of>
+      <item>twenty</item>
+      <item>thirty</item>
+      <item>forty</item>
+      <item>fifty</item>
+      <item>sixty</item>
+      <item>seventy</item>
+      <item>eighty</item>
+      <item>ninety</item>
+    </one-of>
+  </rule>
+
+
+
+  <!-- New stuff start -->
+
+  <rule id="PossessivePronoun">
+    <one-of>
+      <item>her</item>
+      <item>his</item>
+      <item>my</item>
+      <item>your</item>
+      <item>our</item>
+      <item>their</item>
+      <item>its</item>
+    </one-of>
+  </rule>
+  <rule id="PersonReference">
+    <one-of>
+      <item>
+        <ruleref uri="#ExplicitPersonName"/>
+      </item>
+      <item>
+        <ruleref uri="#TitledName"/>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="ExplicitPersonName">
+    <one-of>
+      <item>
+        <ruleref uri="#FirstName"/>
+      </item>
+      <item>
+        <ruleref uri="#NickName"/>
+      </item>
+      <item>
+        <ruleref uri="#MiddleName"/>
+      </item>
+      <item>
+        <ruleref uri="#LastName"/>
+      </item>
+      <item>
+        <ruleref uri="#FullName"/>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="TitledName">
+    <one-of>
+      <item>
+        <ruleref uri="#PersonTitle"/> <ruleref uri="#LastName"/>
+      </item>
+      <item>
+        <ruleref uri="#PersonTitle"/> <ruleref uri="#FullName"/>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="PersonTitle">
+    <one-of>
+      <item>Professor</item>
+      <item>Doctor</item>
+      <item>Mister</item>
+      <item>Missus</item>
+      <item>Miss</item>
+    </one-of>
+  </rule>
+  <rule id="FirstName">
+    <one-of>
+      <item>Anindya</item>
+      <item>Ilya</item>
+      <item>Ermin</item>
+      <item>Josiah</item>
+      <item>Darren</item>
+      <item>Randy</item>
+      <item>Bruce</item>
+      <item>Robby</item>
+      <item>Hai</item>
+      <item>Chi-Haur</item>
+      <item>Ying</item>
+      <item>Horace</item>
+      <item>Krishna</item>
+      <item>Qi</item>
+      <item>Jennie</item>
+      <item>John</item>
+      <item>David</item>
+      <item>Selim</item>
+      <item>Jason</item>
+      <item>Alvin</item>
+      <item>Morteza</item>
+      <item>Yanbo</item>
+      <item>Alan</item>
+      <item>Jie</item>
+      <item>Ken</item>
+      <item>Marcelo</item>
+      <item>Chris</item>
+      <item>Oliver</item>
+      <item>Jibran</item>
+      <item>Jack</item>
+      <item>Rajeev</item>
+      <item>Wei-Keng</item>
+      <item>Reza</item>
+      <item>Thomas</item>
+      <item>Andrew</item>
+      <item>Vijay</item>
+      <item>Russell</item>
+      <item>Chung-Chieh</item>
+      <item>Kim</item>
+      <item>Kristian</item>
+      <item>Abbas</item>
+      <item>Seng-Tiong</item>
+      <item>Yuping</item>
+      <item>Arthur</item>
+      <item>Gail</item>
+      <item>Bijan</item>
+      <item>Abraham</item>
+      <item>Koray</item>
+      <item>Apostolos</item>
+      <item>Mark</item>
+      <item>Randall</item>
+      <item>Simone</item>
+      <item>Robert</item>
+      <item>Allen</item>
+      <item>Steven</item>
+      <item>Michael</item>
+      <item>Matthew</item>
+      <item>Manijeh</item>
+      <item>Jesse</item>
+      <item>Pedram</item>
+      <item>Nikos</item>
+      <item>Menachem</item>
+      <item>James</item>
+      <item>Shaban</item>
+      <item>Vincent</item>
+      <item>Don</item>
+      <item>Haoqi</item>
+      <item>Nabil</item>
+      <item>Hooman</item>
+      <item>Ankit</item>
+      <item>Jeremy</item>
+      <item>Youssef</item>
+      <item>Ronen</item>
+      <item>Prem</item>
+      <item>Andrew</item>
+      <item>Larry</item>
+      <item>Aleksandar</item>
+      <item>Dongning</item>
+      <item>Max</item>
+      <item>Uri</item>
+      <item>Rakesh</item>
+      <item>Larry</item>
+      <item>Ryan</item>
+      <item>Christos</item>
+      <item>Sara</item>
+      <item>Jessica</item>
+      <item>Thrasyvoulos</item>
+      <item>Konstantin</item>
+      <item>Michael</item>
+      <item>Aggelos</item>
+      <item>Sotirios</item>
+      <item>Goce</item>
+      <item>Fabian</item>
+      <item>Anne</item>
+      <item>Brent</item>
+      <item>Han</item>
+      <item>Douglas</item>
+      <item>Seda</item>
+      <item>Gokhan</item>
+      <item>Peter</item>
+      <item>Minh</item>
+      <item>Gordon</item>
+      <item>Ming-Yang</item>
+      <item>Eleanor</item>
+      <item>Nicole</item>
+      <item>Martin</item>
+      <item>Bryan</item>
+      <item>Aravindan</item>
+      <item>Michael</item>
+      <item>Ian</item>
+      <item>Alok</item>
+      <item>Yan</item>
+      <item>Xin</item>
+      <item>Brenna</item>
+      <item>Huxley</item>
+      <item>Jason</item>
+    </one-of>
+  </rule>
+  <rule id="LastName">
+    <one-of>
+      <item>De</item>
+      <item>Mikhelson</item>
+      <item>Wei</item>
+      <item>Hester</item>
+      <item>Gergle</item>
+      <item>Freeman</item>
+      <item>Wessels</item>
+      <item>Findler</item>
+      <item>Zhou</item>
+      <item>Wu</item>
+      <item>Yuen</item>
+      <item>Ketterson</item>
+      <item>Scheuermann</item>
+      <item>Shenai</item>
+      <item>Zhu</item>
+      <item>Rogers</item>
+      <item>Rogers</item>
+      <item>Zaretsky</item>
+      <item>Shahriar</item>
+      <item>Hartline</item>
+      <item>Bayliss</item>
+      <item>Rahimi</item>
+      <item>Bai</item>
+      <item>Sahakian</item>
+      <item>Gu</item>
+      <item>Forbus</item>
+      <item>Worsley</item>
+      <item>Riesbeck</item>
+      <item>Cossairt</item>
+      <item>Ilyas</item>
+      <item>Tumblin</item>
+      <item>Thakur</item>
+      <item>Liao</item>
+      <item>Borhani</item>
+      <item>Hinrichs</item>
+      <item>Larson</item>
+      <item>Subramanian</item>
+      <item>Joseph</item>
+      <item>Lee</item>
+      <item>Hammond</item>
+      <item>Haddadi</item>
+      <item>Ho</item>
+      <item>Huang</item>
+      <item>Butz</item>
+      <item>Brown</item>
+      <item>Movaghar</item>
+      <item>Haddad</item>
+      <item>Aydin</item>
+      <item>Raptis</item>
+      <item>Hersam</item>
+      <item>Berry</item>
+      <item>Campanoni</item>
+      <item>Chang</item>
+      <item>Taflove</item>
+      <item>Slivken</item>
+      <item>Horn</item>
+      <item>Grayson</item>
+      <item>Razeghi</item>
+      <item>Tov</item>
+      <item>Khalili</item>
+      <item>Hardavellas</item>
+      <item>Jona</item>
+      <item>Aagard</item>
+      <item>Darvish</item>
+      <item>St-Amour</item>
+      <item>Norman</item>
+      <item>Zhang</item>
+      <item>Alshurafa</item>
+      <item>Mohseni</item>
+      <item>Agrawal</item>
+      <item>Watt</item>
+      <item>Nashed</item>
+      <item>Gradwohl</item>
+      <item>Kumar</item>
+      <item>Ortony</item>
+      <item>Birnbaum</item>
+      <item>Kuzmanovic</item>
+      <item>Guo</item>
+      <item>Epstein</item>
+      <item>Wilensky</item>
+      <item>Vohra</item>
+      <item>Henschen</item>
+      <item>McClintock</item>
+      <item>Dimoulas</item>
+      <item>Sood</item>
+      <item>McChesney</item>
+      <item>Pappas</item>
+      <item>Makarychev</item>
+      <item>Honig</item>
+      <item>Katsaggelos</item>
+      <item>Tsaftaris</item>
+      <item>Trajcevski</item>
+      <item>Bustamante</item>
+      <item>Piper</item>
+      <item>Hecht</item>
+      <item>Liu</item>
+      <item>Downey</item>
+      <item>Memik</item>
+      <item>Dinda</item>
+      <item>Nguyen</item>
+      <item>Murphy</item>
+      <item>Kao</item>
+      <item>O Rourke</item>
+      <item>Immorlica</item>
+      <item>Plonus</item>
+      <item>Pardo</item>
+      <item>Vijayaraghavan</item>
+      <item>Rubenstein</item>
+      <item>Horswill</item>
+      <item>Choudhary</item>
+      <item>Chen</item>
+      <item>Argall</item>
+      <item>Wilson</item>
+      <item>Bennett</item>
+    </one-of>
+  </rule>
+  <rule id="NickName">
+    <one-of>
+      <item>Kemi</item>
+      <item>Thrasos</item>
+      <item>Willie</item>
+      <item>Huck</item>
+      <item>Jack</item>
+      <item>Tom</item>
+      <item>Ken</item>
+      <item>Doug</item>
+    </one-of>
+  </rule>
+  <rule id="MiddleName">
+    <one-of>
+      <item>Amir</item>
+      <item>Fook</item>
+      <item>Ramezani</item>
+      <item>Owsley</item>
+      <item>Marie</item>
+    </one-of>
+  </rule>
+  <rule id="FullName">
+    <one-of>
+      <item>Anindya De</item>
+      <item>Ilya Mikhelson</item>
+      <item>Ermin Wei</item>
+      <item>Josiah Hester</item>
+      <item>Darren Gergle</item>
+      <item>Randy Freeman</item>
+      <item>Bruce Wessels</item>
+      <item>Robby Findler</item>
+      <item>Hai Zhou</item>
+      <item>Chi-Haur Wu</item>
+      <item>Ying Wu</item>
+      <item>Horace Yuen</item>
+      <item>Peter Scheuermann</item>
+      <item>Krishna Shenai</item>
+      <item>Qi Zhu</item>
+      <item>John Rogers</item>
+      <item>David Zaretsky</item>
+      <item>Selim Shahriar</item>
+      <item>Alvin Bayliss</item>
+      <item>Morteza Amir Rahimi</item>
+      <item>Amir Rahimi</item>
+      <item>Morteza Rahimi</item>
+      <item>Yanbo Bai</item>
+      <item>Jie Gu</item>
+      <item>Kenneth Forbus</item>
+      <item>Ken Forbus</item>
+      <item>Marcelo Worsley</item>
+      <item>Chris Riesbeck</item>
+      <item>Jibran Ilyas</item>
+      <item>Rajeev Thakur</item>
+      <item>Wei-Keng Liao</item>
+      <item>Reza Borhani</item>
+      <item>Thomas Hinrichs</item>
+      <item>Andrew Larson</item>
+      <item>Vijay Subramanian</item>
+      <item>Russell Joseph</item>
+      <item>Chung-Chieh Lee</item>
+      <item>Kim Fook Lee</item>
+      <item>Abbas Haddadi</item>
+      <item>Seng-Tiong Ho</item>
+      <item>Yuping Huang</item>
+      <item>Arthur Butz</item>
+      <item>Bijan Movaghar</item>
+      <item>Koray Aydin</item>
+      <item>Apostolos Raptis</item>
+      <item>Randall Berry</item>
+      <item>Simone Campanoni</item>
+      <item>Robert Chang</item>
+      <item>Allen Taflove</item>
+      <item>Steven Slivken</item>
+      <item>Michael Horn</item>
+      <item>Matthew Grayson</item>
+      <item>Manijeh Razeghi</item>
+      <item>Jesse Tov</item>
+      <item>Pedram Khalili</item>
+      <item>Nikos Hardavellas</item>
+      <item>Menachem Jona</item>
+      <item>James Aagard</item>
+      <item>Shaban Ramezani Darvish</item>
+      <item>Ramezani Darvish</item>
+      <item>Shaban Darvish</item>
+      <item>Vincent St-Amour</item>
+      <item>Vincent Saint-Amour</item>
+      <item>Don Norman</item>
+      <item>Haoqi Zhang</item>
+      <item>Nabil Alshurafa</item>
+      <item>Hooman Mohseni</item>
+      <item>Ankit Agrawal</item>
+      <item>Jeremy Watt</item>
+      <item>Youssef Nashed</item>
+      <item>Ronen Gradwohl</item>
+      <item>Prem Kumar</item>
+      <item>Larry Birnbaum</item>
+      <item>Aleksandar Kuzmanovic</item>
+      <item>Dongning Guo</item>
+      <item>Max Epstein</item>
+      <item>Uri Wilensky</item>
+      <item>Rakesh Vohra</item>
+      <item>Larry Henschen</item>
+      <item>Ryan Mcclintock</item>
+      <item>Christos Dimoulas</item>
+      <item>Sara Owsley Sood</item>
+      <item>Jessica Mcchesney</item>
+      <item>Konstantin Makarychev</item>
+      <item>Michael Honig</item>
+      <item>Goce Trajcevski</item>
+      <item>Anne Marie Piper</item>
+      <item>Brent Hecht</item>
+      <item>Han Liu</item>
+      <item>Douglas Downey</item>
+      <item>Gokhan Memik</item>
+      <item>Peter Dinda</item>
+      <item>Minh Nguyen</item>
+      <item>Ming-Yang Kao</item>
+      <item>Nicole Immorlica</item>
+      <item>Martin Plonus</item>
+      <item>Bryan Pardo</item>
+      <item>Aravindan Vijayaraghavan</item>
+      <item>Michael Rubenstein</item>
+      <item>Ian Horswill</item>
+      <item>Alok Choudhary</item>
+      <item>Yan Chen</item>
+      <item>Xin Chen</item>
+      <item>Brenna Argall</item>
+    </one-of>
+  </rule>
+
+  <!-- New stuff end -->
+
+</grammar>
