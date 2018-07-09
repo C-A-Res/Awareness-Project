@@ -116,23 +116,8 @@ namespace Microsoft.Psi.Samples.SpeechSample
                     if (ssrResult.Text.IndexOf("What") >= 0 || ssrResult.Text.IndexOf("When") >= 0 || ssrResult.Text.IndexOf("Where") >= 0 || ssrResult.Text.IndexOf("Who") >= 0 || ssrResult.Text.IndexOf("Can") >= 0)
                     {
                         Console.WriteLine($"{ssrResult.Text}? (confidence: {ssrResult.Confidence})");
-                    } else if (ssrResult.Text.Equals("Reload grammars")) {
-
-                        var gw = new GrammarWriter();
-                        gw.ReadFileAndConvert();
-                        string updatedGrammar = gw.GetResultString();
-
-                        DateTime post_time = new DateTime();
-                        //String originalGrammar = File.ReadAllText("GeneratedGrammar.grxml");
-                        
-                        Message<System.Collections.Generic.IEnumerable<String>> updateRequest = 
-                            new Message<System.Collections.Generic.IEnumerable<String>>(
-                                new String[] {
-                                    updatedGrammar
-                                    //originalGrammar
-                                }, post_time, post_time, 9876, ReloadMessageIDCurrent++);
-                        recognizer.SetGrammars(updateRequest);
-                        gw.WriteToFile();
+                    } else if (isCommand(ssrResult.Text)) {
+                        processCommand(ref recognizer, ssrResult.Text);
                     } else {
                         Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
                     }
@@ -207,6 +192,45 @@ namespace Microsoft.Psi.Samples.SpeechSample
                 {
                     Console.WriteLine(error);
                 }
+            }
+        }
+
+        private static bool isCommand(string input)
+        {
+            switch (input)
+            {
+                case "Reload grammars":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        private static void processCommand(ref SystemSpeechRecognizer recognizer, string input)
+        {
+            switch (input)
+            {
+                case "Reload grammars":
+                    {
+                        var gw = new GrammarWriter();
+                        gw.ReadFileAndConvert();
+                        string updatedGrammar = gw.GetResultString();
+
+                        DateTime post_time = new DateTime();
+                        //String originalGrammar = File.ReadAllText("GeneratedGrammar.grxml");
+
+                        Message<System.Collections.Generic.IEnumerable<String>> updateRequest =
+                            new Message<System.Collections.Generic.IEnumerable<String>>(
+                                new String[] {
+                                    updatedGrammar
+                                    //originalGrammar
+                                }, post_time, post_time, 9876, ReloadMessageIDCurrent++);
+                        recognizer.SetGrammars(updateRequest);
+                        gw.WriteToFile();
+                        break;
+                    }
+                default:
+                    break;
             }
         }
 

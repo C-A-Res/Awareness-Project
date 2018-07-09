@@ -7,3 +7,8 @@
 	Dead or alive, you're coming with me
 ObjectsOfInterest
 	ice cream
+RecurringEvent
+	EECS Free Bagel and Coffee
+OneTimeEvent
+	Hank Willis Thomas: Unbranded
+	Wildcats, Cubs and Giants at AT&T Park

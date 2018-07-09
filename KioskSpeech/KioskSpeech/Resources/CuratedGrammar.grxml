@@ -341,12 +341,30 @@
     <one-of>
       <item><ruleref uri="#Courses" /></item>
       <item>
-        <ruleref uri="#RegularEvents" />
+        <ruleref uri="#GenericEvent" />
+      </item>
+      <item>
+        <ruleref uri="#OneTimeEvent" />
+      </item>
+      <item>
+        <ruleref uri="#RecurringEvent" />
       </item>
       <item>today's talk</item>
     </one-of>
   </rule>
-  <rule id="RegularEvents">
+  <rule id="OneTimeEvent">
+    <one-of>
+      <item>The Art and Science of Picasso's Blues</item>
+      <item>Economic Thinking of Communication Networks</item>
+    </one-of>
+  </rule>
+  <rule id="RecurringEvent">
+    <one-of>
+      <item>Algorithm Coffee</item>
+      <item>Body pump</item>      
+    </one-of>
+  </rule>
+  <rule id="GenericEvent">
     <item repeat="0-1">
       <ruleref uri="#english_article" />
     </item>
@@ -370,6 +388,7 @@
       <item>Graphics</item>
       <item>Database</item>
       <item>Security</item>
+      <item>EECS</item>
     </one-of>
   </rule>
   <rule id="EventCategory">
