@@ -120,7 +120,6 @@ namespace Microsoft.Psi.Samples.SpeechSample
 
                         var gw = new GrammarWriter();
                         gw.ReadFileAndConvert();
-                        gw.WriteToFile();
                         string updatedGrammar = gw.GetResultString();
 
                         DateTime post_time = new DateTime();
@@ -133,6 +132,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
                                     //originalGrammar
                                 }, post_time, post_time, 9876, ReloadMessageIDCurrent++);
                         recognizer.SetGrammars(updateRequest);
+                        gw.WriteToFile();
                     } else {
                         Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
                     }

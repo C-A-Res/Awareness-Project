@@ -37,9 +37,23 @@ namespace Microsoft.Psi.Samples.SpeechSample
                 if (desc.Elements().First().Name.LocalName == "one-of")
                 {
                     rules_one_of.Add(name, desc.Elements().First());
-                } else
+                } else 
                 {
-                    rules_one_of.Add(name, desc);
+                    bool found = false;
+                    foreach (XElement e in desc.Elements())
+                    {
+                        if (e.Name.LocalName == "one-of")
+                        {
+                            found = true;
+                            rules_one_of.Add(name, e);
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        rules_one_of.Add(name, desc);
+                    }
+                    
                 }
             }
         }
