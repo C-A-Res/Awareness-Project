@@ -33,7 +33,19 @@
         /// </summary>
         private const int BytesPerSample = 2;
 
-        private Microsoft.Kinect.KinectSensor kinectSensor = null;
+        // TODO go back to making this private
+        public Microsoft.Kinect.KinectSensor kinectSensor = null;
+
+
+        private byte[] colorImage;
+
+        public ColorImageFormat colorImageFormat = ColorImageFormat.Undefined;
+
+        private short[] depthImage;
+
+        public DepthImageFormat depthImageFormat = DepthImageFormat.Undefined;
+
+        private Skeleton[] skeletonData;
 
         /// <summary>
         /// Buffer used to hold audio data read from audio stream.
@@ -62,9 +74,29 @@
         {
             this.pipeline = pipeline;
 
+            this.Skeletons = pipeline.CreateEmitter<List<Skeleton>>(this, nameof(this.Skeletons));
+            this.ColorImage = pipeline.CreateEmitter<Shared<Image>>(this, nameof(this.ColorImage));
+            this.DepthImage = pipeline.CreateEmitter<Shared<Image>>(this, nameof(this.DepthImage));
+
             this.Audio = pipeline.CreateEmitter<AudioBuffer>(this, nameof(this.Audio));
 
+            this.StartKinect();
         }
+
+        /// <summary>
+        /// Gets the list of skeletons from the Kinect
+        /// </summary>
+        public Emitter<List<Skeleton>> Skeletons { get; private set; }
+
+        /// <summary>
+        /// Gets the current image from the color camera
+        /// </summary>
+        public Emitter<Shared<Image>> ColorImage { get; private set; }
+
+        /// <summary>
+        /// Gets the current image from the depth camera
+        /// </summary>
+        public Emitter<Shared<Image>> DepthImage { get; private set; }
 
         /// <summary>
         /// Gets the emitter that returns the Kinect's audio samples
@@ -79,19 +111,39 @@
                 throw new ObjectDisposedException(nameof(KinectSensor));
             }
 
-            this.kinectSensor = Microsoft.Kinect.KinectSensor.KinectSensors[0];
 
-            this.kinectSensor.Start();
+            if (Microsoft.Kinect.KinectSensor.KinectSensors.Count > 0)
+            {
+                this.kinectSensor = Microsoft.Kinect.KinectSensor.KinectSensors[0];
 
-            // Start streaming audio!
-            this.audioStream = this.kinectSensor.AudioSource.Start();
+                if (kinectSensor.Status == KinectStatus.Connected)
+                {
+                    //TODO use configurations to determine what to enable
 
-            // Use a separate thread for capturing audio because audio stream read operations
-            // will block, and we don't want to block main UI thread.
-            this.reading = true;
-            this.readingThread = new Thread(AudioReadingThread);
-            this.readingThread.Start();
+                    kinectSensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
+                    kinectSensor.DepthStream.Enable(DepthImageFormat.Resolution320x240Fps30);
+                    kinectSensor.DepthStream.Range = DepthRange.Near;
+                    kinectSensor.SkeletonStream.EnableTrackingInNearRange = true;
+                    kinectSensor.SkeletonStream.TrackingMode = SkeletonTrackingMode.Seated;
+                    kinectSensor.SkeletonStream.Enable();
 
+                    kinectSensor.AllFramesReady += Kinect_AllFramesReady;
+
+
+                    kinectSensor.Start();
+
+
+                    // Start streaming audio!
+                    //this.audioStream = this.kinectSensor.AudioSource.Start();
+
+                    // Use a separate thread for capturing audio because audio stream read operations
+                    // will block, and we don't want to block main UI thread.
+                    this.reading = true;
+                    this.readingThread = new Thread(AudioReadingThread);
+                    //this.readingThread.Start();
+
+                }
+            }
         }
 
         /// <summary>
@@ -101,7 +153,12 @@
         /// <param name="descriptor">Parameter Unused</param>
         void IStartable.Start(Action onCompleted, ReplayDescriptor descriptor)
         {
-            this.StartKinect();
+            //this.StartKinect();
+
+            // Start streaming audio!
+            this.audioStream = this.kinectSensor.AudioSource.Start();
+
+            this.readingThread.Start();
         }
 
         /// <summary>
@@ -121,6 +178,81 @@
             {
                 this.kinectSensor?.Stop();
                 this.disposed = true;
+            }
+        }
+
+
+        private void Kinect_AllFramesReady(object sender, AllFramesReadyEventArgs allFramesReadyEventArgs)
+        {
+            ColorImageFrame colorImageFrame = null;
+            DepthImageFrame depthImageFrame = null;
+            SkeletonFrame skeletonFrame = null;
+
+            try
+            {
+                colorImageFrame = allFramesReadyEventArgs.OpenColorImageFrame();
+                depthImageFrame = allFramesReadyEventArgs.OpenDepthImageFrame();
+                skeletonFrame = allFramesReadyEventArgs.OpenSkeletonFrame();
+
+                if (colorImageFrame == null || depthImageFrame == null || skeletonFrame == null)
+                {
+                    return;
+                }
+
+                // Check for image format changes.  The FaceTracker doesn't
+                // deal with that so we need to reset.
+                if (this.depthImageFormat != depthImageFrame.Format)
+                {
+                    this.depthImage = null;
+                    this.depthImageFormat = depthImageFrame.Format;
+                }
+
+                if (this.colorImageFormat != colorImageFrame.Format)
+                {
+                    this.colorImage = null;
+                    this.colorImageFormat = colorImageFrame.Format;
+                }
+
+                // Create any buffers to store copies of the data we work with
+                if (this.depthImage == null)
+                {
+                    this.depthImage = new short[depthImageFrame.PixelDataLength];
+                }
+
+                if (this.colorImage == null)
+                {
+                    this.colorImage = new byte[colorImageFrame.PixelDataLength];
+                }
+
+                // Get the skeleton information
+                if (this.skeletonData == null || this.skeletonData.Length != skeletonFrame.SkeletonArrayLength)
+                {
+                    this.skeletonData = new Skeleton[skeletonFrame.SkeletonArrayLength];
+                }
+
+
+                // TODO look into using the Timestamp on each frame
+                var time = pipeline.GetCurrentTime();
+
+                var sharedColorImage = ImagePool.GetOrCreate(colorImageFrame.Width, colorImageFrame.Height, Imaging.PixelFormat.BGRX_32bpp);
+                var sharedDepthImage = ImagePool.GetOrCreate(depthImageFrame.Width, depthImageFrame.Height, Imaging.PixelFormat.Gray_16bpp);
+
+                colorImageFrame.CopyPixelDataTo(sharedColorImage.Resource.ImageData, (colorImageFrame.Width * colorImageFrame.Height * 4));
+                this.ColorImage.Post(sharedColorImage, time);
+
+                //depthImageFrame.CopyPixelDataTo(sharedDepthImage.Resource.ImageData, (depthImageFrame.Width * depthImageFrame.Height * 2));
+                depthImageFrame.CopyPixelDataTo(sharedDepthImage.Resource.ImageData, depthImageFrame.PixelDataLength);
+                this.DepthImage.Post(sharedDepthImage, time);
+
+
+                skeletonFrame.CopySkeletonDataTo(this.skeletonData);
+                this.Skeletons.Post(this.skeletonData.ToList(), time);
+
+                Console.Write('x');
+            }
+            catch
+            {
+                // TODO catch a cold
             }
         }
 
@@ -144,4 +276,5 @@
             }
         }
     }
+    
 }

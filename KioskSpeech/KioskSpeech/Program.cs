@@ -26,6 +26,8 @@ namespace Microsoft.Psi.Samples.SpeechSample
         //static WebSocketStringConsumer python = null;
         static SocketStringConsumer python = null;
 
+        private static int ReloadMessageIDCurrent = 0;
+
         public static void Main(string[] args)
         {
             string facilitatorIP = args[0];
@@ -93,10 +95,10 @@ namespace Microsoft.Psi.Samples.SpeechSample
                         Language = "en-US",
                         Grammars = new GrammarInfo[]
                         {
-                            new GrammarInfo() { Name = Program.AppName, FileName = "SampleGrammar.grxml" }
+                            new GrammarInfo() { Name = Program.AppName, FileName = @"Resources\CuratedGrammar.grxml" }
                         }
                 }); 
-                //pipeline);
+            //pipeline);
 
 
                 // Subscribe the recognizer to the input audio
@@ -110,28 +112,44 @@ namespace Microsoft.Psi.Samples.SpeechSample
                 finalResults.Do(result =>
                 {
                     var ssrResult = result as SpeechRecognitionResult;
-                    if (ssrResult.Text.IndexOf("What")>=0 || ssrResult.Text.IndexOf("When") >= 0 || ssrResult.Text.IndexOf("Where") >= 0 || ssrResult.Text.IndexOf("Who") >= 0 || ssrResult.Text.IndexOf("Can") >= 0)
+                    if (ssrResult.Text.IndexOf("What") >= 0 || ssrResult.Text.IndexOf("When") >= 0 || ssrResult.Text.IndexOf("Where") >= 0 || ssrResult.Text.IndexOf("Who") >= 0 || ssrResult.Text.IndexOf("Can") >= 0)
                     {
                         Console.WriteLine($"{ssrResult.Text}? (confidence: {ssrResult.Confidence})");
-                    } else
-                    {
+                    } else if (isCommand(ssrResult.Text)) {
+                        processCommand(ref recognizer, ssrResult.Text);
+                    } else {
                         Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
                     }
                 });
 
-                if (facilitatorIP != "none")
-                {
-                    python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
-
-                    var text = finalResults.Select(result =>
+                // testing out the speech synth
+                SystemSpeechSynthesizer speechSynth = new SystemSpeechSynthesizer(
+                    pipeline,
+                    new SystemSpeechSynthesizerConfiguration()
                     {
-                        var ssrResult = result as SpeechRecognitionResult;
-                        return ssrResult.Text;
+                        Voice = "Microsoft Zira Desktop",
+                        UseDefaultAudioPlaybackDevice = true
                     });
 
-                    text.PipeTo(python.In);
-                }
-                
+                var text = finalResults.Select(result => result.Text);
+                text.Do(x => Console.WriteLine(x));
+                text.PipeTo(speechSynth);
+                speechSynth.SpeakCompleted.Do(x => Console.WriteLine("."));
+
+
+                //if (facilitatorIP != "none")
+                //{
+                //    python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
+
+                //    var text = finalResults.Select(result =>
+                //    {
+                //        var ssrResult = result as SpeechRecognitionResult;
+                //        return ssrResult.Text;
+                //    });
+
+                //    text.PipeTo(python.In);
+                //}
+
 
                 // Create a data store to log the data to if necessary. A data store is necessary
                 // only if output logging or live visualization are enabled.
@@ -173,6 +191,45 @@ namespace Microsoft.Psi.Samples.SpeechSample
                 {
                     Console.WriteLine(error);
                 }
+            }
+        }
+
+        private static bool isCommand(string input)
+        {
+            switch (input)
+            {
+                case "Reload grammars":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        private static void processCommand(ref SystemSpeechRecognizer recognizer, string input)
+        {
+            switch (input)
+            {
+                case "Reload grammars":
+                    {
+                        var gw = new GrammarWriter();
+                        gw.ReadFileAndConvert();
+                        string updatedGrammar = gw.GetResultString();
+
+                        DateTime post_time = new DateTime();
+                        //String originalGrammar = File.ReadAllText("GeneratedGrammar.grxml");
+
+                        Message<System.Collections.Generic.IEnumerable<String>> updateRequest =
+                            new Message<System.Collections.Generic.IEnumerable<String>>(
+                                new String[] {
+                                    updatedGrammar
+                                    //originalGrammar
+                                }, post_time, post_time, 9876, ReloadMessageIDCurrent++);
+                        recognizer.SetGrammars(updateRequest);
+                        gw.WriteToFile();
+                        break;
+                    }
+                default:
+                    break;
             }
         }
 

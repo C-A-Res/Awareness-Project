@@ -219,7 +219,7 @@
         }
 
 
-        private class SkeletonFaceTracker : IDisposable
+        public class SkeletonFaceTracker : IDisposable
         {
             private static FaceTriangle[] faceTriangles;
 

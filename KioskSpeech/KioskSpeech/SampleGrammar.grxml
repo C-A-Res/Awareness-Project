@@ -17,9 +17,18 @@
       <item>
         <ruleref uri="#Question"/>
       </item>
+      <item>
+        <ruleref uri="#Command"/>
+      </item>
     </one-of>
   </rule>
-        
+
+  <rule id="Command">
+    <one-of>
+      <item>Reload grammars</item>
+    </one-of>
+  </rule>
+
   <rule id="Greeting">
     <one-of>
       <item>Hello</item>
