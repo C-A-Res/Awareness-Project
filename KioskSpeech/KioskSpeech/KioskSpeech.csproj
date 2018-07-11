@@ -267,7 +267,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GrammarUtils\GrammarWriter.cs" />
+    <Compile Include="GrammarUtils\AllXMLGrammarWriter.cs" />
+    <Compile Include="GrammarUtils\PrimitiveGrammarWriter.cs" />
     <Compile Include="Kqml.cs" />
     <Compile Include="Class3.cs" />
     <Compile Include="Class4.cs" />
@@ -279,6 +280,9 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Resources\AdditionalGrammarToBeMerged.grxml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\GeneratedGrammar.grxml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -289,13 +293,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Resources\CuratedGrammar.grxml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="Readme.md" />
+    <None Include="Resources\OriginalGrammar.grxml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TestOriginalGrammar.grxml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7">

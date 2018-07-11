@@ -96,7 +96,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
                         //Grammars = new DictationGrammar();
                         Grammars = new GrammarInfo[]
                         {
-                            new GrammarInfo() { Name = Program.AppName, FileName = @"Resources\CuratedGrammar.grxml" }
+                            new GrammarInfo() { Name = Program.AppName, FileName = @"Resources\OriginalGrammar.grxml" }
                         }
                     });
                 //pipeline);
@@ -212,7 +212,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
             {
                 case "Reload grammars":
                     {
-                        var gw = new GrammarWriter();
+                        var gw = new PrimitiveGrammarWriter();
                         gw.ReadFileAndConvert();
                         string updatedGrammar = gw.GetResultString();
 

@@ -2,6 +2,22 @@
   <rule id="Top">
     <one-of>
       <item>
+        Hey Kiosk.
+      </item>
+      <item>
+        <item repeat="0-1">
+          Hey Kiosk.
+        </item>
+        <ruleref uri="#Root" />
+      </item>
+      <item>
+        <ruleref uri="#Root" />
+      </item>
+    </one-of>
+  </rule>
+  <rule id="Root">
+    <one-of>
+      <item>
         <ruleref uri="#Greeting" />
       </item>
       <item>
@@ -72,6 +88,9 @@
       <item>
         <ruleref uri="#WhereQuestion" />
       </item>
+      <item>
+        <ruleref uri="#HaveDidQuestion" />
+      </item>
     </one-of>
   </rule>
   <rule id="Command">
@@ -120,6 +139,17 @@
       <item>What talks are today</item>
     </one-of>
   </rule>
+  <rule id="HaveDidQuestion">
+    <one-of>
+      <item>
+        <one-of>
+          <item>Have you seen </item>
+          <item>Did you see </item>
+        </one-of>
+        <ruleref uri="#PersonReference" />
+        <item repeat="0-1">today</item>?</item>
+    </one-of>
+  </rule>
   <rule id="WhenQuestion">
     <one-of>
       <item>
@@ -143,9 +173,16 @@
         Where is <ruleref uri="#LocationAndPerson" /></item>
       <item>
         Where can I find <ruleref uri="#ThingsOfInterest" /></item>
-      <item>
+      <!--<item>
         Where can I 
-        <one-of><item>pick up</item><item>get</item><item>fetch</item></one-of><ruleref uri="#LunchPickUp" /></item>
+        <one-of>
+          <item>pick up</item>
+          <item>get</item>
+          <item>fetch</item>
+          <item>find</item>
+        </one-of>
+        <ruleref uri="#LunchPickUp"/>
+      </item>-->
       <item>Where am I</item>
       <item>
         Where does <ruleref uri="#PersonReference" /> work
