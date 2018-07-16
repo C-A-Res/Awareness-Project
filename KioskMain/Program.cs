@@ -52,7 +52,7 @@ namespace NU.Kiosk
                     {
                         // Call into our OpenCV wrapper to convert the source image ('srcImage') into the newly created image ('destImage')
                         // Note: since srcImage & destImage are Shared<> we need to access the Microsoft.Psi.Imaging.Image data via the Resource member
-                        OpenCVMethods.ToGray(srcImage.ToImageBuffer(), destImage.ToImageBuffer(), f, ref Program.HasFace, ref Program.MouthOpen, ref Program.Test);
+                        //OpenCVMethods.ToGray(srcImage.ToImageBuffer(), destImage.ToImageBuffer(), f, ref Program.HasFace, ref Program.MouthOpen, ref Program.Test);
 
                         // Debug.WriteLine(MainWindow.MouthOpen);
                         e.Post(srcImage, env.OriginatingTime);
