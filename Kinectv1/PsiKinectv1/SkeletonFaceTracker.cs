@@ -10,11 +10,12 @@
     using Microsoft.Psi;
     using Microsoft.Psi.Components;
     using Microsoft.Psi.Imaging;
+    using Microsoft.Psi.Kinect.v1;
 
-    class SkeletonFaceTracker : ConsumerProducer<(Shared<Image>,Shared<Image>,List<Skeleton>),bool>, IStartable, IDisposable
+    public class SkeletonFaceTracker : ConsumerProducer<(Shared<Image>,Shared<Image>,List<PsiSkeleton>),bool>, IDisposable // , IStartable
     {
         private Microsoft.Kinect.KinectSensor kinectSensor = null;
-
+        
         private bool disposed = false;
 
         private readonly Pipeline pipeline;
@@ -29,12 +30,12 @@
 
         private readonly Dictionary<int, SkeletonFaceTracker> trackedSkeletons = new Dictionary<int, SkeletonFaceTracker>();
 
-        public SkeletonFaceTracker(Pipeline pipeline, Microsoft.Kinect.KinectSensor kinectSensor) 
+        public SkeletonFaceTracker(Pipeline pipeline, Microsoft.Psi.Kinect.v1.KinectSensor psikinectSensor) 
             : base(pipeline)
         {
             this.pipeline = pipeline;
 
-            this.kinectSensor = kinectSensor;
+            this.kinectSensor = psikinectSensor.kinectSensor;
 
             this.FaceDetected = pipeline.CreateEmitter<bool>(this, nameof(this.FaceDetected));
 
@@ -68,33 +69,28 @@
             }
         }
 
-        protected override void Receive((Shared<Image>, Shared<Image>, List<Skeleton>) frames, Envelope envelope)
+        protected override void Receive((Shared<Image>, Shared<Image>, List<PsiSkeleton>) frames, Envelope envelope)
         {
-            Console.Write(".");
             // Update the list of trackers and the trackers with the current frame information
-            foreach (Skeleton skeleton in frames.Item3)
+            foreach (PsiSkeleton psiskeleton in frames.Item3)
             {
-                Console.Write('1');
+                Skeleton skeleton = psiskeleton.skeleton;
                 if (skeleton.TrackingState == SkeletonTrackingState.Tracked
                     || skeleton.TrackingState == SkeletonTrackingState.PositionOnly)
                 {
-                    Console.Write('2');
                     // We want keep a record of any skeleton, tracked or untracked.
                     if (!this.trackedSkeletons.ContainsKey(skeleton.TrackingId))
                     {
                         this.trackedSkeletons.Add(skeleton.TrackingId, this);
                     }
 
-                    Console.Write('3');
                     // Give each tracker the upated frame.
                     SkeletonFaceTracker skeletonFaceTracker;
                     if (this.trackedSkeletons.TryGetValue(skeleton.TrackingId, out skeletonFaceTracker))
                     {
-                        Console.Write('4');
                         byte[] colorImage = new byte[frames.Item1.Resource.Height * frames.Item1.Resource.Width * PixelFormatHelper.GetBytesPerPixel(frames.Item1.Resource.PixelFormat)];
                         frames.Item1.Resource.CopyTo(colorImage);
 
-                        Console.Write('5');
                         short[] depthImage = new short[frames.Item2.Resource.Height * frames.Item2.Resource.Width * PixelFormatHelper.GetBytesPerPixel(frames.Item2.Resource.PixelFormat) / 2];
                         byte[] depthImageB = new byte[frames.Item2.Resource.Height * frames.Item2.Resource.Width * PixelFormatHelper.GetBytesPerPixel(frames.Item2.Resource.PixelFormat)];
                         frames.Item2.Resource.CopyTo(depthImageB);
@@ -104,7 +100,6 @@
                             depthImage[i/2] = BitConverter.ToInt16(depthImageB, i);
                         }
 
-                        Console.Write('6');
                         skeletonFaceTracker.OnFrameReady(kinectSensor.ColorStream.Format, colorImage, kinectSensor.DepthStream.Format, depthImage, skeleton);
                         // this isn't exactly LastTrackedFrame, will need to change this or get rid of it
                         skeletonFaceTracker.LastTrackedFrame = envelope.SequenceId; // skeletonFrame.FrameNumber;

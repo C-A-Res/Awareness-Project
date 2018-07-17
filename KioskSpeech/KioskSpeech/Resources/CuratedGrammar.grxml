@@ -98,6 +98,7 @@
   <rule id="EasterEggs">
     <one-of>
       <item>Beam me up, Scotty!</item>
+      <item>Huck you!</item>
     </one-of>
   </rule>
   <rule id="WhoQuestion">

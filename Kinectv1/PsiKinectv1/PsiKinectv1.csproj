@@ -40,29 +40,29 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files\Microsoft SDKs\Kinect\v1.8\Assemblies\Microsoft.Kinect.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Psi, Version=0.3.16.5, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Psi.Runtime.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.dll</HintPath>
+    <Reference Include="Microsoft.Psi, Version=0.4.216.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Psi.Runtime.0.4.216.2-beta\lib\netstandard2.0\Microsoft.Psi.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Psi.Audio, Version=0.3.16.5, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Psi.Audio.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.Audio.dll</HintPath>
+    <Reference Include="Microsoft.Psi.Audio, Version=0.4.216.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Psi.Audio.0.4.216.2-beta\lib\netstandard2.0\Microsoft.Psi.Audio.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Psi.Audio.Windows, Version=0.3.16.5, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Psi.Audio.Windows.0.3.16.5-beta\lib\net47\Microsoft.Psi.Audio.Windows.dll</HintPath>
+    <Reference Include="Microsoft.Psi.Audio.Windows, Version=0.4.216.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Psi.Audio.Windows.0.4.216.2-beta\lib\net47\Microsoft.Psi.Audio.Windows.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Psi.IL, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Psi.Runtime.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.IL.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Psi.Runtime.0.4.216.2-beta\lib\netstandard2.0\Microsoft.Psi.IL.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Psi.Imaging, Version=0.3.16.5, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Psi.Imaging.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.Imaging.dll</HintPath>
+    <Reference Include="Microsoft.Psi.Imaging, Version=0.4.216.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Psi.Imaging.0.4.216.2-beta\lib\netstandard2.0\Microsoft.Psi.Imaging.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Psi.Language, Version=0.3.16.5, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Psi.Language.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.Language.dll</HintPath>
+    <Reference Include="Microsoft.Psi.Language, Version=0.4.216.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Psi.Language.0.4.216.2-beta\lib\netstandard2.0\Microsoft.Psi.Language.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Psi.Speech, Version=0.3.16.5, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Psi.Speech.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.Speech.dll</HintPath>
+    <Reference Include="Microsoft.Psi.Speech, Version=0.4.216.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Psi.Speech.0.4.216.2-beta\lib\netstandard2.0\Microsoft.Psi.Speech.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Psi.Speech.Windows, Version=0.3.16.5, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Psi.Speech.Windows.0.3.16.5-beta\lib\net47\Microsoft.Psi.Speech.Windows.dll</HintPath>
+    <Reference Include="Microsoft.Psi.Speech.Windows, Version=0.4.216.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Psi.Speech.Windows.0.4.216.2-beta\lib\net47\Microsoft.Psi.Speech.Windows.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -90,6 +90,7 @@
     <Compile Include="KinectSensor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PsiSkeleton.cs" />
     <Compile Include="SkeletonFaceTracker.cs" />
     <Compile Include="SpeechTest.cs" />
   </ItemGroup>

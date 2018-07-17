@@ -4,8 +4,8 @@
     using System.IO;
     using System.Collections.Generic;
     using System.Linq;
-    using Microsoft.Kinect;
     using Microsoft.Psi;
+    using Microsoft.Psi.Components;
     using Microsoft.Psi.Kinect.v1;
     using Microsoft.Psi.Imaging;
     using Microsoft.Psi.Media;
@@ -31,7 +31,7 @@
                 // Components
                 Microsoft.Psi.Kinect.v1.KinectSensor kinectSensor = new Microsoft.Psi.Kinect.v1.KinectSensor(pipeline);
 
-                SkeletonFaceTracker faceTracker = new SkeletonFaceTracker(pipeline, kinectSensor.kinectSensor);
+                SkeletonFaceTracker faceTracker = new SkeletonFaceTracker(pipeline, kinectSensor);
 
                 var speechDetector = new SystemVoiceActivityDetector(pipeline);
 
@@ -136,11 +136,12 @@
             Console.WriteLine(dataStore == null);
             Console.WriteLine("dataStore is empty");
             // For disk logging or live visualization only
+            IProducer<AudioBuffer> audio = null;
             if (dataStore != null)
             {
                 // Log the microphone audio and recognition results
                 //kinectSensor.ColorImage.Write("Kiosk.KinectSensor.ColorImage", dataStore);
-                kinectSensor.Audio.Write("Kiosk.KinectSensor.Audio", dataStore);
+                audio = kinectSensor.Audio.Write("Kiosk.KinectSensor.Audio", dataStore);
                 //faceTracker.Write("Kiosk.FaceTracker", dataStore);
                 speechRecog.Write($"Kiosk.FinalRecognitionResults", dataStore);
 
@@ -164,8 +165,8 @@
                 //kinectSensor.ColorImage.Show(visualizationClient);
 
                 // Plot the microphone audio stream in a new panel
-                //visualizationClient.AddTimelinePanel();
-                kinectSensor.Audio.Show(visualizationClient);
+                visualizationClient.AddTimelinePanel();
+                audio.Show(visualizationClient);
 
                 // Plot the recognition results in a new panel
                 //visualizationClient.AddTimelinePanel();

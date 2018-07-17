@@ -11,7 +11,7 @@
     using Microsoft.Psi.Components;
     using Microsoft.Psi.Imaging;
 
-    public class KinectSensor :IStartable, IDisposable //, IKinectSensor
+    public class KinectSensor : IDisposable //, IKinectSensor
     {
         private static WaveFormat audioFormat = WaveFormat.Create16kHz1ChannelIeeeFloat();
         private readonly Pipeline pipeline;
@@ -74,7 +74,10 @@
         {
             this.pipeline = pipeline;
 
-            this.Skeletons = pipeline.CreateEmitter<List<Skeleton>>(this, nameof(this.Skeletons));
+            pipeline.RegisterPipelineStartHandler(this, this.OnPipelineStart);
+            pipeline.RegisterPipelineStopHandler(this, this.OnPipelineStop);
+
+            this.Skeletons = pipeline.CreateEmitter<List<PsiSkeleton>>(this, nameof(this.Skeletons));
             this.ColorImage = pipeline.CreateEmitter<Shared<Image>>(this, nameof(this.ColorImage));
             this.DepthImage = pipeline.CreateEmitter<Shared<Image>>(this, nameof(this.DepthImage));
 
@@ -86,7 +89,7 @@
         /// <summary>
         /// Gets the list of skeletons from the Kinect
         /// </summary>
-        public Emitter<List<Skeleton>> Skeletons { get; private set; }
+        public Emitter<List<PsiSkeleton>> Skeletons { get; private set; }
 
         /// <summary>
         /// Gets the current image from the color camera
@@ -147,11 +150,9 @@
         }
 
         /// <summary>
-        /// IStartable called by the pipeline when KinectSensor is activated in the pipeline
+        /// Called by the pipeline when KinectSensor is activated in the pipeline
         /// </summary>
-        /// <param name="onCompleted">Unused</param>
-        /// <param name="descriptor">Parameter Unused</param>
-        void IStartable.Start(Action onCompleted, ReplayDescriptor descriptor)
+        void OnPipelineStart()
         {
             //this.StartKinect();
 
@@ -164,7 +165,7 @@
         /// <summary>
         /// Called by the pipeline to stop the sensor
         /// </summary>
-        void IStartable.Stop()
+        void OnPipelineStop()
         {
             this.kinectSensor?.Stop();
         }
@@ -246,9 +247,14 @@
 
 
                 skeletonFrame.CopySkeletonDataTo(this.skeletonData);
-                this.Skeletons.Post(this.skeletonData.ToList(), time);
+                List<PsiSkeleton> skeletons = new List<PsiSkeleton>();
+                foreach (Skeleton sk in this.skeletonData)
+                {
+                    skeletons.Add(new PsiSkeleton(sk));
+                }
+                this.Skeletons.Post(skeletons, time);
 
-                Console.Write('x');
+                //Console.Write('x');
             }
             catch
             {

@@ -9,7 +9,7 @@ namespace NU.Kqml
 {
     using Microsoft.Psi;
 
-    public class SocketStringConsumer : IConsumer<string>, Microsoft.Psi.Components.IStartable
+    public class SocketStringConsumer : IConsumer<string>
     {
         //private readonly Pipeline pipeline;
         private readonly int localPort;
@@ -27,6 +27,9 @@ namespace NU.Kqml
 
         public SocketStringConsumer(Microsoft.Psi.Pipeline pipeline, string fIP, int fP, int localP)
         {
+            pipeline.RegisterPipelineStartHandler(this, this.OnPipelineStart);
+            pipeline.RegisterPipelineStopHandler(this, this.OnPipelineStop);
+
             this.localPort = localP;
             this.facilitatorIp = fIP;
             this.facilitatorPort = fP;
@@ -47,7 +50,7 @@ namespace NU.Kqml
             }
         }
 
-        public void Start(Action onCompleted, ReplayDescriptor descriptor)
+        public void OnPipelineStart()
         {
             // register with facilitator
             facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
@@ -75,7 +78,7 @@ namespace NU.Kqml
 
         }
 
-        public void Stop()
+        public void OnPipelineStop()
         {
             listener.Close();
         }

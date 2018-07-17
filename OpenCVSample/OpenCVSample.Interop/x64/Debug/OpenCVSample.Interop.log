@@ -1,34 +1,11 @@
-﻿  Stdafx.cpp
-  AssemblyInfo.cpp
-  CascadeClassifierUnm.cpp
+﻿  CascadeClassifierUnm.cpp
+CascadeClassifierUnm.cpp(5): fatal error C1083: Cannot open include file: 'opencv2/imgproc/imgproc.hpp': No such file or directory
   FaceCasClassifier.cpp
+c:\linux\repos\awareness-project\opencvsample\opencvsample.interop\FaceCasClassifier.h(4): fatal error C1083: Cannot open include file: 'opencv2/imgproc/imgproc.hpp': No such file or directory
   FaceLandmarkUnm.cpp
+FaceLandmarkUnm.cpp(5): fatal error C1083: Cannot open include file: 'opencv2/imgproc/imgproc.hpp': No such file or directory
   FaceTrackingUnm.cpp
-  ImageBuffer.cpp
+FaceTrackingUnm.cpp(5): fatal error C1083: Cannot open include file: 'opencv2/imgproc/imgproc.hpp': No such file or directory
   OpenCVNative.cpp
+OpenCVNative.cpp(8): fatal error C1083: Cannot open include file: 'opencv2/imgproc/imgproc.hpp': No such file or directory
   Generating Code...
-  .NETFramework,Version=v4.7.AssemblyAttributes.cpp
-  OpenCVSample.Interop.vcxproj -> C:\github\Awareness-Project\OpenCVSample\OpenCVSample.Interop\x64\Debug\OpenCVSample.Interop.dll
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-          1 file(s) copied.
-  Built sample using OpenCVDir='C:\cv341\opencv'

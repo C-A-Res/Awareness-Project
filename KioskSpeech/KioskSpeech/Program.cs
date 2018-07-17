@@ -4,12 +4,14 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Microsoft.Psi.Samples.SpeechSample
+namespace NU.Kiosk.Speech
 {
     using System;
     using System.IO;
     using System.Linq;
+    using Microsoft.Psi;
     using Microsoft.Psi.Audio;
+    using Microsoft.Psi.Components;
     using Microsoft.Psi.Data;
     using Microsoft.Psi.Speech;
     using Microsoft.Psi.Visualization.Client;
@@ -30,10 +32,6 @@ namespace Microsoft.Psi.Samples.SpeechSample
 
         public static void Main(string[] args)
         {
-            string facilitatorIP = args[0];
-            int facilitatorPort = int.Parse(args[1]);
-            int localPort = int.Parse(args[2]);
-
             // The root folder under which data will be logged. This may be set to null, which will create
             // a volatile data store to which data can be written for the purposes of live visualization.
             string outputLogPath = null;
@@ -48,8 +46,8 @@ namespace Microsoft.Psi.Samples.SpeechSample
             // Flag to exit the application
             bool exit = false;
 
-            RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization, facilitatorIP, facilitatorPort, localPort);
-            if (python != null) python.Stop();
+            RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization);
+            //if (python != null) python.Stop();
 
         }
 
@@ -59,8 +57,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
         /// <param name="outputLogPath">The path under which to write log data.</param>
         /// <param name="inputLogPath">The path from which to read audio input data.</param>
         /// <param name="showLiveVisualization">A flag indicating whether to display live data in PsiStudio as the pipeline is running.</param>
-        public static void RunSystemSpeech(string outputLogPath = null, string inputLogPath = null, bool showLiveVisualization = true,
-            string facilitatorIP = "localhost", int facilitatorPort = 9000, int localPort = 8090)
+        public static void RunSystemSpeech(string outputLogPath = null, string inputLogPath = null, bool showLiveVisualization = true)
         {
             // Create the pipeline object.
             using (Pipeline pipeline = Pipeline.Create())
@@ -88,18 +85,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
                 }
 
                 // Create System.Speech recognizer component
-                var recognizer = new SystemSpeechRecognizer(
-                    pipeline,
-                    new SystemSpeechRecognizerConfiguration()
-                    {
-                        Language = "en-US",
-                        Grammars = new GrammarInfo[]
-                        {
-                            new GrammarInfo() { Name = Program.AppName, FileName = @"Resources\CuratedGrammar.grxml" }
-                        }
-                }); 
-            //pipeline);
-
+                var recognizer = CreateSpeechRecognizer(pipeline);
 
                 // Subscribe the recognizer to the input audio
                 audioInput.PipeTo(recognizer);
@@ -116,7 +102,8 @@ namespace Microsoft.Psi.Samples.SpeechSample
                     {
                         Console.WriteLine($"{ssrResult.Text}? (confidence: {ssrResult.Confidence})");
                     } else if (isCommand(ssrResult.Text)) {
-                        processCommand(ref recognizer, ssrResult.Text);
+                        SystemSpeechRecognizer r = (SystemSpeechRecognizer)recognizer;
+                        processCommand(ref r, ssrResult.Text);
                     } else {
                         Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
                     }
@@ -135,21 +122,6 @@ namespace Microsoft.Psi.Samples.SpeechSample
                 text.Do(x => Console.WriteLine(x));
                 text.PipeTo(speechSynth);
                 speechSynth.SpeakCompleted.Do(x => Console.WriteLine("."));
-
-
-                //if (facilitatorIP != "none")
-                //{
-                //    python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
-
-                //    var text = finalResults.Select(result =>
-                //    {
-                //        var ssrResult = result as SpeechRecognitionResult;
-                //        return ssrResult.Text;
-                //    });
-
-                //    text.PipeTo(python.In);
-                //}
-
 
                 // Create a data store to log the data to if necessary. A data store is necessary
                 // only if output logging or live visualization are enabled.
@@ -172,6 +144,21 @@ namespace Microsoft.Psi.Samples.SpeechSample
                 Console.WriteLine("Press any key to exit...");
                 Console.ReadKey(true);
             }
+        }
+
+        public static ConsumerProducer<AudioBuffer, IStreamingSpeechRecognitionResult> CreateSpeechRecognizer(Pipeline pipeline)
+        {
+            var recognizer = new SystemSpeechRecognizer(
+            pipeline,
+            new SystemSpeechRecognizerConfiguration()
+            {
+                Language = "en-US",
+                Grammars = new GrammarInfo[]
+                {
+                     new GrammarInfo() { Name = Program.AppName, FileName = @"Resources\CuratedGrammar.grxml" }
+                }
+            });
+            return recognizer;
         }
 
 
