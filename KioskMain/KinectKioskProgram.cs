@@ -19,6 +19,7 @@
         static string AppName = "Kiosk";
 
         static TimeSpan _100ms = TimeSpan.FromSeconds(0.1);
+        static TimeSpan _500ms = TimeSpan.FromSeconds(0.5);
 
         public static void Main(string[] args)
         {
@@ -53,24 +54,24 @@
                 });
 
                 var mouthOpen = mouthOpenAsFloat.Hold(0.1);
-                mouthOpen.Do(x => Console.Write($"{x} "));
+               // mouthOpen.Do(x => Console.Write($"{x} "));
 
-                kinectSensor.Audio.PipeTo(speechDetector);
+                // Not using speech detector for now
+                //kinectSensor.Audio.PipeTo(speechDetector);
+                //var mouthAndSpeechDetector = speechDetector.Join(mouthOpen, _100ms).Select((t, e) => t.Item1 && t.Item2);
 
-                var mouthAndSpeechDetector = speechDetector.Join(mouthOpen, _100ms).Select((t, e) => t.Item1 && t.Item2);
-
-                kinectSensor.Audio.Join(mouthAndSpeechDetector).Where(x => x.Item2).Select(x => x.Item1).PipeTo(recognizer);
+                kinectSensor.Audio.PipeTo(recognizer);
 
                 var finalResults = recognizer.Out.Where(result => result.IsFinal);
 
-                finalResults.Do(result =>
+                finalResults.Join(mouthOpen, _500ms).Do(pair =>
                 {
-                    var ssrResult = result as SpeechRecognitionResult;
-                    Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
+                    var ssrResult = pair.Item1 as SpeechRecognitionResult;
+                    Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence}) (mouthOpen: {pair.Item2})");
                 });
 
                 // Setup psi studio visualizations
-                SetupDataStore(pipeline, @"..\..\..\Videos\" + AppName, "", true, kinectSensor, faceTracker, finalResults);
+                //SetupDataStore(pipeline, @"..\..\..\Videos\" + AppName, "", true, kinectSensor, faceTracker, finalResults);
 
                 // Register an event handler to catch pipeline errors
                 pipeline.PipelineCompletionEvent += PipelineCompletionEvent;

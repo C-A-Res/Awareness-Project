@@ -248,7 +248,6 @@
                 skeletonFrame.CopySkeletonDataTo(this.skeletonData);
                 this.Skeletons.Post(this.skeletonData.ToList(), time);
 
-                Console.Write('x');
             }
             catch
             {
