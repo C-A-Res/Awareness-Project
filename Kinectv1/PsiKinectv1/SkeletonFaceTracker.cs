@@ -11,7 +11,7 @@
     using Microsoft.Psi.Components;
     using Microsoft.Psi.Imaging;
 
-    class SkeletonFaceTracker : ConsumerProducer<(Shared<Image>,Shared<Image>,List<Skeleton>),bool>, IStartable, IDisposable
+    public class SkeletonFaceTracker : ConsumerProducer<(Shared<Image>,Shared<Image>,List<Skeleton>),bool>, IStartable, IDisposable
     {
         private Microsoft.Kinect.KinectSensor kinectSensor = null;
 

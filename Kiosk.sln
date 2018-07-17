@@ -7,12 +7,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KioskSpeech", "KioskSpeech\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KioskMain", "KioskMain\KioskMain.csproj", "{C34F4C8D-4073-4549-BB54-A3F6E7447D04}"
 	ProjectSection(ProjectDependencies) = postProject
+		{E5AAD085-BC59-407D-83DB-C23CB602DE84} = {E5AAD085-BC59-407D-83DB-C23CB602DE84}
 		{C5AB7394-68FB-4641-BDAE-8A956EDC44A9} = {C5AB7394-68FB-4641-BDAE-8A956EDC44A9}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenCVSample.Interop", "OpenCVSample\OpenCVSample.Interop\OpenCVSample.Interop.vcxproj", "{0C0D11F0-04C4-41D3-AF43-7C2ACA90214A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KioskVisualization", "OpenCVSample\OpenCVSample\KioskVisualization.csproj", "{A04D4DFC-2843-4BC4-96A0-F03631700506}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsiKinectv1", "Kinectv1\PsiKinectv1\PsiKinectv1.csproj", "{E5AAD085-BC59-407D-83DB-C23CB602DE84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +54,14 @@ Global
 		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A04D4DFC-2843-4BC4-96A0-F03631700506}.Release|x64.ActiveCfg = Release|Any CPU
+		{E5AAD085-BC59-407D-83DB-C23CB602DE84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5AAD085-BC59-407D-83DB-C23CB602DE84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5AAD085-BC59-407D-83DB-C23CB602DE84}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E5AAD085-BC59-407D-83DB-C23CB602DE84}.Debug|x64.Build.0 = Debug|Any CPU
+		{E5AAD085-BC59-407D-83DB-C23CB602DE84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5AAD085-BC59-407D-83DB-C23CB602DE84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5AAD085-BC59-407D-83DB-C23CB602DE84}.Release|x64.ActiveCfg = Release|Any CPU
+		{E5AAD085-BC59-407D-83DB-C23CB602DE84}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

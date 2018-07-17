@@ -76,9 +76,6 @@
     <Reference Include="Microsoft.Psi.Kinect.Face.Windows.x64, Version=0.3.16.5, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\Microsoft.Psi.Kinect.Face.Windows.x64.0.3.16.5-beta\lib\net47\Microsoft.Psi.Kinect.Face.Windows.x64.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Psi.Kinect.Windows, Version=0.3.16.5, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Psi.Kinect.Windows.0.3.16.5-beta\lib\net47\Microsoft.Psi.Kinect.Windows.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Psi.Language, Version=0.3.16.5, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Psi.Language.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.Language.dll</HintPath>
     </Reference>
@@ -142,6 +139,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KinectKioskProgram.cs" />
+    <Compile Include="OperatorExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
