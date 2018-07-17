@@ -88,18 +88,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
                 }
 
                 // Create System.Speech recognizer component
-                var recognizer = new SystemSpeechRecognizer(
-                    pipeline,
-                    new SystemSpeechRecognizerConfiguration()
-                    {
-                        Language = "en-US",
-                        Grammars = new GrammarInfo[]
-                        {
-                            new GrammarInfo() { Name = Program.AppName, FileName = @"Resources\CuratedGrammar.grxml" }
-                        }
-                }); 
-            //pipeline);
-
+                var recognizer = CreateSpeechRecognizer(pipeline);
 
                 // Subscribe the recognizer to the input audio
                 audioInput.PipeTo(recognizer);
@@ -174,6 +163,20 @@ namespace Microsoft.Psi.Samples.SpeechSample
             }
         }
 
+        public static ConsumerProducer<AudioBuffer, IStreamingSpeechRecognitionResult> CreateSpeechRecognizer(Pipeline pipeline)
+        {
+            var recognizer = new SystemSpeechRecognizer(
+            pipeline,
+            new SystemSpeechRecognizerConfiguration()
+            {
+                Language = "en-US",
+                Grammars = new GrammarInfo[]
+                {
+                     new GrammarInfo() { Name = Program.AppName, FileName = @"Resources\CuratedGrammar.grxml" }
+                }
+            });
+            return recognizer;
+        }
 
         /// <summary>
         /// Event handler for the PipelineCompletion event.
