@@ -4,12 +4,14 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Microsoft.Psi.Samples.SpeechSample
+namespace NU.Kiosk.Speech
 {
     using System;
     using System.IO;
     using System.Linq;
+    using Microsoft.Psi;
     using Microsoft.Psi.Audio;
+    using Microsoft.Psi.Components;
     using Microsoft.Psi.Data;
     using Microsoft.Psi.Speech;
     using Microsoft.Psi.Visualization.Client;
@@ -105,7 +107,8 @@ namespace Microsoft.Psi.Samples.SpeechSample
                     {
                         Console.WriteLine($"{ssrResult.Text}? (confidence: {ssrResult.Confidence})");
                     } else if (isCommand(ssrResult.Text)) {
-                        processCommand(ref recognizer, ssrResult.Text);
+                        SystemSpeechRecognizer r = (SystemSpeechRecognizer)recognizer;
+                        processCommand(ref r, ssrResult.Text);
                     } else {
                         Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
                     }

@@ -304,15 +304,15 @@ namespace NU.Kiosk
 
                     // Plot the video stream in a new panel
                     visualizationClient.AddXYPanel();
-                    processedVideo.Show(visualizationClient);
+                    //processedVideo.Show(visualizationClient);
 
                     // Plot the microphone audio stream in a new panel
                     visualizationClient.AddTimelinePanel();
-                    audioInput.Show(visualizationClient);
+                    //audioInput.Show(visualizationClient);
 
                     // Plot the recognition results in a new panel
                     visualizationClient.AddTimelinePanel();
-                    finalResults.Show(visualizationClient);
+                    //finalResults.Show(visualizationClient);
 
                 }
 

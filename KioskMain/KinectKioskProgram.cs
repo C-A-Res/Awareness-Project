@@ -13,7 +13,7 @@
     using Microsoft.Psi.Data;
     using Microsoft.Psi.Speech;
     using Microsoft.Psi.Visualization.Client;
-
+    
     public static class KinectKioskProgram
     {
         static string AppName = "Kiosk";
@@ -31,11 +31,11 @@
                 // Components
                 Microsoft.Psi.Kinect.v1.KinectSensor kinectSensor = new Microsoft.Psi.Kinect.v1.KinectSensor(pipeline);
 
-                SkeletonFaceTracker faceTracker = new SkeletonFaceTracker(pipeline, kinectSensor.kinectSensor);
+                Microsoft.Psi.Kinect.v1.SkeletonFaceTracker faceTracker = new Microsoft.Psi.Kinect.v1.SkeletonFaceTracker(pipeline, kinectSensor.kinectSensor);
 
                 var speechDetector = new SystemVoiceActivityDetector(pipeline);
 
-                var recognizer = NU.Kiosk.Speech.Program.CreateSpeechRecognizer(pipeline);
+                var recognizer = Speech.Program.CreateSpeechRecognizer(pipeline);
 
                 // Wiring together the components
                 var joinedFrames = kinectSensor.ColorImage.Join(kinectSensor.DepthImage).Join(kinectSensor.Skeletons);
@@ -165,15 +165,15 @@
 
                 // Plot the microphone audio stream in a new panel
                 //visualizationClient.AddTimelinePanel();
-                kinectSensor.Audio.Show(visualizationClient);
+                //kinectSensor.Audio.Show(visualizationClient);
 
                 // Plot the recognition results in a new panel
                 //visualizationClient.AddTimelinePanel();
                 //faceTracker.Show(visualizationClient);
 
                 // Plot the recognition results in a new panel
-                visualizationClient.AddTimelinePanel();
-                speechRecog.Show(visualizationClient);
+                //visualizationClient.AddTimelinePanel();
+                //speechRecog.Show(visualizationClient);
 
             }
 

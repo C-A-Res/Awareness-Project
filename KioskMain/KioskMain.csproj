@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>NU.Kiosk.Program</StartupObject>
+    <StartupObject>NU.Kiosk.KinectKioskProgram</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MathNet.Numerics, Version=3.20.2.0, Culture=neutral, PublicKeyToken=cd8b63ad3d691a37, processorArchitecture=MSIL">
@@ -42,12 +42,8 @@
       <HintPath>..\packages\MathNet.Spatial.Signed.0.4.0\lib\net40\MathNet.Spatial.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Kinect, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Kinect.2.0.1410.19000\lib\net45\Microsoft.Kinect.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Kinect.Face, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.Kinect.Face.x64.2.0.1410.19000\lib\net45\Microsoft.Kinect.Face.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files\Microsoft SDKs\Kinect\v1.8\Assemblies\Microsoft.Kinect.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Psi, Version=0.3.16.5, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Psi.Runtime.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.dll</HintPath>
@@ -141,7 +137,6 @@
   <ItemGroup>
     <Compile Include="KinectKioskProgram.cs" />
     <Compile Include="OperatorExtensions.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -272,6 +267,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kinectv1\PsiKinectv1\PsiKinectv1.csproj">
+      <Project>{e5aad085-bc59-407d-83db-c23cb602de84}</Project>
+      <Name>PsiKinectv1</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KioskSpeech\KioskSpeech\KioskSpeech.csproj">
       <Project>{c5ab7394-68fb-4641-bdae-8a956edc44a9}</Project>
       <Name>KioskSpeech</Name>

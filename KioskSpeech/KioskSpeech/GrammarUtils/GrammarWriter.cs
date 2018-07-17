@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Microsoft.Psi.Samples.SpeechSample
+namespace NU.Kiosk.Speech
 {
     class GrammarWriter
     {
