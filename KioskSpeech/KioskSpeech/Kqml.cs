@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 namespace NU.Kqml
 {
     using Microsoft.Psi;
+    using Microsoft.Psi.Components;
 
-    public class SocketStringConsumer : IConsumer<string>, Microsoft.Psi.Components.IStartable
+    public class SocketStringConsumer : ConsumerProducer<string, string>, Microsoft.Psi.Components.IStartable
     {
         //private readonly Pipeline pipeline;
         private readonly int localPort;
@@ -25,23 +26,26 @@ namespace NU.Kqml
 
         private List<KQMLMessage> receivedMsgs = new List<KQMLMessage>();
 
-        public SocketStringConsumer(Microsoft.Psi.Pipeline pipeline, string fIP, int fP, int localP)
+        public SocketStringConsumer(Microsoft.Psi.Pipeline pipeline, string fIP, int fP, int localP) : base(pipeline)
         {
             this.localPort = localP;
             this.facilitatorIp = fIP;
             this.facilitatorPort = fP;
-            this.In = pipeline.CreateReceiver<string>(this, ReceiveString, "SocketReceiver");
+            this.In = pipeline.CreateReceiver<string>(this, ReceiveStringFromUpstream, "UpstreamConsumer");
+            this.Out = pipeline.CreateEmitter<string>(this, "DownstreamEmitter");            
         }
 
         //public Receiver<string> In => ((IConsumer<string>)receiver).In;
         public Receiver<string> In { get; private set; }
+        public Emitter<string> Out { get; private set; }
 
-        private void ReceiveString(string message, Envelope e)
+        private void ReceiveStringFromUpstream(string message, Envelope e)
         {
-            //Console.WriteLine($"Consuming {message}");
+            Console.WriteLine($"Consuming {message}");
             if (ready && message.Length > 5)
             {
-                var kqml = KQMLMessage.createAchieve(name, "interaction-manager", nextMsgId(), null, $"(processUserUtterance HandMadeEEs-Library \"{message}\")");
+                //var kqml = KQMLMessage.createAchieve(name, "interaction-manager", nextMsgId(), null, $"(processUserUtterance HandMadeEEs-Library \"{message}\")");
+                var kqml = KQMLMessage.createAchieve(name, this.name, nextMsgId(), null, $"(processUserUtterance HandMadeEEs-Library \"{message}\")"); // FIXME send to self for testing
                 facilitator.Connect();
                 facilitator.Send(kqml.ToString());
             }
@@ -49,30 +53,32 @@ namespace NU.Kqml
 
         public void Start(Action onCompleted, ReplayDescriptor descriptor)
         {
+            // start listening
+            this.listener = new SimpleSocketServer(this.localPort);
+            this.listener.OnMessage = this.ProcessMessageFromUpstream; // push the data downstream
+            this.listener.StartListening();
+
             // register with facilitator
             facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
-            facilitator.OnMessage = this.handleRemoteMessage;
+            facilitator.OnMessage = this.ProcessMessageFromUpstream;
             facilitator.Connect();
-            var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://192.168.56.1:{this.localPort}\" nil nil {this.localPort}))";
+            //var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://192.168.56.1:{this.localPort}\" nil nil {this.localPort}))";
+            var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://192.168.1.6:{this.localPort}\" nil nil {this.localPort}))";
+            Console.Write($"{registermsg}");
             facilitator.Send(registermsg);
+            facilitator.Close();
 
             // advertise - this is not right yet
-            string fn = "test";
-            string msgid = nextMsgId();
-            var admsg = $"(advertise :sender {this.name} :receiver facilitator :reply-with {msgid} " +
-                $":content (ask-all :receiver {this.name} :in-reply-to {msgid} :content {fn}))";
-            facilitator.Connect();
-            facilitator.Send(admsg);
-            facilitator.Close();
+            //string fn = "test";
+            //string msgid = nextMsgId();
+            //var admsg = $"(advertise :sender {this.name} :receiver facilitator :reply-with {msgid} " +
+            //    $":content (ask-all :receiver {this.name} :in-reply-to {msgid} :content {fn}))";
+            //facilitator.Connect();
+            //facilitator.Send(admsg);
+            //facilitator.Close();
 
             this.ready = true;
             Console.WriteLine("\n***Ready***\n");
-
-            // start listening
-            this.listener = new SimpleSocketServer(this.localPort);
-            this.listener.OnMessage = this.handleRemoteMessage;
-            this.listener.StartListening();
-
         }
 
         public void Stop()
@@ -85,48 +91,36 @@ namespace NU.Kqml
             return $"psi-id{this.messageCounter++}";
         }
 
-        private void handleRemoteMessage(string data, AbstractSimpleSocket socket)
+        private void ProcessMessageFromUpstream(string data, AbstractSimpleSocket socket)
         {
+            // push this into Out
             Console.WriteLine($"\nFacilitator says: {data}\n");
             KQMLMessage kqml = KQMLMessage.parseMessage(data);
-            //Console.WriteLine("Facilitator says: " + kqml.ToString());
-            if (kqml != null)
+            Console.WriteLine("Facilitator says: " + kqml.ToString());
+            if (kqml != null && ready)
             {
-                if (kqml.performative == "ping")
+                switch (kqml.performative)
                 {
-                    handlePing(kqml, socket);
-                }
-                else if (kqml.performative == "achieve")
-                {
-
-                }
-                else if (kqml.performative == "ask_all")
-                {
-
-                }
-                else if (kqml.performative == "ask_one")
-                {
-
-                }
-                else if (kqml.performative == "advertise")
-                {
-
-                }
-                else if (kqml.performative == "tell")
-                {
-                    handleTell(kqml, socket);
-                }
-                else if (kqml.performative == "untell")
-                {
-
-                }
-                else if (kqml.performative == "advertise")
-                {
-
-                }
-                else if (kqml.performative == "subscribe")
-                {
-
+                    case "ping":
+                        handlePing(kqml, socket);
+                        break;
+                    case "achieve":
+                        handleAchieve(kqml, socket);
+                        break;
+                    case "tell":
+                        handleTell(kqml, socket);
+                        break;
+                    case "error":
+                        Console.WriteLine($"[SocketStringConsumer] Error: {kqml.ToString()}");
+                        break;
+                    case "ask_all":
+                    case "ask_one":
+                    case "advertise":
+                    case "untell":
+                    case "subscribe":                    
+                    default:
+                        Console.WriteLine($"[SocketStringConsumer] Unknown KQML Performative: {kqml.performative}");
+                        break;
                 }
             }
         }
@@ -141,7 +135,16 @@ namespace NU.Kqml
         private void handleTell(KQMLMessage msg, AbstractSimpleSocket socket)
         {
             receivedMsgs.Add(msg);
-            socket.Send(KQMLMessage.createTell(this.name, msg.sender, this.nextMsgId(), msg.reply_with, ":ok").ToString());
+            Console.Write($"Received tell message: {msg.ToString()}");
+            //socket.Send(KQMLMessage.createTell(this.name, msg.sender, this.nextMsgId(), msg.reply_with, ":ok").ToString());
+            //this.Out.Post(msg.content.ToString(), DateTime.Now);
+        }
+
+        private void handleAchieve(KQMLMessage msg, AbstractSimpleSocket socket)
+        {
+            receivedMsgs.Add(msg);
+            //socket.Send(KQMLMessage.createTell(this.name, msg.sender, this.nextMsgId(), msg.reply_with, ":ok").ToString());
+            this.Out.Post(msg.content.ToString(), DateTime.Now);
         }
     }
 
