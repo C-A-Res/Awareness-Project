@@ -54,12 +54,13 @@
                 });
 
                 var mouthOpen = mouthOpenAsFloat.Hold(0.1);
-               // mouthOpen.Do(x => Console.Write($"{x} "));
+                // mouthOpen.Do(x => Console.Write($"{x} "));
 
                 // Not using speech detector for now
                 //kinectSensor.Audio.PipeTo(speechDetector);
                 //var mouthAndSpeechDetector = speechDetector.Join(mouthOpen, _100ms).Select((t, e) => t.Item1 && t.Item2);
 
+                //kinectSensor.Audio.Join(mouthOpen, _500ms).Where(result => result.Item2).PipeTo(recognizer);
                 kinectSensor.Audio.PipeTo(recognizer);
 
                 var finalResults = recognizer.Out.Where(result => result.IsFinal);
@@ -69,6 +70,7 @@
                     var ssrResult = pair.Item1 as SpeechRecognitionResult;
                     Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence}) (mouthOpen: {pair.Item2})");
                 });
+
 
                 // Setup psi studio visualizations
                 //SetupDataStore(pipeline, @"..\..\..\Videos\" + AppName, "", true, kinectSensor, faceTracker, finalResults);

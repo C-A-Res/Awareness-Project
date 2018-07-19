@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsiKinectv1", "Kinectv1\Psi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Kinect.Toolkit.FaceTracking", "Microsoft.Kinect.Toolkit.FaceTracking\Microsoft.Kinect.Toolkit.FaceTracking.csproj", "{1BCF9CEE-DF01-430E-B49D-41A9A88963EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KioskUI", "KioskUI\KioskUI.csproj", "{CEA3BC67-5DAE-44B5-BEC7-5596EE29629F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,18 @@ Global
 		{1BCF9CEE-DF01-430E-B49D-41A9A88963EB}.Release|x64.Build.0 = Release|x64
 		{1BCF9CEE-DF01-430E-B49D-41A9A88963EB}.Release|x86.ActiveCfg = Release|Win32
 		{1BCF9CEE-DF01-430E-B49D-41A9A88963EB}.Release|x86.Build.0 = Release|Win32
+		{CEA3BC67-5DAE-44B5-BEC7-5596EE29629F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEA3BC67-5DAE-44B5-BEC7-5596EE29629F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEA3BC67-5DAE-44B5-BEC7-5596EE29629F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CEA3BC67-5DAE-44B5-BEC7-5596EE29629F}.Debug|x64.Build.0 = Debug|Any CPU
+		{CEA3BC67-5DAE-44B5-BEC7-5596EE29629F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CEA3BC67-5DAE-44B5-BEC7-5596EE29629F}.Debug|x86.Build.0 = Debug|Any CPU
+		{CEA3BC67-5DAE-44B5-BEC7-5596EE29629F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEA3BC67-5DAE-44B5-BEC7-5596EE29629F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEA3BC67-5DAE-44B5-BEC7-5596EE29629F}.Release|x64.ActiveCfg = Release|Any CPU
+		{CEA3BC67-5DAE-44B5-BEC7-5596EE29629F}.Release|x64.Build.0 = Release|Any CPU
+		{CEA3BC67-5DAE-44B5-BEC7-5596EE29629F}.Release|x86.ActiveCfg = Release|Any CPU
+		{CEA3BC67-5DAE-44B5-BEC7-5596EE29629F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
