@@ -8,16 +8,18 @@ using System.Threading.Tasks;
 namespace NU.Kqml
 {
     using Microsoft.Psi;
+    using Microsoft.Psi.Components;
 
-    public class SocketStringConsumer : IConsumer<string>, Microsoft.Psi.Components.IStartable
+    public class SocketStringConsumer : ConsumerProducer<string,string>, Microsoft.Psi.Components.IStartable
     {
         //private readonly Pipeline pipeline;
         private readonly int localPort;
         private readonly string facilitatorIp;
         private readonly int facilitatorPort;
+        private readonly Pipeline pipeline;
 
         private bool ready = false;
-
+        
         private SimpleSocketServer listener;
         private SimpleSocket facilitator;
         private string name = "psi";
@@ -25,16 +27,19 @@ namespace NU.Kqml
 
         private List<KQMLMessage> receivedMsgs = new List<KQMLMessage>();
 
-        public SocketStringConsumer(Microsoft.Psi.Pipeline pipeline, string fIP, int fP, int localP)
+        public SocketStringConsumer(Pipeline pipeline, string fIP, int fP, int localP)
+            : base(pipeline)
         {
+            this.pipeline = pipeline;
+
             this.localPort = localP;
             this.facilitatorIp = fIP;
             this.facilitatorPort = fP;
-            this.In = pipeline.CreateReceiver<string>(this, ReceiveString, "SocketReceiver");
+            //this.In = pipeline.CreateReceiver<string>(this, ReceiveString, "SocketReceiver");
         }
 
         //public Receiver<string> In => ((IConsumer<string>)receiver).In;
-        public Receiver<string> In { get; private set; }
+        //public Receiver<string> In { get; private set; }
 
         private void ReceiveString(string message, Envelope e)
         {
@@ -98,7 +103,7 @@ namespace NU.Kqml
                 }
                 else if (kqml.performative == "achieve")
                 {
-
+                    Out.Post(data, pipeline.GetCurrentTime());
                 }
                 else if (kqml.performative == "ask_all")
                 {
