@@ -52,7 +52,7 @@ namespace NU.Kiosk.Speech
             bool exit = false;
 
             //RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization, facilitatorIP, facilitatorPort, localPort);
-            RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization, "10.105.229.105");
+            RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization);
             if (python != null) python.Stop();
 
         }
