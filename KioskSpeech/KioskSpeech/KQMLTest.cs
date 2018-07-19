@@ -14,7 +14,7 @@ namespace NU.Kqml
         {
             using (Pipeline pipeline = Pipeline.Create())
             {
-                string facilitatorIP = "165.124.181.100";
+                string facilitatorIP = "127.0.0.1";
                 int facilitatorPort = 9000;
                 int localPort = 8090;
 

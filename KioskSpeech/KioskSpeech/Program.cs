@@ -27,6 +27,7 @@ namespace NU.Kiosk.Speech
         // Component that serves as connection to Python
         //static WebSocketStringConsumer python = null;
         static SocketStringConsumer python = null;
+        static SocketEchoer echoer = null;
 
         private static int ReloadMessageIDCurrent = 0;
 
@@ -51,7 +52,7 @@ namespace NU.Kiosk.Speech
             bool exit = false;
 
             //RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization, facilitatorIP, facilitatorPort, localPort);
-            RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization);
+            RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization, "10.105.229.105");
             if (python != null) python.Stop();
 
         }
@@ -63,14 +64,14 @@ namespace NU.Kiosk.Speech
         /// <param name="inputLogPath">The path from which to read audio input data.</param>
         /// <param name="showLiveVisualization">A flag indicating whether to display live data in PsiStudio as the pipeline is running.</param>
         public static void RunSystemSpeech(string outputLogPath = null, string inputLogPath = null, bool showLiveVisualization = true,
-            string facilitatorIP = "localhost", int facilitatorPort = 9000, int localPort = 8090)
+            string facilitatorIP = "127.0.0.1", int facilitatorPort = 9000, int localPort = 8090)
         {
             // Create the pipeline object.
             using (Pipeline pipeline = Pipeline.Create())
             {
                 // Needed only for live visualization
                 DateTime startTime = DateTime.Now;
-                /*
+                
                 // Use either live audio from the microphone or audio from a previously saved log
                 IProducer<AudioBuffer> audioInput = null;
                 if (inputLogPath != null)
@@ -123,19 +124,20 @@ namespace NU.Kiosk.Speech
                         Voice = "Microsoft Zira Desktop",
                         UseDefaultAudioPlaybackDevice = true
                     });
-                */
-
+                
+                Console.WriteLine("Program version");
                 python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
-                /*
+                echoer = new SocketEchoer();
+
                 var text = finalResults.Select(result =>
                 {
                     var ssrResult = result as SpeechRecognitionResult;
                     return ssrResult.Text;
                 });
                 text.PipeTo(python.In);
-                */
+                
                 python.Out.Do(x => Console.WriteLine(x));
-                //python.Out.PipeTo(speechSynth);
+                python.Out.PipeTo(speechSynth);
 
                 //var text = finalResults.Select(result => result.Text);
                 //text.Do(x => Console.WriteLine(x));
@@ -159,7 +161,7 @@ namespace NU.Kiosk.Speech
 
                 // Create a data store to log the data to if necessary. A data store is necessary
                 // only if output logging or live visualization are enabled.
-                /*
+                
                 var dataStore = CreateDataStore(pipeline, outputLogPath, showLiveVisualization);
 
                 // For disk logging or live visualization only
@@ -169,7 +171,7 @@ namespace NU.Kiosk.Speech
                     audioInput.Write($"{Program.AppName}.MicrophoneAudio", dataStore);
                     finalResults.Write($"{Program.AppName}.FinalRecognitionResults", dataStore);
                 }
-                */
+                
 
                 // Register an event handler to catch pipeline errors
                 pipeline.PipelineCompletionEvent += PipelineCompletionEvent;

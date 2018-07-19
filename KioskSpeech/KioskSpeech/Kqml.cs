@@ -10,6 +10,67 @@ namespace NU.Kqml
     using Microsoft.Psi;
     using Microsoft.Psi.Components;
 
+    public class SocketEchoer
+    {
+        private readonly string facilitatorIp;
+        private readonly int facilitatorPort;
+        private readonly int localPort;
+        private readonly string name = "echoer";
+
+        private SimpleSocketServer listener;
+        private SimpleSocket facilitator;
+
+        public SocketEchoer(string facilitatorIp = "127.0.0.1", int facilitatorPort = 9000, int localPort = 10000)
+        {
+            this.facilitatorIp = facilitatorIp;
+            this.facilitatorPort = facilitatorPort;
+            this.localPort = localPort;
+
+            // start listening
+            this.listener = new SimpleSocketServer(this.localPort);
+            this.listener.OnMessage = this.ProcessMessageFromUpstream; // push the data downstream
+            this.listener.StartListening();
+
+            // register with facilitator
+            facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
+            facilitator.OnMessage = this.ProcessMessageFromUpstream;
+            facilitator.Connect();
+            //var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://192.168.56.1:{this.localPort}\" nil nil {this.localPort}))";
+            var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://127.0.0.1:{this.localPort}\" nil nil {this.localPort}))";
+            //Console.Write($"{registermsg}");
+            facilitator.Send(registermsg);
+            facilitator.Close();
+        }
+
+        private void ProcessMessageFromUpstream(string data, AbstractSimpleSocket socket)
+        {
+            
+            KQMLMessage msg = KQMLMessage.parseMessage(data);
+
+            if (msg.sender != "facilitator")
+            {
+                Console.WriteLine($"Recieved {data}");
+                string temp = msg.receiver;
+                msg.receiver = msg.sender;
+                msg.sender = temp;
+
+                facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
+                facilitator.OnMessage = this.ProcessMessageFromUpstream;
+                facilitator.Connect();
+                var outbound_msg = msg.ToString();
+                Console.Write($"Echoer outbound message: {outbound_msg}");
+                facilitator.Send(outbound_msg);
+                facilitator.Close();
+            } else if (msg.performative == "ping")
+            {
+                socket.Send($"(ping :sender echo :receiver facilitator :in-reply-to {msg.reply_with})");
+            } else
+            {
+                Console.WriteLine($"[Echoer] Message received from facilitator: {msg.performative}");
+            }
+        }
+    }
+
     public class SocketStringConsumer : ConsumerProducer<string,string>, Microsoft.Psi.Components.IStartable
     {
         //private readonly Pipeline pipeline;
@@ -38,13 +99,13 @@ namespace NU.Kqml
             //this.In = pipeline.CreateReceiver<string>(this, ReceiveString, "SocketReceiver");
         }
 
-        private void ReceiveStringFromUpstream(string message, Envelope e)
+        protected override void Receive(string message, Envelope e)
         {
             Console.WriteLine($"Consuming {message}");
             if (ready && message.Length > 5)
             {
                 //var kqml = KQMLMessage.createAchieve(name, "interaction-manager", nextMsgId(), null, $"(processUserUtterance HandMadeEEs-Library \"{message}\")");
-                var kqml = KQMLMessage.createAchieve(name, this.name, nextMsgId(), null, $"(processUserUtterance HandMadeEEs-Library \"{message}\")"); // FIXME send to self for testing
+                var kqml = KQMLMessage.createAchieve(name, "echoer", nextMsgId(), null, $"(processUserUtterance HandMadeEEs-Library \"{message}\")"); // FIXME send to self for testing
                 facilitator.Connect();
                 facilitator.Send(kqml.ToString());
             }
@@ -62,8 +123,8 @@ namespace NU.Kqml
             facilitator.OnMessage = this.ProcessMessageFromUpstream;
             facilitator.Connect();
             //var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://192.168.56.1:{this.localPort}\" nil nil {this.localPort}))";
-            var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://192.168.1.6:{this.localPort}\" nil nil {this.localPort}))";
-            Console.Write($"{registermsg}");
+            var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://127.0.0.1:{this.localPort}\" nil nil {this.localPort}))";
+            //Console.Write($"{registermsg}");
             facilitator.Send(registermsg);
             facilitator.Close();
 
@@ -93,9 +154,11 @@ namespace NU.Kqml
         private void ProcessMessageFromUpstream(string data, AbstractSimpleSocket socket)
         {
             // push this into Out
-            Console.WriteLine($"\nFacilitator says: {data}\n");
             KQMLMessage kqml = KQMLMessage.parseMessage(data);
-            Console.WriteLine("Facilitator says: " + kqml.ToString());
+            if (kqml.performative != "ping")
+            {
+                Console.WriteLine("Facilitator says: " + kqml.ToString());
+            }            
             if (kqml != null && ready)
             {
                 switch (kqml.performative)
@@ -150,7 +213,7 @@ namespace NU.Kqml
     class KQMLMessage
     {
         public string performative { get; private set; }
-        public string sender { get; private set; }
+        public string sender { get; set; }
         public string receiver;
         public string reply_with;
         public string reply_to;
