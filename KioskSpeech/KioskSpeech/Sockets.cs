@@ -17,8 +17,8 @@ namespace NU.Kqml
             IPAddress ipAddress = null;
             foreach (IPAddress ipa in ipHostInfo.AddressList)
             {
-                //Console.WriteLine(ipa.ToString());
-                //Console.WriteLine(ipa.AddressFamily);
+                Console.WriteLine(ipa.ToString());
+                Console.WriteLine(ipa.AddressFamily);
                 if (ipa.AddressFamily == AddressFamily.InterNetwork)
                 {
                     ipAddress = ipa;
