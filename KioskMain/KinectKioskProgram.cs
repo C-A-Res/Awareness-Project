@@ -25,9 +25,9 @@
         {
             bool detected = false;
             bool usingKqml = false;
-            string facilitatorIP = "";
-            string facilitatorPort = "";
-            string localPort = "";
+            string facilitatorIP = "127.0.0.1";
+            int facilitatorPort = 9000;
+            int localPort = 8090;
 
             Console.WriteLine("Starting Kinect-based Kiosk.  Verify that Kinect is setup before continuing");
 
@@ -41,6 +41,8 @@
                 var speechDetector = new SystemVoiceActivityDetector(pipeline);
 
                 var recognizer = Speech.Program.CreateSpeechRecognizer(pipeline);
+
+                var synthesizer = Speech.Program.CreateSpeechSynthesizer(pipeline);
 
                 // Wiring together the components
                 var joinedFrames = kinectSensor.ColorImage.Join(kinectSensor.DepthImage).Join(kinectSensor.Skeletons);
@@ -58,14 +60,17 @@
                 });
 
                 var mouthOpen = mouthOpenAsFloat.Hold(0.1);
-                // mouthOpen.Do(x => Console.Write($"{x} "));
+                mouthOpen.Do(x => Console.Write($"{x} "));
 
                 // Not using speech detector for now
                 //kinectSensor.Audio.PipeTo(speechDetector);
                 //var mouthAndSpeechDetector = speechDetector.Join(mouthOpen, _100ms).Select((t, e) => t.Item1 && t.Item2);
 
-                //kinectSensor.Audio.Join(mouthOpen, _500ms).Where(result => result.Item2).PipeTo(recognizer);
-                kinectSensor.Audio.PipeTo(recognizer);
+                kinectSensor.Audio.Join(mouthOpen, _500ms).Where(result => result.Item2).Select(pair => {
+                    return pair.Item1;
+                    }
+                ).PipeTo(recognizer);
+                //kinectSensor.Audio.PipeTo(recognizer);
 
                 var finalResults = recognizer.Out.Where(result => result.IsFinal);
 
@@ -78,7 +83,7 @@
                 */
 
                 
-                var text = finalResults.Join(mouthOpen, _500ms).Where(t => t.Item2).Select(pair =>
+                var text = finalResults.Join(mouthOpen, _500ms).Select(pair =>  // Need to add a Where Item2, but skipping for now
                 {
                     var ssrResult = pair.Item1 as SpeechRecognitionResult;
                     Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence}) (mouthOpen: {pair.Item2})");
@@ -89,6 +94,7 @@
                 NU.Kqml.SocketStringConsumer kqml = null;
                 if (usingKqml)
                 {
+                    Console.WriteLine("Setting up connection to Companion");
                     int facilitatorPort_num = Convert.ToInt32(facilitatorPort);
                     int localPort_num = Convert.ToInt32(localPort);
                     Console.WriteLine("Your Companion IP address is: " + facilitatorIP);
@@ -98,6 +104,12 @@
                     kqml = new NU.Kqml.SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort_num, localPort_num);
 
                     text.PipeTo(kqml.In);
+                    //kqml.Out.PipeTo(synthesizer);
+                } else
+                {
+                    text.PipeTo(synthesizer);
+                    //synthesizer.SpeakStarted;
+                    //synthesizer.SpeakCompleted;
                 }
 
 

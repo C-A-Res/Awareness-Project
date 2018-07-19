@@ -40,44 +40,42 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files\Microsoft SDKs\Kinect\v1.8\Assemblies\Microsoft.Kinect.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Psi">
-      <HintPath>..\..\..\..\kiosk\Awareness-Project-master\packages\Microsoft.Psi.Runtime.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.dll</HintPath>
+    <Reference Include="Microsoft.Psi, Version=0.3.16.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Psi.Runtime.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Psi.Audio">
-      <HintPath>..\..\..\..\kiosk\Awareness-Project-master\packages\Microsoft.Psi.Audio.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.Audio.dll</HintPath>
+    <Reference Include="Microsoft.Psi.Audio, Version=0.3.16.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Psi.Audio.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.Audio.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Psi.Audio.Windows">
-      <HintPath>..\..\..\..\kiosk\Awareness-Project-master\packages\Microsoft.Psi.Audio.Windows.0.3.16.5-beta\lib\net47\Microsoft.Psi.Audio.Windows.dll</HintPath>
+    <Reference Include="Microsoft.Psi.Audio.Windows, Version=0.3.16.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Psi.Audio.Windows.0.3.16.5-beta\lib\net47\Microsoft.Psi.Audio.Windows.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Psi.IL">
-      <HintPath>..\..\..\..\kiosk\Awareness-Project-master\packages\Microsoft.Psi.Runtime.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.IL.dll</HintPath>
+    <Reference Include="Microsoft.Psi.IL, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Psi.Runtime.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.IL.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Psi.Imaging">
-      <HintPath>..\..\..\..\kiosk\Awareness-Project-master\packages\Microsoft.Psi.Imaging.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.Imaging.dll</HintPath>
+    <Reference Include="Microsoft.Psi.Imaging, Version=0.3.16.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Psi.Imaging.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.Imaging.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Psi.Language">
-      <HintPath>..\..\..\..\kiosk\Awareness-Project-master\packages\Microsoft.Psi.Language.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.Language.dll</HintPath>
+    <Reference Include="Microsoft.Psi.Language, Version=0.3.16.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Psi.Language.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.Language.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Psi.Speech">
-      <HintPath>..\..\..\..\kiosk\Awareness-Project-master\packages\Microsoft.Psi.Speech.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.Speech.dll</HintPath>
+    <Reference Include="Microsoft.Psi.Speech, Version=0.3.16.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Psi.Speech.0.3.16.5-beta\lib\netstandard2.0\Microsoft.Psi.Speech.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Psi.Speech.Windows">
-      <HintPath>..\..\..\..\kiosk\Awareness-Project-master\packages\Microsoft.Psi.Speech.Windows.0.3.16.5-beta\lib\net47\Microsoft.Psi.Speech.Windows.dll</HintPath>
+    <Reference Include="Microsoft.Psi.Speech.Windows, Version=0.3.16.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Psi.Speech.Windows.0.3.16.5-beta\lib\net47\Microsoft.Psi.Speech.Windows.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Collections.Immutable, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\kiosk\Awareness-Project-master\packages\System.Collections.Immutable.1.4.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    <Reference Include="System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.4.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Drawing.Common">
-      <HintPath>..\..\..\..\kiosk\Awareness-Project-master\packages\System.Drawing.Common.4.5.0-preview1-26216-02\lib\net461\System.Drawing.Common.dll</HintPath>
+    <Reference Include="System.Drawing.Common, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.4.5.0-preview1-26216-02\lib\net461\System.Drawing.Common.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\kiosk\Awareness-Project-master\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
     <Reference Include="System.Speech" />
     <Reference Include="System.Xml.Linq" />

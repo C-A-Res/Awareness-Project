@@ -106,22 +106,19 @@ namespace NU.Kiosk.Speech
                     if (ssrResult.Text.IndexOf("What") >= 0 || ssrResult.Text.IndexOf("When") >= 0 || ssrResult.Text.IndexOf("Where") >= 0 || ssrResult.Text.IndexOf("Who") >= 0 || ssrResult.Text.IndexOf("Can") >= 0)
                     {
                         Console.WriteLine($"{ssrResult.Text}? (confidence: {ssrResult.Confidence})");
-                    } else if (isCommand(ssrResult.Text)) {
+                    }
+                    else if (isCommand(ssrResult.Text))
+                    {
                         SystemSpeechRecognizer r = (SystemSpeechRecognizer)recognizer;
                         processCommand(ref r, ssrResult.Text);
-                    } else {
+                    }
+                    else
+                    {
                         Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
                     }
                 });
 
-                // testing out the speech synth
-                SystemSpeechSynthesizer speechSynth = new SystemSpeechSynthesizer(
-                    pipeline,
-                    new SystemSpeechSynthesizerConfiguration()
-                    {
-                        Voice = "Microsoft Zira Desktop",
-                        UseDefaultAudioPlaybackDevice = true
-                    });
+                SystemSpeechSynthesizer speechSynth = CreateSpeechSynthesizer(pipeline);
 
                 var text = finalResults.Select(result => result.Text);
                 text.Do(x => Console.WriteLine(x));
@@ -164,6 +161,18 @@ namespace NU.Kiosk.Speech
                 Console.WriteLine("Press any key to exit...");
                 Console.ReadKey(true);
             }
+        }
+
+        public static SystemSpeechSynthesizer CreateSpeechSynthesizer(Pipeline pipeline)
+        {
+            // testing out the speech synth
+            return new SystemSpeechSynthesizer(
+                pipeline,
+                new SystemSpeechSynthesizerConfiguration()
+                {
+                    Voice = "Microsoft Zira Desktop",
+                    UseDefaultAudioPlaybackDevice = true
+                });
         }
 
         public static ConsumerProducer<AudioBuffer, IStreamingSpeechRecognitionResult> CreateSpeechRecognizer(Pipeline pipeline)
