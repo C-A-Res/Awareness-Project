@@ -279,10 +279,6 @@
       <Project>{1bcf9cee-df01-430e-b49d-41a9a88963eb}</Project>
       <Name>Microsoft.Kinect.Toolkit.FaceTracking</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenCVSample\OpenCVSample.Interop\OpenCVSample.Interop.vcxproj">
-      <Project>{0c0d11f0-04c4-41d3-af43-7c2aca90214a}</Project>
-      <Name>OpenCVSample.Interop</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="NuiDatabase\Expression\NuiExpressionModelManifest.txt">

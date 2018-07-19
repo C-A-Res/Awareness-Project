@@ -24,6 +24,10 @@
         public static void Main(string[] args)
         {
             bool detected = false;
+            bool usingKqml = false;
+            string facilitatorIP = "";
+            string facilitatorPort = "";
+            string localPort = "";
 
             Console.WriteLine("Starting Kinect-based Kiosk.  Verify that Kinect is setup before continuing");
 
@@ -65,11 +69,37 @@
 
                 var finalResults = recognizer.Out.Where(result => result.IsFinal);
 
+                /*
                 finalResults.Join(mouthOpen, _500ms).Do(pair =>
                 {
                     var ssrResult = pair.Item1 as SpeechRecognitionResult;
                     Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence}) (mouthOpen: {pair.Item2})");
                 });
+                */
+
+                
+                var text = finalResults.Join(mouthOpen, _500ms).Where(t => t.Item2).Select(pair =>
+                {
+                    var ssrResult = pair.Item1 as SpeechRecognitionResult;
+                    Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence}) (mouthOpen: {pair.Item2})");
+                    return ssrResult.Text;
+                });
+
+                
+                NU.Kqml.SocketStringConsumer kqml = null;
+                if (usingKqml)
+                {
+                    int facilitatorPort_num = Convert.ToInt32(facilitatorPort);
+                    int localPort_num = Convert.ToInt32(localPort);
+                    Console.WriteLine("Your Companion IP address is: " + facilitatorIP);
+                    Console.WriteLine("Your Companion port is: " + facilitatorPort);
+                    Console.WriteLine("Your local port is: " + localPort);
+
+                    kqml = new NU.Kqml.SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort_num, localPort_num);
+
+                    text.PipeTo(kqml.In);
+                }
+
 
 
                 // Setup psi studio visualizations
