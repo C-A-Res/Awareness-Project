@@ -32,9 +32,9 @@ namespace NU.Kiosk.Speech
 
         public static void Main(string[] args)
         {
-            string facilitatorIP = args[0];
-            int facilitatorPort = int.Parse(args[1]);
-            int localPort = int.Parse(args[2]);
+            //string facilitatorIP = args[0];
+            //int facilitatorPort = int.Parse(args[1]);
+            //int localPort = int.Parse(args[2]);
 
             // The root folder under which data will be logged. This may be set to null, which will create
             // a volatile data store to which data can be written for the purposes of live visualization.
@@ -50,7 +50,8 @@ namespace NU.Kiosk.Speech
             // Flag to exit the application
             bool exit = false;
 
-            RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization, facilitatorIP, facilitatorPort, localPort);
+            //RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization, facilitatorIP, facilitatorPort, localPort);
+            RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization);
             if (python != null) python.Stop();
 
         }
@@ -69,7 +70,7 @@ namespace NU.Kiosk.Speech
             {
                 // Needed only for live visualization
                 DateTime startTime = DateTime.Now;
-
+                /*
                 // Use either live audio from the microphone or audio from a previously saved log
                 IProducer<AudioBuffer> audioInput = null;
                 if (inputLogPath != null)
@@ -113,7 +114,7 @@ namespace NU.Kiosk.Speech
                         Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
                     }
                 });
-
+                
                 // testing out the speech synth
                 SystemSpeechSynthesizer speechSynth = new SystemSpeechSynthesizer(
                     pipeline,
@@ -122,11 +123,24 @@ namespace NU.Kiosk.Speech
                         Voice = "Microsoft Zira Desktop",
                         UseDefaultAudioPlaybackDevice = true
                     });
+                */
 
-                var text = finalResults.Select(result => result.Text);
-                text.Do(x => Console.WriteLine(x));
-                text.PipeTo(speechSynth);
-                speechSynth.SpeakCompleted.Do(x => Console.WriteLine("."));
+                python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
+                /*
+                var text = finalResults.Select(result =>
+                {
+                    var ssrResult = result as SpeechRecognitionResult;
+                    return ssrResult.Text;
+                });
+                text.PipeTo(python.In);
+                */
+                python.Out.Do(x => Console.WriteLine(x));
+                //python.Out.PipeTo(speechSynth);
+
+                //var text = finalResults.Select(result => result.Text);
+                //text.Do(x => Console.WriteLine(x));
+                //text.PipeTo(speechSynth);
+                //speechSynth.SpeakCompleted.Do(x => Console.WriteLine("."));
 
 
                 //if (facilitatorIP != "none")
@@ -145,6 +159,7 @@ namespace NU.Kiosk.Speech
 
                 // Create a data store to log the data to if necessary. A data store is necessary
                 // only if output logging or live visualization are enabled.
+                /*
                 var dataStore = CreateDataStore(pipeline, outputLogPath, showLiveVisualization);
 
                 // For disk logging or live visualization only
@@ -154,6 +169,7 @@ namespace NU.Kiosk.Speech
                     audioInput.Write($"{Program.AppName}.MicrophoneAudio", dataStore);
                     finalResults.Write($"{Program.AppName}.FinalRecognitionResults", dataStore);
                 }
+                */
 
                 // Register an event handler to catch pipeline errors
                 pipeline.PipelineCompletionEvent += PipelineCompletionEvent;
