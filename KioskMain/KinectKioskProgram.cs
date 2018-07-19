@@ -24,10 +24,11 @@
         public static void Main(string[] args)
         {
             bool detected = false;
-            bool usingKqml = false;
-            string facilitatorIP = "127.0.0.1";
+            bool usingKqml = true;
+            string facilitatorIP = "10.105.229.105";
             int facilitatorPort = 9000;
             int localPort = 8090;
+
 
             Console.WriteLine("Starting Kinect-based Kiosk.  Verify that Kinect is setup before continuing");
 
@@ -60,7 +61,7 @@
                 });
 
                 var mouthOpen = mouthOpenAsFloat.Hold(0.1);
-                mouthOpen.Do(x => Console.Write($"{x} "));
+                // mouthOpen.Do(x => Console.Write($"{x} "));
 
                 // Not using speech detector for now
                 //kinectSensor.Audio.PipeTo(speechDetector);
@@ -90,7 +91,6 @@
                     return ssrResult.Text;
                 });
 
-                
                 NU.Kqml.SocketStringConsumer kqml = null;
                 if (usingKqml)
                 {
@@ -104,7 +104,8 @@
                     kqml = new NU.Kqml.SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort_num, localPort_num);
 
                     text.PipeTo(kqml.In);
-                    //kqml.Out.PipeTo(synthesizer);
+                    kqml.Out.Do(x => Console.WriteLine(x));
+                    kqml.Out.PipeTo(synthesizer);
                 } else
                 {
                     text.PipeTo(synthesizer);
