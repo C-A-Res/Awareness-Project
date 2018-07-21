@@ -61,11 +61,13 @@ namespace NU.Kqml
     //            Console.Write($"Echoer outbound message: {outbound_msg}");
     //            facilitator.Send(outbound_msg);
     //            facilitator.Close();
-    //        } else if (msg.performative == "ping")
+    //        }
+    //        else if (msg.performative == "ping")
     //        {
     //            Console.WriteLine($"[Echoer] Ping");
     //            socket.Send($"(ping :sender {this.name} :receiver facilitator :in-reply-to {msg.reply_with})");
-    //        } else
+    //        }
+    //        else
     //        {
     //            Console.WriteLine($"[Echoer] Message received from facilitator: {msg.performative}");
     //        }
@@ -102,12 +104,13 @@ namespace NU.Kqml
 
         protected override void Receive(string message, Envelope e)
         {
-            Console.WriteLine($"Consuming {message}");
+            //Console.WriteLine($"[SocketStringConsumer] Consuming: {message}");
             if (ready && message.Length > 5)
             {
                 //var kqml = KQMLMessage.createAchieve(name, "interaction-manager", nextMsgId(), null, $"(processUserUtterance HandMadeEEs-Library \"{message}\")");
-                var kqml = KQMLMessage.createAchieve(name, "interaction-manager", nextMsgId(), null, $"(processUserUtterance HandMadeEEs-Library \"{message}\")"); // FIXME send to self for testing
+                var kqml = KQMLMessage.createAchieve(name, "interaction-manager", nextMsgId(), null, $"(processKioskUtterance \"{message}\")"); // FIXME send to self for testing
                 facilitator.Connect();
+                Console.WriteLine($"[SocketStringConsumer] Sending: {kqml.ToString()}");
                 facilitator.Send(kqml.ToString());
             }
         }
@@ -155,11 +158,11 @@ namespace NU.Kqml
         private void ProcessMessageFromUpstream(string data, AbstractSimpleSocket socket)
         {
             // push this into Out
-            Console.WriteLine("Facilitator says: " + data);
+            Console.WriteLine("[SocketStringConsumer] Facilitator says: " + data);
             KQMLMessage kqml = KQMLMessage.parseMessage(data);
             //if (kqml.performative != "ping")
             //{
-            //Console.WriteLine("Facilitator says: " + kqml.ToString());
+            
             //}            
             if (kqml != null && ready)
             {
@@ -196,7 +199,7 @@ namespace NU.Kqml
 
         private void handlePing(KQMLMessage msg, AbstractSimpleSocket socket)
         {
-            socket.Send($"(ping :sender {this.name} :receiver facilitator :in-reply-to {msg.reply_with})");
+            socket.Send($"(update :sender {this.name} :receiver facilitator :in-reply-to {msg.reply_with} :content (:agent psi :uptime 12h :state guess)");
         }
 
         private void handleTell(KQMLMessage msg, AbstractSimpleSocket socket)
@@ -322,12 +325,19 @@ namespace NU.Kqml
                 next = (char)sr.Peek();
                 while (next != ')')
                 {
-                    string key = parseKey(sr);
-                    if (key != null)
-                    {
-                        object value = parseValue(sr);
-                        dict.Add(key, value);
-                    }
+                    //if (next == ':')
+                    //{
+                        string key = parseKey(sr);
+                        if (key != null)
+                        {
+                            object value = parseValue(sr, false);
+                            dict.Add(key, value);
+                        }
+                    //} else
+                    //{
+                    //    object value = parseValue(sr, false);
+                        // now put this value somewhere
+                    //}
                     next = (char)sr.Peek();
                 }
 
@@ -358,15 +368,30 @@ namespace NU.Kqml
             }
         }
 
-        private static object parseValue(StringReader sr)
+        private static object parseValue(StringReader sr, bool isQuoted)
         {
             char next = (char)sr.Peek();
-            if (next != '(')
+            if (next != '(' && !isQuoted)
             {
                 StringBuilder sb = new StringBuilder();
-                while (next != ' ')
+                while (next != ' ' || isQuoted)
                 {
-                    if (next == ')')
+                    if (next == '"')
+                    {
+                        next = (char)sr.Read();
+                        sb.Append(next);
+                        next = (char)sr.Peek();
+                        isQuoted = !isQuoted;
+                        if (isQuoted)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    else if (next == ')' && !isQuoted)
                     {
                         break;
                     }
