@@ -197,7 +197,7 @@ namespace NU.Kiosk.Speech
         /// <param name="e">The pipeline completion event arguments.</param>
         private static void PipelineCompletionEvent(object sender, PipelineCompletionEventArgs e)
         {
-            Console.WriteLine("Pipeline execution completed with {0} errors", e.Errors.Count);
+            Console.WriteLine($"Pipeline execution completed with {e.Errors.Count} errors");
 
             // Prints all exceptions that were thrown by the pipeline
             if (e.Errors.Count > 0)

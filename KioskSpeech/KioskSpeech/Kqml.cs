@@ -10,76 +10,80 @@ namespace NU.Kqml
     using Microsoft.Psi;
     using Microsoft.Psi.Components;
 
-    //public class SocketEchoer
-    //{
-    //    private readonly string facilitatorIp;
-    //    private readonly int facilitatorPort;
-    //    private readonly int localPort;
-    //    private readonly string name = "echoer";
+    public class SocketEchoer
+    {
+        private readonly string facilitatorIp;
+        private readonly int facilitatorPort;
+        private readonly int localPort;
+        private readonly string name = "echoer";
+        private bool ready = false;
+        private int messageCounter = 0;
 
-    //    private SimpleSocketServer listener;
-    //    private SimpleSocket facilitator;
+        private SimpleSocketServer listener;
+        private SimpleSocket facilitator = null;
 
-    //    public SocketEchoer(string facilitatorIp = "127.0.0.1", int facilitatorPort = 9000, int localPort = 6000)
-    //    {
-    //        this.facilitatorIp = facilitatorIp;
-    //        this.facilitatorPort = facilitatorPort;
-    //        this.localPort = localPort;
+        public SocketEchoer(string facilitatorIp = "127.0.0.1", int facilitatorPort = 9000, int localPort = 6000)
+        {
+            this.facilitatorIp = facilitatorIp;
+            this.facilitatorPort = facilitatorPort;
+            this.localPort = localPort;
 
-    //        // start listening
-    //        this.listener = new SimpleSocketServer(this.localPort);
-    //        this.listener.OnMessage = this.ProcessMessageFromUpstream; // push the data downstream
-    //        this.listener.StartListening();
+            // start listening
+            this.listener = new SimpleSocketServer(this.localPort);
+            this.listener.OnMessage = this.ProcessMessageFromUpstream; // push the data downstream
+            this.listener.StartListening();
 
-    //        // register with facilitator
-    //        facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
-    //        facilitator.OnMessage = this.ProcessMessageFromUpstream;
-    //        facilitator.Connect();
-    //        //var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://192.168.56.1:{this.localPort}\" nil nil {this.localPort}))";
-    //        var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://127.0.0.1:{this.localPort}\" nil nil {this.localPort}))";
-    //        //Console.Write($"{registermsg}");
-    //        facilitator.Send(registermsg);
-    //        facilitator.Close();
-    //    }
+            facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
+            facilitator.OnMessage = this.ProcessMessageFromUpstream;
 
-    //    private void ProcessMessageFromUpstream(string data, AbstractSimpleSocket socket)
-    //    {
+            this.ready = true;
 
-    //        KQMLMessage msg = KQMLMessage.parseMessage(data);
+            // register with facilitator
+            //facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
+            //facilitator.OnMessage = this.ProcessMessageFromUpstream;
+            //facilitator.Connect();
+            //var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://127.0.0.1:{this.localPort}\" nil nil {this.localPort}))";
+            //facilitator.Send(registermsg);
+            //facilitator.Close();
+        }
 
-    //        if (msg.sender != "facilitator")
-    //        {
-    //            Console.WriteLine($"[Echoer] Recieved {data}");
-    //            string temp = msg.receiver;
-    //            msg.receiver = msg.sender;
-    //            msg.sender = temp;
+        private void ProcessMessageFromUpstream(string data, AbstractSimpleSocket socket)
+        {
+            KQMLMessage msg = KQMLMessageParser.parse(data);
 
-    //            facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
-    //            facilitator.OnMessage = this.ProcessMessageFromUpstream;
-    //            facilitator.Connect();
-    //            var outbound_msg = msg.ToString();
-    //            Console.Write($"Echoer outbound message: {outbound_msg}");
-    //            facilitator.Send(outbound_msg);
-    //            facilitator.Close();
-    //        }
-    //        else if (msg.performative == "ping")
-    //        {
-    //            Console.WriteLine($"[Echoer] Ping");
-    //            socket.Send($"(ping :sender {this.name} :receiver facilitator :in-reply-to {msg.reply_with})");
-    //        }
-    //        else
-    //        {
-    //            Console.WriteLine($"[Echoer] Message received from facilitator: {msg.performative}");
-    //        }
-    //    }
-    //}
+            if (msg.performative != "register")
+            {
+                Console.WriteLine($"[Echoer] Recieved data: {data}; Parsed content: {msg.content}");
+                string temp = msg.receiver;
+                msg.receiver = msg.sender;
+                msg.sender = temp;
+
+                facilitator.Connect();
+                var outbound_msg = msg.ToString();
+                Console.WriteLine($"[Echoer] Outbound message: {outbound_msg}");
+                facilitator.Send(outbound_msg);
+                facilitator.Close();
+            }
+            else
+            {
+                msg = KQMLMessage.createTell(msg.receiver, msg.sender, this.nextMsgId(), msg.reply_with, ":ok");
+                socket.Send(msg.ToString());
+            }
+
+        }
+
+        private String nextMsgId()
+        {
+            return $"psi-id{this.messageCounter++}";
+        }
+    }
 
     public class SocketStringConsumer : ConsumerProducer<string, string>, Microsoft.Psi.Components.IStartable
     {
-        //private readonly Pipeline pipeline;
         private readonly int localPort;
         private readonly string facilitatorIp;
         private readonly int facilitatorPort;
+        private readonly string default_achieve_destination;
         private readonly Pipeline pipeline;
 
         private bool ready = false;
@@ -91,15 +95,14 @@ namespace NU.Kqml
 
         private List<KQMLMessage> receivedMsgs = new List<KQMLMessage>();
 
-        public SocketStringConsumer(Pipeline pipeline, string fIP, int fP, int localP)
+        public SocketStringConsumer(Pipeline pipeline, string fIP, int fP, int localP, string default_achieve_destination = "interaction-manager")
             : base(pipeline)
         {
             this.pipeline = pipeline;
-
             this.localPort = localP;
             this.facilitatorIp = fIP;
             this.facilitatorPort = fP;
-            //this.In = pipeline.CreateReceiver<string>(this, ReceiveString, "SocketReceiver");
+            this.default_achieve_destination = default_achieve_destination;
         }
 
         protected override void Receive(string message, Envelope e)
@@ -107,11 +110,13 @@ namespace NU.Kqml
             //Console.WriteLine($"[SocketStringConsumer] Consuming: {message}");
             if (ready && message.Length > 5)
             {
-                //var kqml = KQMLMessage.createAchieve(name, "interaction-manager", nextMsgId(), null, $"(processUserUtterance HandMadeEEs-Library \"{message}\")");
-                var kqml = KQMLMessage.createAchieve(name, "interaction-manager", nextMsgId(), null, $"(processKioskUtterance \"{message}\")"); // FIXME send to self for testing
+                var kqml = KQMLMessage.createAchieve(name,this.default_achieve_destination, nextMsgId(), null, $"(processKioskUtterance \"{message}\")");
+                //facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
+                //facilitator.OnMessage = this.ProcessMessageFromUpstream;
                 facilitator.Connect();
                 Console.WriteLine($"[SocketStringConsumer] Sending: {kqml.ToString()}");
                 facilitator.Send(kqml.ToString());
+                facilitator.Close();
             }
         }
 
@@ -126,13 +131,11 @@ namespace NU.Kqml
             facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
             facilitator.OnMessage = this.ProcessMessageFromUpstream;
             facilitator.Connect();
-            //var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://192.168.56.1:{this.localPort}\" nil nil {this.localPort}))";
             var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://127.0.0.1:{this.localPort}\" nil nil {this.localPort}))";
-            //Console.Write($"{registermsg}");
             facilitator.Send(registermsg);
-            facilitator.Close();
+            facilitator.Close(); 
 
-            // advertise - this is not right yet
+            // advertise - skipped
             //string fn = "test";
             //string msgid = nextMsgId();
             //var admsg = $"(advertise :sender {this.name} :receiver facilitator :reply-with {msgid} " +
@@ -152,18 +155,14 @@ namespace NU.Kqml
 
         private String nextMsgId()
         {
-            return $"psi-id{this.messageCounter++}";
+            return $"echoer-id{this.messageCounter++}";
         }
 
         private void ProcessMessageFromUpstream(string data, AbstractSimpleSocket socket)
         {
             // push this into Out
-            Console.WriteLine("[SocketStringConsumer] Facilitator says: " + data);
-            KQMLMessage kqml = KQMLMessage.parseMessage(data);
-            //if (kqml.performative != "ping")
-            //{
-            
-            //}            
+            Console.WriteLine($"[SocketStringConsumer] Facilitator says: {data}");
+            KQMLMessage kqml = KQMLMessageParser.parse(data);
             if (kqml != null && ready)
             {
                 switch (kqml.performative)
@@ -204,17 +203,250 @@ namespace NU.Kqml
 
         private void handleTell(KQMLMessage msg, AbstractSimpleSocket socket)
         {
-            receivedMsgs.Add(msg);
-            Console.Write($"Received tell message: {msg.ToString()}");
-            //socket.Send(KQMLMessage.createTell(this.name, msg.sender, this.nextMsgId(), msg.reply_with, ":ok").ToString());
-            //this.Out.Post(msg.content.ToString(), DateTime.Now);
+            receivedMsgs.Add(msg); // is this really necessary?
+            Console.WriteLine($"[SocketStringConsumer] Received tell message: {msg.ToString()}");
+            //socket.Send(KQMLMessage.createTell(this.name, msg.sender, this.nextMsgId(), msg.reply_with, ":ok").ToString()); 
+            //this.Out.Post(msg.content.ToString(), DateTime.Now); // utilize... later
         }
 
         private void handleAchieve(KQMLMessage msg, AbstractSimpleSocket socket)
         {
-            receivedMsgs.Add(msg);
+            receivedMsgs.Add(msg); // is this really necessary?
             this.Out.Post(msg.content.ToString(), DateTime.Now);
             socket.Send(KQMLMessage.createTell(this.name, msg.sender, this.nextMsgId(), msg.reply_with, ":ok").ToString());
+        }
+    }
+
+    class KQMLMessageParser
+    {
+        static StringReader reader;
+        
+        enum State { init, obj_init, obj, obj_complete, performative_seek, performative, keyword, str, regular_token, segment_complete, terminal };
+        static Stack<State> stk = new Stack<State>();
+
+        public static KQMLMessage parse(string input)
+        {
+            reader = new StringReader(input.Trim());
+            stk.Push(State.init);
+            return parse(new Dictionary<string, object>());
+        }
+
+        public static KQMLMessage parse(Dictionary<string, object> current_dict)
+        {
+            processChar(null);
+            State current_state = stk.Peek();
+
+            while (current_state != State.obj_init)
+            {
+                processChar(null);
+                current_state = stk.Peek();
+            }
+
+            if (current_state == State.obj_init)
+            {
+                // first object
+                reader.Read();
+                stk.Pop();
+                stk.Push(State.obj);
+                stk.Push(State.performative_seek);
+                current_state = stk.Peek();
+            }
+
+            string current_keyword = null;
+            while (processSegment(current_dict, ref current_keyword))
+            {
+                // process
+            }
+            stk.Pop();
+            return new KQMLMessage(current_dict);
+        }
+
+        private static bool processSegment(Dictionary<string, object> current_dict, ref string current_keyword)
+        {
+            StringBuilder current_segment = new StringBuilder();
+
+            State current_state = stk.Peek();
+
+            while (current_state != State.segment_complete && current_state != State.obj_complete && current_state != State.obj_init && current_state != State.terminal)
+            {
+                processChar(current_segment);
+                current_state = stk.Peek();
+            }
+            current_state = stk.Pop();
+            switch (current_state)
+            {
+                case State.obj_init:
+                    stk.Push(State.obj_init);
+                    current_dict.Add(current_keyword, parse(new Dictionary<string, object>()));
+                    current_keyword = null;
+                    return true;
+                case State.terminal:
+                    stk.Push(State.terminal);
+                    goto case State.obj_complete;
+                case State.obj_complete:
+                    if (current_segment.Length > 0)
+                    {
+                        if (stk.Peek() == State.performative)
+                        {
+                            current_keyword = "performative";
+                        } else if (current_keyword == null)
+                        {
+                            object strings;
+                            if (!current_dict.ContainsKey("unaffiliated-objects-or-strings"))
+                            {
+                                current_dict.Add("unaffiliated-objects-or-strings", new List<string>());
+                            }
+                            current_dict.TryGetValue("unaffiliated-objects-or-strings", out strings);
+                            ((List<string>)strings).Add(current_segment.ToString());
+                        } else
+                        {
+                            current_dict.Add(current_keyword, current_segment.ToString());
+                        }                        
+                    }
+                    // return control to parse without popping
+                    return false;
+                case State.segment_complete:
+                    // check if it is a keyword
+                    if (stk.Peek() == State.keyword)
+                    {
+                        if (current_keyword != null)
+                        {
+                            current_dict.Add(current_keyword, current_segment.ToString());
+                            current_keyword = null;
+                        } else
+                        {
+                            current_keyword = current_segment.ToString();
+                        }                        
+                    } else
+                    {
+                        if (stk.Peek() == State.performative)
+                        {
+                            current_dict.Add("performative", current_segment.ToString()); // this does not interfere with full tuple type
+                        } else if (current_keyword == null)
+                        {
+                            object strings;
+                            if (!current_dict.ContainsKey("unaffiliated-objects-or-strings"))
+                            {
+                                current_dict.Add("unaffiliated-objects-or-strings", new List<string>());
+                            }
+                            current_dict.TryGetValue("unaffiliated-objects-or-strings", out strings);
+                            ((List<string>)strings).Add(current_segment.ToString());
+                        } else
+                        {
+                            current_dict.Add(current_keyword, current_segment.ToString());
+                            current_keyword = null;
+                        }
+                    }
+                    current_segment.Clear();
+                    stk.Pop();
+                    return true;
+                default:
+                    Console.WriteLine($"[KQMLMessageParser] Incorrect message formulation. Current segment: {current_segment}; Remaining string: {reader.ReadToEnd()}");
+                    throw new Exception($"[KQMLMessageParser] Incorrect message formulation. Current segment: {current_segment}; Remaining string: {reader.ReadToEnd()}");
+            }
+            
+        }
+
+        private static void processChar(StringBuilder current_segment)
+        {
+            char c = (char) reader.Peek();
+            if (c <= 0)
+            {
+                stk.Push(State.terminal);
+                return;
+            }
+            switch (c)
+            {
+                case '(':
+                    if (stk.Peek() == State.str)
+                    {
+                        current_segment.Append((char)reader.Read());
+                    }
+                    else
+                    {
+                        if (stk.Peek() == State.init)
+                        {
+                            stk.Pop();
+                            stk.Push(State.obj_init);
+                        } else if (stk.Peek() != State.obj_init)
+                        {
+                            stk.Push(State.obj_init);
+                        }
+                        // then / otherwise directly return control
+                        return;
+                    }
+                    break;
+                case ')':
+                    if (stk.Peek() == State.str)
+                    {
+                        current_segment.Append((char)reader.Read());
+                    }
+                    else 
+                    {
+                        reader.Read();
+                        stk.Push(State.obj_complete);
+                    }
+                    break;
+                case '"':
+                    current_segment.Append((char)reader.Read()); 
+                    if (stk.Peek() == State.str)
+                    {
+                        stk.Push(State.segment_complete); 
+                    } else
+                    {
+                        if (stk.Peek() == State.performative_seek)
+                        {
+                            stk.Pop();
+                        }
+                        stk.Push(State.str);
+                    }
+                    break;
+                case ' ':
+                case '\n':
+                case '\t':
+                    if (stk.Peek() == State.obj)
+                    {
+                        reader.Read();
+                    } else if (stk.Peek() == State.performative_seek)
+                    {
+                        reader.Read();
+                    } else if (stk.Peek() == State.str)
+                    {
+                        current_segment.Append((char)reader.Read());
+                    }
+                    else
+                    {
+                        reader.Read();
+                        stk.Push(State.segment_complete);
+                    }
+                    break;
+                case ':':
+                    if (stk.Peek() == State.str)
+                    {
+                        current_segment.Append((char)reader.Read());
+                    } else if (stk.Peek() == State.obj)
+                    {
+                        current_segment.Append((char)reader.Read());
+                        stk.Push(State.keyword);
+                    } else
+                    {
+                        Console.WriteLine($"[KQMLMessageParser] Incorrect message formulation. Current Token: {(char)c}; Remaining string: {reader.ReadToEnd()}");
+                        throw new Exception($"[KQMLMessageParser] Incorrect message formulation. Current Token: {(char)c}; Remaining string: {reader.ReadToEnd()}");
+                    }
+                    break;
+                default:
+                    // all other characters
+                    if (stk.Peek() == State.obj)
+                    {
+                        stk.Push(State.regular_token);
+                    } else if (stk.Peek() == State.performative_seek)
+                    {
+                        stk.Pop();
+                        stk.Push(State.performative);
+                    }
+                    current_segment.Append((char)reader.Read());
+                    break;
+            }
         }
     }
 
@@ -226,9 +458,10 @@ namespace NU.Kqml
         public string reply_with;
         public string reply_to;
         public object content { get; private set; }
+        public List<string> unaffiliated_obj_and_strings;
         Dictionary<string, object> other = new Dictionary<string, object>();
 
-        private string[] standard_keys = new string[] { ":sender", ":receiver", ":reply-with", ":in-reply-to", ":content" };
+        private string[] standard_keys = new string[] { ":sender", ":receiver", ":reply-with", ":in-reply-to", ":content", "performative", "unaffiliated-objects-or-strings" };
 
         private KQMLMessage(string perf, string send, string rec, string with, string to, object cont)
         {
@@ -244,6 +477,47 @@ namespace NU.Kqml
         {
             this.performative = perf;
             object temp = null;
+            if (dict.TryGetValue(":sender", out temp))
+            {
+                this.sender = (string)temp;
+            }
+            if (dict.TryGetValue(":receiver", out temp))
+            {
+                this.receiver = (string)temp;
+            }
+            if (dict.TryGetValue(":reply-with", out temp))
+            {
+                this.reply_with = (string)temp;
+            }
+            if (dict.TryGetValue(":in-reply-to", out temp))
+            {
+                this.reply_to = (string)temp;
+            }
+            if (dict.TryGetValue(":content", out temp))
+            {
+                this.content = temp;
+            }
+            foreach (KeyValuePair<string, object> entry in dict)
+            {
+                if (!standard_keys.Contains(entry.Key))
+                {
+                    other.Add(entry.Key, entry.Value);
+                }
+            }
+        }
+
+        public KQMLMessage(Dictionary<string, object> dict)
+        {
+            //this.performative = perf;
+            object temp = null;
+            if (dict.TryGetValue("performative", out temp))
+            {
+                this.performative = (string)temp;
+            }
+            if (dict.TryGetValue("unaffiliated-objects-or-strings", out temp))
+            {
+                this.unaffiliated_obj_and_strings = (List<string>)temp;
+            }
             if (dict.TryGetValue(":sender", out temp))
             {
                 this.sender = (string)temp;
@@ -298,6 +572,10 @@ namespace NU.Kqml
             return new KQMLMessage("insert", sender, receiver, reply_with, reply_to, fact);
         }
 
+        /**
+         * Replaced this one with KQMLMessageParser.parse(string), which supports nested KQML expression.
+         */
+        [Obsolete("KQMLMessage.parseMessage(string) is deprecated. Use KQMLMessageParser.parse(string) instead", true)]
         public static KQMLMessage parseMessage(string message)
         {
             return parseMessage(new StringReader(message));
@@ -444,6 +722,13 @@ namespace NU.Kqml
                         sb.Append(entry.Key).Append(' ').Append(entry.Value.ToString()).Append(' ');
                     }
                 }
+            }
+            if (this.unaffiliated_obj_and_strings != null)
+            {
+                foreach (string s in this.unaffiliated_obj_and_strings)
+                {
+                    sb.Append(s).Append(' ');
+                }                
             }
             return sb.Append(")").ToString();
         }

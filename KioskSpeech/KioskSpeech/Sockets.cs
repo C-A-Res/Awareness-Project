@@ -134,7 +134,7 @@ namespace NU.Kqml
             {
                 if (se.SocketErrorCode == SocketError.ConnectionAborted)
                 {
-                    Console.WriteLine("Socket closed by Facilitator");
+                    Console.WriteLine($"Socket closed by Facilitator; {se.ToString()}");
                 }
                 else
                 {
@@ -320,12 +320,12 @@ namespace NU.Kqml
         {
             // Convert the string data to byte data using ASCII encoding.  
             byte[] byteData = Encoding.ASCII.GetBytes(data);
-            Console.Write($"ByteData: ");
-            for (int i = 0, l = byteData.Length; i < l; i++)
-            {
-                Console.Write($"-{byteData[i]}- ");
-            }
-            Console.WriteLine();
+            //Console.Write($"ByteData: ");
+            //for (int i = 0, l = byteData.Length; i < l; i++)
+            //{
+            //    Console.Write($"-{byteData[i]}- ");
+            //}
+            //Console.WriteLine();
 
             if (handler != null)
             {
