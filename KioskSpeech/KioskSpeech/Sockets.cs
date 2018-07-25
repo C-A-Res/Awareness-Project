@@ -123,7 +123,7 @@ namespace NU.Kqml
                 // Receive the response from the remote device.  
                 int bytesRec = sender.Receive(bytes);
                 string resp = Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                //Console.WriteLine("Facilitator says = {0}", resp);
+                Console.WriteLine("[SimpleSocket] Send... in response, facilitator said {0}", resp);
                 OnMessage(resp, this);
             }
             catch (ArgumentNullException ane)

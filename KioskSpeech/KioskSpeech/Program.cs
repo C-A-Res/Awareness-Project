@@ -32,26 +32,32 @@ namespace NU.Kiosk.Speech
 
         public static void Main(string[] args)
         {
-            string facilitatorIP = args[0];
-            int facilitatorPort = int.Parse(args[1]);
-            int localPort = int.Parse(args[2]);
+            KQMLMessage mess = (new KQMLMessageParser()).parse(" (tell :reply-with id-interaction-manager235 :sender interaction-manager :receiver psi :in-reply-to psi-id0 :language fire :content (onAgenda interaction-manager (TaskFn 1)))");
+            Console.WriteLine(mess.ToString() + "\n");
 
-            // The root folder under which data will be logged. This may be set to null, which will create
-            // a volatile data store to which data can be written for the purposes of live visualization.
-            string outputLogPath = null;
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey(true);
 
-            // The root folder from which previously logged audio data will be read as input. By default the
-            // most recent session will be used. If set to null, live audio from the microphone will be used.
-            string inputLogPath = null;
+            //string facilitatorIP = args[0];
+            //int facilitatorPort = int.Parse(args[1]);
+            //int localPort = int.Parse(args[2]);
 
-            // Flag to display live data in PsiStudio
-            bool showLiveVisualization = false;
+            //// The root folder under which data will be logged. This may be set to null, which will create
+            //// a volatile data store to which data can be written for the purposes of live visualization.
+            //string outputLogPath = null;
 
-            // Flag to exit the application
-            bool exit = false;
+            //// The root folder from which previously logged audio data will be read as input. By default the
+            //// most recent session will be used. If set to null, live audio from the microphone will be used.
+            //string inputLogPath = null;
 
-            RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization, facilitatorIP, facilitatorPort, localPort);
-            if (python != null) python.Stop();
+            //// Flag to display live data in PsiStudio
+            //bool showLiveVisualization = false;
+
+            //// Flag to exit the application
+            //bool exit = false;
+
+            //RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization, facilitatorIP, facilitatorPort, localPort);
+            //if (python != null) python.Stop();
 
         }
 

@@ -10,73 +10,73 @@ namespace NU.Kqml
     using Microsoft.Psi;
     using Microsoft.Psi.Components;
 
-    public class SocketEchoer
-    {
-        private readonly string facilitatorIp;
-        private readonly int facilitatorPort;
-        private readonly int localPort;
-        private readonly string name = "echoer";
-        private bool ready = false;
-        private int messageCounter = 0;
+    //public class SocketEchoer
+    //{
+    //    private readonly string facilitatorIp;
+    //    private readonly int facilitatorPort;
+    //    private readonly int localPort;
+    //    private readonly string name = "echoer";
+    //    private bool ready = false;
+    //    private int messageCounter = 0;
 
-        private SimpleSocketServer listener;
-        private SimpleSocket facilitator = null;
+    //    private SimpleSocketServer listener;
+    //    private SimpleSocket facilitator = null;
 
-        public SocketEchoer(string facilitatorIp = "127.0.0.1", int facilitatorPort = 9000, int localPort = 6000)
-        {
-            this.facilitatorIp = facilitatorIp;
-            this.facilitatorPort = facilitatorPort;
-            this.localPort = localPort;
+    //    public SocketEchoer(string facilitatorIp = "127.0.0.1", int facilitatorPort = 9000, int localPort = 6000)
+    //    {
+    //        this.facilitatorIp = facilitatorIp;
+    //        this.facilitatorPort = facilitatorPort;
+    //        this.localPort = localPort;
 
-            // start listening
-            this.listener = new SimpleSocketServer(this.localPort);
-            this.listener.OnMessage = this.ProcessMessageFromUpstream; // push the data downstream
-            this.listener.StartListening();
+    //        // start listening
+    //        this.listener = new SimpleSocketServer(this.localPort);
+    //        this.listener.OnMessage = this.ProcessMessageFromUpstream; // push the data downstream
+    //        this.listener.StartListening();
 
-            facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
-            facilitator.OnMessage = this.ProcessMessageFromUpstream;
+    //        facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
+    //        facilitator.OnMessage = this.ProcessMessageFromUpstream;
 
-            this.ready = true;
+    //        this.ready = true;
 
-            // register with facilitator
-            //facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
-            //facilitator.OnMessage = this.ProcessMessageFromUpstream;
-            //facilitator.Connect();
-            //var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://127.0.0.1:{this.localPort}\" nil nil {this.localPort}))";
-            //facilitator.Send(registermsg);
-            //facilitator.Close();
-        }
+    //        // register with facilitator
+    //        //facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
+    //        //facilitator.OnMessage = this.ProcessMessageFromUpstream;
+    //        //facilitator.Connect();
+    //        //var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://127.0.0.1:{this.localPort}\" nil nil {this.localPort}))";
+    //        //facilitator.Send(registermsg);
+    //        //facilitator.Close();
+    //    }
 
-        private void ProcessMessageFromUpstream(string data, AbstractSimpleSocket socket)
-        {
-            KQMLMessage msg = KQMLMessageParser.parse(data);
+    //    private void ProcessMessageFromUpstream(string data, AbstractSimpleSocket socket)
+    //    {
+    //        KQMLMessage msg = KQMLMessageParser.parse(data);
 
-            if (msg.performative != "register")
-            {
-                Console.WriteLine($"[Echoer] Recieved data: {data}; Parsed content: {msg.content}");
-                string temp = msg.receiver;
-                msg.receiver = msg.sender;
-                msg.sender = temp;
+    //        if (msg.performative != "register")
+    //        {
+    //            Console.WriteLine($"[Echoer] Recieved data: {data}; Parsed content: {msg.content}");
+    //            string temp = msg.receiver;
+    //            msg.receiver = msg.sender;
+    //            msg.sender = temp;
 
-                facilitator.Connect();
-                var outbound_msg = msg.ToString();
-                Console.WriteLine($"[Echoer] Outbound message: {outbound_msg}");
-                facilitator.Send(outbound_msg);
-                facilitator.Close();
-            }
-            else
-            {
-                msg = KQMLMessage.createTell(msg.receiver, msg.sender, this.nextMsgId(), msg.reply_with, ":ok");
-                socket.Send(msg.ToString());
-            }
+    //            facilitator.Connect();
+    //            var outbound_msg = msg.ToString();
+    //            Console.WriteLine($"[Echoer] Outbound message: {outbound_msg}");
+    //            facilitator.Send(outbound_msg);
+    //            facilitator.Close();
+    //        }
+    //        else
+    //        {
+    //            msg = KQMLMessage.createTell(msg.receiver, msg.sender, this.nextMsgId(), msg.reply_with, ":ok");
+    //            socket.Send(msg.ToString());
+    //        }
 
-        }
+    //    }
 
-        private String nextMsgId()
-        {
-            return $"psi-id{this.messageCounter++}";
-        }
-    }
+    //    private String nextMsgId()
+    //    {
+    //        return $"psi-id{this.messageCounter++}";
+    //    }
+    //}
 
     public class SocketStringConsumer : ConsumerProducer<string, string>, Microsoft.Psi.Components.IStartable
     {
@@ -110,13 +110,13 @@ namespace NU.Kqml
             //Console.WriteLine($"[SocketStringConsumer] Consuming: {message}");
             if (ready && message.Length > 5)
             {
-                var kqml = KQMLMessage.createAchieve(name,this.default_achieve_destination, nextMsgId(), null, $"(processKioskUtterance \"{message}\")");
+                var kqml = KQMLMessage.createAchieve(name, this.default_achieve_destination, nextMsgId(), null, $"(task :action (processKioskUtterance \"{message}\"))");
                 //facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
                 //facilitator.OnMessage = this.ProcessMessageFromUpstream;
                 facilitator.Connect();
                 Console.WriteLine($"[SocketStringConsumer] Sending: {kqml.ToString()}");
                 facilitator.Send(kqml.ToString());
-                facilitator.Close();
+                //facilitator.Close();
             }
         }
 
@@ -131,7 +131,8 @@ namespace NU.Kqml
             facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
             facilitator.OnMessage = this.ProcessMessageFromUpstream;
             facilitator.Connect();
-            var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://127.0.0.1:{this.localPort}\" nil nil {this.localPort}))";
+
+            var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://10.105.237.105:{this.localPort}\" nil nil {this.localPort}))";
             facilitator.Send(registermsg);
             facilitator.Close(); 
 
@@ -162,7 +163,7 @@ namespace NU.Kqml
         {
             // push this into Out
             Console.WriteLine($"[SocketStringConsumer] Facilitator says: {data}");
-            KQMLMessage kqml = KQMLMessageParser.parse(data);
+            KQMLMessage kqml = (new KQMLMessageParser()).parse(data);
             if (kqml != null && ready)
             {
                 switch (kqml.performative)
@@ -198,7 +199,7 @@ namespace NU.Kqml
 
         private void handlePing(KQMLMessage msg, AbstractSimpleSocket socket)
         {
-            socket.Send($"(update :sender {this.name} :receiver facilitator :in-reply-to {msg.reply_with} :content (:agent psi :uptime 12h :state guess)");
+            socket.Send($"(update :sender {this.name} :receiver facilitator :in-reply-to {msg.reply_with} :content (:agent psi :uptime 12h :state guess))");
         }
 
         private void handleTell(KQMLMessage msg, AbstractSimpleSocket socket)
@@ -219,19 +220,24 @@ namespace NU.Kqml
 
     class KQMLMessageParser
     {
-        static StringReader reader;
-        
         enum State { init, obj_init, obj, obj_complete, performative_seek, performative, keyword, str, regular_token, segment_complete, terminal };
-        static Stack<State> stk = new Stack<State>();
+        Stack<State> stk = new Stack<State>();
+        StringReader reader;
 
-        public static KQMLMessage parse(string input)
+        public KQMLMessageParser()
         {
-            reader = new StringReader(input.Trim());
+        }
+
+        public KQMLMessage parse(string input)
+        {
+            this.stk = new Stack<State>();
+            this.reader = new StringReader(input.Trim());
+            Console.WriteLine($"[KQMLMessageParser] Parsing input: {input}");
             stk.Push(State.init);
             return parse(new Dictionary<string, object>());
         }
 
-        public static KQMLMessage parse(Dictionary<string, object> current_dict)
+        private KQMLMessage parse(Dictionary<string, object> current_dict)
         {
             processChar(null);
             State current_state = stk.Peek();
@@ -260,8 +266,8 @@ namespace NU.Kqml
             stk.Pop();
             return new KQMLMessage(current_dict);
         }
-
-        private static bool processSegment(Dictionary<string, object> current_dict, ref string current_keyword)
+        
+        private bool processSegment(Dictionary<string, object> current_dict, ref string current_keyword)
         {
             StringBuilder current_segment = new StringBuilder();
 
@@ -277,8 +283,20 @@ namespace NU.Kqml
             {
                 case State.obj_init:
                     stk.Push(State.obj_init);
-                    current_dict.Add(current_keyword, parse(new Dictionary<string, object>()));
-                    current_keyword = null;
+                    if (current_keyword == null)
+                    {
+                        object objs;
+                        if (!current_dict.ContainsKey("unaffiliated-objects-or-strings"))
+                        {
+                            current_dict.Add("unaffiliated-objects-or-strings", new List<object>());
+                        }
+                        current_dict.TryGetValue("unaffiliated-objects-or-strings", out objs);
+                        ((List<object>)objs).Add(parse(new Dictionary<string, object>()));
+                    } else
+                    {
+                        current_dict.Add(current_keyword, parse(new Dictionary<string, object>()));
+                        current_keyword = null;
+                    }
                     return true;
                 case State.terminal:
                     stk.Push(State.terminal);
@@ -289,19 +307,21 @@ namespace NU.Kqml
                         if (stk.Peek() == State.performative)
                         {
                             current_keyword = "performative";
-                        } else if (current_keyword == null)
+                        }
+                        else if (current_keyword == null)
                         {
                             object strings;
                             if (!current_dict.ContainsKey("unaffiliated-objects-or-strings"))
                             {
-                                current_dict.Add("unaffiliated-objects-or-strings", new List<string>());
+                                current_dict.Add("unaffiliated-objects-or-strings", new List<object>());
                             }
                             current_dict.TryGetValue("unaffiliated-objects-or-strings", out strings);
-                            ((List<string>)strings).Add(current_segment.ToString());
-                        } else
+                            ((List<object>)strings).Add(current_segment.ToString());
+                        }
+                        else
                         {
                             current_dict.Add(current_keyword, current_segment.ToString());
-                        }                        
+                        }
                     }
                     // return control to parse without popping
                     return false;
@@ -313,25 +333,29 @@ namespace NU.Kqml
                         {
                             current_dict.Add(current_keyword, current_segment.ToString());
                             current_keyword = null;
-                        } else
+                        }
+                        else
                         {
                             current_keyword = current_segment.ToString();
-                        }                        
-                    } else
+                        }
+                    }
+                    else
                     {
                         if (stk.Peek() == State.performative)
                         {
                             current_dict.Add("performative", current_segment.ToString()); // this does not interfere with full tuple type
-                        } else if (current_keyword == null)
+                        }
+                        else if (current_keyword == null)
                         {
                             object strings;
                             if (!current_dict.ContainsKey("unaffiliated-objects-or-strings"))
                             {
-                                current_dict.Add("unaffiliated-objects-or-strings", new List<string>());
+                                current_dict.Add("unaffiliated-objects-or-strings", new List<object>());
                             }
                             current_dict.TryGetValue("unaffiliated-objects-or-strings", out strings);
-                            ((List<string>)strings).Add(current_segment.ToString());
-                        } else
+                            ((List<object>)strings).Add(current_segment.ToString());
+                        }
+                        else
                         {
                             current_dict.Add(current_keyword, current_segment.ToString());
                             current_keyword = null;
@@ -344,12 +368,12 @@ namespace NU.Kqml
                     Console.WriteLine($"[KQMLMessageParser] Incorrect message formulation. Current segment: {current_segment}; Remaining string: {reader.ReadToEnd()}");
                     throw new Exception($"[KQMLMessageParser] Incorrect message formulation. Current segment: {current_segment}; Remaining string: {reader.ReadToEnd()}");
             }
-            
+
         }
 
-        private static void processChar(StringBuilder current_segment)
+        private void processChar(StringBuilder current_segment)
         {
-            char c = (char) reader.Peek();
+            char c = (char)reader.Peek();
             if (c <= 0)
             {
                 stk.Push(State.terminal);
@@ -368,7 +392,8 @@ namespace NU.Kqml
                         {
                             stk.Pop();
                             stk.Push(State.obj_init);
-                        } else if (stk.Peek() != State.obj_init)
+                        }
+                        else if (stk.Peek() != State.obj_init)
                         {
                             stk.Push(State.obj_init);
                         }
@@ -381,18 +406,19 @@ namespace NU.Kqml
                     {
                         current_segment.Append((char)reader.Read());
                     }
-                    else 
+                    else
                     {
                         reader.Read();
                         stk.Push(State.obj_complete);
                     }
                     break;
                 case '"':
-                    current_segment.Append((char)reader.Read()); 
+                    current_segment.Append((char)reader.Read());
                     if (stk.Peek() == State.str)
                     {
-                        stk.Push(State.segment_complete); 
-                    } else
+                        stk.Push(State.segment_complete);
+                    }
+                    else
                     {
                         if (stk.Peek() == State.performative_seek)
                         {
@@ -407,10 +433,12 @@ namespace NU.Kqml
                     if (stk.Peek() == State.obj)
                     {
                         reader.Read();
-                    } else if (stk.Peek() == State.performative_seek)
+                    }
+                    else if (stk.Peek() == State.performative_seek)
                     {
                         reader.Read();
-                    } else if (stk.Peek() == State.str)
+                    }
+                    else if (stk.Peek() == State.str)
                     {
                         current_segment.Append((char)reader.Read());
                     }
@@ -421,14 +449,22 @@ namespace NU.Kqml
                     }
                     break;
                 case ':':
-                    if (stk.Peek() == State.str)
+                    if (stk.Peek() == State.str || stk.Peek() == State.regular_token || stk.Peek() == State.performative || stk.Peek() == State.keyword)
                     {
                         current_segment.Append((char)reader.Read());
-                    } else if (stk.Peek() == State.obj)
+                    }
+                    else if (stk.Peek() == State.performative_seek)
+                    {
+                        stk.Pop();
+                        stk.Push(State.keyword);
+                        current_segment.Append((char)reader.Read());
+                    }
+                    else if (stk.Peek() == State.obj)
                     {
                         current_segment.Append((char)reader.Read());
                         stk.Push(State.keyword);
-                    } else
+                    }
+                    else
                     {
                         Console.WriteLine($"[KQMLMessageParser] Incorrect message formulation. Current Token: {(char)c}; Remaining string: {reader.ReadToEnd()}");
                         throw new Exception($"[KQMLMessageParser] Incorrect message formulation. Current Token: {(char)c}; Remaining string: {reader.ReadToEnd()}");
@@ -439,7 +475,8 @@ namespace NU.Kqml
                     if (stk.Peek() == State.obj)
                     {
                         stk.Push(State.regular_token);
-                    } else if (stk.Peek() == State.performative_seek)
+                    }
+                    else if (stk.Peek() == State.performative_seek)
                     {
                         stk.Pop();
                         stk.Push(State.performative);
@@ -458,7 +495,7 @@ namespace NU.Kqml
         public string reply_with;
         public string reply_to;
         public object content { get; private set; }
-        public List<string> unaffiliated_obj_and_strings;
+        public List<object> unaffiliated_obj_and_strings;
         Dictionary<string, object> other = new Dictionary<string, object>();
 
         private string[] standard_keys = new string[] { ":sender", ":receiver", ":reply-with", ":in-reply-to", ":content", "performative", "unaffiliated-objects-or-strings" };
@@ -516,7 +553,7 @@ namespace NU.Kqml
             }
             if (dict.TryGetValue("unaffiliated-objects-or-strings", out temp))
             {
-                this.unaffiliated_obj_and_strings = (List<string>)temp;
+                this.unaffiliated_obj_and_strings = (List<object>)temp;
             }
             if (dict.TryGetValue(":sender", out temp))
             {
@@ -549,12 +586,16 @@ namespace NU.Kqml
 
         public static KQMLMessage createAchieve(string sender, string receiver, string reply_with, string reply_to, KQMLMessage message)
         {
-            return new KQMLMessage("achieve", sender, receiver, reply_with, reply_to, message);
+            //return new KQMLMessage("achieve", sender, receiver, reply_with, reply_to, message);
+            return new KQMLMessage("cl-user::achieve", sender == null ? null : ("cl-user::" + sender), receiver == null ? null : ("cl-user::" + receiver),
+                reply_with == null ? null : ("cl-user::" + reply_with), reply_to == null ? null : ("cl-user::" + reply_to), message);
         }
 
         public static KQMLMessage createAchieve(string sender, string receiver, string reply_with, string reply_to, string message)
         {
-            return new KQMLMessage("achieve", sender, receiver, reply_with, reply_to, message);
+            //return new KQMLMessage("achieve", sender, receiver, reply_with, reply_to, message);
+            return new KQMLMessage("cl-user::achieve", sender == null ? null : ("cl-user::" + sender), receiver == null ? null : ("cl-user::" + receiver),
+                reply_with == null ? null : ("cl-user::" + reply_with), reply_to == null ? null : ("cl-user::" + reply_to), message);
         }
 
         public static KQMLMessage createTask(string sender, string receiver, string reply_with, string reply_to, string action)
@@ -564,7 +605,9 @@ namespace NU.Kqml
 
         public static KQMLMessage createTell(string sender, string receiver, string reply_with, string reply_to, string tell)
         {
-            return new KQMLMessage("tell", sender, receiver, reply_with, reply_to, tell);
+            //return new KQMLMessage("tell", sender, receiver, reply_with, reply_to, tell);
+            return new KQMLMessage("cl-user::tell", sender == null ? null : ("cl-user::" + sender), receiver == null ? null : ("cl-user::" + receiver),
+                reply_with == null ? null : ("cl-user::" + reply_with), reply_to == null ? null : ("cl-user::" + reply_to), tell);
         }
 
         public static KQMLMessage createInsert(string sender, string receiver, string reply_with, string reply_to, string fact)
@@ -605,16 +648,16 @@ namespace NU.Kqml
                 {
                     //if (next == ':')
                     //{
-                        string key = parseKey(sr);
-                        if (key != null)
-                        {
-                            object value = parseValue(sr, false);
-                            dict.Add(key, value);
-                        }
+                    string key = parseKey(sr);
+                    if (key != null)
+                    {
+                        object value = parseValue(sr, false);
+                        dict.Add(key, value);
+                    }
                     //} else
                     //{
                     //    object value = parseValue(sr, false);
-                        // now put this value somewhere
+                    // now put this value somewhere
                     //}
                     next = (char)sr.Peek();
                 }
@@ -725,10 +768,10 @@ namespace NU.Kqml
             }
             if (this.unaffiliated_obj_and_strings != null)
             {
-                foreach (string s in this.unaffiliated_obj_and_strings)
+                foreach (object s in this.unaffiliated_obj_and_strings)
                 {
-                    sb.Append(s).Append(' ');
-                }                
+                    sb.Append(s.ToString()).Append(' ');
+                }
             }
             return sb.Append(")").ToString();
         }
