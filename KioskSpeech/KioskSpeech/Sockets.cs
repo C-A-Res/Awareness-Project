@@ -123,7 +123,7 @@ namespace NU.Kqml
                 // Receive the response from the remote device.  
                 int bytesRec = sender.Receive(bytes);
                 string resp = Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                //Console.WriteLine("Facilitator says = {0}", resp);
+                Console.WriteLine("[SimpleSocket] Send... in response, facilitator said {0}", resp);
                 OnMessage(resp, this);
             }
             catch (ArgumentNullException ane)
@@ -320,12 +320,12 @@ namespace NU.Kqml
         {
             // Convert the string data to byte data using ASCII encoding.  
             byte[] byteData = Encoding.ASCII.GetBytes(data);
-            Console.Write($"ByteData: ");
-            for (int i = 0, l = byteData.Length; i < l; i++)
-            {
-                Console.Write($"-{byteData[i]}- ");
-            }
-            Console.WriteLine();
+            //Console.Write($"ByteData: ");
+            //for (int i = 0, l = byteData.Length; i < l; i++)
+            //{
+            //    Console.Write($"-{byteData[i]}- ");
+            //}
+            //Console.WriteLine();
 
             if (handler != null)
             {

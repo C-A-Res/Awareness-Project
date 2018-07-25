@@ -25,7 +25,8 @@
         {
             bool detected = false;
             bool usingKqml = true;
-            string facilitatorIP = "10.105.229.105";
+            // string facilitatorIP = "10.105.237.105";
+            string facilitatorIP = "127.0.0.1";
             int facilitatorPort = 9000;
             int localPort = 8090;
 
