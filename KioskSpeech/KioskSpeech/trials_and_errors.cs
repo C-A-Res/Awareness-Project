@@ -29,6 +29,7 @@ namespace NU.Kiosk.Speech
             IProducer<AudioBuffer> audioInput = null;
             SocketStringConsumer python = null;
             SocketEchoer echoer = new SocketEchoer(facilitatorIP, speechPort, echoerPort);
+            SpeechInputTextPreProcessor preproc = null;
 
             Console.WriteLine("Trials and errors!\n");
 
@@ -47,10 +48,17 @@ namespace NU.Kiosk.Speech
                 var finalResults = recognizer.Out.Where(result => result.IsFinal);
 
                 python = new SocketStringConsumer(pipeline, facilitatorIP, echoerPort, speechPort, "echoer");
+                preproc = new SpeechInputTextPreProcessor(pipeline);
                 
+                finalResults.Select(result => result.Text).PipeTo(preproc.In);
+                preproc.Out.PipeTo(python.In);
+
                 SystemSpeechSynthesizer speechSynth = CreateSpeechSynthesizer(pipeline);
-                speechSynth.SpeakCompleted.Do(x => Console.WriteLine("."));
-                finalResults.Select(result => result.Text).PipeTo(python.In);
+                speechSynth.SpeakCompleted.Do(x =>
+                {
+                    Console.WriteLine(".");
+                    preproc.setAccepting();
+                });
                 python.Out.PipeTo(speechSynth);
 
                 // Register an event handler to catch pipeline errors

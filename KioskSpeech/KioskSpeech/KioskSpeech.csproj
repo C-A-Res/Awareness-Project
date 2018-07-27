@@ -270,6 +270,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sockets.cs" />
+    <Compile Include="SpeechInputTextPreProcessor.cs" />
     <Compile Include="trials_and_errors.cs" />
   </ItemGroup>
   <ItemGroup>
