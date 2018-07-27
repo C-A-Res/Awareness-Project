@@ -264,6 +264,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GrammarUtils\GrammarWriter.cs" />
+    <Compile Include="KioskInputTextPreProcessor.cs" />
     <Compile Include="Kqml.cs" />
     <Compile Include="Class3.cs" />
     <Compile Include="Class4.cs" />

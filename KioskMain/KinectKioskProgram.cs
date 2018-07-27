@@ -25,8 +25,8 @@
         {
             bool detected = false;
             bool usingKqml = true;
-            // string facilitatorIP = "10.105.237.105";
-            string facilitatorIP = "127.0.0.1";
+            string facilitatorIP = "165.124.161.121";
+            //string facilitatorIP = "127.0.0.1";
             int facilitatorPort = 9000;
             int localPort = 8090;
 
@@ -85,14 +85,15 @@
                 */
 
                 
-                var text = finalResults.Join(mouthOpen, _500ms).Select(pair =>  // Need to add a Where Item2, but skipping for now
-                {
-                    var ssrResult = pair.Item1 as SpeechRecognitionResult;
-                    Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence}) (mouthOpen: {pair.Item2})");
-                    return ssrResult.Text;
-                });
+                ////var text = finalResults.Join(mouthOpen, _500ms).Select(pair =>  // Need to add a Where Item2, but skipping for now
+                ////{
+                ////    var ssrResult = pair.Item1 as SpeechRecognitionResult;
+                ////    Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence}) (mouthOpen: {pair.Item2})");
+                ////    return ssrResult.Text;
+                ////});
 
                 NU.Kqml.SocketStringConsumer kqml = null;
+                NU.Kqml.KioskInputTextPreProcessor preproc = null;
                 if (usingKqml)
                 {
                     Console.WriteLine("Setting up connection to Companion");
@@ -103,12 +104,28 @@
                     Console.WriteLine("Your local port is: " + localPort);
 
                     kqml = new NU.Kqml.SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort_num, localPort_num);
+                    preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline);
 
-                    text.PipeTo(kqml.In);
+                    var recognitionResult = finalResults.Join(mouthOpen, _500ms).Select(pair =>  // Need to add a Where Item2, but skipping for now
+                    {
+                        var ssrResult = pair.Item1 as IStreamingSpeechRecognitionResult;
+                        Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence}) (mouthOpen: {pair.Item2})");
+                        return ssrResult;
+                    });
+
+                    recognitionResult.PipeTo(preproc.In);
+                    preproc.Out.PipeTo(kqml.In);
                     kqml.Out.Do(x => Console.WriteLine(x));
                     kqml.Out.PipeTo(synthesizer);
+                    synthesizer.SpeakCompleted.Do(x => preproc.setAccepting());
                 } else
                 {
+                    var text = finalResults.Join(mouthOpen, _500ms).Select(pair =>  // Need to add a Where Item2, but skipping for now
+                    {
+                        var ssrResult = pair.Item1 as SpeechRecognitionResult;
+                        Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence}) (mouthOpen: {pair.Item2})");
+                        return ssrResult.Text;
+                    });
                     text.PipeTo(synthesizer);
                     //synthesizer.SpeakStarted;
                     //synthesizer.SpeakCompleted;
