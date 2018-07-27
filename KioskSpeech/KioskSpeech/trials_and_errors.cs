@@ -29,7 +29,7 @@ namespace NU.Kiosk.Speech
             IProducer<AudioBuffer> audioInput = null;
             SocketStringConsumer python = null;
             SocketEchoer echoer = new SocketEchoer(facilitatorIP, speechPort, echoerPort);
-            SpeechInputTextPreProcessor preproc = null;
+            KioskInputTextPreProcessor preproc = null;
 
             Console.WriteLine("Trials and errors!\n");
 
@@ -48,9 +48,9 @@ namespace NU.Kiosk.Speech
                 var finalResults = recognizer.Out.Where(result => result.IsFinal);
 
                 python = new SocketStringConsumer(pipeline, facilitatorIP, echoerPort, speechPort, "echoer");
-                preproc = new SpeechInputTextPreProcessor(pipeline);
+                preproc = new KioskInputTextPreProcessor(pipeline);
                 
-                finalResults.Select(result => result.Text).PipeTo(preproc.In);
+                finalResults.PipeTo(preproc.In);
                 preproc.Out.PipeTo(python.In);
 
                 SystemSpeechSynthesizer speechSynth = CreateSpeechSynthesizer(pipeline);
