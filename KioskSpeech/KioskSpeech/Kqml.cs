@@ -10,73 +10,69 @@ namespace NU.Kqml
     using Microsoft.Psi;
     using Microsoft.Psi.Components;
 
-    //public class SocketEchoer
-    //{
-    //    private readonly string facilitatorIp;
-    //    private readonly int facilitatorPort;
-    //    private readonly int localPort;
-    //    private readonly string name = "echoer";
-    //    private bool ready = false;
-    //    private int messageCounter = 0;
+    public class SocketEchoer
+    {
+        private readonly string facilitatorIp;
+        private readonly int facilitatorPort;
+        private readonly int localPort;
+        private readonly string name = "echoer";
+        private bool ready = false;
+        private int messageCounter = 0;
 
-    //    private SimpleSocketServer listener;
-    //    private SimpleSocket facilitator = null;
+        private SimpleSocketServer listener;
+        private SimpleSocket facilitator = null;
 
-    //    public SocketEchoer(string facilitatorIp = "127.0.0.1", int facilitatorPort = 9000, int localPort = 6000)
-    //    {
-    //        this.facilitatorIp = facilitatorIp;
-    //        this.facilitatorPort = facilitatorPort;
-    //        this.localPort = localPort;
+        public SocketEchoer(string facilitatorIp = "127.0.0.1", int facilitatorPort = 9000, int localPort = 6000)
+        {
+            this.facilitatorIp = facilitatorIp;
+            this.facilitatorPort = facilitatorPort;
+            this.localPort = localPort;
 
-    //        // start listening
-    //        this.listener = new SimpleSocketServer(this.localPort);
-    //        this.listener.OnMessage = this.ProcessMessageFromUpstream; // push the data downstream
-    //        this.listener.StartListening();
+            // start listening
+            this.listener = new SimpleSocketServer(this.localPort);
+            this.listener.OnMessage = this.ProcessMessageFromUpstream; // push the data downstream
+            this.listener.StartListening();
 
-    //        facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
-    //        facilitator.OnMessage = this.ProcessMessageFromUpstream;
+            facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
+            facilitator.OnMessage = this.ProcessMessageFromUpstream;
 
-    //        this.ready = true;
+            this.ready = true;
 
-    //        // register with facilitator
-    //        //facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
-    //        //facilitator.OnMessage = this.ProcessMessageFromUpstream;
-    //        //facilitator.Connect();
-    //        //var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://127.0.0.1:{this.localPort}\" nil nil {this.localPort}))";
-    //        //facilitator.Send(registermsg);
-    //        //facilitator.Close();
-    //    }
+            // register with facilitator
+            //facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
+            //facilitator.OnMessage = this.ProcessMessageFromUpstream;
+            //facilitator.Connect();
+            //var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://127.0.0.1:{this.localPort}\" nil nil {this.localPort}))";
+            //facilitator.Send(registermsg);
+            //facilitator.Close();
+        }
 
-    //    private void ProcessMessageFromUpstream(string data, AbstractSimpleSocket socket)
-    //    {
-    //        KQMLMessage msg = KQMLMessageParser.parse(data);
+        private void ProcessMessageFromUpstream(string data, AbstractSimpleSocket socket)
+        {
+            KQMLMessage msg = (new KQMLMessageParser()).parse(data);
+            socket.Send(KQMLMessage.createTell(msg.receiver, msg.sender, msg.reply_with, "echoer", ":ok").ToString());
 
-    //        if (msg.performative != "register")
-    //        {
-    //            Console.WriteLine($"[Echoer] Recieved data: {data}; Parsed content: {msg.content}");
-    //            string temp = msg.receiver;
-    //            msg.receiver = msg.sender;
-    //            msg.sender = temp;
+            if (msg.performative != "tell" && msg.performative != "register")
+            {
+                Console.WriteLine($"[Echoer] Recieved data: {data}.");// ; Parsed content: {msg.content}");
+                string temp = msg.receiver;
+                msg.receiver = msg.sender;
+                msg.sender = temp;
 
-    //            facilitator.Connect();
-    //            var outbound_msg = msg.ToString();
-    //            Console.WriteLine($"[Echoer] Outbound message: {outbound_msg}");
-    //            facilitator.Send(outbound_msg);
-    //            facilitator.Close();
-    //        }
-    //        else
-    //        {
-    //            msg = KQMLMessage.createTell(msg.receiver, msg.sender, this.nextMsgId(), msg.reply_with, ":ok");
-    //            socket.Send(msg.ToString());
-    //        }
+                facilitator.Connect();
+                var outbound_msg = msg.ToString();
+                //Console.WriteLine($"[Echoer] Outbound message: {outbound_msg}");
+                facilitator.Send(outbound_msg);
+                facilitator.Close();
+            }
 
-    //    }
+        }
 
-    //    private String nextMsgId()
-    //    {
-    //        return $"psi-id{this.messageCounter++}";
-    //    }
-    //}
+        private String nextMsgId()
+        {
+            return $"echoer-id{this.messageCounter++}";
+        }
+    }
 
     public class SocketStringConsumer : ConsumerProducer<string, string>, Microsoft.Psi.Components.IStartable
     {
@@ -156,7 +152,7 @@ namespace NU.Kqml
 
         private String nextMsgId()
         {
-            return $"echoer-id{this.messageCounter++}";
+            return $"psi-id{this.messageCounter++}";
         }
 
         private void ProcessMessageFromUpstream(string data, AbstractSimpleSocket socket)
@@ -466,8 +462,8 @@ namespace NU.Kqml
                     }
                     else
                     {
-                        Console.WriteLine($"[KQMLMessageParser] Incorrect message formulation. Current Token: {(char)c}; Remaining string: {reader.ReadToEnd()}");
-                        throw new Exception($"[KQMLMessageParser] Incorrect message formulation. Current Token: {(char)c}; Remaining string: {reader.ReadToEnd()}");
+                        Console.WriteLine($"[KQMLMessageParser] Incorrect message formulation. Current char: {(char)c}; Remaining string: {reader.ReadToEnd()}");
+                        throw new Exception($"[KQMLMessageParser] Incorrect message formulation. Current char: {(char)c}; Remaining string: {reader.ReadToEnd()}");
                     }
                     break;
                 default:
@@ -480,6 +476,11 @@ namespace NU.Kqml
                     {
                         stk.Pop();
                         stk.Push(State.performative);
+                    }
+                    if (current_segment == null)
+                    {
+                        Console.WriteLine($"[KQMLMessageParser] Incorrect message formulation. Current char: {(char)c}; Remaining string: {reader.ReadToEnd()}");
+                        throw new Exception($"[KQMLMessageParser] Incorrect message formulation. Current char: {(char)c}; Remaining string: {reader.ReadToEnd()}");
                     }
                     current_segment.Append((char)reader.Read());
                     break;
@@ -586,16 +587,12 @@ namespace NU.Kqml
 
         public static KQMLMessage createAchieve(string sender, string receiver, string reply_with, string reply_to, KQMLMessage message)
         {
-            //return new KQMLMessage("achieve", sender, receiver, reply_with, reply_to, message);
-            return new KQMLMessage("cl-user::achieve", sender == null ? null : ("cl-user::" + sender), receiver == null ? null : ("cl-user::" + receiver),
-                reply_with == null ? null : ("cl-user::" + reply_with), reply_to == null ? null : ("cl-user::" + reply_to), message);
+            return new KQMLMessage("achieve", sender, receiver, reply_with, reply_to, message);
         }
 
         public static KQMLMessage createAchieve(string sender, string receiver, string reply_with, string reply_to, string message)
         {
-            //return new KQMLMessage("achieve", sender, receiver, reply_with, reply_to, message);
-            return new KQMLMessage("cl-user::achieve", sender == null ? null : ("cl-user::" + sender), receiver == null ? null : ("cl-user::" + receiver),
-                reply_with == null ? null : ("cl-user::" + reply_with), reply_to == null ? null : ("cl-user::" + reply_to), message);
+            return new KQMLMessage("achieve", sender, receiver, reply_with, reply_to, message);
         }
 
         public static KQMLMessage createTask(string sender, string receiver, string reply_with, string reply_to, string action)
@@ -605,9 +602,7 @@ namespace NU.Kqml
 
         public static KQMLMessage createTell(string sender, string receiver, string reply_with, string reply_to, string tell)
         {
-            //return new KQMLMessage("tell", sender, receiver, reply_with, reply_to, tell);
-            return new KQMLMessage("cl-user::tell", sender == null ? null : ("cl-user::" + sender), receiver == null ? null : ("cl-user::" + receiver),
-                reply_with == null ? null : ("cl-user::" + reply_with), reply_to == null ? null : ("cl-user::" + reply_to), tell);
+            return new KQMLMessage("tell", sender, receiver, reply_with, reply_to, tell);
         }
 
         public static KQMLMessage createInsert(string sender, string receiver, string reply_with, string reply_to, string fact)

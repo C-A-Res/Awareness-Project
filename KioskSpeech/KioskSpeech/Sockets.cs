@@ -123,7 +123,7 @@ namespace NU.Kqml
                 // Receive the response from the remote device.  
                 int bytesRec = sender.Receive(bytes);
                 string resp = Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                Console.WriteLine("[SimpleSocket] Send... in response, facilitator said {0}", resp);
+                //Console.WriteLine("[SimpleSocket] Send... in response, facilitator said {0}", resp);
                 OnMessage(resp, this);
             }
             catch (ArgumentNullException ane)
@@ -134,12 +134,12 @@ namespace NU.Kqml
             {
                 if (se.SocketErrorCode == SocketError.ConnectionAborted)
                 {
-                    Console.WriteLine($"Socket closed by Facilitator; {se.ToString()}");
+                    //Console.WriteLine($"Expected Exception... Socket closed by Facilitator.");// ; {se.ToString()}");
                 }
                 else
                 {
-                    Console.WriteLine("SocketException : {0}", se.ToString());
-                    Console.WriteLine("SocketError : {0}", se.SocketErrorCode);
+                    //Console.WriteLine("Expected Exception... SocketException : {0}", se.ToString());
+                    //Console.WriteLine("Expected Exception... SocketError : {0}", se.SocketErrorCode);
                 }
                 
             }

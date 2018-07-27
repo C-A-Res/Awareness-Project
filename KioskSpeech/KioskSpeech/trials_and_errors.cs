@@ -23,12 +23,12 @@ namespace NU.Kiosk.Speech
             ////Console.ReadKey(true);
 
             string facilitatorIP = "127.0.0.1";
-            int facilitatorPort = 6000;
-            int localPort = 8090;
+            int echoerPort = 6000;
+            int speechPort = 8090;
 
             IProducer<AudioBuffer> audioInput = null;
             SocketStringConsumer python = null;
-            SocketEchoer echoer = null;
+            SocketEchoer echoer = new SocketEchoer(facilitatorIP, speechPort, echoerPort);
 
             Console.WriteLine("Trials and errors!\n");
 
@@ -46,8 +46,7 @@ namespace NU.Kiosk.Speech
                 // we use Psi's Where() operator to filter out only the final recognition results.
                 var finalResults = recognizer.Out.Where(result => result.IsFinal);
 
-                echoer = new SocketEchoer(facilitatorIP, localPort, facilitatorPort);
-                python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort, "echoer");
+                python = new SocketStringConsumer(pipeline, facilitatorIP, echoerPort, speechPort, "echoer");
                 
                 SystemSpeechSynthesizer speechSynth = CreateSpeechSynthesizer(pipeline);
                 speechSynth.SpeakCompleted.Do(x => Console.WriteLine("."));
@@ -62,6 +61,7 @@ namespace NU.Kiosk.Speech
 
                 Console.WriteLine("Press any key to exit...");
                 Console.ReadKey(true);
+                Console.WriteLine("Done!");
             }
         }
 
