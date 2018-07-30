@@ -13,7 +13,8 @@
     using Microsoft.Psi.Data;
     using Microsoft.Psi.Speech;
     using Microsoft.Psi.Visualization.Client;
-    
+    using WebSocketSharp.Server;
+
     public static class KinectKioskProgram
     {
         static string AppName = "Kiosk";
@@ -95,9 +96,6 @@
                 NU.Kqml.SocketStringConsumer kqml = null;
                 NU.Kqml.KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline);
                 KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
-                var wssv = new WebSocketServer.WebSocketServer("ws://127.0.0.1:9791");
-                wssv.AddWebSocketService<KioskUI.KioskUIServer>("/dialog", () => new KioskUIServer(null));
-                wssv.Start();
                 if (usingKqml)
                 {
                     Console.WriteLine("Setting up connection to Companion");
@@ -126,6 +124,7 @@
                 }
                 else
                 {
+                    Console.WriteLine("Status: Not using KQML");
                     var recognitionResult = finalResults.Join(mouthOpen, _500ms).Select(pair =>  // Need to add a Where Item2, but skipping for now
                     {
                         var ssrResult = pair.Item1 as IStreamingSpeechRecognitionResult;
@@ -154,7 +153,6 @@
 
                 Console.WriteLine("Press any key to exit...");
                 Console.ReadKey(true);
-
             }
         }
 

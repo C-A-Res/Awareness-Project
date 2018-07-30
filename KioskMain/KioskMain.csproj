@@ -278,6 +278,10 @@
       <Project>{c5ab7394-68fb-4641-bdae-8a956edc44a9}</Project>
       <Name>KioskSpeech</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KioskUI\KioskUI.csproj">
+      <Project>{cea3bc67-5dae-44b5-bec7-5596ee29629f}</Project>
+      <Name>KioskUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Kinect.Toolkit.FaceTracking\Microsoft.Kinect.Toolkit.FaceTracking.csproj">
       <Project>{1bcf9cee-df01-430e-b49d-41a9a88963eb}</Project>
       <Name>Microsoft.Kinect.Toolkit.FaceTracking</Name>
