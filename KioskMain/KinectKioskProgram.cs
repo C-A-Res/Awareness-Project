@@ -93,7 +93,11 @@
                 ////});
 
                 NU.Kqml.SocketStringConsumer kqml = null;
-                NU.Kqml.KioskInputTextPreProcessor preproc = null;
+                NU.Kqml.KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline);
+                KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
+                //var wssv = new WebSocketServer.WebSocketServer("ws://127.0.0.1:9791");
+                //wssv.AddWebSocketService<KioskUI.KioskUIServer>("/dialog", () => new KioskUIServer(null));
+                //wssv.Start();
                 if (usingKqml)
                 {
                     Console.WriteLine("Setting up connection to Companion");
@@ -104,7 +108,6 @@
                     Console.WriteLine("Your local port is: " + localPort);
 
                     kqml = new NU.Kqml.SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort_num, localPort_num);
-                    preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline);
 
                     var recognitionResult = finalResults.Join(mouthOpen, _500ms).Select(pair =>  // Need to add a Where Item2, but skipping for now
                     {
@@ -115,18 +118,25 @@
 
                     recognitionResult.PipeTo(preproc.In);
                     preproc.Out.PipeTo(kqml.In);
+                    preproc.Out.PipeTo(ui.UserInput);
                     kqml.Out.Do(x => Console.WriteLine(x));
                     kqml.Out.PipeTo(synthesizer);
+                    kqml.Out.PipeTo(ui.CompResponse);
                     synthesizer.SpeakCompleted.Do(x => preproc.setAccepting());
-                } else
+                }
+                else
                 {
-                    var text = finalResults.Join(mouthOpen, _500ms).Select(pair =>  // Need to add a Where Item2, but skipping for now
+                    var recognitionResult = finalResults.Join(mouthOpen, _500ms).Select(pair =>  // Need to add a Where Item2, but skipping for now
                     {
-                        var ssrResult = pair.Item1 as SpeechRecognitionResult;
+                        var ssrResult = pair.Item1 as IStreamingSpeechRecognitionResult;
                         Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence}) (mouthOpen: {pair.Item2})");
-                        return ssrResult.Text;
+                        return ssrResult;
                     });
-                    text.PipeTo(synthesizer);
+                    recognitionResult.PipeTo(preproc.In);
+                    preproc.Out.PipeTo(ui.UserInput);
+                    preproc.Out.PipeTo(synthesizer);
+                    preproc.Out.PipeTo(ui.CompResponse);
+                    synthesizer.SpeakCompleted.Do(x => preproc.setAccepting());
                     //synthesizer.SpeakStarted;
                     //synthesizer.SpeakCompleted;
                 }
