@@ -95,9 +95,9 @@
                 NU.Kqml.SocketStringConsumer kqml = null;
                 NU.Kqml.KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline);
                 KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
-                //var wssv = new WebSocketServer.WebSocketServer("ws://127.0.0.1:9791");
-                //wssv.AddWebSocketService<KioskUI.KioskUIServer>("/dialog", () => new KioskUIServer(null));
-                //wssv.Start();
+                var wssv = new WebSocketServer.WebSocketServer("ws://127.0.0.1:9791");
+                wssv.AddWebSocketService<KioskUI.KioskUIServer>("/dialog", () => new KioskUIServer(null));
+                wssv.Start();
                 if (usingKqml)
                 {
                     Console.WriteLine("Setting up connection to Companion");
