@@ -123,7 +123,7 @@ namespace KioskUI
                 {
                     var ui = new KioskUI(pipeline);
                     var timer = new Timer<string>(pipeline, 1100, TestGen);
-                    timer.Do(t => Console.WriteLine(t));
+                    timer.Do(t => Console.WriteLine(t));                    
                     timer.PipeTo(ui.UserInput);
 
                     pipeline.RunAsync();
@@ -142,9 +142,11 @@ namespace KioskUI
             }
         }
 
+        private static int c = 0;
+
         private static string TestGen(DateTime arg1, TimeSpan arg2)
         {
-            return "test";
+            return "test" + c++;
         }
     }
 }
