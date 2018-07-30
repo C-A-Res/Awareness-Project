@@ -23,18 +23,17 @@
         // e.data contains received string.
         output("onmessage: " + e.data);
         json_data = JSON.parse(e.data);
-        user = json_data.user;
-        console.log(user);
-        if (user == "companion") {
-          var newTextNode = document.createTextNode(json_data.content);
+        for (i = 0; i < json_data.length; i++) {
+          next = json_data[i]
+          output("next: " + next);
+          var newTextNode = document.createTextNode(next.content);
           var textContainer = document.createElement("div");
-          textContainer.className = 'newbotDiv';
-          textContainer.appendChild(newTextNode);
-          document.getElementById('chatSpace').appendChild(textContainer);          
-        } else {
-          var newTextNode = document.createTextNode(json_data.content);
-          var textContainer = document.createElement("div");
-          textContainer.className = 'newuserDiv';
+          user = next.user;
+          if (user == "kiosk") {
+            textContainer.className = 'newbotDiv';  
+          } else {
+            textContainer.className = 'newuserDiv';
+          }
           textContainer.appendChild(newTextNode);
           document.getElementById('chatSpace').appendChild(textContainer);          
         }
