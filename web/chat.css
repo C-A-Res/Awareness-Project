@@ -7,14 +7,6 @@ header{
   height: 75px;
 }
 
-.small{
-  width: 40%;
-  height: 50px;
-  border: 5px solid black;
-  padding: 15px;
-  margin: 10px;
-}
-
 .newuserDiv{
   border-radius: 25px;
   border: 2px solid skyblue;
@@ -36,6 +28,113 @@ header{
   white-space: pre-wrap;
 }
 
+.ball {
+  display: block;
+  background: radial-gradient(circle at 130px 70px, #330099, #000);
+  border-radius: 50%;
+  height: 200px;
+  width: 200px;
+  margin: 0;
+  animation-name: bounce;
+  animation-duration: 2s;
+  animation-iteration-count: 2;
+  animation-timing-function: ease-out;
+  position: absolute;
+  top: 150px;
+  left: 70px;
+}
+
+.ball:before {
+  content: "";
+  position: absolute;
+  background: radial-gradient(circle at 50% 120%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  bottom: 2.5%;
+  left: 7.5%;
+  opacity: 0.4;
+  height: 100%;
+  width: 90%;
+  filter: blur(5px);
+  z-index: 2;
+}
+.ball:after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 5%;
+  left: 10%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8) 14%, rgba(255, 255, 255, 0) 24%);
+  transform: translateX(80px) translateY(-90px) skewX(-20deg);
+  filter: blur(10px);
+}
+
+.shadow {
+  position: relative;
+  width: 175px;
+  height: 16px;
+  background: #999;
+  opacity: .5;
+  border-radius: 100%;
+  margin: 0% 20% 0% 20%;
+  top: 330px;
+  left: -22px;
+  animation-name: shadow-bounce;
+  animation-duration: 2s;
+  animation-iteration-count: 2;
+  animation-timing-function: ease-out;
+}
+
+#eye1 {
+  left: -30px;
+  top: -20px;
+  transform: skewX(-5deg) skewY(-2deg);
+  
+}
+
+#eye2 {
+  left: 50px;
+  top: -20px;
+  transform: skewX(5deg) skewY(2deg);
+}
+
+.eye {
+  width: 30%;
+  height: 30%;
+  margin: 30%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #208ab4 0%, #6fbfff 30%, #4381b2 100%);
+  position: absolute;
+  animation: move-eye-skew 5s ease-out infinite;
+}
+.eye:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 37.5%;
+  height: 37.5%;
+  border-radius: 50%;
+  top: 31.25%;
+  left: 31.25%;
+  background: black;
+}
+.eye:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 31.25%;
+  height: 31.25%;
+  border-radius: 50%;
+  top: 18.75%;
+  left: 48.75%;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#topSpace{
+  display: flex;
+}
+
 #chatSpace{
   overflow: auto;
   width: 40%;
@@ -45,32 +144,33 @@ header{
   margin: 10px;
 }
 
-#logout{
-  float: right;
-  margin-right: auto;
-  font-size: 20px;
-  text-align: right;
-  padding-right: 20px;
+#avatarSpace{
+  overflow: auto;
+  width: 20%;
+  height: 500px;
+  border: 5px solid purple;
+  padding: 15px;
+  margin: 10px;
+  position: relative;
+  flex: 1;
+  display: inline-block; 
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
 }
 
-#logoutLink{
-  color: white;
+
+
+@keyframes bounce {
+  0% { transform: scale(1); }
+  40% { transform: translateY(-20px) scaleY(1.05) scaleX(0.95); }
+  80% { transform: scaleY(0.95) scaleX(1.05); }
+  100% { transform: scale(1); }
 }
 
-#title{
-  float: left;
-  margin-left: auto;
-}
 
-#user{
-  float: right;
-}
-#myBtn{
-  float: right;
-  margin-top: 5px;
-}
-
-#right{
-  float: right;
-  margin: 0px;
+@keyframes shadow-bounce {
+  0% { transform: scale(1); }
+  40% { transform: margin: 0% 0% 0% 0%; opacity: 0.1; transform: scaleX(0.95) translateX(-5px);}
+  80% { transform:  margin: 0% 20% 0% 20%; opacity: 0.5; transform: scaleX(1.05);}
+  100% { transform: scale(1); }
 }

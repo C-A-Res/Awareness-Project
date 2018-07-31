@@ -11,6 +11,22 @@
     
     function init() {
 
+      // Animation
+      var avatarSpace;
+      var context;
+
+      var ball = document.getElementById("ball");
+      var shadow = document.getElementById("shadow");
+
+      function animateAvitar(sec) {
+        ball.style.animation = "none";
+        shadow.style.animation = "none";
+        ball.offsetHeight;
+        shadow.offsetHeight;
+        ball.style.animation = null;
+        shadow.style.animation = null;
+      }
+
       // Connect to Web Socket
       ws = new WebSocket("ws://localhost:9791/dialog");
 
@@ -31,6 +47,7 @@
           user = next.user;
           if (user == "kiosk") {
             textContainer.className = 'newbotDiv';  
+            animateAvitar(1);
           } else {
             textContainer.className = 'newuserDiv';
           }
@@ -77,10 +94,21 @@
 
     setInterval(pollPsi, 3000);
 
+    
+
   </script>
 </head>
 <body onload="init();"> 
-  <div id="chatSpace"></div>
+  <div id="topSpace">  
+    <div id="chatSpace"></div>
+    <div id="avatarSpace">
+      <div id="shadow" class="shadow"></div>
+      <figure id="ball" class="ball">
+        <span class="eye" id="eye1"></span>
+        <span class="eye" id="eye2"></span>
+      </figure>
+    </div>
+  </div>
   <form onsubmit="onSubmit(); return false;">
     <input type="text" id="input">
     <input type="submit" value="Send">
