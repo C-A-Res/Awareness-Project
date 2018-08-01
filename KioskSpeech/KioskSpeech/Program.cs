@@ -114,12 +114,12 @@ namespace NU.Kiosk.Speech
                 {
                     python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
                     preproc.Out.PipeTo(ui.UserInput);
-                    python.Out.PipeTo(speechSynth);
                     python.Out.PipeTo(ui.CompResponse);
+                    python.Out.PipeTo(speechSynth);
                 } else
                 {
-                    preproc.Out.PipeTo(speechSynth);
                     preproc.Out.PipeTo(ui.CompResponse);
+                    preproc.Out.PipeTo(speechSynth);
                 }
                 speechSynth.SpeakCompleted.Do(x => preproc.setAccepting());
 

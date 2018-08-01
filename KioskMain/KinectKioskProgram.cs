@@ -26,10 +26,9 @@
         {
             bool detected = false;
             bool usingKqml = true;
-            string facilitatorIP = "165.124.161.121";
-            //string facilitatorIP = "127.0.0.1";
-            int facilitatorPort = 9000;
-            int localPort = 8090;
+            string facilitatorIP = args[0]; 
+            int facilitatorPort = int.Parse(args[1]); 
+            int localPort = int.Parse(args[2]); 
 
 
             Console.WriteLine("Starting Kinect-based Kiosk.  Verify that Kinect is setup before continuing");
@@ -118,8 +117,8 @@
                     preproc.Out.PipeTo(kqml.In);
                     preproc.Out.PipeTo(ui.UserInput);
                     kqml.Out.Do(x => Console.WriteLine(x));
-                    kqml.Out.PipeTo(synthesizer);
                     kqml.Out.PipeTo(ui.CompResponse);
+                    kqml.Out.PipeTo(synthesizer);
                     synthesizer.SpeakCompleted.Do(x => preproc.setAccepting());
                 }
                 else
@@ -133,8 +132,8 @@
                     });
                     recognitionResult.PipeTo(preproc.In);
                     preproc.Out.PipeTo(ui.UserInput);
-                    preproc.Out.PipeTo(synthesizer);
                     preproc.Out.PipeTo(ui.CompResponse);
+                    preproc.Out.PipeTo(synthesizer);
                     synthesizer.SpeakCompleted.Do(x => preproc.setAccepting());
                     //synthesizer.SpeakStarted;
                     //synthesizer.SpeakCompleted;
