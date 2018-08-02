@@ -7,6 +7,12 @@ header{
   height: 75px;
 }
 
+#listening {
+  background-color: red;
+  height: 50px;
+  width: 50px;
+}
+
 .newuserDiv{
   border-radius: 25px;
   border: 2px solid skyblue;

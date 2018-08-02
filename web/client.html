@@ -16,6 +16,8 @@
       var context;
       var avatarState;
 
+      var listening = document.getElementById("listening");
+
       var ball = document.getElementById("ball");
       var shadow = document.getElementById("shadow");
       var eye1 = document.getElementById("eye1");
@@ -35,6 +37,7 @@
             case "speaking":
               ball.style.animation = "bounce 2s ease-out 2";
               shadow.style.animation = "shadown-bounce 2s ease-out 2";
+              break;
             case "thinking":
               eye1.classList.remove('eye');
               eye1.classList.add('eye-down');
@@ -102,6 +105,12 @@
           textContainer.appendChild(newTextNode);
           document.getElementById('chatSpace').appendChild(textContainer);          
         }
+                //// temp
+        if (json_data.debug == "true") {
+          listening.style.backgroundColor = "green";
+        } else {
+          listening.style.backgroundColor = "red";
+        }
 
       };
       
@@ -161,6 +170,7 @@
       </figure>
     </div>
   </div>
+  <div id="listening"></div>
   <form onsubmit="onSubmit(); return false;">
     <input type="text" id="input">
     <input type="submit" value="Send">
