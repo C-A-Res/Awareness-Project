@@ -225,6 +225,13 @@ header{
   100% { transform: scale(1); }
 }
 
+@keyframes shadow-lil-bounce {
+  0% { transform: scale(1); }
+  40% { transform: margin: 0% 10% 0% 10%; opacity: 0.4; transform: scaleX(0.98) translateX(-2px);}
+  80% { transform:  margin: 0% 20% 0% 20%; opacity: 0.5; transform: scaleX(1.05);}
+  100% { transform: scale(1); }
+}
+
 @keyframes shadow-roll {
   0% { transform: scale(1); }
   50% {  transform: translateX(-5px);}

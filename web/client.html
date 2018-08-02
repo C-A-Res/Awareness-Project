@@ -35,8 +35,12 @@
           //ball.style.WebkitAnimationName = state;  //browser compatibility
           switch(state) {
             case "speaking":
+              eye1.classList.remove('eye-down');
+              eye1.classList.add('eye');
+              eye2.classList.remove('eye-down');
+              eye2.classList.add('eye');
               ball.style.animation = "bounce 2s ease-out 2";
-              shadow.style.animation = "shadown-bounce 2s ease-out 2";
+              shadow.style.animation = "shadow-bounce 2s ease-out 2";
               break;
             case "thinking":
               eye1.classList.remove('eye');
@@ -44,12 +48,15 @@
               eye2.classList.remove('eye');
               eye2.classList.add('eye-down');
               ball.style.animation = "lil-bounce 2s linear infinite";
+              shadow.style.animation = "shadow-lil-bounce 2s linear infinite";
               break;
             case "listening":
               eye1.classList.remove('eye-down');
               eye1.classList.add('eye');
               eye2.classList.remove('eye-down');
               eye2.classList.add('eye');
+              ball.style.animation = "none";
+              shadow.style.animation = "none";
               break;
             case "sleeping":
               eye1.classList.remove('eye');
@@ -74,6 +81,16 @@
       }
 
       animateAvitar("sleeping");
+
+      var btnSleeping = document.getElementById("btnSleeping");
+      btnSleeping.onclick= function() { animateAvitar('sleeping')}
+      var btnThinking = document.getElementById("btnThinking");
+      btnThinking.onclick= function() { animateAvitar("thinking")}
+      var btnListening = document.getElementById("btnListening");
+      btnListening.onclick= function() { animateAvitar("listening")}
+      var btnSpeaking = document.getElementById("btnSpeaking");
+      btnSpeaking.onclick= function() { animateAvitar("speaking")}
+
 
       // Connect to Web Socket
       ws = new WebSocket("ws://localhost:9791/dialog");
@@ -176,9 +193,10 @@
     <input type="submit" value="Send">
     <button onclick="onCloseClick(); return false;">close</button>
   </form>
-      <button onclick="onAnimateClick('sleeping'); return false;">sleeping</button>
-    <button onclick="animateAvitar('thinking'); return false;">thinking</button>
-    <button onclick="animateAvitar('listening'); return false;">listening</button>
+      <button id="btnSleeping">sleeping</button>
+    <button id="btnThinking">thinking</button>
+    <button id="btnListening">listening</button>
+    <button id="btnSpeaking">speaking</button>
 
   <div id="log"></div>
 </body>
