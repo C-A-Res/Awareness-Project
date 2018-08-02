@@ -7,6 +7,12 @@ header{
   height: 75px;
 }
 
+#listening {
+  background-color: red;
+  height: 50px;
+  width: 50px;
+}
+
 .newuserDiv{
   border-radius: 25px;
   border: 2px solid skyblue;
@@ -35,7 +41,7 @@ header{
   height: 200px;
   width: 200px;
   margin: 0;
-  animation-name: bounce;
+  animation-name: thinking;
   animation-duration: 2s;
   animation-iteration-count: 2;
   animation-timing-function: ease-out;
@@ -131,6 +137,38 @@ header{
   background: rgba(255, 255, 255, 0.2);
 }
 
+.eye-down {
+  width: 30%;
+  height: 30%;
+  margin: 30%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 70%, #208ab4 0%, #6fbfff 30%, #4381b2 100%);
+  position: absolute;
+}
+.eye-down:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 37.5%;
+  height: 37.5%;
+  border-radius: 50%;
+  top: 41.25%;
+  left: 31.25%;
+  background: black;
+  animation: look-down 100s ease-out infinite;
+}
+.eye-down:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 31.25%;
+  height: 31.25%;
+  border-radius: 50%;
+  top: 33.75%;
+  left: 48.75%;
+  background: rgba(255, 255, 255, 0.2);
+}
+
 #topSpace{
   display: flex;
 }
@@ -167,10 +205,39 @@ header{
   100% { transform: scale(1); }
 }
 
+@keyframes lil-bounce {
+  0% { transform: scale(1); }
+  40% { transform: translateY(-5px) scaleY(1.05) scaleX(0.95); }
+  80% { transform: scaleY(0.95) scaleX(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes roll {
+  0% { transform: rotate(355deg); }
+  50% { transform: rotate(345deg); }
+  100% { transform: rotate(355deg); }
+}
 
 @keyframes shadow-bounce {
   0% { transform: scale(1); }
   40% { transform: margin: 0% 0% 0% 0%; opacity: 0.1; transform: scaleX(0.95) translateX(-5px);}
   80% { transform:  margin: 0% 20% 0% 20%; opacity: 0.5; transform: scaleX(1.05);}
   100% { transform: scale(1); }
+}
+
+@keyframes shadow-roll {
+  0% { transform: scale(1); }
+  50% {  transform: translateX(-5px);}
+  100% { transform: scale(1); }
+}
+
+@keyframes look-down {
+  5% { transform: translateY(35%) translateX(-5%); }
+  10% { transform: translateY(35%) translateX(-10%); }
+  15% { transform: translateY(35%) translateX(-5%); }
+  25% { transform: translateY(35%) translateX(-10%) ; }
+  50% { transform: translateY(35%) translateX(0%); }
+  65% { transform: translateY(35%) translateX(-5%); }
+  75% { transform: translateY(35%) translateX(0%) ; }
+  100% { transform: translateY(35%) translateX(-5%); }
 }

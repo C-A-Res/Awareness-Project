@@ -14,18 +14,66 @@
       // Animation
       var avatarSpace;
       var context;
+      var avatarState;
+
+      var listening = document.getElementById("listening");
 
       var ball = document.getElementById("ball");
       var shadow = document.getElementById("shadow");
+      var eye1 = document.getElementById("eye1");
+      var eye2 = document.getElementById("eye2");
 
-      function animateAvitar(sec) {
-        ball.style.animation = "none";
-        shadow.style.animation = "none";
-        ball.offsetHeight;
-        shadow.offsetHeight;
-        ball.style.animation = null;
-        shadow.style.animation = null;
+      function animateAvitar(state) {
+        if (state != avatarState) {
+          ball.style.animation = "none";
+          shadow.style.animation = "none";
+          ball.offsetHeight;
+          shadow.offsetHeight;
+          ball.style.animation = null;
+          shadow.style.animation = null;
+          //ball.style.animationName = state;
+          //ball.style.WebkitAnimationName = state;  //browser compatibility
+          switch(state) {
+            case "speaking":
+              ball.style.animation = "bounce 2s ease-out 2";
+              shadow.style.animation = "shadown-bounce 2s ease-out 2";
+              break;
+            case "thinking":
+              eye1.classList.remove('eye');
+              eye1.classList.add('eye-down');
+              eye2.classList.remove('eye');
+              eye2.classList.add('eye-down');
+              ball.style.animation = "lil-bounce 2s linear infinite";
+              break;
+            case "listening":
+              eye1.classList.remove('eye-down');
+              eye1.classList.add('eye');
+              eye2.classList.remove('eye-down');
+              eye2.classList.add('eye');
+              break;
+            case "sleeping":
+              eye1.classList.remove('eye');
+              eye1.classList.add('eye-down');
+              eye2.classList.remove('eye');
+              eye2.classList.add('eye-down');
+              ball.style.animation = "roll 5s linear infinite";
+              //ball.style.animationName = "roll";
+              //ball.style.WebkitAnimationName = "roll";  //browser compatibility
+              //ball.style.animationIterationCount = "infinite";
+              shadow.style.animation = "shadow-roll 5s linear infinite";
+              //shadow.style.animationName = "shadow-roll";
+              //shadow.style.WebkitAnimationName = "shadow-roll";  //browser compatibility
+              //shadow.style.animationIterationCount = "infinite";
+              break;
+            default:
+              output("unknown state: " + state)
+
+          }
+          avatarState = state;
+        }
       }
+
+      animateAvitar("sleeping");
 
       // Connect to Web Socket
       ws = new WebSocket("ws://localhost:9791/dialog");
@@ -39,20 +87,29 @@
         // e.data contains received string.
         output("onmessage: " + e.data);
         json_data = JSON.parse(e.data);
-        for (i = 0; i < json_data.length; i++) {
-          next = json_data[i]
+        newState = json_data.avatar.state;
+        animateAvitar(newState);
+        speech = json_data.speech;
+        for (i = 0; i < speech.length; i++) {
+          next = speech[i]
           output("next: " + next);
           var newTextNode = document.createTextNode(next.content);
           var textContainer = document.createElement("div");
           user = next.user;
           if (user == "kiosk") {
-            textContainer.className = 'newbotDiv';  
-            animateAvitar(1);
+            textContainer.className = 'newbotDiv'; 
+            //animateAvitar("sleeping");
           } else {
             textContainer.className = 'newuserDiv';
           }
           textContainer.appendChild(newTextNode);
           document.getElementById('chatSpace').appendChild(textContainer);          
+        }
+                //// temp
+        if (json_data.debug == "true") {
+          listening.style.backgroundColor = "green";
+        } else {
+          listening.style.backgroundColor = "red";
         }
 
       };
@@ -92,6 +149,10 @@
       log.innerHTML = escaped + "<br>" + log.innerHTML;
     }
 
+    function onAnimateClick(val) {
+      animateAvitar(val);
+    }
+
     setInterval(pollPsi, 3000);
 
     
@@ -109,11 +170,16 @@
       </figure>
     </div>
   </div>
+  <div id="listening"></div>
   <form onsubmit="onSubmit(); return false;">
     <input type="text" id="input">
     <input type="submit" value="Send">
     <button onclick="onCloseClick(); return false;">close</button>
   </form>
+      <button onclick="onAnimateClick('sleeping'); return false;">sleeping</button>
+    <button onclick="animateAvitar('thinking'); return false;">thinking</button>
+    <button onclick="animateAvitar('listening'); return false;">listening</button>
+
   <div id="log"></div>
 </body>
 </html>
