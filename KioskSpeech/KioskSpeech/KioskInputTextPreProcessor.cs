@@ -45,7 +45,7 @@ namespace NU.Kqml
                     case "cool":
                     case "huh?":
                     case "wow!":
-                    case "huck you":
+                    case "Huck you":
                     case "bye":
                     case "bye bye":
                         Console.WriteLine($"[KioskInputTextPreProcessor] Discarding message: {message}");

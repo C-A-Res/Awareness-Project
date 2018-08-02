@@ -114,6 +114,7 @@ namespace KioskUI
             wssv = new WebSocketServer("ws://127.0.0.1:9791");
             wssv.AddWebSocketService<KioskUIServer>("/dialog", () => new KioskUIServer(this));
             wssv.Start();
+            Console.WriteLine("Websocket Server Ready");
         }
 
         public void Stop()

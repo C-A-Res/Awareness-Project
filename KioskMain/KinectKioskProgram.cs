@@ -4,6 +4,7 @@
     using System.IO;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using Microsoft.Kinect;
     using Microsoft.Psi;
     using Microsoft.Psi.Kinect.v1;
@@ -15,6 +16,7 @@
     using Microsoft.Psi.Visualization.Client;
     using WebSocketSharp.Server;
     using System.Threading.Tasks;
+    using System.Timers;
 
     public static class KinectKioskProgram
     {
@@ -24,41 +26,43 @@
         static TimeSpan _500ms = TimeSpan.FromSeconds(0.5);
 
         static bool isAccepting = true;
-
-        static private async Task Delay(int ms)
+        static System.Timers.Timer timer = new System.Timers.Timer(1);
+        
+        private static void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            await Task.Delay(ms);
+            isAccepting = true;
         }
 
-        /**
-         * Use this as the timer
-         */
-        static async void restartAcceptingInMs(int ms)
+        private static void InitTimer()
         {
-            await Delay(ms);
-            if (isAccepting == false)
-            {
-                // race is on!
-                isAccepting = true;
-                Console.WriteLine($"[KioskInputTextPreProcessor] Timer stopped; once again accepting.");
-            }
-            else
-            {
-                Console.WriteLine($"[KioskInputTextPreProcessor] Timer stopped; already accepting.");
-            }
+            timer = new System.Timers.Timer(10000);
+            timer.Elapsed += OnTimedEvent;
         }
 
+        private static void StartTimer()
+        {
+            timer.Enabled = true;
+            Console.WriteLine("[StopTimer] Timer Enabled.");
+        }
+
+        private static void StopTimer()
+        {
+            timer.Enabled = false;
+            Console.WriteLine("[StopTimer] Timer Disabled");
+        }
+        
         public static void setAccepting()
         {
             Console.WriteLine("[setAccepting] Yes! Accepting!");
             isAccepting = true;
+            StopTimer();
         }
 
         public static void setNotAccepting()
         {
             Console.WriteLine("[setAccepting] No! Not accepting!");
             isAccepting = false;
-            restartAcceptingInMs(10000);
+            StartTimer();
         }
 
         public static void Main(string[] args)
@@ -67,8 +71,8 @@
             bool usingKqml = false;
             string facilitatorIP = args[0]; 
             int facilitatorPort = int.Parse(args[1]); 
-            int localPort = int.Parse(args[2]); 
-
+            int localPort = int.Parse(args[2]);
+            InitTimer();
 
             Console.WriteLine("Starting Kinect-based Kiosk.  Verify that Kinect is setup before continuing");
 
@@ -114,6 +118,7 @@
                     }).PipeTo(recognizer);
                 } else
                 {
+                    
                     kinectSensor.Audio.Join(mouthOpen, _500ms).Where(result => result.Item2 && isAccepting).Select(pair => {
                         return pair.Item1;
                     }).PipeTo(recognizer);
@@ -182,14 +187,14 @@
                         non_trivial_result.PipeTo(ui.UserInput);
                     }
                     kqml.Out.Do(x => Console.WriteLine(x));
-                    kqml.Out.Where( x => x != null ).PipeTo(ui.CompResponse);
+                    kqml.Out.PipeTo(ui.CompResponse);
                     kqml.Out.PipeTo(synthesizer);
                     if (NU.Kqml.KioskInputTextPreProcessor.isUsingIsAccepting)
                     {
                         synthesizer.SpeakCompleted.Do(x => preproc.setAccepting());
                     } else
                     {
-                        synthesizer.SpeakCompleted.Do(x => isAccepting = true);
+                        synthesizer.SpeakCompleted.Do(x => setAccepting());
                     }                   
                 }
                 else
@@ -224,9 +229,14 @@
                             }
                         });
                         non_trivial_result.PipeTo(ui.UserInput);
-                        TimeSpan the_wait = new TimeSpan(1000000000000);
-                        non_trivial_result.Delay(the_wait).PipeTo(ui.CompResponse);
-                        non_trivial_result.Delay(the_wait).PipeTo(synthesizer);
+                        var delayed = non_trivial_result.Select(result =>
+                        {
+                            Thread.Sleep(8000);
+                            return result;
+                        });
+                        TimeSpan the_wait = TimeSpan.FromSeconds(13.0);
+                        delayed.PipeTo(ui.CompResponse);
+                        delayed.PipeTo(synthesizer);
                         synthesizer.SpeakCompleted.Do(x => setAccepting());
                     }
                 }
