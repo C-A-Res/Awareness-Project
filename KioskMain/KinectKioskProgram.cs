@@ -224,8 +224,9 @@
                             }
                         });
                         non_trivial_result.PipeTo(ui.UserInput);
-                        non_trivial_result.PipeTo(ui.CompResponse);
-                        non_trivial_result.PipeTo(synthesizer);
+                        TimeSpan the_wait = new TimeSpan(1000000000000);
+                        non_trivial_result.Delay(the_wait).PipeTo(ui.CompResponse);
+                        non_trivial_result.Delay(the_wait).PipeTo(synthesizer);
                         synthesizer.SpeakCompleted.Do(x => setAccepting());
                     }
                 }
