@@ -163,9 +163,6 @@ namespace KioskUI
                 using (Pipeline pipeline = Pipeline.Create())
                 {
                     var ui = new KioskUI(pipeline);
-                    var timer = new Timer<string>(pipeline, 1100, TestGen);
-                    timer.Do(t => Console.WriteLine(t));                    
-                    timer.PipeTo(ui.UserInput);
                     var timer = new Timer<string>(pipeline, 13100, TestGen);
                     var timer2 = new Timer<string>(pipeline, 12100, TestGen);
                     var timer3 = new Timer<bool>(pipeline, 17100, TestBool);

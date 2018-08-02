@@ -140,6 +140,7 @@
                 NU.Kqml.SocketStringConsumer kqml = null;
                 NU.Kqml.KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline);
                 KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
+                mouthOpen.PipeTo(ui.FaceDetected);
                 if (usingKqml)
                 {
                     Console.WriteLine("Setting up connection to Companion");
