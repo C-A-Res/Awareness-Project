@@ -14,6 +14,7 @@
     using Microsoft.Psi.Speech;
     using Microsoft.Psi.Visualization.Client;
     using WebSocketSharp.Server;
+    using System.Threading.Tasks;
 
     public static class KinectKioskProgram
     {
@@ -22,10 +23,48 @@
         static TimeSpan _100ms = TimeSpan.FromSeconds(0.1);
         static TimeSpan _500ms = TimeSpan.FromSeconds(0.5);
 
+        static bool isAccepting = true;
+
+        static private async Task Delay(int ms)
+        {
+            await Task.Delay(ms);
+        }
+
+        /**
+         * Use this as the timer
+         */
+        static async void restartAcceptingInMs(int ms)
+        {
+            await Delay(ms);
+            if (isAccepting == false)
+            {
+                // race is on!
+                isAccepting = true;
+                Console.WriteLine($"[KioskInputTextPreProcessor] Timer stopped; once again accepting.");
+            }
+            else
+            {
+                Console.WriteLine($"[KioskInputTextPreProcessor] Timer stopped; already accepting.");
+            }
+        }
+
+        public static void setAccepting()
+        {
+            Console.WriteLine("[setAccepting] Yes! Accepting!");
+            isAccepting = true;
+        }
+
+        public static void setNotAccepting()
+        {
+            Console.WriteLine("[setAccepting] No! Not accepting!");
+            isAccepting = false;
+            restartAcceptingInMs(10000);
+        }
+
         public static void Main(string[] args)
         {
             bool detected = false;
-            bool usingKqml = true;
+            bool usingKqml = false;
             string facilitatorIP = args[0]; 
             int facilitatorPort = int.Parse(args[1]); 
             int localPort = int.Parse(args[2]); 
@@ -57,7 +96,7 @@
                     {
                         Console.WriteLine("Face found");
                         detected = true;
-                    } 
+                    }
                     return x ? 1.0 : 0.0;
                 });
 
@@ -68,11 +107,17 @@
                 //kinectSensor.Audio.PipeTo(speechDetector);
                 //var mouthAndSpeechDetector = speechDetector.Join(mouthOpen, _100ms).Select((t, e) => t.Item1 && t.Item2);
 
-                kinectSensor.Audio.Join(mouthOpen, _500ms).Where(result => result.Item2).Select(pair => {
-                    return pair.Item1;
-                    }
-                ).PipeTo(recognizer);
-                //kinectSensor.Audio.PipeTo(recognizer);
+                if (NU.Kqml.KioskInputTextPreProcessor.isUsingIsAccepting)
+                {
+                    kinectSensor.Audio.Join(mouthOpen, _500ms).Where(result => result.Item2).Select(pair => {
+                        return pair.Item1;
+                    }).PipeTo(recognizer);
+                } else
+                {
+                    kinectSensor.Audio.Join(mouthOpen, _500ms).Where(result => result.Item2 && isAccepting).Select(pair => {
+                        return pair.Item1;
+                    }).PipeTo(recognizer);
+                }
 
                 var finalResults = recognizer.Out.Where(result => result.IsFinal);
 
@@ -114,12 +159,37 @@
                     });
 
                     recognitionResult.PipeTo(preproc.In);
-                    preproc.Out.PipeTo(kqml.In);
-                    preproc.Out.PipeTo(ui.UserInput);
+                    if (NU.Kqml.KioskInputTextPreProcessor.isUsingIsAccepting)
+                    {
+                        preproc.Out.PipeTo(kqml.In);
+                        preproc.Out.PipeTo(ui.UserInput);
+                    } else
+                    {
+                        var non_trivial_result = preproc.Out.Where(x => {
+                            if (x == null)
+                            {
+                                setAccepting();
+                                return false;
+                            }
+                            else
+                            {
+                                setNotAccepting();
+                                return true;
+                            }
+                        });
+                        non_trivial_result.PipeTo(kqml.In);
+                        non_trivial_result.PipeTo(ui.UserInput);
+                    }
                     kqml.Out.Do(x => Console.WriteLine(x));
-                    kqml.Out.PipeTo(ui.CompResponse);
+                    kqml.Out.Where( x => x != null ).PipeTo(ui.CompResponse);
                     kqml.Out.PipeTo(synthesizer);
-                    synthesizer.SpeakCompleted.Do(x => preproc.setAccepting());
+                    if (NU.Kqml.KioskInputTextPreProcessor.isUsingIsAccepting)
+                    {
+                        synthesizer.SpeakCompleted.Do(x => preproc.setAccepting());
+                    } else
+                    {
+                        synthesizer.SpeakCompleted.Do(x => isAccepting = true);
+                    }                   
                 }
                 else
                 {
@@ -131,12 +201,32 @@
                         return ssrResult;
                     });
                     recognitionResult.PipeTo(preproc.In);
-                    preproc.Out.PipeTo(ui.UserInput);
-                    preproc.Out.PipeTo(ui.CompResponse);
-                    preproc.Out.PipeTo(synthesizer);
-                    synthesizer.SpeakCompleted.Do(x => preproc.setAccepting());
-                    //synthesizer.SpeakStarted;
-                    //synthesizer.SpeakCompleted;
+                    if (NU.Kqml.KioskInputTextPreProcessor.isUsingIsAccepting)
+                    {
+                        preproc.Out.PipeTo(ui.UserInput);
+                        preproc.Out.PipeTo(ui.CompResponse);
+                        preproc.Out.PipeTo(synthesizer);
+                        synthesizer.SpeakCompleted.Do(x => preproc.setAccepting());
+                    }
+                    else
+                    {
+                        var non_trivial_result = preproc.Out.Where(x => {
+                            if (x == null)
+                            {
+                                setAccepting();
+                                return false;
+                            }
+                            else
+                            {
+                                setNotAccepting();
+                                return true;
+                            }
+                        });
+                        non_trivial_result.PipeTo(ui.UserInput);
+                        non_trivial_result.PipeTo(ui.CompResponse);
+                        non_trivial_result.PipeTo(synthesizer);
+                        synthesizer.SpeakCompleted.Do(x => setAccepting());
+                    }
                 }
 
 

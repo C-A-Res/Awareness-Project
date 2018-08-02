@@ -5,32 +5,35 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace NU.Kqml
 {
     public class KioskInputTextPreProcessor : ConsumerProducer<IStreamingSpeechRecognitionResult, string>
     {
-        private bool isAccepting;
+        public static bool isUsingIsAccepting = false;
+        private bool isAccepting = true;
+        private static Regex quote_s = new Regex("[ ][']s");
 
         public KioskInputTextPreProcessor(Pipeline pipeline)
             : base(pipeline)
         {
             // not much needs to be done
-            this.isAccepting = true;
         }
 
         protected override void Receive(IStreamingSpeechRecognitionResult result, Envelope e)
         {
-            string message = result.Text;
+            string message = quote_s.Replace(result.Text, "'s");
             double confidence = result.Confidence.Value;
-            Console.WriteLine($"[KioskInputTextPreProcessor] Received {message} with confidence {confidence}; isAccepting {isAccepting}.");
-            if (isAccepting && confidence > 0.3)
+            Console.WriteLine($"[KioskInputTextPreProcessor] Received {message} with confidence {confidence}; ");// isAccepting {isAccepting}.");
+            if ((!isUsingIsAccepting || isUsingIsAccepting && isAccepting) && confidence > 0.3)
             {
-                isAccepting = false;
+                //isAccepting = false;
                 switch (message)
                 {
                     case "":
+                    case "Hi":
                     case "Hello":
                     case "Greetings":
                     case "Good morning":
@@ -43,17 +46,37 @@ namespace NU.Kqml
                     case "huh?":
                     case "wow!":
                     case "huck you":
+                    case "bye":
+                    case "bye bye":
                         Console.WriteLine($"[KioskInputTextPreProcessor] Discarding message: {message}");
-                        isAccepting = true;
+                        if (isUsingIsAccepting)
+                        {
+                            isAccepting = true;
+                        } else
+                        {
+                            this.Out.Post(null, DateTime.Now);
+                        }
                         break;
                     case "Reload grammars":
                         Console.WriteLine($"[KioskInputTextPreProcessor] Command handle not implemented: {message}");
-                        isAccepting = true;
+                        if (isUsingIsAccepting)
+                        {
+                            isAccepting = true;
+                        } else
+                        {
+                            this.Out.Post(null, DateTime.Now);
+                        }
                         break;
                     default:
                         this.Out.Post(message, DateTime.Now);
                         Console.WriteLine($"[KioskInputTextPreProcessor] Starting timer.");
-                        restartAcceptingInMs(10000);                        
+                        if (isUsingIsAccepting)
+                        {
+                            restartAcceptingInMs(10000); 
+                        } else
+                        {
+                            // do nothing
+                        }
                         break;
                 }
             }
@@ -72,7 +95,8 @@ namespace NU.Kqml
                 setAccepting();
                 Console.WriteLine($"[KioskInputTextPreProcessor] Timer stopped; once again accepting.");
             }
-            else {
+            else
+            {
                 Console.WriteLine($"[KioskInputTextPreProcessor] Timer stopped; already accepting.");
             }
         }
