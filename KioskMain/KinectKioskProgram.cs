@@ -68,7 +68,7 @@
         public static void Main(string[] args)
         {
             bool detected = false;
-            bool usingKqml = false;
+            bool usingKqml = true;
             string facilitatorIP = args[0]; 
             int facilitatorPort = int.Parse(args[1]); 
             int localPort = int.Parse(args[2]);
@@ -143,7 +143,7 @@
                 ////});
 
                 NU.Kqml.SocketStringConsumer kqml = null;
-                NU.Kqml.KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline);
+                NU.Kqml.KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline, (SystemSpeechRecognizer)recognizer);
                 KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
                 mouthOpen.PipeTo(ui.FaceDetected);
                 if (usingKqml)
@@ -231,7 +231,7 @@
                         non_trivial_result.PipeTo(ui.UserInput);
                         var delayed = non_trivial_result.Select(result =>
                         {
-                            Thread.Sleep(8000);
+                            Thread.Sleep(3000);
                             return result;
                         });
                         TimeSpan the_wait = TimeSpan.FromSeconds(13.0);

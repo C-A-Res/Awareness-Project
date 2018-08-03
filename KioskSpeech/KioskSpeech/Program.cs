@@ -104,9 +104,9 @@ namespace NU.Kiosk.Speech
                 // we use Psi's Where() operator to filter out only the final recognition results.
                 var finalResults = recognizer.Out.Where(result => result.IsFinal);
 
-                KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline);
                 KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
                 SystemSpeechSynthesizer speechSynth = CreateSpeechSynthesizer(pipeline);
+                KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline, (SystemSpeechRecognizer)recognizer);
 
                 finalResults.PipeTo(preproc.In);
                 preproc.Out.PipeTo(ui.UserInput);

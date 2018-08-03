@@ -1,35 +1,26 @@
-﻿<grammar xmlns="http://www.w3.org/2001/06/grammar"
-			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			xsi:schemaLocation="http://www.w3.org/2001/06/grammar 
-								http://www.w3.org/TR/speech-grammar/grammar.xsd"
-			xml:lang="en-US" version="1.0"
-			tag-format="semantics-ms/1.0"
-			root="Top">
-
-
+<grammar xmlns="http://www.w3.org/2001/06/grammar" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/06/grammar          http://www.w3.org/TR/speech-grammar/grammar.xsd" xml:lang="en-US" version="1.0" tag-format="semantics-ms/1.0" root="Top">
   <rule id="Top">
     <one-of>
       <item>
-        <ruleref uri="#Greeting"/>
+        <ruleref uri="#Greeting" />
       </item>
       <item>
-        <ruleref uri="#WrapUp"/>
+        <ruleref uri="#WrapUp" />
       </item>
       <item>
-        <ruleref uri="#Interjection"/>
+        <ruleref uri="#Interjection" />
       </item>
       <item>
-        <ruleref uri="#Question"/>
+        <ruleref uri="#Question" />
       </item>
       <item>
-        <ruleref uri="#Command"/>
+        <ruleref uri="#Command" />
       </item>
       <item>
-        <ruleref uri="#EasterEggs"/>
+        <ruleref uri="#EasterEggs" />
       </item>
     </one-of>
   </rule>
-
   <rule id="Greeting">
     <one-of>
       <item>Hello</item>
@@ -37,14 +28,7 @@
       <item>Greetings</item>
       <item>
         Good
-        <one-of>
-          <item>morning</item>
-          <item>afternoon</item>
-          <item>evening</item>
-          <item>day</item>
-          <item>night</item>
-        </one-of>
-      </item>
+        <one-of><item>morning</item><item>afternoon</item><item>evening</item><item>day</item><item>night</item></one-of></item>
       <item>How are you</item>
       <item>What's Sup</item>
       <item>Sup</item>
@@ -74,19 +58,19 @@
   <rule id="Question">
     <one-of>
       <item>
-        <ruleref uri="#WhoQuestion"/>
+        <ruleref uri="#WhoQuestion" />
       </item>
       <item>
-        <ruleref uri="#HowQuestion"/>
+        <ruleref uri="#HowQuestion" />
       </item>
       <item>
-        <ruleref uri="#WhatQuestion"/>
+        <ruleref uri="#WhatQuestion" />
       </item>
       <item>
-        <ruleref uri="#WhenQuestion"/>
+        <ruleref uri="#WhenQuestion" />
       </item>
       <item>
-        <ruleref uri="#WhereQuestion"/>
+        <ruleref uri="#WhereQuestion" />
       </item>
     </one-of>
   </rule>
@@ -100,15 +84,20 @@
       <item>Beam me up, Scotty!</item>
       <item>Huck you</item>
       <item>Say something</item>
+      <item>May the force be with you, <ruleref uri="#PersonReference" /></item>
+      <item>I've; see-een, thingss, you people wouldn't belee-eeve.</item>
+      <item>Attack ships on fye-err off, shoulder of-oh ryon.</item>
+      <item>I watched C beams; glitter in the dark near the Tannhäuser Gate.</item>
+      <item>All those, moments; will be lost; in time; like; tears; in rain</item>
+      <item>Dead or alive, you're coming with me</item>
     </one-of>
   </rule>
   <rule id="WhoQuestion">
     <one-of>
       <item>
-        Who is <ruleref uri="#PersonReference"/>
-      </item>
+        Who is <ruleref uri="#PersonReference" /></item>
       <item>
-        Can you tell me who <ruleref uri="#PersonReference"/> is
+        Can you tell me who <ruleref uri="#PersonReference" /> is
       </item>
     </one-of>
   </rule>
@@ -116,23 +105,7 @@
     <one-of>
       <item>
         How
-        <one-of>
-          <item>do</item>
-          <item>can</item>
-          <item>could</item>
-          <item>may</item>
-        </one-of>
-        <one-of>
-          <item>I</item>
-          <item>We</item>
-        </one-of>
-        <one-of>
-          <item>get to</item>
-          <item>find</item>
-          <item>reach</item>
-        </one-of>
-        <ruleref uri="#LocationAndPerson"/>
-      </item>
+        <one-of><item>do</item><item>can</item><item>could</item><item>may</item></one-of><one-of><item>I</item><item>We</item></one-of><one-of><item>get to</item><item>find</item><item>reach</item></one-of><ruleref uri="#LocationAndPerson" /></item>
     </one-of>
   </rule>
   <rule id="WhatQuestion">
@@ -140,10 +113,10 @@
       <item>What time is it</item>
       <item>What is going on today</item>
       <item>
-        What is <ruleref uri="#PersonReference"/>'s email
+        What is <ruleref uri="#PersonReference" />'s email
       </item>
       <item>
-        Can you tell me what <ruleref uri="#PersonReference"/>'s email is
+        Can you tell me what <ruleref uri="#PersonReference" />'s email is
       </item>
       <item>What do I have today</item>
       <item>What talks are today</item>
@@ -152,75 +125,43 @@
   <rule id="WhenQuestion">
     <one-of>
       <item>
-        Can you tell me when <ruleref uri="#EventName"/> is
+        Can you tell me when <ruleref uri="#EventName" /> is
       </item>
       <item>
-        When does <ruleref uri="#EventName"/> meet
+        When does <ruleref uri="#EventName" /> meet
       </item>
       <item>
-        When is <ruleref uri="#EventName"/>
-      </item>
+        When is <ruleref uri="#EventName" /></item>
       <item>
         When is the next
-        <item repeat="0-1">
-          <one-of>
-            <item>Northbound</item>
-            <item>Southbound</item>
-          </one-of>
-        </item>
-        <one-of>
-          <item>intercampus shuttle</item>
-          <item>shuttle</item>
-          <item>2 01</item>
-          <item>2 01 bus</item>
-          <item>Evanston Loop</item>
-        </one-of>
-        <item repeat="0-1">
+        <item repeat="0-1"><one-of><item>Northbound</item><item>Southbound</item></one-of></item><one-of><item>intercampus shuttle</item><item>shuttle</item><item>2 01</item><item>2 01 bus</item><item>Evanston Loop</item></one-of><item repeat="0-1">
           to
-          <one-of>
-            <item>Downtown Chicago</item>
-            <item>South Campus</item>
-            <item>the Chicago Campus</item>
-            <item>Chicago Campus</item>
-          </one-of>
-        </item>
-      </item>
+          <one-of><item>Downtown Chicago</item><item>South Campus</item><item>the Chicago Campus</item><item>Chicago Campus</item></one-of></item></item>
     </one-of>
   </rule>
   <rule id="WhereQuestion">
     <one-of>
       <item>
-        Where is <ruleref uri="#LocationAndPerson"/>
-      </item>
+        Where is <ruleref uri="#LocationAndPerson" /></item>
       <item>
-        Where can I find <ruleref uri="#ThingsOfInterest"/>
-      </item>
+        Where can I find <ruleref uri="#ThingsOfInterest" /></item>
       <item>
         Where can I 
-        <one-of>
-          <item>pick up</item>
-          <item>get</item>
-          <item>fetch</item>
-        </one-of>
-        <ruleref uri="#LunchPickUp"/>
-      </item>
+        <one-of><item>pick up</item><item>get</item><item>fetch</item></one-of><ruleref uri="#LunchPickUp" /></item>
       <item>Where am I</item>
       <item>
-        Where does <ruleref uri="#PersonReference"/> work
+        Where does <ruleref uri="#PersonReference" /> work
       </item>
       <item>
-        Can you tell me where <ruleref uri="#LocationAndPerson"/> is
+        Can you tell me where <ruleref uri="#LocationAndPerson" /> is
       </item>
       <item>
-        Do you know where <ruleref uri="#LocationAndPerson"/> is
+        Do you know where <ruleref uri="#LocationAndPerson" /> is
       </item>
       <item>
-        Where is <ruleref uri="#EventName"/>
-      </item>
+        Where is <ruleref uri="#EventName" /></item>
     </one-of>
   </rule>
-  
-
   <rule id="ThingsOfInterest">
     <one-of>
       <item>
@@ -244,8 +185,6 @@
       </item>
     </one-of>
   </rule>
-
-
   <rule id="english_article">
     <one-of>
       <item>a</item>
@@ -255,7 +194,6 @@
       <item>the</item>
     </one-of>
   </rule>
-  
   <rule id="ObjectsOfInterest">
     <item repeat="0-1">
       <ruleref uri="#english_article" />
@@ -272,14 +210,14 @@
       <item>water fountain</item>
       <item>tea</item>
       <item>something to eat</item>
+      <item>ice cream</item>
     </one-of>
   </rule>
-  
   <rule id="PlacesOfInterest">
     <one-of>
       <item>
         <item repeat="0-1">
-          <ruleref uri="#english_article"/>
+          <ruleref uri="#english_article" />
         </item>
         <item repeat="0-1">
           <one-of>
@@ -293,15 +231,11 @@
         </one-of>
       </item>
       <item>
-        <ruleref uri="#PersonReference"/>'s 
-        <one-of>
-          <item>office</item>
-          <item>desk</item>
-        </one-of>
-      </item>
+        <ruleref uri="#PersonReference" />'s 
+        <one-of><item>office</item><item>desk</item></one-of></item>
       <item>
         <item repeat="0-1">
-          <ruleref uri="#english_article"/>
+          <ruleref uri="#english_article" />
         </item>
         <one-of>
           <item>empty room</item>
@@ -309,8 +243,7 @@
         </one-of>
       </item>
       <item>
-        Ford <ruleref uri="#OfficeNumber"/>
-      </item>
+        Ford <ruleref uri="#OfficeNumber" /></item>
     </one-of>
   </rule>
   <rule id="LunchPickUp">
@@ -338,10 +271,11 @@
       </one-of>
     </item>
   </rule>
-  
   <rule id="EventName">
     <one-of>
-      <item><ruleref uri="#Courses" /></item>
+      <item>
+        <ruleref uri="#Courses" />
+      </item>
       <item>
         <ruleref uri="#GenericEvent" />
       </item>
@@ -358,12 +292,15 @@
     <one-of>
       <item>The Art and Science of Picasso's Blues</item>
       <item>Economic Thinking of Communication Networks</item>
+      <item>Hank Willis Thomas: Unbranded</item>
+      <item>Wildcats, Cubs and Giants at AT&amp;T Park</item>
     </one-of>
   </rule>
   <rule id="RecurringEvent">
     <one-of>
       <item>Algorithm Coffee</item>
-      <item>Body pump</item>      
+      <item>Body pump</item>
+      <item>EECS Free Bagel and Coffee</item>
     </one-of>
   </rule>
   <rule id="GenericEvent">
@@ -410,8 +347,12 @@
   </rule>
   <rule id="Courses">
     <one-of>
-      <item><ruleref uri="#Courses_name" /></item>
-      <item><ruleref uri="#Courses_id" /></item>
+      <item>
+        <ruleref uri="#Courses_name" />
+      </item>
+      <item>
+        <ruleref uri="#Courses_id" />
+      </item>
     </one-of>
   </rule>
   <rule id="Courses_name">
@@ -1023,23 +964,14 @@
   <rule id="Courses_id">
     <one-of>
       <item>
-        EECS <ruleref uri="#Three_digit_number" />
-      </item>
+        EECS <ruleref uri="#Three_digit_number" /></item>
       <item>
-        BME <ruleref uri="#Three_digit_number" />
-      </item>
+        BME <ruleref uri="#Three_digit_number" /></item>
       <item>
-        Cog Sci <ruleref uri="#Three_digit_number" />
-      </item>
+        Cog Sci <ruleref uri="#Three_digit_number" /></item>
       <item>
         EA 
-        <one-of>
-          <item>1</item>
-          <item>2</item>
-          <item>3</item>
-          <item>4</item>
-        </one-of>
-      </item>
+        <one-of><item>1</item><item>2</item><item>3</item><item>4</item></one-of></item>
       <item>
         <ruleref uri="#Three_digit_number" />
       </item>
@@ -1047,29 +979,34 @@
   </rule>
   <rule id="Three_digit_number">
     <one-of>
-      <item><ruleref uri="#OneToNine" /> hundred</item>
-      <item><ruleref uri="#OneToNine" /> o <ruleref uri="#OneToNine" /></item>
-      <item><ruleref uri="#OneToNine" /> <ruleref uri="#TenToNinetyNine" /></item>
+      <item>
+        <ruleref uri="#OneToNine" /> hundred</item>
+      <item>
+        <ruleref uri="#OneToNine" /> o <ruleref uri="#OneToNine" /></item>
+      <item>
+        <ruleref uri="#OneToNine" />
+        <ruleref uri="#TenToNinetyNine" />
+      </item>
     </one-of>
   </rule>
   <rule id="OfficeNumber">
-    <ruleref uri="#OneToNine"/>
-    <ruleref uri="#Three_digit_number"/>
+    <ruleref uri="#OneToNine" />
+    <ruleref uri="#Three_digit_number" />
   </rule>
   <rule id="ZeroToNinetyNine">
     <one-of>
       <item>o</item>
       <item>zero</item>
       <item>
-        <ruleref uri="#OneToNine"/>
+        <ruleref uri="#OneToNine" />
       </item>
       <item>
-        <ruleref uri="#TenToNineteen"/>
+        <ruleref uri="#TenToNineteen" />
       </item>
       <item>
-        <ruleref uri="#TwentyToNinety"/>
+        <ruleref uri="#TwentyToNinety" />
         <item repeat="0-1">
-          <ruleref uri="#OneToNine"/>
+          <ruleref uri="#OneToNine" />
         </item>
       </item>
     </one-of>
@@ -1077,12 +1014,12 @@
   <rule id="TenToNinetyNine">
     <one-of>
       <item>
-        <ruleref uri="#TenToNineteen"/>
+        <ruleref uri="#TenToNineteen" />
       </item>
       <item>
-        <ruleref uri="#TwentyToNinety"/>
+        <ruleref uri="#TwentyToNinety" />
         <item repeat="0-1">
-          <ruleref uri="#OneToNine"/>
+          <ruleref uri="#OneToNine" />
         </item>
       </item>
     </one-of>
@@ -1140,39 +1077,41 @@
   <rule id="PersonReference">
     <one-of>
       <item>
-        <ruleref uri="#ExplicitPersonName"/>
+        <ruleref uri="#ExplicitPersonName" />
       </item>
       <item>
-        <ruleref uri="#TitledName"/>
+        <ruleref uri="#TitledName" />
       </item>
     </one-of>
   </rule>
   <rule id="ExplicitPersonName">
     <one-of>
       <item>
-        <ruleref uri="#FirstName"/>
+        <ruleref uri="#FirstName" />
       </item>
       <item>
-        <ruleref uri="#NickName"/>
+        <ruleref uri="#NickName" />
       </item>
       <item>
-        <ruleref uri="#MiddleName"/>
+        <ruleref uri="#MiddleName" />
       </item>
       <!--<item>
         <ruleref uri="#LastName"/>
       </item>-->
       <item>
-        <ruleref uri="#FullName"/>
+        <ruleref uri="#FullName" />
       </item>
     </one-of>
   </rule>
   <rule id="TitledName">
     <one-of>
       <item>
-        <ruleref uri="#PersonTitle"/> <ruleref uri="#LastName"/>
+        <ruleref uri="#PersonTitle" />
+        <ruleref uri="#LastName" />
       </item>
       <item>
-        <ruleref uri="#PersonTitle"/> <ruleref uri="#FullName"/>
+        <ruleref uri="#PersonTitle" />
+        <ruleref uri="#FullName" />
       </item>
     </one-of>
   </rule>

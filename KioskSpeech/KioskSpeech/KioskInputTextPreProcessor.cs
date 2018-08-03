@@ -1,6 +1,8 @@
 ﻿using Microsoft.Psi;
+using Microsoft.Psi.Audio;
 using Microsoft.Psi.Components;
 using Microsoft.Psi.Speech;
+using NU.Kiosk.Speech;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +16,16 @@ namespace NU.Kqml
     {
         public static bool isUsingIsAccepting = false;
         private bool isAccepting = true;
+        private SystemSpeechRecognizer recognizer;
+        private int ReloadMessageIDCurrent = 0;
         private static Regex quote_s = new Regex("[ ][']s");
 
-        public KioskInputTextPreProcessor(Pipeline pipeline)
+        public KioskInputTextPreProcessor(Pipeline pipeline, SystemSpeechRecognizer rec)
             : base(pipeline)
         {
-            // not much needs to be done
+            this.recognizer = rec;
         }
-
+        
         protected override void Receive(IStreamingSpeechRecognitionResult result, Envelope e)
         {
             string message = quote_s.Replace(result.Text, "'s");
@@ -58,15 +62,31 @@ namespace NU.Kqml
                         }
                         break;
                     case "Reload grammars":
-                        Console.WriteLine($"[KioskInputTextPreProcessor] Command handle not implemented: {message}");
-                        if (isUsingIsAccepting)
+                        Console.WriteLine($"[KioskInputTextPreProcessor] Reloading grammar.");
                         {
-                            isAccepting = true;
-                        } else
-                        {
-                            this.Out.Post(null, DateTime.Now);
+                            var gw = new GrammarWriter();
+                            gw.ReadFileAndConvert();
+                            string updatedGrammar = gw.GetResultString();
+
+                            DateTime post_time = new DateTime();
+
+                            Message<System.Collections.Generic.IEnumerable<String>> updateRequest =
+                                new Message<System.Collections.Generic.IEnumerable<String>>(
+                                    new String[] {
+                                    updatedGrammar
+                                    }, post_time, post_time, 9876, ReloadMessageIDCurrent++);
+                            recognizer.SetGrammars(updateRequest);
+                            gw.WriteToFile();
+                            if (isUsingIsAccepting)
+                            {
+                                isAccepting = true;
+                            }
+                            else
+                            {
+                                this.Out.Post(null, DateTime.Now);
+                            }
+                            break;
                         }
-                        break;
                     default:
                         this.Out.Post(message, DateTime.Now);
                         Console.WriteLine($"[KioskInputTextPreProcessor] Starting timer.");
