@@ -7,10 +7,27 @@ header{
   height: 75px;
 }
 
+.indicators {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  margin: 5px;
+  position: relative;
+}
+
+#connected {
+  background-color: grey;
+  top: 10px;
+}
+
 #listening {
   background-color: red;
-  height: 50px;
-  width: 50px;
+  top: 25px;
+}
+
+#thinking {
+  background-color: yellow;
+  top: 40px;
 }
 
 .newuserDiv{
@@ -48,6 +65,7 @@ header{
   position: absolute;
   top: 150px;
   left: 70px;
+  transition: transform 1s;
 }
 
 .ball:before {
@@ -213,9 +231,15 @@ header{
 }
 
 @keyframes roll {
-  0% { transform: rotate(355deg); }
-  50% { transform: rotate(345deg); }
-  100% { transform: rotate(355deg); }
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(-15deg) scale(0.9) translateY(10px); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+@keyframes breathe {
+  0% { transform: scale(1); }
+  75% { transform: scaleX(1.01) scaleY(1.01)  ; }
+  100% { transform: scale(1); }
 }
 
 @keyframes shadow-bounce {
@@ -233,9 +257,9 @@ header{
 }
 
 @keyframes shadow-roll {
-  0% { transform: scale(1); }
-  50% {  transform: translateX(-5px);}
-  100% { transform: scale(1); }
+  0% { transform: scale(0.95); }
+  50% {  transform: translateX(-5px) scale(0.9);}
+  100% { transform: scale(0.95); }
 }
 
 @keyframes look-down {

@@ -23,8 +23,13 @@
       var eye1 = document.getElementById("eye1");
       var eye2 = document.getElementById("eye2");
 
+      var connected = document.getElementById("connected");
+      var listening = document.getElementById("listening");
+      var thinking = document.getElementById("thinking");
+
       function animateAvitar(state) {
         if (state != avatarState) {
+          thinking.style.backgroundColor = "yellow";
           ball.style.animation = "none";
           shadow.style.animation = "none";
           ball.offsetHeight;
@@ -41,6 +46,7 @@
               eye2.classList.add('eye');
               ball.style.animation = "bounce 2s ease-out 2";
               shadow.style.animation = "shadow-bounce 2s ease-out 2";
+              thinking.style.backgroundColor = "maroon";
               break;
             case "thinking":
               eye1.classList.remove('eye');
@@ -49,13 +55,16 @@
               eye2.classList.add('eye-down');
               ball.style.animation = "lil-bounce 2s linear infinite";
               shadow.style.animation = "shadow-lil-bounce 2s linear infinite";
+              thinking.style.backgroundColor = "orange";
               break;
             case "listening":
+              output("test");
               eye1.classList.remove('eye-down');
               eye1.classList.add('eye');
               eye2.classList.remove('eye-down');
               eye2.classList.add('eye');
-              ball.style.animation = "none";
+              //ball.style.transition = "transform 1s";
+              ball.style.animation = "breathe 3s linear infinite";
               shadow.style.animation = "none";
               break;
             case "sleeping":
@@ -98,6 +107,7 @@
       // Set event handlers.
       ws.onopen = function() {
         output("onopen");
+        connected.style.backgroundColor = "darkblue";
       };
       
       ws.onmessage = function(e) {
@@ -133,6 +143,7 @@
       
       ws.onclose = function() {
         output("onclose");
+        connected.style.backgroundColor = "gray";
       };
 
       ws.onerror = function(e) {
@@ -186,8 +197,13 @@
         <span class="eye" id="eye2"></span>
       </figure>
     </div>
+    <div id="lights">    
+      <div id="connected" class="indicators"></div>
+      <div id="listening" class="indicators"></div>
+      <div id="thinking" class="indicators"></div>
+    </div>
   </div>
-  <div id="listening"></div>
+  
   <form onsubmit="onSubmit(); return false;">
     <input type="text" id="input">
     <input type="submit" value="Send">
