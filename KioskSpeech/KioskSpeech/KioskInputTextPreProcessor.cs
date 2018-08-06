@@ -64,7 +64,7 @@ namespace NU.Kqml
                     case "Reload grammars":
                         Console.WriteLine($"[KioskInputTextPreProcessor] Reloading grammar.");
                         {
-                            var gw = new GrammarWriter();
+                            var gw = new Kiosk.AllXMLGrammarWriter(@"Resources\BaseGrammar.grxml");
                             gw.ReadFileAndConvert();
                             string updatedGrammar = gw.GetResultString();
 
@@ -92,7 +92,11 @@ namespace NU.Kqml
                         Console.WriteLine($"[KioskInputTextPreProcessor] Starting timer.");
                         if (isUsingIsAccepting)
                         {
-                            restartAcceptingInMs(10000); 
+                            if (isAccepting)
+                            {
+                                isAccepting = false;
+                                restartAcceptingInMs(10000);
+                            }                            
                         } else
                         {
                             // do nothing

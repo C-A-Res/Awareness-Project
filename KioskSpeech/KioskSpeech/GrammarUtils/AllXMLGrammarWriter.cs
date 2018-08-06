@@ -9,35 +9,29 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Microsoft.Psi.Samples.SpeechSample
+namespace NU.Kiosk
 {
     class AllXMLGrammarWriter
     {
         static XNamespace defaultNs = "http://www.w3.org/2001/06/grammar";
 
-        private string input_file_path = @"Resources\OriginalGrammar.grxml";
-        private string output_file_path = @"Resources\GeneratedGrammar.grxml";
+        private string input_file_path = @"Resources\BaseGrammar.grxml";
+        private string output_file_path = @"Resources\BaseGrammar.grxml";
         //Dictionary<string, XElement> rules_one_of = new Dictionary<string, XElement>();
         XElement root;
 
-        public AllXMLGrammarWriter(string input_file_path = @"Resources\OriginalGrammar.grxml")
+        public AllXMLGrammarWriter(string input_file_path = @"Resources\BaseGrammar.grxml")
         {
             this.input_file_path = input_file_path;
-            //ReadOriginalXMLFile(this.input_file_path);
         }
-
-        //public void ReadOriginalXMLFile(string input_file_path = @"Resources\OriginalGrammar.grxml")
-        //{
-        //    // load the base template 
-        //    root = XElement.Load(input_file_path);
-        //}
-
+        
         public void ReadFileAndConvert(string file_path = @"Resources\AdditionalGrammarToBeMerged.grxml")
         {
             XElement left = XElement.Load(input_file_path);
             XElement right = XElement.Load(file_path);
             MergeToLeft(left, right);
-            Console.WriteLine(left.ToString());
+            root = left;
+            Console.WriteLine($"[ReadFileAndConvert] Merged grammar from '{file_path}' to '{input_file_path}'.");
         }
 
         private void MergeToLeft(XElement left, XElement right)
@@ -46,7 +40,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
             var leftElements = left.Elements();
             foreach (XElement e in right.Elements())
             {
-                Console.WriteLine("[MergeToLeft] for each e in right: {0}", e);
+                //Console.WriteLine("[MergeToLeft] for each e in right: {0}", e);
                 IEnumerable<XElement> foundElements = leftElements.Where(
                         (x) => {
                             if (!x.Name.LocalName.Equals(e.Name.LocalName))
@@ -110,6 +104,7 @@ namespace Microsoft.Psi.Samples.SpeechSample
             System.IO.File.WriteAllText(out_path, root.ToString());
             string project_dir = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory()));
             System.IO.File.WriteAllText(project_dir + "\\" + out_path, root.ToString());
+            Console.WriteLine($"[WriteToFile] Updated grammar written to {out_path}.");
         }
 
         public string GetResultString()

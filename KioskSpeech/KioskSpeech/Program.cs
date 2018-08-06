@@ -41,6 +41,8 @@ namespace NU.Kiosk.Speech
             int facilitatorPort = int.Parse(args[1]);
             int localPort = int.Parse(args[2]);
 
+            KioskInputTextPreProcessor.isUsingIsAccepting = true;
+
             // The root folder under which data will be logged. This may be set to null, which will create
             // a volatile data store to which data can be written for the purposes of live visualization.
             string outputLogPath = null;
@@ -209,7 +211,7 @@ namespace NU.Kiosk.Speech
             {
                 case "Reload grammars":
                     {
-                        var gw = new GrammarWriter();
+                        var gw = new AllXMLGrammarWriter();
                         gw.ReadFileAndConvert();
                         string updatedGrammar = gw.GetResultString();
 

@@ -2,6 +2,22 @@
   <rule id="Top">
     <one-of>
       <item>
+        Hey Kiosk.
+      </item>
+      <item>
+        <item repeat="0-1">
+          Hey Kiosk.
+        </item>
+        <ruleref uri="#Root" />
+      </item>
+      <item>
+        <ruleref uri="#Root" />
+      </item>
+    </one-of>
+  </rule>
+  <rule id="Root">
+    <one-of>
+      <item>
         <ruleref uri="#Greeting" />
       </item>
       <item>
@@ -72,6 +88,9 @@
       <item>
         <ruleref uri="#WhereQuestion" />
       </item>
+      <item>
+        <ruleref uri="#HaveDidQuestion" />
+      </item>
     </one-of>
   </rule>
   <rule id="Command">
@@ -82,7 +101,28 @@
   <rule id="EasterEggs">
     <one-of>
       <item>Beam me up, Scotty!</item>
-      <item>May the force be with you, <ruleref uri="#PersonReference" /></item>
+      <item>
+        May the force be with you, <ruleref uri="#PersonReference" /></item>
+      <item>I've; see-een, thingss, you people wouldn't belee-eeve.</item>
+      <item>Attack ships on fye-err off, shoulder of-oh ryon.</item>
+      <item>I watched C beams; glitter in the dark near the Tannhäuser Gate.</item>
+      <item>All those, moments; will be lost; in time; like; tears; in rain</item>
+      <item>Dead or alive, you're coming with me</item>
+      <item>I've; see-een, thingss, you people wouldn't belee-eeve.</item>
+      <item>Attack ships on fye-err off, shoulder of-oh ryon.</item>
+      <item>I watched C beams; glitter in the dark near the Tannhäuser Gate.</item>
+      <item>All those, moments; will be lost; in time; like; tears; in rain</item>
+      <item>Dead or alive, you're coming with me</item>
+      <item>I've; see-een, thingss, you people wouldn't belee-eeve.</item>
+      <item>Attack ships on fye-err off, shoulder of-oh ryon.</item>
+      <item>I watched C beams; glitter in the dark near the Tannhäuser Gate.</item>
+      <item>All those, moments; will be lost; in time; like; tears; in rain</item>
+      <item>Dead or alive, you're coming with me</item>
+      <item>I've; see-een, thingss, you people wouldn't belee-eeve.</item>
+      <item>Attack ships on fye-err off, shoulder of-oh ryon.</item>
+      <item>I watched C beams; glitter in the dark near the Tannhäuser Gate.</item>
+      <item>All those, moments; will be lost; in time; like; tears; in rain</item>
+      <item>Dead or alive, you're coming with me</item>
       <item>I've; see-een, thingss, you people wouldn't belee-eeve.</item>
       <item>Attack ships on fye-err off, shoulder of-oh ryon.</item>
       <item>I watched C beams; glitter in the dark near the Tannhäuser Gate.</item>
@@ -120,6 +160,17 @@
       <item>What talks are today</item>
     </one-of>
   </rule>
+  <rule id="HaveDidQuestion">
+    <one-of>
+      <item>
+        <one-of>
+          <item>Have you seen </item>
+          <item>Did you see </item>
+        </one-of>
+        <ruleref uri="#PersonReference" />
+        <item repeat="0-1">today</item>?</item>
+    </one-of>
+  </rule>
   <rule id="WhenQuestion">
     <one-of>
       <item>
@@ -143,9 +194,16 @@
         Where is <ruleref uri="#LocationAndPerson" /></item>
       <item>
         Where can I find <ruleref uri="#ThingsOfInterest" /></item>
-      <item>
+      <!--<item>
         Where can I 
-        <one-of><item>pick up</item><item>get</item><item>fetch</item></one-of><ruleref uri="#LunchPickUp" /></item>
+        <one-of>
+          <item>pick up</item>
+          <item>get</item>
+          <item>fetch</item>
+          <item>find</item>
+        </one-of>
+        <ruleref uri="#LunchPickUp"/>
+      </item>-->
       <item>Where am I</item>
       <item>
         Where does <ruleref uri="#PersonReference" /> work
@@ -208,6 +266,10 @@
       <item>water fountain</item>
       <item>tea</item>
       <item>something to eat</item>
+      <item>ice cream</item>
+      <item>ice cream</item>
+      <item>ice cream</item>
+      <item>ice cream</item>
       <item>ice cream</item>
     </one-of>
   </rule>
@@ -292,12 +354,24 @@
       <item>Economic Thinking of Communication Networks</item>
       <item>Hank Willis Thomas: Unbranded</item>
       <item>Wildcats, Cubs and Giants at AT&amp;T Park</item>
+      <item>Hank Willis Thomas: Unbranded</item>
+      <item>Wildcats, Cubs and Giants at AT&amp;T Park</item>
+      <item>Hank Willis Thomas: Unbranded</item>
+      <item>Wildcats, Cubs and Giants at AT&amp;T Park</item>
+      <item>Hank Willis Thomas: Unbranded</item>
+      <item>Wildcats, Cubs and Giants at AT&amp;T Park</item>
+      <item>Hank Willis Thomas: Unbranded</item>
+      <item>Wildcats, Cubs and Giants at AT&amp;T Park</item>
     </one-of>
   </rule>
   <rule id="RecurringEvent">
     <one-of>
       <item>Algorithm Coffee</item>
       <item>Body pump</item>
+      <item>EECS Free Bagel and Coffee</item>
+      <item>EECS Free Bagel and Coffee</item>
+      <item>EECS Free Bagel and Coffee</item>
+      <item>EECS Free Bagel and Coffee</item>
       <item>EECS Free Bagel and Coffee</item>
     </one-of>
   </rule>

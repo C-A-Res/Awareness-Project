@@ -12,18 +12,18 @@ namespace Microsoft.Psi.Samples.SpeechSample
     {
         static XNamespace defaultNs = "http://www.w3.org/2001/06/grammar";
 
-        private string input_file_path = @"Resources\OriginalGrammar.grxml";
-        private string output_file_path = @"Resources\GeneratedGrammar.grxml";
+        private string input_file_path = @"Resources\BaseGrammar.grxml";
+        private string output_file_path = @"Resources\BaseGrammar.grxml";
         Dictionary<string, XElement> rules_one_of = new Dictionary<string, XElement>();
         XElement root;
 
-        public PrimitiveGrammarWriter(string input_file_path = @"Resources\OriginalGrammar.grxml")
+        public PrimitiveGrammarWriter(string input_file_path = @"Resources\BaseGrammar.grxml")
         {
             this.input_file_path = input_file_path;
             ReadXMLFile(this.input_file_path);
         }
 
-        public void ReadXMLFile(string input_file_path = @"Resources\OriginalGrammar.grxml")
+        public void ReadXMLFile(string input_file_path = @"Resources\BaseGrammar.grxml")
         {
             // load the base template 
             root = XElement.Load(input_file_path);
