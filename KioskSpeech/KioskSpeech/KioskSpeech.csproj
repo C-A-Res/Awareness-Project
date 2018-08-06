@@ -298,9 +298,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Readme.md" />
-    <None Include="Resources\OriginalGrammar.grxml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Resources\TestOriginalGrammar.grxml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
