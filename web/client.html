@@ -130,7 +130,8 @@
             textContainer.className = 'newuserDiv';
           }
           textContainer.appendChild(newTextNode);
-          document.getElementById('chatSpace').appendChild(textContainer);          
+          document.getElementById('chatSpace').appendChild(textContainer); 
+          $('#chatSpace').stop().animate({scrollTop: $('#chatSpace')[0].scrollHeight}, 800);
         }
                 //// temp
         if (json_data.debug == "true") {

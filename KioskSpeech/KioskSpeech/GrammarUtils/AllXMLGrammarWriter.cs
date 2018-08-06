@@ -43,41 +43,7 @@ namespace NU.Kiosk
                 //Console.WriteLine("[MergeToLeft] for each e in right: {0}", e);
                 IEnumerable<XElement> foundElements = leftElements.Where(
                         (x) => {
-                            if (!x.Name.LocalName.Equals(e.Name.LocalName))
-                                return false;
-                            switch (x.Name.LocalName)
-                            {
-                                case "rule":
-                                    return x.Attribute("id").Value.Equals(e.Attribute("id").Value);
-                                case "ruleref":
-                                    return x.Attribute("uri").Value.Equals(e.Attribute("uri").Value);
-                                case "item":
-                                    if (!x.Elements().Any())
-                                    {
-                                        // compare the texts
-                                        if (x.Nodes().Count() != e.Nodes().Count())
-                                        {
-                                            return false;
-                                        }
-                                        IEnumerable<XNode> xnodes = x.Nodes();
-                                        IEnumerable<XNode> enodes = e.Nodes();
-                                        for (int i = 0, c = xnodes.Count(); i < c; i++)
-                                        {
-                                            if (!xnodes.ElementAt(i).Equals(enodes.ElementAt(i)))
-                                            {
-                                                return false;
-                                            }
-                                        }
-                                        return true;
-                                    }
-                                    else
-                                    {
-                                        return x.Value.Equals(e.Value);
-                                    }
-                                case "one-of":
-                                default:
-                                    return true;
-                            }
+                            return isRightPartOfLeft(x, e);
                         });
                 if (foundElements.Any())
                 {
@@ -92,6 +58,27 @@ namespace NU.Kiosk
                     // add to left
                     left.Add(e);
                 }
+            }
+        }
+
+        private Boolean isRightPartOfLeft(XElement left, XElement right)
+        {
+            if (!left.Name.LocalName.Equals(right.Name.LocalName))
+            {
+                return false;
+            }                
+            switch (left.Name.LocalName)
+            {
+                case "rule":
+                    return left.Attribute("id").Value.Equals(right.Attribute("id").Value);
+                case "ruleref":
+                    return left.Attribute("uri").Value.Equals(right.Attribute("uri").Value);
+                case "item":
+                    return XNode.DeepEquals(left, right);
+                case "one-of":
+                    return true;
+                default:
+                    return true;
             }
         }
 
