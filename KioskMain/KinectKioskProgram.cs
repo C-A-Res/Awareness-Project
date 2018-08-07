@@ -104,7 +104,7 @@
                     return x ? 1.0 : 0.0;
                 });
 
-                var mouthOpen = mouthOpenAsFloat.Hold(0.1);
+                var mouthOpen = mouthOpenAsFloat.Hold(0.1, 0.01);
                 // mouthOpen.Do(x => Console.Write($"{x} "));
 
                 // Not using speech detector for now
