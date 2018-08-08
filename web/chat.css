@@ -193,6 +193,29 @@ header{
   background: rgba(255, 255, 255, 0.2);
 }
 
+
+.eye-sleep {
+  width: 30%;
+  height: 30%;
+  margin: 30%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 70%, #4400aa 0%, #3700aa 30%, #330099 100%);
+  position: absolute;
+  transition: background 2s;
+}
+.eye-sleep:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 87.5%;
+  height: 37.5%;
+  border: solid 3px;
+  border-color: transparent transparent black transparent;
+  border-radius: 0 0 50% 50%;
+  top: 11.25%;
+  left: 0;
+}
+
 #topSpace{
   display: flex;
 }

@@ -42,8 +42,10 @@
             case "speaking":
               stateLabel.innerHTML = "Speaking";
               eye1.classList.remove('eye-down');
+              eye1.classList.remove('eye-sleep');
               eye1.classList.add('eye');
               eye2.classList.remove('eye-down');
+              eye2.classList.remove('eye-sleep');
               eye2.classList.add('eye');
               ball.style.animation = "bounce 2s ease-out 2";
               shadow.style.animation = "shadow-bounce 2s ease-out 2";
@@ -52,8 +54,10 @@
             case "thinking":
               stateLabel.innerHTML = "Thinking";
               eye1.classList.remove('eye');
+              eye1.classList.remove('eye-sleep');
               eye1.classList.add('eye-down');
               eye2.classList.remove('eye');
+              eye2.classList.remove('eye-sleep');
               eye2.classList.add('eye-down');
               ball.style.animation = "lil-bounce 2s linear infinite";
               shadow.style.animation = "shadow-lil-bounce 2s linear infinite";
@@ -62,8 +66,10 @@
             case "listening":
               stateLabel.innerHTML = "Listening";
               eye1.classList.remove('eye-down');
+              eye1.classList.remove('eye-sleep');
               eye1.classList.add('eye');
               eye2.classList.remove('eye-down');
+              eye2.classList.remove('eye-sleep');
               eye2.classList.add('eye');
               //ball.style.transition = "transform 1s";
               ball.style.animation = "breathe 3s linear infinite";
@@ -72,9 +78,11 @@
             case "sleeping":
               stateLabel.innerHTML = "Sleeping";
               eye1.classList.remove('eye');
-              eye1.classList.add('eye-down');
+              eye1.classList.remove('eye-down');
+              eye1.classList.add('eye-sleep');
               eye2.classList.remove('eye');
-              eye2.classList.add('eye-down');
+              eye2.classList.remove('eye-down');
+              eye2.classList.add('eye-sleep');
               ball.style.animation = "to-roll 1s, roll 5s linear infinite";
               //ball.style.animationName = "roll";
               //ball.style.WebkitAnimationName = "roll";  //browser compatibility
