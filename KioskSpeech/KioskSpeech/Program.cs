@@ -41,6 +41,8 @@ namespace NU.Kiosk.Speech
             int facilitatorPort = int.Parse(args[1]);
             int localPort = int.Parse(args[2]);
 
+            KioskInputTextPreProcessor.isUsingIsAccepting = true;
+
             // The root folder under which data will be logged. This may be set to null, which will create
             // a volatile data store to which data can be written for the purposes of live visualization.
             string outputLogPath = null;
@@ -104,9 +106,9 @@ namespace NU.Kiosk.Speech
                 // we use Psi's Where() operator to filter out only the final recognition results.
                 var finalResults = recognizer.Out.Where(result => result.IsFinal);
 
-                KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline);
                 KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
                 SystemSpeechSynthesizer speechSynth = CreateSpeechSynthesizer(pipeline);
+                KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline, (SystemSpeechRecognizer)recognizer);
 
                 finalResults.PipeTo(preproc.In);
                 preproc.Out.PipeTo(ui.UserInput);
@@ -209,7 +211,7 @@ namespace NU.Kiosk.Speech
             {
                 case "Reload grammars":
                     {
-                        var gw = new GrammarWriter();
+                        var gw = new AllXMLGrammarWriter();
                         gw.ReadFileAndConvert();
                         string updatedGrammar = gw.GetResultString();
 

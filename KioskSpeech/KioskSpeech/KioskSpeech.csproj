@@ -263,7 +263,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GrammarUtils\AllXMLGrammarWriter.cs" />
     <Compile Include="GrammarUtils\GrammarWriter.cs" />
+    <Compile Include="GrammarUtils\PrimitiveGrammarWriter.cs" />
     <Compile Include="KioskInputTextPreProcessor.cs" />
     <Compile Include="Kqml.cs" />
     <Compile Include="Class3.cs" />
@@ -276,7 +278,10 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Resources\GeneratedGrammar.grxml">
+    <None Include="Resources\AdditionalGrammarToBeMerged.grxml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\BaseGrammar.grxml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="Resources\primitive_grammar.txt">
@@ -293,6 +298,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Readme.md" />
+    <None Include="Resources\TestOriginalGrammar.grxml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7">

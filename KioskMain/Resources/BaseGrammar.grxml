@@ -1,4 +1,4 @@
-﻿<grammar xmlns="http://www.w3.org/2001/06/grammar"
+<grammar xmlns="http://www.w3.org/2001/06/grammar"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			xsi:schemaLocation="http://www.w3.org/2001/06/grammar 
 								http://www.w3.org/TR/speech-grammar/grammar.xsd"
@@ -196,7 +196,7 @@
         Where can I find <ruleref uri="#ThingsOfInterest"/>
       </item>
       <item>
-        Where can I 
+        Where can I
         <one-of>
           <item>pick up</item>
           <item>get</item>
@@ -219,7 +219,7 @@
       </item>
     </one-of>
   </rule>
-  
+
 
   <rule id="ThingsOfInterest">
     <one-of>
@@ -255,7 +255,7 @@
       <item>the</item>
     </one-of>
   </rule>
-  
+
   <rule id="ObjectsOfInterest">
     <item repeat="0-1">
       <ruleref uri="#english_article" />
@@ -274,7 +274,7 @@
       <item>something to eat</item>
     </one-of>
   </rule>
-  
+
   <rule id="PlacesOfInterest">
     <one-of>
       <item>
@@ -293,7 +293,7 @@
         </one-of>
       </item>
       <item>
-        <ruleref uri="#PersonReference"/>'s 
+        <ruleref uri="#PersonReference"/>'s
         <one-of>
           <item>office</item>
           <item>desk</item>
@@ -338,10 +338,12 @@
       </one-of>
     </item>
   </rule>
-  
+
   <rule id="EventName">
     <one-of>
-      <item><ruleref uri="#Courses" /></item>
+      <item>
+        <ruleref uri="#Courses" />
+      </item>
       <item>
         <ruleref uri="#GenericEvent" />
       </item>
@@ -363,7 +365,7 @@
   <rule id="RecurringEvent">
     <one-of>
       <item>Algorithm Coffee</item>
-      <item>Body pump</item>      
+      <item>Body pump</item>
     </one-of>
   </rule>
   <rule id="GenericEvent">
@@ -410,8 +412,12 @@
   </rule>
   <rule id="Courses">
     <one-of>
-      <item><ruleref uri="#Courses_name" /></item>
-      <item><ruleref uri="#Courses_id" /></item>
+      <item>
+        <ruleref uri="#Courses_name" />
+      </item>
+      <item>
+        <ruleref uri="#Courses_id" />
+      </item>
     </one-of>
   </rule>
   <rule id="Courses_name">
@@ -1032,7 +1038,7 @@
         Cog Sci <ruleref uri="#Three_digit_number" />
       </item>
       <item>
-        EA 
+        EA
         <one-of>
           <item>1</item>
           <item>2</item>
@@ -1047,9 +1053,16 @@
   </rule>
   <rule id="Three_digit_number">
     <one-of>
-      <item><ruleref uri="#OneToNine" /> hundred</item>
-      <item><ruleref uri="#OneToNine" /> o <ruleref uri="#OneToNine" /></item>
-      <item><ruleref uri="#OneToNine" /> <ruleref uri="#TenToNinetyNine" /></item>
+      <item>
+        <ruleref uri="#OneToNine" /> hundred
+      </item>
+      <item>
+        <ruleref uri="#OneToNine" /> o <ruleref uri="#OneToNine" />
+      </item>
+      <item>
+        <ruleref uri="#OneToNine" />
+        <ruleref uri="#TenToNinetyNine" />
+      </item>
     </one-of>
   </rule>
   <rule id="OfficeNumber">
@@ -1169,10 +1182,12 @@
   <rule id="TitledName">
     <one-of>
       <item>
-        <ruleref uri="#PersonTitle"/> <ruleref uri="#LastName"/>
+        <ruleref uri="#PersonTitle"/>
+        <ruleref uri="#LastName"/>
       </item>
       <item>
-        <ruleref uri="#PersonTitle"/> <ruleref uri="#FullName"/>
+        <ruleref uri="#PersonTitle"/>
+        <ruleref uri="#FullName"/>
       </item>
     </one-of>
   </rule>

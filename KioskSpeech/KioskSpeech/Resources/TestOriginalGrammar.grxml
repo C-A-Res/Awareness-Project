@@ -1,0 +1,200 @@
+﻿<grammar xmlns="http://www.w3.org/2001/06/grammar"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="http://www.w3.org/2001/06/grammar 
+								http://www.w3.org/TR/speech-grammar/grammar.xsd"
+			xml:lang="en-US" version="1.0"
+			tag-format="semantics-ms/1.0"
+			root="Top">
+
+  <rule id="Top">
+    <one-of>
+      <item>
+        <ruleref uri="#Question"/>
+      </item>
+      <item>
+        <ruleref uri="#Command"/>
+      </item>
+      <item>
+        <ruleref uri="#EasterEggs"/>
+      </item>
+    </one-of>
+  </rule>
+
+  <rule id="Question">
+    <one-of>
+      <item>
+        <ruleref uri="#WhenQuestion"/>
+      </item>
+      <item>
+        <ruleref uri="#WhereQuestion"/>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="Command">
+    <one-of>
+      <item>Reload grammars</item>
+    </one-of>
+  </rule>
+  <rule id="EasterEggs">
+    <one-of>
+      <item>Beam me up, Scotty!</item>
+    </one-of>
+  </rule>
+  <rule id="WhenQuestion">
+    <one-of>
+      <item>
+        Can you tell me when <ruleref uri="#EventName"/> is
+      </item>
+    </one-of>
+  </rule>
+  <rule id="WhereQuestion">
+    <one-of>
+      <item>
+        Where is <ruleref uri="#LocationAndPerson"/>
+      </item>
+      <item>
+        Where can I find <ruleref uri="#ThingsOfInterest"/>
+      </item>
+    </one-of>
+  </rule>
+
+  <rule id="ThingsOfInterest">
+    <one-of>
+      <item>
+        <ruleref uri="#ObjectsOfInterest" />
+      </item>
+      <item>
+        <ruleref uri="#PersonReference" />
+      </item>
+      <item>
+        <ruleref uri="#PlacesOfInterest" />
+      </item>
+    </one-of>
+  </rule>
+  <rule id="LocationAndPerson">
+    <one-of>
+      <item>
+        <ruleref uri="#PersonReference" />
+      </item>
+      <item>
+        <ruleref uri="#PlacesOfInterest" />
+      </item>
+    </one-of>
+  </rule>
+
+  <rule id="english_article">
+    <one-of>
+      <item>a</item>
+      <item>an</item>
+      <item>some</item>
+      <item>any</item>
+      <item>the</item>
+    </one-of>
+  </rule>
+
+  <rule id="ObjectsOfInterest">
+    <item repeat="0-1">
+      <ruleref uri="#english_article" />
+    </item>
+    <one-of>
+      <item>food</item>
+    </one-of>
+  </rule>
+
+  <rule id="PlacesOfInterest">
+    <one-of>
+      <item>
+        <ruleref uri="#PersonReference"/>'s
+        <one-of>
+          <item>office</item>
+        </one-of>
+      </item>
+    </one-of>
+  </rule>
+
+  <rule id="EventName">
+    <one-of>
+      <item>
+        <ruleref uri="#Courses" />
+      </item>
+      <item>
+        <ruleref uri="#GenericEvent" />
+      </item>
+      <item>
+        <ruleref uri="#OneTimeEvent" />
+      </item>
+      <item>
+        <ruleref uri="#RecurringEvent" />
+      </item>
+      <item>today's talk</item>
+    </one-of>
+  </rule>
+  <rule id="OneTimeEvent">
+    <one-of>
+      <item>The Art and Science of Picasso's Blues</item>
+      <item>Economic Thinking of Communication Networks</item>
+    </one-of>
+  </rule>
+  <rule id="RecurringEvent">
+    <one-of>
+      <item>Algorithm Coffee</item>
+      <item>Body pump</item>
+    </one-of>
+  </rule>
+  <rule id="GenericEvent">
+    <item repeat="0-1">
+      <ruleref uri="#english_article" />
+    </item>
+    <one-of>
+      <item>colloquium</item>
+      <item>faculty meeting</item>
+    </one-of>
+  </rule>
+  <rule id="AcademicTopics">
+    <one-of>
+      <item>AI</item>
+      <item>Artificial Intelligence</item>
+      <item>Machine Learning</item>
+      <item>Algorithm</item>
+      <item>Graphics</item>
+      <item>Database</item>
+      <item>Security</item>
+      <item>EECS</item>
+    </one-of>
+  </rule>
+  <rule id="EventCategory">
+    <one-of>
+      <item>talk</item>
+    </one-of>
+  </rule>
+  <rule id="Courses">
+    <one-of>
+      <item>
+        <ruleref uri="#Courses_name" />
+      </item>
+      <item>
+        <ruleref uri="#Courses_id" />
+      </item>
+    </one-of>
+  </rule>
+  <rule id="Courses_name">
+    <one-of>
+      <item>EECS 1 01 An Introduction to Computer Science for Everyone</item>
+      <item>Intro to CS</item>
+    </one-of>
+  </rule>
+  <rule id="Courses_id">
+    <one-of>
+      <item>
+        1 01
+      </item>
+    </one-of>
+  </rule>
+  <rule id="PersonReference">
+    <one-of>
+      <item>
+        Professor Forbus
+      </item>
+    </one-of>
+  </rule>
+</grammar>
