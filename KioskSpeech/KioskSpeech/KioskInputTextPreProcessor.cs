@@ -19,64 +19,61 @@ namespace NU.Kqml
         private SystemSpeechRecognizer recognizer;
         private int ReloadMessageIDCurrent = 0;
         private static Regex quote_s = new Regex("[ ][']s");
+        private int repeatCount = 0;
 
         public KioskInputTextPreProcessor(Pipeline pipeline, SystemSpeechRecognizer rec)
             : base(pipeline)
         {
             this.recognizer = rec;
+
+            this.AutoResponse = pipeline.CreateEmitter<string>(this, nameof(this.AutoResponse));
         }
         
+        public Emitter<string> AutoResponse { get; private set; }
+
         protected override void Receive(IStreamingSpeechRecognitionResult result, Envelope e)
         {
             string message = quote_s.Replace(result.Text, "'s");
             double confidence = result.Confidence.Value;
             Console.WriteLine($"[KioskInputTextPreProcessor] Received {message} with confidence {confidence}; ");// isAccepting {isAccepting}.");
-            if ((!isUsingIsAccepting || isUsingIsAccepting && isAccepting) && confidence > 0.3)
+            if (!isUsingIsAccepting || isUsingIsAccepting && isAccepting)
             {
-                //isAccepting = false;
-                switch (message)
+                if (confidence < 0.3)
                 {
-                    case "":
-                    case "Hi":
-                    case "Hello":
-                    case "Greetings":
-                    case "Good morning":
-                    case "Sup":
-                    case "okay":
-                    case "hm":
-                    case "um":
-                    case "ah":
-                    case "cool":
-                    case "huh?":
-                    case "wow!":
-                    case "Huck you":
-                    case "bye":
-                    case "bye bye":
-                        Console.WriteLine($"[KioskInputTextPreProcessor] Discarding message: {message}");
-                        if (isUsingIsAccepting)
-                        {
-                            isAccepting = true;
-                        } else
-                        {
-                            this.Out.Post(null, DateTime.Now);
-                        }
-                        break;
-                    case "Reload grammars":
-                        Console.WriteLine($"[KioskInputTextPreProcessor] Reloading grammar.");
-                        {
-                            var gw = new Kiosk.AllXMLGrammarWriter(@"Resources\BaseGrammar.grxml");
-                            gw.ReadFileAndConvert();
-                            string updatedGrammar = gw.GetResultString();
-
-                            DateTime post_time = new DateTime();
-
-                            Message<System.Collections.Generic.IEnumerable<String>> updateRequest =
-                                new Message<System.Collections.Generic.IEnumerable<String>>(
-                                    new String[] {
-                                    updatedGrammar
-                                    }, post_time, post_time, 9876, ReloadMessageIDCurrent++);
-                            recognizer.SetGrammars(updateRequest);
-                            gw.WriteToFile();
+                    if (repeatCount <= 1)
+                    {
+                        AutoResponse.Post("Could you please repeat that?", DateTime.Now);
+                    } else if (repeatCount <= 3)
+                    {
+                        AutoResponse.Post("Please try to rephrase.", DateTime.Now);
+                    } else
+                    {
+                        AutoResponse.Post("Please try again.", DateTime.Now);
+                    }
+                    repeatCount++;
+                } else
+                {
+                    repeatCount = 0;
+                    //isAccepting = false;
+                    switch (message)
+                    {
+                        case "":
+                        case "Hi":
+                        case "Hello":
+                        case "Greetings":
+                        case "Good morning":
+                        case "Sup":
+                        case "okay":
+                        case "hm":
+                        case "um":
+                        case "ah":
+                        case "cool":
+                        case "huh?":
+                        case "wow!":
+                        case "Huck you":
+                        case "bye":
+                        case "bye bye":
+                            Console.WriteLine($"[KioskInputTextPreProcessor] Discarding message: {message}");
                             if (isUsingIsAccepting)
                             {
                                 isAccepting = true;
@@ -86,22 +83,49 @@ namespace NU.Kqml
                                 this.Out.Post(null, DateTime.Now);
                             }
                             break;
-                        }
-                    default:
-                        this.Out.Post(message, DateTime.Now);
-                        Console.WriteLine($"[KioskInputTextPreProcessor] Starting timer.");
-                        if (isUsingIsAccepting)
-                        {
-                            if (isAccepting)
+                        case "Reload grammars":
+                            Console.WriteLine($"[KioskInputTextPreProcessor] Reloading grammar.");
                             {
-                                isAccepting = false;
-                                restartAcceptingInMs(10000);
-                            }                            
-                        } else
-                        {
-                            // do nothing
-                        }
-                        break;
+                                var gw = new Kiosk.AllXMLGrammarWriter(@"Resources\BaseGrammar.grxml");
+                                gw.ReadFileAndConvert();
+                                string updatedGrammar = gw.GetResultString();
+
+                                DateTime post_time = new DateTime();
+
+                                Message<System.Collections.Generic.IEnumerable<String>> updateRequest =
+                                    new Message<System.Collections.Generic.IEnumerable<String>>(
+                                        new String[] {
+                                    updatedGrammar
+                                        }, post_time, post_time, 9876, ReloadMessageIDCurrent++);
+                                recognizer.SetGrammars(updateRequest);
+                                gw.WriteToFile();
+                                if (isUsingIsAccepting)
+                                {
+                                    isAccepting = true;
+                                }
+                                else
+                                {
+                                    this.Out.Post(null, DateTime.Now);
+                                }
+                                break;
+                            }
+                        default:
+                            this.Out.Post(message, DateTime.Now);
+                            Console.WriteLine($"[KioskInputTextPreProcessor] Starting timer.");
+                            if (isUsingIsAccepting)
+                            {
+                                if (isAccepting)
+                                {
+                                    isAccepting = false;
+                                    restartAcceptingInMs(10000);
+                                }
+                            }
+                            else
+                            {
+                                // do nothing
+                            }
+                            break;
+                    }
                 }
             }
         }
