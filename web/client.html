@@ -7,25 +7,25 @@
 
   <script type="text/javascript">
 
-    var ws;
-    
     function init() {
 
       // Animation
-      var avatarSpace;
-      var context;
       var avatarState;
-
-      var listening = document.getElementById("listening");
 
       var ball = document.getElementById("ball");
       var shadow = document.getElementById("shadow");
       var eye1 = document.getElementById("eye1");
       var eye2 = document.getElementById("eye2");
 
+      var stateLabel = document.getElementById("state");
+
+      // Controls
+      var close = document.getElementById("btnClose");
+
       var connected = document.getElementById("connected");
       var listening = document.getElementById("listening");
       var thinking = document.getElementById("thinking");
+
 
       function animateAvitar(state) {
         if (state != avatarState) {
@@ -40,6 +40,7 @@
           //ball.style.WebkitAnimationName = state;  //browser compatibility
           switch(state) {
             case "speaking":
+              stateLabel.innerHTML = "Speaking";
               eye1.classList.remove('eye-down');
               eye1.classList.add('eye');
               eye2.classList.remove('eye-down');
@@ -49,6 +50,7 @@
               thinking.style.backgroundColor = "maroon";
               break;
             case "thinking":
+              stateLabel.innerHTML = "Thinking";
               eye1.classList.remove('eye');
               eye1.classList.add('eye-down');
               eye2.classList.remove('eye');
@@ -58,7 +60,7 @@
               thinking.style.backgroundColor = "orange";
               break;
             case "listening":
-              output("test");
+              stateLabel.innerHTML = "Listening";
               eye1.classList.remove('eye-down');
               eye1.classList.add('eye');
               eye2.classList.remove('eye-down');
@@ -68,11 +70,12 @@
               shadow.style.animation = "none";
               break;
             case "sleeping":
+              stateLabel.innerHTML = "Sleeping";
               eye1.classList.remove('eye');
               eye1.classList.add('eye-down');
               eye2.classList.remove('eye');
               eye2.classList.add('eye-down');
-              ball.style.animation = "roll 5s linear infinite";
+              ball.style.animation = "to-roll 1s, roll 5s linear infinite";
               //ball.style.animationName = "roll";
               //ball.style.WebkitAnimationName = "roll";  //browser compatibility
               //ball.style.animationIterationCount = "infinite";
@@ -89,6 +92,15 @@
         }
       }
 
+      function updateScroll() {
+        $("#chatSpace").scrollTop($("#chatSpace")[0].scrollHeight);
+      }
+
+      //$.ajax({ url: "https://www.mccormick.northwestern.edu/images/research-and-faculty/directory/forbus-ken.jpg",
+      //  type: "POST",
+      //  crossDomain: true,
+      //});
+
       animateAvitar("sleeping");
 
       var btnSleeping = document.getElementById("btnSleeping");
@@ -102,72 +114,83 @@
 
 
       // Connect to Web Socket
-      ws = new WebSocket("ws://localhost:9791/dialog");
+      var isConnected = false;
+      var connector = setInterval(connectToServer,3000);
 
-      // Set event handlers.
-      ws.onopen = function() {
-        output("onopen");
-        connected.style.backgroundColor = "darkblue";
-      };
-      
-      ws.onmessage = function(e) {
-        // e.data contains received string.
-        output("onmessage: " + e.data);
-        json_data = JSON.parse(e.data);
-        newState = json_data.avatar.state;
-        animateAvitar(newState);
-        speech = json_data.speech;
-        for (i = 0; i < speech.length; i++) {
-          next = speech[i]
-          output("next: " + next);
-          var newTextNode = document.createTextNode(next.content);
-          var textContainer = document.createElement("div");
-          user = next.user;
-          if (user == "kiosk") {
-            textContainer.className = 'newbotDiv'; 
-            //animateAvitar("sleeping");
-          } else {
-            textContainer.className = 'newuserDiv';
+      var poller;
+
+      function connectToServer() {
+        ws = new WebSocket("ws://localhost:9791/dialog");
+        stateLabel.innerHTML = "Connecting...";
+
+        // this isn't working
+        close.setAttribute("onClick", "ws.close()");
+
+        // Set event handlers.
+        ws.onopen = function() {
+          output("onopen");
+          connected.style.backgroundColor = "darkblue";
+          isConnected = true;
+          clearInterval(connector);
+          poller = setInterval(pollPsi, 500);
+
+          avatarState = "none";
+        };
+        
+        ws.onmessage = function(e) {
+          // e.data contains received string.
+          output("onmessage: " + e.data);
+          json_data = JSON.parse(e.data);
+          newState = json_data.avatar.state;
+          animateAvitar(newState);
+          speech = json_data.speech;
+          for (i = 0; i < speech.length; i++) {
+            next = speech[i]
+            output("next: " + next);
+            var newTextNode = document.createTextNode(next.content);
+            var textContainer = document.createElement("div");
+            user = next.user;
+            if (user == "kiosk") {
+              textContainer.className = 'newbotDiv'; 
+              //animateAvitar("sleeping");
+            } else {
+              textContainer.className = 'newuserDiv';
+            }
+            textContainer.appendChild(newTextNode);
+            document.getElementById('chatSpace').appendChild(textContainer);    
+            updateScroll()      
           }
-          textContainer.appendChild(newTextNode);
-          document.getElementById('chatSpace').appendChild(textContainer);          
+                  //// temp
+          if (json_data.debug == "true") {
+            listening.style.backgroundColor = "green";
+          } else {
+            listening.style.backgroundColor = "red";
+          }
+
+        };
+        
+        ws.onclose = function() {
+          output("onclose");
+          connected.style.backgroundColor = "gray";
+          if (isConnected) {
+            clearInterval(poller);
+            //connector = setInterval(connectToServer,3000);
+            stateLabel.innerHTML = "Disconnected";
+          }
+          isConnected = false;
+        };
+
+        ws.onerror = function(e) {
+          output("onerror");
+        };
+
+        function pollPsi() {
+          ws.send('');
         }
-                //// temp
-        if (json_data.debug == "true") {
-          listening.style.backgroundColor = "green";
-        } else {
-          listening.style.backgroundColor = "red";
-        }
 
-      };
-      
-      ws.onclose = function() {
-        output("onclose");
-        connected.style.backgroundColor = "gray";
-      };
+      }
 
-      ws.onerror = function(e) {
-        output("onerror");
-        console.log(e)
-      };
 
-    }
-    
-    function onSubmit() {
-      var input = document.getElementById("input");
-      // You can send message to the Web Socket using ws.send.
-      ws.send(input.value);
-      output("send: " + input.value);
-      input.value = "";
-      input.focus();
-    }
-
-    function pollPsi() {
-      ws.send('');
-    }
-    
-    function onCloseClick() {
-      ws.close();
     }
     
     function output(str) {
@@ -175,13 +198,8 @@
       var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").
         replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
       log.innerHTML = escaped + "<br>" + log.innerHTML;
-    }
 
-    function onAnimateClick(val) {
-      animateAvitar(val);
     }
-
-    setInterval(pollPsi, 1000);
 
     
 
@@ -191,6 +209,7 @@
   <div id="topSpace">  
     <div id="chatSpace"></div>
     <div id="avatarSpace">
+      <div id="state">Loading</div>
       <div id="shadow" class="shadow"></div>
       <figure id="ball" class="ball">
         <span class="eye" id="eye1"></span>
@@ -203,17 +222,14 @@
       <div id="thinking" class="indicators"></div>
     </div>
   </div>
-  
-  <form onsubmit="onSubmit(); return false;">
-    <input type="text" id="input">
-    <input type="submit" value="Send">
-    <button onclick="onCloseClick(); return false;">close</button>
-  </form>
-      <button id="btnSleeping">sleeping</button>
+  <!-- <div id="bottomSpace">
+  </div> -->
+    <button id="btnClose">close</button>
+    <button id="btnSleeping">sleeping</button>
     <button id="btnThinking">thinking</button>
     <button id="btnListening">listening</button>
     <button id="btnSpeaking">speaking</button>
 
-  <div id="log"></div>
+  <div id="log" style="height:150px; overflow: auto;"></div>
 </body>
 </html>

@@ -30,22 +30,28 @@ header{
   top: 40px;
 }
 
+#state {
+  font-size: 25px;
+  float: right;
+  text-align: right;
+}
+
 .newuserDiv{
   border-radius: 25px;
   border: 2px solid skyblue;
   padding: 5px;
-  float: right;
-  text-align: right;
+  float: left;
+  text-align: left;
   width: 70%;
   margin: 5px;
 }
 
 .newbotDiv{
   border-radius: 25px;
-  border: 2px solid lightgrey;
+  border: 2px solid purple;
   padding: 5px;
-  float: left;
-  text-align: left;
+  float: right;
+  text-align: right;
   width: 70%;
   margin: 5px;
   white-space: pre-wrap;
@@ -160,7 +166,7 @@ header{
   height: 30%;
   margin: 30%;
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 70%, #208ab4 0%, #6fbfff 30%, #4381b2 100%);
+  background: radial-gradient(circle at 50% 70%, #208ab4 0%, #6fbfff 30%, #330099 100%);
   position: absolute;
 }
 .eye-down:before {
@@ -214,6 +220,14 @@ header{
   perspective-origin: 50% 50%;
 }
 
+#bottomSpace{
+  width: 91%;
+  height: 300px;
+  border: 5px solid gray;
+  padding: 15px;
+  margin: 10px;
+}
+
 
 
 @keyframes bounce {
@@ -231,14 +245,20 @@ header{
 }
 
 @keyframes roll {
-  0% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(-15deg) scale(0.9) translateY(10px); }
-  100% { transform: rotate(0deg) scale(1); }
+  0% { transform: rotate(-5deg) scale(1); background: radial-gradient(circle at 130px 70px, #320088, #000); }
+  50% { transform: rotate(-15deg) scale(0.9) translateY(12px); background: radial-gradient(circle at 130px 70px, #320084, #000); }
+  100% { transform: rotate(-5deg) scale(1); background: radial-gradient(circle at 130px 70px, #320088, #000); }
+}
+
+@keyframes to-roll {
+  0% { transform: scale(1); }
+  100% { transform: rotate(-5deg) scale(1); 
+    background: radial-gradient(circle at 130px 70px, #330088, #000); }
 }
 
 @keyframes breathe {
   0% { transform: scale(1); }
-  75% { transform: scaleX(1.01) scaleY(1.01)  ; }
+  75% { transform: scale(1.03) translateY(-2px) ; }
   100% { transform: scale(1); }
 }
 
