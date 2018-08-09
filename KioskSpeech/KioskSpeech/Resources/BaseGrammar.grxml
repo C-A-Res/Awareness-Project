@@ -6,116 +6,294 @@
 			tag-format="semantics-ms/1.0"
 			root="Top">
 
-
+  <!-- mark -->
   <rule id="Top">
     <one-of>
+      <item><ruleref uri="#Question"/></item>
+      <item><ruleref uri="#Greeting"/></item>
+      <item><ruleref uri="#WrapUp"/></item>
+      <item><ruleref uri="#Interjection"/></item>
+      <item><ruleref uri="#Question"/></item>
+      <item><ruleref uri="#Command"/></item>
+      <item><ruleref uri="#EasterEggs"/></item>
+    </one-of>
+  </rule>
+
+  <!-- mark -->
+  <rule id="Question">
+    <one-of>
+      <item><ruleref uri="#AreQuestion"/></item>
+      <item><ruleref uri="#DidQuestion"/></item>
+      <item><ruleref uri="#DoesQuestion"/></item>
+      <item><ruleref uri="#HasQuestion"/></item>
+      <item><ruleref uri="#IsQuestion"/></item>
+      <item><ruleref uri="#Inquisition"/></item>
+      <item><ruleref uri="#InquisitionOrder"/></item>
+      <item><ruleref uri="#HowQuestion"/></item>
+      <item><ruleref uri="#WhatQuestion"/></item>
+      <item><ruleref uri="#WhenQuestion"/></item>
+      <item><ruleref uri="#WhereQuestion"/></item>
+      <item><ruleref uri="#WhichQuestion"/></item>
+      <item><ruleref uri="#WhoQuestion"/></item>
+      <item><ruleref uri="#WillQuestion"/></item>
+    </one-of>
+  </rule>
+
+  <!-- mark -->
+  <rule id="AreQuestion">
+    Are there
+    <item>
+      <item repeat="0-1">
+        any
+        <one-of>
+          <item>good</item>
+          <item>short</item>
+        </one-of>
+      </item>
+      <ruleref uri="#EventMaybeTemporallyStampped"/>
+    </item>
+    <item repeat="0-1">
+      <one-of>
+        <item>
+          <ruleref uri="#DurationComparison"/>
+        </item>
+        <item>
+          that are <ruleref uri="#DurationComparison"/>
+        </item>
+        <item>that are short</item>
+        <item>that I should go to</item>
+      </one-of>
+    </item>
+    <item repeat="0-1">
+      <ruleref uri="#TemporalReference"/>
+    </item>
+  </rule>
+
+  <rule id="DidQuestion">
+    Did
+    <ruleref uri='#PersonReference'/>
+    go to
+    <ruleref uri='#School'/>
+    <item repeat="0-1">
+      for
+      <item repeat="0-1">
+        <ruleref uri="#PossessivePronoun"/>
+      </item>
+      <ruleref uri="#DegreeLevel"/>
+    </item>
+  </rule>
+
+  <rule id="DoesQuestion">
+    Does
+    <one-of>
       <item>
-        <ruleref uri="#Greeting"/>
+        <ruleref uri="#EventMaybeTemporallyStampped"/>
+        meet
+        <item repeat="0-1">in the usual place</item>
+        <item repeat="0-1">
+          <one-of>
+            <item>
+              <ruleref uri="#TemporalReference"/>
+            </item>
+            <item>
+              on<ruleref uri="#Date"/>
+            </item>
+            <item>
+              <one-of>
+                <item>on</item>
+                <item>this</item>
+                <item>next</item>
+              </one-of>
+              <ruleref uri="#DayOfTheWeek"/>
+            </item>
+          </one-of>
+        </item>
       </item>
       <item>
-        <ruleref uri="#WrapUp"/>
+        <ruleref uri="#PersonReference"/>
+        <one-of>
+          <item>
+            do research in
+            <ruleref uri="#AcademicDiscipline"/>
+          </item>
+          <item>
+            teach
+            <ruleref uri="#Course"/>
+            <item repeat="0-1">
+              <ruleref uri="#QuarterReference"/>
+            </item>
+          </item>
+          <item>have an office here</item>
+          <item>work here</item>
+        </one-of>
       </item>
       <item>
-        <ruleref uri="#Interjection"/>
-      </item>
-      <item>
-        <ruleref uri="#Question"/>
-      </item>
-      <item>
-        <ruleref uri="#Command"/>
-      </item>
-      <item>
-        <ruleref uri="#EasterEggs"/>
+        <ruleref uri="#EventName"/>start now
       </item>
     </one-of>
   </rule>
 
-  <rule id="Greeting">
+  <rule id="HasQuestion">
+    <item>
+      Has
+      <ruleref uri="#PersonReference"/>
+      listed his
+      <ruleref uri="#Email"/>
+    </item>
+  </rule>
+
+  <rule id="IsQuestion">
+    Is
     <one-of>
-      <item>Hello</item>
-      <item>Hi</item>
-      <item>Greetings</item>
       <item>
-        Good
+        <ruleref uri="#EventMaybeTemporallyStampped"/>
         <one-of>
-          <item>morning</item>
-          <item>afternoon</item>
-          <item>evening</item>
-          <item>day</item>
-          <item>night</item>
+          <item>
+            hosted by<ruleref uri="#PersonReference"/>
+          </item>
+          <item>
+            <ruleref uri="#DurationComparison"/>
+          </item>
         </one-of>
       </item>
-      <item>How are you</item>
-      <item>What's Sup</item>
-      <item>Sup</item>
+      <item>
+        <ruleref uri="#EventMaybeTemporallyStampped"/>
+        still
+        <one-of>
+          <item>happening</item>
+          <item>going on</item>
+          <item>on</item>
+        </one-of>
+      </item>
+      <item>
+        <ruleref uri="#EventMaybeTemporallyStampped"/>at<ruleref uri="#TimeStamp"/>
+      </item>
+      <item>
+        <ruleref uri="#EventMaybeTemporallyStampped"/>in<ruleref uri="#Place"/>
+      </item>
+      <item>
+        <ruleref uri="#PersonReference"/>
+        <one-of>
+          <item>
+            <ruleref uri="#EnglishArticle"/>
+            <ruleref uri="#AcademicDiscipline"/>
+            <one-of>
+              <item>faculty</item>
+              <item>professor</item>
+            </one-of>
+          </item>
+          <item>
+            in
+            <item repeat="0-1">the</item>
+            <ruleref uri="#AcademicDiscipline"/>
+            <item repeat="0-1">group</item>
+          </item>
+          <item>
+            teaching
+            <item repeat="0-1">the</item>
+            <ruleref uri="#Course"/>
+            <ruleref uri="#QuarterReference"/>
+          </item>
+          <item>
+            an
+            <ruleref uri="#Alumn"/>
+            of
+            <ruleref uri="#School"/>
+          </item>
+          <item>
+            's office
+            <one-of>
+              <item>
+                <one-of>
+                  <item>in</item>
+                  <item>on</item>
+                </one-of>
+                <ruleref uri="#SpecificPlace"/>
+              </item>
+              <item>
+                <ruleref uri="#LocationReference"/>
+              </item>
+            </one-of>
+          </item>
+        </one-of>
+      </item>
+      <item>
+        <ruleref uri="#School"/>
+        where
+        <ruleref uri="#PersonReference"/>
+        <one-of>
+          <item>
+            <item>got</item>
+            <ruleref uri="#PossessivePronoun"/>
+            <ruleref uri="#DegreeLevel"/>
+          </item>
+          <item>
+            went <item repeat="0-1">to</item>for<ruleref uri="#SchoolLevel"/>
+          </item>
+        </one-of>
+      </item>
+      <item>
+        there
+        <item repeat="0-1">
+          <one-of>
+            <item>a</item>
+            <item>an</item>
+            <item>any</item>
+          </one-of>
+        </item>
+        <one-of>
+          <item>
+            <ruleref uri="#Email"/>
+            of
+            <ruleref uri="#PersonReference"/>
+            <item repeat="0-1">available</item>
+          </item>
+          <item>
+            <item repeat="0-1">invited</item>
+            <ruleref uri="#EventMaybeTemporallyStampped"/>
+          </item>
+          <item>
+            <ruleref uri="#Course"/>
+            <item repeat="0-1">available</item>
+            <ruleref uri="#QuarterReference"/>
+          </item>
+          <item>
+            discussion session for
+            <ruleref uri="#EventMaybeTemporallyStampped"/>
+          </item>
+        </one-of>
+      </item>
     </one-of>
   </rule>
-  <rule id="WrapUp">
+
+  <rule id="Inquisition">
+    <ruleref uri="#InquiryStarter"/>
     <one-of>
-      <item>Thank you</item>
-      <item>Good bye</item>
-      <item>bye bye</item>
-      <item>bye</item>
-      <item>talk to you later</item>
+      <item>
+        <ruleref uri="#ObjectInquiryContent"/>
+      </item>
+      <item>
+        <ruleref uri="#PersonInquiryContent"/>
+      </item>
     </one-of>
   </rule>
-  <rule id="Interjection">
-    <one-of>
-      <item>okay</item>
-      <item>hm</item>
-      <item>um</item>
-      <item>ah</item>
-      <item>cool</item>
-      <item>huh?</item>
-      <item>wow!</item>
-      <!--<item>huck you</item>-->
-    </one-of>
-  </rule>
-  <rule id="Question">
+
+  <rule id="InquisitionOrder">
+    <ruleref uri="#InquisitionOrderStarter"/>
     <one-of>
       <item>
-        <ruleref uri="#WhoQuestion"/>
+        <ruleref uri="#ObjectInquiryContent"/>
       </item>
       <item>
-        <ruleref uri="#HowQuestion"/>
-      </item>
-      <item>
-        <ruleref uri="#WhatQuestion"/>
-      </item>
-      <item>
-        <ruleref uri="#WhenQuestion"/>
-      </item>
-      <item>
-        <ruleref uri="#WhereQuestion"/>
+        <ruleref uri="#PersonInquiryContent"/>
       </item>
     </one-of>
   </rule>
-  <rule id="Command">
-    <one-of>
-      <item>Reload grammars</item>
-    </one-of>
-  </rule>
-  <rule id="EasterEggs">
-    <one-of>
-      <item>Beam me up, Scotty!</item>
-      <item>Huck you</item>
-      <item>Say something</item>
-    </one-of>
-  </rule>
-  <rule id="WhoQuestion">
-    <one-of>
-      <item>
-        Who is <ruleref uri="#PersonReference"/>
-      </item>
-      <item>
-        Can you tell me who <ruleref uri="#PersonReference"/> is
-      </item>
-    </one-of>
-  </rule>
+
   <rule id="HowQuestion">
+    How
     <one-of>
       <item>
-        How
         <one-of>
           <item>do</item>
           <item>can</item>
@@ -131,122 +309,326 @@
           <item>find</item>
           <item>reach</item>
         </one-of>
-        <ruleref uri="#LocationAndPerson"/>
+        <ruleref uri="#LocationOrPerson"/>
+      </item>
+      <item>
+        long is
+        <ruleref uri="#EventMaybeTemporallyStampped"/>
+      </item>
+      <item>
+        many <ruleref uri="#EventName"/> are
+        <item repeat="0-1">there</item>
+        <ruleref uri="#TemporalReference"/>
       </item>
     </one-of>
   </rule>
+
   <rule id="WhatQuestion">
+    what
     <one-of>
-      <item>What time is it</item>
-      <item>What is going on today</item>
       <item>
-        What is <ruleref uri="#PersonReference"/>'s email
+        is
+        <one-of>
+          <item>going on today</item>
+          <item>
+            <ruleref uri="#ObjectPossessedByPerson"/>
+          </item>
+          <item>
+            the time for
+            <ruleref uri="#EventMaybeTemporallyStampped"/>
+          </item>
+          <item>
+            the purpose of
+            <one-of>
+              <item>
+                <ruleref uri="#EventMaybeTemporallyStampped"/>
+              </item>
+              <item>this event</item>
+            </one-of>
+          </item>
+          <item>
+            <ruleref uri="#TemporalReference"/>'s
+            event schedule
+          </item>
+          <item>
+            <ruleref uri="#EventMaybeTemporallyStampped"/>
+            about
+          </item>
+        </one-of>
       </item>
       <item>
-        Can you tell me what <ruleref uri="#PersonReference"/>'s email is
+        <ruleref uri="#EventCategory"/>
+        are
+        <ruleref uri="#TemporalReference"/>
       </item>
-      <item>What do I have today</item>
-      <item>What talks are today</item>
+      <item>
+        do I have
+        <item repeat="0-1">for</item>
+        <ruleref uri="#TemporalReference"/>
+      </item>
     </one-of>
   </rule>
+
   <rule id="WhenQuestion">
+    When
     <one-of>
       <item>
-        Can you tell me when <ruleref uri="#EventName"/> is
+        does <ruleref uri="#Course"/> meet
       </item>
       <item>
-        When does <ruleref uri="#EventName"/> meet
+        should I go to <ruleref uri="#EventMaybeTemporallyStampped"/>
       </item>
       <item>
-        When is <ruleref uri="#EventName"/>
-      </item>
-      <item>
-        When is the next
-        <item repeat="0-1">
-          <one-of>
-            <item>Northbound</item>
-            <item>Southbound</item>
-          </one-of>
-        </item>
+        will
+        <ruleref uri="#EventMaybeTemporallyStampped"/>
         <one-of>
-          <item>intercampus shuttle</item>
-          <item>shuttle</item>
-          <item>2 01</item>
-          <item>2 01 bus</item>
-          <item>Evanston Loop</item>
+          <item>start</item>
+          <item>end</item>
         </one-of>
-        <item repeat="0-1">
-          to
-          <one-of>
-            <item>Downtown Chicago</item>
-            <item>South Campus</item>
-            <item>the Chicago Campus</item>
-            <item>Chicago Campus</item>
-          </one-of>
-        </item>
+      </item>
+      <item>
+        is
+        <one-of>
+          <item>
+            <ruleref uri="#EventMaybeTemporallyStampped"/>
+          </item>
+          <item>
+            the next <ruleref uri="#EventName"/>
+          </item>
+        </one-of>
       </item>
     </one-of>
   </rule>
+
+
   <rule id="WhereQuestion">
+    Where
     <one-of>
       <item>
-        Where is <ruleref uri="#LocationAndPerson"/>
-      </item>
-      <item>
-        Where can I find <ruleref uri="#ThingsOfInterest"/>
-      </item>
-      <item>
-        Where can I
         <one-of>
-          <item>pick up</item>
-          <item>get</item>
-          <item>fetch</item>
+          <item>would</item>
+          <item>can</item>
+          <item>could</item>
         </one-of>
-        <ruleref uri="#LunchPickUp"/>
-      </item>
-      <item>Where am I</item>
-      <item>
-        Where does <ruleref uri="#PersonReference"/> work
-      </item>
-      <item>
-        Can you tell me where <ruleref uri="#LocationAndPerson"/> is
-      </item>
-      <item>
-        Do you know where <ruleref uri="#LocationAndPerson"/> is
+        I find
+        <one-of>
+          <item>
+            <ruleref uri="#ObjectPossessedByPerson"/>
+          </item>
+          <item>
+            <ruleref uri="#LocationOrPerson"/>
+          </item>
+        </one-of>
       </item>
       <item>
-        Where is <ruleref uri="#EventName"/>
+        is
+        <one-of>
+          <item>
+            <ruleref uri="#LocationOrPerson"/>
+          </item>
+          <item>
+            <ruleref uri="#ObjectPossessedByPerson"/>
+          </item>
+          <item>
+            <ruleref uri="#EventMaybeTemporallyStampped"/>
+            going to take place
+          </item>
+        </one-of>
+      </item>
+      <item>
+        did
+        <ruleref uri="#PersonReference"/>
+        get
+        <ruleref uri="#PossessivePronoun"/>
+        <ruleref uri="#DegreeLevel"/>
+      </item>
+      <item>
+        does
+        <one-of>
+          <item>
+            <ruleref uri="#EventMaybeTemporallyStampped"/>meet
+          </item>
+          <item>
+            <ruleref uri="#PersonReference"/> work
+          </item>
+        </one-of>
       </item>
     </one-of>
   </rule>
 
+  <rule id="WhichQuestion">
+    <item>
+      Which
+      <one-of>
+        <item>
+          <ruleref uri="#Email"/>
+          of
+          <ruleref uri="#PersonReference"/>
+          do you have
+        </item>
+        <item>
+          <one-of>
+            <item>
+              <item repeat="0-1">
+                graduate
+              </item>
+              students are
+            </item>
+            <item>professors are</item>
+            <item>faculties are</item>
+          </one-of>
+          in
+          <ruleref uri="#AcademicDiscipline"/>
+          <item repeat="0-1">group</item>
+        </item>
+        <item>
+          days are <ruleref uri="#Course"/>
+          <item repeat="0-1">offered</item>
+        </item>
+        <item>
+          group is <ruleref uri="#PersonReference"/> in
+        </item>
+      </one-of>
+    </item>
+  </rule>
 
-  <rule id="ThingsOfInterest">
+  <rule id="WhoQuestion">
     <one-of>
       <item>
-        <ruleref uri="#ObjectsOfInterest" />
+        Who
+        <one-of>
+          <item>
+            are
+            <one-of>
+              <item>
+                the <ruleref uri="#AcademicDiscipline"/>
+                <one-of>
+                  <item>professors</item>
+                  <item>faculties</item>
+                </one-of>
+              </item>
+              <item>
+                in <ruleref uri="#AcademicDiscipline"/>
+              </item>
+            </one-of>
+          </item>
+          <item>
+            is
+            <one-of>
+              <item>
+                <ruleref uri="#EventMaybeTemporallyStampped"/> for
+              </item>
+              <item>
+                teaching
+                <one-of>
+                  <item>
+                    <ruleref uri="#Course"/>
+                    <item repeat="0-1">
+                      <ruleref uri="#QuarterReference"/>
+                    </item>
+                  </item>
+                  <item>
+                    the introduction class in the <ruleref uri="#AcademicDiscipline"/> track
+                  </item>
+                </one-of>
+              </item>
+              <item>
+                hosting <ruleref uri="#EventMaybeTemporallyStampped"/>
+              </item>
+              <item>
+                in <ruleref uri="#AcademicDiscipline"/>
+              </item>
+              <item>
+                <item repeat="0-1">the name of</item>
+                the professor for <ruleref uri="#Course"/>
+                <item repeat="0-1">
+                  <ruleref uri="#QuarterReference"/>
+                </item>
+              </item>
+            </one-of>
+          </item>
+          <item>
+            does
+            <one-of>
+              <item>
+                <one-of>
+                  <item>work</item>
+                  <item>research</item>
+                </one-of>
+                in <ruleref uri="#AcademicDiscipline"/>
+              </item>
+              <item>
+                <ruleref uri="#AcademicDiscipline"/> research
+              </item>
+            </one-of>
+          </item>
+          <item>
+            can teach me some knowledge of <ruleref uri="#AcademicDiscipline"/>
+          </item>
+          <item>
+            should I talk with to get more information of
+            <item repeat="0-1">the</item>
+            <ruleref uri="#EventMaybeTemporallyStampped"/>
+          </item>
+          <item>
+            works in <ruleref uri="#AcademicDiscipline"/>
+          </item>
+        </one-of>
       </item>
       <item>
-        <ruleref uri="#PersonReference" />
-      </item>
-      <item>
-        <ruleref uri="#PlacesOfInterest" />
+        Whose class should I take to
+        <one-of>
+          <item>
+            learn some introduction information of <ruleref uri="#AcademicDiscipline"/>
+          </item>
+          <item>
+            learn some introductory information of <ruleref uri="#AcademicDiscipline"/>
+          </item>
+          <item>
+            get an introduction of <ruleref uri="#AcademicDiscipline"/>
+          </item>
+        </one-of>
       </item>
     </one-of>
   </rule>
-  <rule id="LocationAndPerson">
+
+  <rule id="WillQuestion">
+    Will
     <one-of>
       <item>
-        <ruleref uri="#PersonReference" />
-      </item>
-      <item>
-        <ruleref uri="#PlacesOfInterest" />
+        <ruleref uri="#EventMaybeTemporallyStampped"/>
+        be
+        <one-of>
+          <item>
+            <ruleref uri="#Duration"/>
+          </item>
+          <item>
+            <ruleref uri="#DurationComparison"/>
+          </item>
+          <item>long</item>
+          <item>short</item>
+        </one-of>
       </item>
     </one-of>
   </rule>
 
 
-  <rule id="english_article">
+  <!-- returner -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <rule id="EnglishArticle">
     <one-of>
       <item>a</item>
       <item>an</item>
@@ -255,31 +637,286 @@
       <item>the</item>
     </one-of>
   </rule>
-
-  <rule id="ObjectsOfInterest">
-    <item repeat="0-1">
-      <ruleref uri="#english_article" />
-    </item>
+  <rule id="ThingsOfInterest">
     <one-of>
-      <item>food</item>
-      <item>snack</item>
-      <item>something to eat</item>
-      <item>printer</item>
-      <item>coffee</item>
-      <item>coffee machine</item>
-      <item>Nespresso</item>
-      <item>Nespresso machine</item>
-      <item>water fountain</item>
-      <item>tea</item>
-      <item>something to eat</item>
+      <item>
+        <ruleref uri="#ObjectsOfInterest"/>
+      </item>
+      <item>
+        <ruleref uri="#LocationOrPerson"/>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="LocationOrPerson">
+    <one-of>
+      <item>
+        <ruleref uri="#PersonReference"/>
+      </item>
+      <item>
+        <item repeat="0-1">the</item>
+        <ruleref uri="#SpecificPlace"/>
+      </item>
     </one-of>
   </rule>
 
-  <rule id="PlacesOfInterest">
+  <rule id="Alumn">
+    <one-of>
+      <item>alumn</item>
+      <item>alumnus</item>
+      <item>alumni</item>
+    </one-of>
+  </rule>
+  <rule id="School">
     <one-of>
       <item>
+        <one-of>
+          <item>Northwestern</item>
+          <item>Carnegie Mellon</item>
+          <item>Tufts</item>
+        </one-of>
+        <item repeat="0-1">University</item>
+      </item>
+      <item>Massechusetts Institute of Technology</item>
+      <item>MIT</item>
+      <item>CMU</item>
+    </one-of>
+  </rule>
+  <rule id="Date">
+    <item>
+      <one-of>
+        <item>
+          <ruleref uri="#Month"/>
+        </item>
+        <item>the</item>
+      </one-of>
+      <ruleref uri="#OrdinalForDates"/>
+    </item>
+  </rule>
+  <rule id="Month">
+    <one-of>
+      <item>January</item>
+      <item>February</item>
+      <item>March</item>
+      <item>April</item>
+      <item>May</item>
+      <item>June</item>
+      <item>July</item>
+      <item>August</item>
+      <item>September</item>
+      <item>October</item>
+      <item>November</item>
+      <item>December</item>
+    </one-of>
+  </rule>
+  <rule id="DayOfTheWeek">
+    <one-of>
+      <item>Monday</item>
+      <item>Tuesday</item>
+      <item>Wednesday</item>
+      <item>Thursday</item>
+      <item>Friday</item>
+      <item>Saturday</item>
+      <item>Sunday</item>
+    </one-of>
+  </rule>
+
+  <rule id="OrdinalForDates">
+    <one-of>
+      <item>
+        <ruleref uri="#OrdinalNumberFirstToNinth"/>
+      </item>
+      <item>
+        <ruleref uri="#OrdinalNumberEleventhToNinteenth"/>
+      </item>
+      <item>
+        <ruleref uri="#OrdinalNumberTenths"/>
+      </item>
+      <item>
+        <ruleref uri="#TwentyToNinety"/>
+        <ruleref uri="#OrdinalNumberFirstToNinth"/>
+      </item>
+    </one-of>
+  </rule>
+
+  <rule id="OrdinalNumberFirstToNinth">
+    <one-of>
+      <item>first</item>
+      <item>second</item>
+      <item>third</item>
+      <item>fourth</item>
+      <item>fifth</item>
+      <item>sixth</item>
+      <item>seventh</item>
+      <item>eighth</item>
+      <item>ninth</item>
+    </one-of>
+  </rule>
+  <rule id="OrdinalNumberEleventhToNinteenth">
+    <one-of>
+      <item>eleventh</item>
+      <item>twelfth</item>
+      <item>thirteenth</item>
+      <item>fourteenth</item>
+      <item>fifteenth</item>
+      <item>sixteenth</item>
+      <item>seventeenth</item>
+      <item>eighteenth</item>
+      <item>nineteenth</item>
+    </one-of>
+  </rule>
+  <rule id="OrdinalNumberTenths">
+    <one-of>
+      <item>tenth</item>
+      <item>twentieth</item>
+      <item>thirtieth</item>
+      <item>fortieth</item>
+      <item>fiftieth</item>
+      <item>sixtieth</item>
+      <item>seventieth</item>
+      <item>eightieth</item>
+      <item>ninetieth</item>
+    </one-of>
+  </rule>
+
+  <rule id="SchoolLevel">
+    <one-of>
+      <item>graduate school</item>
+      <item>college</item>
+    </one-of>
+  </rule>
+  <rule id="DegreeLevel">
+    <one-of>
+      <item>PhD</item>
+      <item>PhD Degree</item>
+      <item>Master's Degree</item>
+      <item>Bachelor's Degree</item>
+    </one-of>
+  </rule>
+  <rule id="TimeStamp">
+    <item>
+      <ruleref uri="#OneToTwentyThree"/>
+      <item repeat="0-1">
+        <one-of>
+          <item>o'clock</item>
+          <item>o'five</item>
+          <item>fifteen</item>
+          <item>thirty</item>
+          <item>fourty five</item>
+        </one-of>
+      </item>
+      <item repeat="0-1">
+        <one-of>
+          <item>am</item>
+          <item>pm</item>
+        </one-of>
+      </item>
+    </item>
+  </rule>
+  <rule id="QuarterReference">
+    <one-of>
+      <item>this quarter</item>
+      <item>next quarter</item>
+      <item>
         <item repeat="0-1">
-          <ruleref uri="#english_article"/>
+          <one-of>
+            <item>this</item>
+            <item>next</item>
+          </one-of>
+        </item>
+        <item>fall quarter</item>
+        <item>winter quarter</item>
+        <item>spring quarter</item>
+        <item>summar quarter</item>
+      </item>
+    </one-of>
+  </rule>
+
+  <rule id="ObjectCanBePossessed">
+    <one-of>
+      <item>office</item>
+      <item>desk</item>
+      <item>
+        <ruleref uri="#Email"/>
+      </item>
+      <item>
+        <ruleref uri="#Homepage"/>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="ObjectPossessedByPerson">
+    <one-of>
+      <item>
+        <ruleref uri="#PersonReference"/>'s
+        <ruleref uri="#ObjectCanBePossessed"/>
+      </item>
+      <item>
+        the
+        <ruleref uri="#ObjectCanBePossessed"/>
+        of
+        <ruleref uri="#PersonReference"/>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="Email">
+    email
+    <item repeat="0-1">address</item>
+  </rule>
+  <rule id="Homepage">
+    <one-of>
+      <item>webpage</item>
+      <item>website</item>
+      <item>homepage</item>
+    </one-of>
+    <item repeat="0-1"> address</item>
+  </rule>
+
+  <rule id="Place">
+    <one-of>
+      <item>
+        <ruleref uri="#LocationReference"/>
+      </item>
+      <item>
+        <ruleref uri="#SpecificPlace"/>
+      </item>
+    </one-of>
+  </rule>
+
+  <rule id="LocationReference">
+    <one-of>
+      <item>here</item>
+      <item>there</item>
+      <item>this building</item>
+      <item>this floor</item>
+    </one-of>
+  </rule>
+
+  <rule id="SpecificPlace">
+    <one-of>
+      <item>
+        Ford<item repeat="0-1">
+          <ruleref uri="#OfficeNumber"/>
+        </item>
+      </item>
+      <item>QRG Lab</item>
+      <item>
+        Dean's
+        <one-of>
+          <item>conference room</item>
+          <item>office</item>
+        </one-of>
+      </item>
+      <item>empty room</item>
+      <item>study room</item>
+      <item>
+        <ruleref uri="#PersonReference"/>'s
+        <one-of>
+          <item>office</item>
+          <item>desk</item>
+        </one-of>
+      </item>
+      <item>
+        <item repeat="0-1">
+          <ruleref uri="#EnglishArticle"/>
         </item>
         <item repeat="0-1">
           <one-of>
@@ -292,131 +929,221 @@
           <item>toilet</item>
         </one-of>
       </item>
-      <item>
-        <ruleref uri="#PersonReference"/>'s
-        <one-of>
-          <item>office</item>
-          <item>desk</item>
-        </one-of>
-      </item>
+    </one-of>
+  </rule>
+  <rule id="Duration">
+    <one-of>
+      <item>thirty minutes</item>
+      <item>forty five minutes</item>
+      <item>an hour</item>
+      <item>an hour and a half</item>
+      <item>two hours</item>
+      <item>three hours</item>
       <item>
         <item repeat="0-1">
-          <ruleref uri="#english_article"/>
+          <one-of>
+            <item>a</item>
+            <item>a whole</item>
+            <item>an entire</item>
+          </one-of>
         </item>
-        <one-of>
-          <item>empty room</item>
-          <item>study room</item>
-        </one-of>
-      </item>
-      <item>
-        Ford <ruleref uri="#OfficeNumber"/>
+        day
       </item>
     </one-of>
   </rule>
-  <rule id="LunchPickUp">
+  <rule id="DurationComparison">
     <item repeat="0-1">
       <one-of>
-        <item>my</item>
-        <item>my friend's</item>
-        <item>
-          <ruleref uri="#english_article" />
-        </item>
+        <item>at least</item>
+        <item>no more than</item>
+        <item>less than</item>
+        <item>more than</item>
+        <item>shorter than</item>
+        <item>longer than</item>
+        <item>only</item>
       </one-of>
     </item>
+    <ruleref uri="#Duration"/>
+    <item repeat="0-1">
+      <one-of>
+        <item>or less</item>
+        <item>or more</item>
+        <item>or longer</item>
+        <item>only</item>
+        <item>long</item>
+      </one-of>
+    </item>
+  </rule>
+  <rule id="AcademicDiscipline">
     <one-of>
-      <item>Krishna</item>
-      <item>ChowBus</item>
-      <item>5 2 7</item>
-      <item>5 27</item>
+      <item>Cognitive Systems</item>
+      <item>Artificial Intelligence</item>
+      <item>AI</item>
+      <item>Machine Learning</item>
+      <item>Solid State and Photonics</item>
+      <item>Photonics</item>
+      <item>Computer Engineering and Systems</item>
+      <item>Computer Engineering</item>
+      <item>Systems</item>
+      <item>Graphics and Interactive Media</item>
+      <item>Interactive Media</item>
+      <item>Graphics</item>
+      <item>Signals and Systems</item>
+      <item>Computing Algorithms and Applications</item>
+      <item>Theory</item>
+      <item>Theories</item>
+      <item>Algorithms</item>
+      <item>Security</item>
     </one-of>
-    <item repeat="0-1">
-      <one-of>
-        <item>lunch</item>
-        <item>delivery</item>
-        <item>meal</item>
-        <item>lunch box</item>
-      </one-of>
-    </item>
+  </rule>
+  <rule id="TemporalReference">
+    <one-of>
+      <item>today</item>
+      <item>tomorrow</item>
+      <item>yesterday</item>
+      <item>the day before yesterday</item>
+      <item>the day after tomorrow</item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>this</item>
+            <item>next</item>
+            <item>this coming</item>
+          </one-of>
+        </item>
+        <one-of>
+          <item>
+            <ruleref uri="#DayOfTheWeek"/>
+          </item>
+          <item>week</item>
+          <item>weekend</item>
+        </one-of>
+      </item>
+      <item>
+        <ruleref uri="#Date"/>
+      </item>
+      <item>
+        the week of<ruleref uri="#Date"/>
+      </item>
+      <item>
+        the <ruleref uri="#DayOfTheWeek"/> of<ruleref uri="#Date"/>
+      </item>
+    </one-of>
+  </rule>
+
+  <rule id="EventMaybeTemporallyStampped">
+    <one-of>
+      <item>
+        <ruleref uri="#TemporalReference"/>'s
+        <ruleref uri="#EventName"/>
+      </item>
+      <item>
+        <item repeat="0-1">the</item>
+        <ruleref uri="#EventName"/>
+        <ruleref uri="#TemporalReference"/>
+      </item>
+      <item>
+        <item repeat="0-1">the</item>
+        <ruleref uri="#EventName"/>
+        <one-of>
+          <item>on</item>
+          <item>of</item>
+          <item>for</item>
+        </one-of>
+        <ruleref uri="#TemporalReference"/>
+      </item>
+      <item>
+        <item repeat="0-1">
+          <ruleref uri="#EnglishArticle"/>
+        </item>
+        <ruleref uri="#EventName"/>
+      </item>
+    </one-of>
   </rule>
 
   <rule id="EventName">
     <one-of>
       <item>
-        <ruleref uri="#Courses" />
+        <ruleref uri="#Course"/>
       </item>
       <item>
-        <ruleref uri="#GenericEvent" />
+        <ruleref uri="#GenericEvent"/>
       </item>
       <item>
-        <ruleref uri="#OneTimeEvent" />
+        <ruleref uri="#OneTimeEvent"/>
       </item>
       <item>
-        <ruleref uri="#RecurringEvent" />
+        <ruleref uri="#RecurringEventWithSpecialName"/>
       </item>
-      <item>today's talk</item>
     </one-of>
   </rule>
   <rule id="OneTimeEvent">
     <one-of>
       <item>The Art and Science of Picasso's Blues</item>
       <item>Economic Thinking of Communication Networks</item>
+      <item>CS Barbecue</item>
     </one-of>
   </rule>
-  <rule id="RecurringEvent">
+
+  <rule id="RecurringEventWithSpecialName">
     <one-of>
+      <item>QRG Lunch</item>
+      <item>CS+X Seminar</item>
+      <item>Dean's Seminar Series</item>
       <item>Algorithm Coffee</item>
-      <item>Body pump</item>
+      <item>faculty meeting</item>
     </one-of>
   </rule>
   <rule id="GenericEvent">
-    <item repeat="0-1">
-      <ruleref uri="#english_article" />
-    </item>
     <one-of>
-      <item>colloquium</item>
-      <item>faculty meeting</item>
       <item>
         <item repeat="0-1">
-          <ruleref uri="#AcademicTopics" />
+          <one-of>
+            <item>CS</item>
+          </one-of>
         </item>
-        <ruleref uri="#EventCategory" />
+        <item repeat="0-1">
+          <ruleref uri="#AcademicDiscipline"/>
+        </item>
+        <ruleref uri="#EventCategory"/>
       </item>
     </one-of>
   </rule>
-  <rule id="AcademicTopics">
-    <one-of>
-      <item>AI</item>
-      <item>Artificial Intelligence</item>
-      <item>Machine Learning</item>
-      <item>Algorithm</item>
-      <item>Graphics</item>
-      <item>Database</item>
-      <item>Security</item>
-      <item>EECS</item>
-    </one-of>
-  </rule>
+
   <rule id="EventCategory">
     <one-of>
       <item>talk</item>
+      <item>talks</item>
+      <item>meeting</item>
+      <item>meetings</item>
       <item>lecture</item>
+      <item>lectures</item>
       <item>discussion</item>
+      <item>discussions</item>
       <item>discussion session</item>
+      <item>discussion sessions</item>
       <item>hackathon</item>
+      <item>colloquium</item>
       <item>coffee</item>
       <item>brown bag</item>
       <item>seminar</item>
+      <item>seminars</item>
       <item>class</item>
+      <item>classes</item>
       <item>lunch</item>
       <item>luncheon</item>
+      <item>event</item>
+      <item>events</item>
     </one-of>
   </rule>
-  <rule id="Courses">
+
+  <rule id="Course">
     <one-of>
       <item>
-        <ruleref uri="#Courses_name" />
+        <ruleref uri="#Courses_name"/>
       </item>
       <item>
-        <ruleref uri="#Courses_id" />
+        <ruleref uri="#Courses_id"/>
       </item>
     </one-of>
   </rule>
@@ -1029,13 +1756,13 @@
   <rule id="Courses_id">
     <one-of>
       <item>
-        EECS <ruleref uri="#Three_digit_number" />
+        EECS <ruleref uri="#Three_digit_number"/>
       </item>
       <item>
-        BME <ruleref uri="#Three_digit_number" />
+        BME <ruleref uri="#Three_digit_number"/>
       </item>
       <item>
-        Cog Sci <ruleref uri="#Three_digit_number" />
+        Cog Sci <ruleref uri="#Three_digit_number"/>
       </item>
       <item>
         EA
@@ -1047,21 +1774,482 @@
         </one-of>
       </item>
       <item>
-        <ruleref uri="#Three_digit_number" />
+        <ruleref uri="#Three_digit_number"/>
       </item>
     </one-of>
   </rule>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <rule id="InquiryStarter">
+    <one-of>
+      <item>
+        Do you
+        <item repeat="0-1">happen to</item>
+        <one-of>
+          <item>have</item>
+          <item>know</item>
+        </one-of>
+      </item>
+      <item>
+        <one-of>
+          <item>Can</item>
+          <item>Could</item>
+          <item>Would</item>
+        </one-of>
+        you tell me
+      </item>
+    </one-of>
+  </rule>
+
+  <rule id="InquisitionOrderStarter">
+    <one-of>
+      <item>Show me</item>
+      <item>Tell me</item>
+    </one-of>
+  </rule>
+
+  <rule id="PersonInquiryContent">
+    <one-of>
+      <item>
+        where I can find<ruleref uri="#PersonReference"/>
+      </item>
+      <item>
+        where to find<ruleref uri="#PersonReference"/>
+      </item>
+      <item>
+        where <ruleref uri="#PersonReference"/> is
+      </item>
+      <item>
+        the professor for <ruleref uri="#PersonReference"/> is
+      </item>
+    </one-of>
+  </rule>
+
+  <rule id="ObjectInquiryContent">
+    <one-of>
+      <item>
+        <one-of>
+          <item>about</item>
+          <item>if there is</item>
+          <item>the time for</item>
+          <item>the host of</item>
+        </one-of>
+        <item repeat="0-1">
+          <one-of>
+            <item>a</item>
+            <item>the</item>
+          </one-of>
+        </item>
+        <ruleref uri="#EventMaybeTemporallyStampped"/>
+      </item>
+      <item>
+        <ruleref uri="#ObjectPossessedByPerson"/>
+        <item repeat="0-1">
+          <one-of>
+            <item>lying around</item>
+            <item>with you</item>
+          </one-of>
+        </item>
+      </item>
+      <item>
+        <one-of>
+          <item>if</item>
+          <item>whether</item>
+        </one-of>
+        <ruleref uri="#Course"/>
+        is offered
+        <item repeat="0-1">
+          by
+          <item repeat="0-1">
+            <ruleref uri="#PersonReference"/>
+          </item>
+        </item>
+        <item repeat="0-1">
+          <ruleref uri="#QuarterReference"/>
+        </item>
+      </item>
+      <item>
+        <one-of>
+          <item>when</item>
+          <item>where</item>
+        </one-of>
+        <ruleref uri="#EventMaybeTemporallyStampped"/>
+        is
+      </item>
+      <item>
+        the name of the professor for
+        <ruleref uri="#Course"/>
+        <item repeat="0-1">
+          <ruleref uri="#QuarterReference"/>
+        </item>
+      </item>
+      <item>
+        <one-of>
+          <item>the professor who</item>
+          <item>the name of the professor who</item>
+          <item>who</item>
+          <item>
+            <one-of>
+              <item>whether</item>
+              <item>if</item>
+            </one-of>
+            <ruleref uri="#PersonReference"/>
+            is
+          </item>
+        </one-of>
+        <one-of>
+          <item>teaching</item>
+          <item>the professor teaching</item>
+          <item>the person teaching</item>
+          <item>the professor for</item>
+          <item>the professor for teaching</item>
+          <item>the person for</item>
+        </one-of>
+        <ruleref uri="#Course"/>
+        <item repeat="0-1">
+          <ruleref uri="#QuarterReference"/>
+        </item>
+      </item>
+      <item>
+        <one-of>
+          <item>the professor for</item>
+          <item>the professor who is teaching</item>
+          <item>the professor teaching</item>
+          <item>who lectures</item>
+          <item>who teaches</item>
+        </one-of>
+        <ruleref uri="#Course"/>
+        <item repeat="0-1">
+          <ruleref uri="#QuarterReference"/>
+        </item>
+      </item>
+      <item>
+        <one-of>
+          <item>the host for</item>
+          <item>the host of</item>
+          <item>the time for</item>
+          <item>the time of</item>
+        </one-of>
+        <ruleref uri="#EventName"/>
+        <item repeat="0-1">
+          <ruleref uri="#QuarterReference"/>
+        </item>
+      </item>
+    </one-of>
+  </rule>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- name related -->
+  <rule id="PossessivePronoun">
+    <one-of>
+      <item>her</item>
+      <item>his</item>
+      <item>my</item>
+      <item>your</item>
+      <item>our</item>
+      <item>their</item>
+      <item>its</item>
+    </one-of>
+  </rule>
+  <rule id="PersonReference">
+    <one-of>
+      <item>
+        <ruleref uri="#ExplicitPersonName"/>
+      </item>
+      <item>
+        <ruleref uri="#TitledName"/>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="ExplicitPersonName">
+    <one-of>
+      <item>
+        <ruleref uri="#FirstName"/>
+      </item>
+      <item>
+        <ruleref uri="#NickName"/>
+      </item>
+      <item>
+        <ruleref uri="#FullName"/>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="TitledName">
+    <one-of>
+      <item>
+        <ruleref uri="#PersonTitle"/>
+        <ruleref uri="#LastName"/>
+      </item>
+      <item>
+        <ruleref uri="#PersonTitle"/>
+        <ruleref uri="#FullName"/>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="PersonTitle">
+    <one-of>
+      <item>Professor</item>
+      <item>Doctor</item>
+      <item>Mister</item>
+      <item>Missus</item>
+      <item>Miss</item>
+    </one-of>
+  </rule>
+  <rule id="FirstName">
+    <one-of>
+      <item>Brenna</item>
+      <item>Larry</item>
+      <item>Fabian</item>
+      <item>Simone</item>
+      <item>Yan</item>
+      <item>Oliver</item>
+      <item>Anindya</item>
+      <item>Christos</item>
+      <item>Peter</item>
+      <item>Douglas</item>
+      <item>Robby</item>
+      <item>Ken</item>
+      <item>Kristian</item>
+      <item>Jason</item>
+      <item>Thomas</item>
+      <item>Michael</item>
+      <item>Ian</item>
+      <item>Ming-Yang</item>
+      <item>Aleksandar</item>
+      <item>Han</item>
+      <item>Konstantin</item>
+      <item>Eleanor</item>
+      <item>Bryan</item>
+      <item>Chris</item>
+      <item>Jennie</item>
+      <item>Michael</item>
+      <item>Sara</item>
+      <item>Jesse</item>
+      <item>Goce</item>
+      <item>Jack</item>
+      <item>Aravindan</item>
+      <item>Uri</item>
+      <item>Marcelo</item>
+      <item>Haoqi</item>
+      <item>Nabil</item>
+      <item>Randall</item>
+      <item>Alok</item>
+      <item>Elizabeth</item>
+      <item>Darren</item>
+      <item>Ronen</item>
+      <item>Nikos</item>
+      <item>Brent</item>
+      <item>Larry</item>
+      <item>Russell</item>
+      <item>Aggelos</item>
+      <item>Han</item>
+      <item>Yuan</item>
+      <item>Gokhan</item>
+      <item>Youssef</item>
+      <item>Anne</item>
+      <item>Peter</item>
+      <item>Hai</item>
+      <item>Brianna</item>
+      <item>Kim</item>
+      <item>Jeff</item>
+      <item>Melissa</item>
+    </one-of>
+  </rule>
+  <rule id="LastName">
+    <one-of>
+      <item>Argall</item>
+      <item>Birnbaum</item>
+      <item>Bustamante</item>
+      <item>Campanoni</item>
+      <item>Chen</item>
+      <item>Cossairt</item>
+      <item>De</item>
+      <item>Dimoulas</item>
+      <item>Dinda</item>
+      <item>Downey</item>
+      <item>Findler</item>
+      <item>Forbus</item>
+      <item>Hammond</item>
+      <item>Hartline</item>
+      <item>Hinrichs</item>
+      <item>Horn</item>
+      <item>Horswill</item>
+      <item>Kao</item>
+      <item>Kuzmanovic</item>
+      <item>Liu</item>
+      <item>Makarychev</item>
+      <item>O'Rourke</item>
+      <item>Pardo</item>
+      <item>Riesbeck</item>
+      <item>Rogers</item>
+      <item>Rubenstein</item>
+      <item>Sood</item>
+      <item>Tov</item>
+      <item>Trajcevski</item>
+      <item>Tumblin</item>
+      <item>Vijayaraghavan</item>
+      <item>Wilensky</item>
+      <item>Worsley</item>
+      <item>Zhang</item>
+      <item>Alshurafa</item>
+      <item>Berry</item>
+      <item>Choudhary</item>
+      <item>Gerber</item>
+      <item>Gergle</item>
+      <item>Gradwohl</item>
+      <item>Hardavellas</item>
+      <item>Hecht</item>
+      <item>Henschen</item>
+      <item>Joseph</item>
+      <item>Katsaggelos</item>
+      <item>Liu</item>
+      <item>Luo</item>
+      <item>Memik</item>
+      <item>Nashed</item>
+      <item>Piper</item>
+      <item>Scheuermann</item>
+      <item>Zhou</item>
+      <item>Wilson</item>
+      <item>Bennet</item>
+      <item>Mello</item>
+      <item>Kieras</item>
+      <item>Stiers</item>
+      <item>Duong</item>
+    </one-of>
+  </rule>
+  <rule id="NickName">
+    <one-of>
+      <item>Willie</item>
+      <item>Nell</item>
+      <item>Jack</item>
+    </one-of>
+  </rule>
+  <rule id="MiddleName">
+    <one-of>
+      <item>Owsley</item>
+      <item>Marie</item>
+    </one-of>
+  </rule>
+  <rule id="FullName">
+    <one-of>
+      <item>Willie Wilson</item>
+      <item>Jason Wilson</item>
+      <item>Huck Bennett</item>
+      <item>Fabian Bustamante</item>
+      <item>Oliver Cossairt</item>
+      <item>Kristian Hammond</item>
+      <item>Jason Hartline</item>
+      <item>Jennie Rogers</item>
+      <item>Jack Tumblin</item>
+      <item>Aggelos Katsaggelos</item>
+      <item>Brenna Argall</item>
+      <item>Larry Birnbaum</item>
+      <item>Fabian E. Bustamante</item>
+      <item>Simone Campanoni</item>
+      <item>Yan Chen</item>
+      <item>Oliver S. Cossairt</item>
+      <item>Anindya De</item>
+      <item>Christos Dimoulas</item>
+      <item>Peter Dinda</item>
+      <item>Douglas Downey</item>
+      <item>Robby Findler</item>
+      <item>Ken Forbus</item>
+      <item>Kristian J. Hammond</item>
+      <item>Jason D. Hartline</item>
+      <item>Thomas Hinrichs</item>
+      <item>Michael Horn</item>
+      <item>Ian Horswill</item>
+      <item>Ming-Yang Kao</item>
+      <item>Aleksandar Kuzmanovic</item>
+      <item>Han Liu</item>
+      <item>Konstantin Makarychev</item>
+      <item>Eleanor O'Rourke</item>
+      <item>Bryan Pardo</item>
+      <item>Chris Riesbeck</item>
+      <item>Jennie M. Rogers</item>
+      <item>Michael Rubenstein</item>
+      <item>Sara Owsley Sood</item>
+      <item>Jesse Tov</item>
+      <item>Goce Trajcevski</item>
+      <item>Jack E. Tumblin</item>
+      <item>Aravindan Vijayaraghavan</item>
+      <item>Uri Wilensky</item>
+      <item>Marcelo Worsley</item>
+      <item>Haoqi Zhang</item>
+      <item>Nabil Alshurafa</item>
+      <item>Randall Berry</item>
+      <item>Alok Choudhary</item>
+      <item>Elizabeth Gerber</item>
+      <item>Darren Gergle</item>
+      <item>Ronen Gradwohl</item>
+      <item>Nikos Hardavellas</item>
+      <item>Brent Hecht</item>
+      <item>Larry Henschen</item>
+      <item>Russell Joseph</item>
+      <item>Aggelos K. Katsaggelos</item>
+      <item>Han Liu</item>
+      <item>Yuan Luo</item>
+      <item>Gokhan Memik</item>
+      <item>Youssef Nashed</item>
+      <item>Anne Marie Piper</item>
+      <item>Peter Scheuermann</item>
+      <item>Hai Zhou</item>
+      <item>Brianna Mello</item>
+      <item>Kim Kieras</item>
+      <item>Jeff Stiers</item>
+      <item>Melissa Duong</item>
+    </one-of>
+  </rule>
+
+
+
+
+
+
+
+
+
+  <!-- Numbers -->
   <rule id="Three_digit_number">
     <one-of>
       <item>
-        <ruleref uri="#OneToNine" /> hundred
+        <ruleref uri="#OneToNine"/> hundred
       </item>
       <item>
-        <ruleref uri="#OneToNine" /> o <ruleref uri="#OneToNine" />
+        <ruleref uri="#OneToNine"/> o <ruleref uri="#OneToNine"/>
       </item>
       <item>
-        <ruleref uri="#OneToNine" />
-        <ruleref uri="#TenToNinetyNine" />
+        <ruleref uri="#OneToNine"/>
+        <ruleref uri="#TenToNinetyNine"/>
       </item>
     </one-of>
   </rule>
@@ -1113,6 +2301,27 @@
       <item>nine</item>
     </one-of>
   </rule>
+  <rule id="OneToTwentyThree">
+    <one-of>
+      <item>
+        <ruleref uri="#OneToNine"/>
+      </item>
+      <item>
+        <ruleref uri="#TenToNineteen"/>
+      </item>
+      <item>
+        twenty
+        <item repeat="0-1">
+          <one-of>
+            <item>one</item>
+            <item>two</item>
+            <item>three</item>
+          </one-of>
+        </item>
+      </item>
+      <item>zero</item>
+    </one-of>
+  </rule>
   <rule id="TenToNineteen">
     <one-of>
       <item>ten</item>
@@ -1139,513 +2348,129 @@
       <item>ninety</item>
     </one-of>
   </rule>
-  <rule id="PossessivePronoun">
+
+  <!-- Less important stuff -->
+  <rule id="Greeting">
     <one-of>
-      <item>her</item>
-      <item>his</item>
-      <item>my</item>
-      <item>your</item>
-      <item>our</item>
-      <item>their</item>
-      <item>its</item>
+      <item>Hello</item>
+      <item>Hi</item>
+      <item>Greetings</item>
+      <item>
+        Good
+        <one-of>
+          <item>morning</item>
+          <item>afternoon</item>
+          <item>evening</item>
+          <item>day</item>
+          <item>night</item>
+        </one-of>
+      </item>
+      <item>How are you</item>
+      <item>What's Sup</item>
+      <item>Sup</item>
     </one-of>
   </rule>
-  <rule id="PersonReference">
+  <rule id="Interjection">
     <one-of>
-      <item>
-        <ruleref uri="#ExplicitPersonName"/>
-      </item>
-      <item>
-        <ruleref uri="#TitledName"/>
-      </item>
+      <item>okay</item>
+      <item>hm</item>
+      <item>um</item>
+      <item>ah</item>
+      <item>cool</item>
+      <item>huh?</item>
+      <item>wow!</item>
+      <!--<item>huck you</item>-->
     </one-of>
   </rule>
-  <rule id="ExplicitPersonName">
+  <rule id="WrapUp">
     <one-of>
-      <item>
-        <ruleref uri="#FirstName"/>
-      </item>
-      <item>
-        <ruleref uri="#NickName"/>
-      </item>
-      <item>
-        <ruleref uri="#MiddleName"/>
-      </item>
-      <!--<item>
-        <ruleref uri="#LastName"/>
-      </item>-->
-      <item>
-        <ruleref uri="#FullName"/>
-      </item>
+      <item>Thank you</item>
+      <item>Good bye</item>
+      <item>bye bye</item>
+      <item>bye</item>
+      <item>talk to you later</item>
     </one-of>
   </rule>
-  <rule id="TitledName">
+  <rule id="Command">
     <one-of>
-      <item>
-        <ruleref uri="#PersonTitle"/>
-        <ruleref uri="#LastName"/>
-      </item>
-      <item>
-        <ruleref uri="#PersonTitle"/>
-        <ruleref uri="#FullName"/>
-      </item>
+      <item>Reload grammars</item>
     </one-of>
   </rule>
-  <rule id="PersonTitle">
+  <rule id="EasterEggs">
     <one-of>
-      <item>Professor</item>
-      <item>Doctor</item>
-      <item>Mister</item>
-      <item>Missus</item>
-      <item>Miss</item>
+      <item>Beam me up, Scotty!</item>
+      <item>Huck you</item>
+      <item>Say something</item>
     </one-of>
   </rule>
-  <rule id="FirstName">
+
+  <rule id="ObjectsOfInterest">
+    <item repeat="0-1">
+      <ruleref uri="#EnglishArticle" />
+    </item>
     <one-of>
-      <item>Anindya</item>
-      <item>Ilya</item>
-      <item>Ermin</item>
-      <item>Josiah</item>
-      <item>Darren</item>
-      <item>Randy</item>
-      <item>Bruce</item>
-      <item>Robby</item>
-      <item>Hai</item>
-      <item>Chi-Haur</item>
-      <item>Ying</item>
-      <item>Horace</item>
+      <item>food</item>
+      <item>snack</item>
+      <item>something to eat</item>
+      <item>printer</item>
+      <item>coffee</item>
+      <item>coffee machine</item>
+      <item>Nespresso</item>
+      <item>Nespresso machine</item>
+      <item>water fountain</item>
+      <item>tea</item>
+    </one-of>
+  </rule>
+
+  <!-- Unused -->
+  <rule id="Shuttle">
+    <item repeat="0-1">
+      <one-of>
+        <item>Northbound</item>
+        <item>Southbound</item>
+      </one-of>
+    </item>
+    <one-of>
+      <item>intercampus shuttle</item>
+      <item>shuttle</item>
+      <item>2 01</item>
+      <item>2 01 bus</item>
+      <item>Evanston Loop</item>
+    </one-of>
+    <item repeat="0-1">
+      to
+      <one-of>
+        <item>Downtown Chicago</item>
+        <item>South Campus</item>
+        <item>the Chicago Campus</item>
+        <item>Chicago Campus</item>
+      </one-of>
+    </item>
+  </rule>
+  <rule id="LunchPickUp">
+    <item repeat="0-1">
+      <one-of>
+        <item>my</item>
+        <item>my friend's</item>
+        <item>
+          <ruleref uri="#EnglishArticle"/>
+        </item>
+      </one-of>
+    </item>
+    <one-of>
       <item>Krishna</item>
-      <item>Qi</item>
-      <item>Jennie</item>
-      <item>John</item>
-      <item>David</item>
-      <item>Selim</item>
-      <item>Jason</item>
-      <item>Alvin</item>
-      <item>Morteza</item>
-      <item>Yanbo</item>
-      <item>Alan</item>
-      <item>Jie</item>
-      <item>Ken</item>
-      <item>Marcelo</item>
-      <item>Chris</item>
-      <item>Oliver</item>
-      <item>Jibran</item>
-      <item>Jack</item>
-      <item>Rajeev</item>
-      <item>Wei-Keng</item>
-      <item>Reza</item>
-      <item>Thomas</item>
-      <item>Andrew</item>
-      <item>Vijay</item>
-      <item>Russell</item>
-      <item>Chung-Chieh</item>
-      <item>Kim</item>
-      <item>Kristian</item>
-      <item>Abbas</item>
-      <item>Seng-Tiong</item>
-      <item>Yuping</item>
-      <item>Arthur</item>
-      <item>Gail</item>
-      <item>Bijan</item>
-      <item>Abraham</item>
-      <item>Koray</item>
-      <item>Apostolos</item>
-      <item>Mark</item>
-      <item>Randall</item>
-      <item>Simone</item>
-      <item>Robert</item>
-      <item>Allen</item>
-      <item>Steven</item>
-      <item>Michael</item>
-      <item>Matthew</item>
-      <item>Manijeh</item>
-      <item>Jesse</item>
-      <item>Pedram</item>
-      <item>Nikos</item>
-      <item>Menachem</item>
-      <item>James</item>
-      <item>Shaban</item>
-      <item>Vincent</item>
-      <item>Don</item>
-      <item>Haoqi</item>
-      <item>Nabil</item>
-      <item>Hooman</item>
-      <item>Ankit</item>
-      <item>Jeremy</item>
-      <item>Youssef</item>
-      <item>Ronen</item>
-      <item>Prem</item>
-      <item>Andrew</item>
-      <item>Larry</item>
-      <item>Aleksandar</item>
-      <item>Dongning</item>
-      <item>Max</item>
-      <item>Uri</item>
-      <item>Rakesh</item>
-      <item>Larry</item>
-      <item>Ryan</item>
-      <item>Christos</item>
-      <item>Sara</item>
-      <item>Jessica</item>
-      <item>Thrasyvoulos</item>
-      <item>Konstantin</item>
-      <item>Michael</item>
-      <item>Aggelos</item>
-      <item>Sotirios</item>
-      <item>Goce</item>
-      <item>Fabian</item>
-      <item>Anne</item>
-      <item>Brent</item>
-      <item>Han</item>
-      <item>Douglas</item>
-      <item>Seda</item>
-      <item>Gokhan</item>
-      <item>Peter</item>
-      <item>Minh</item>
-      <item>Gordon</item>
-      <item>Ming-Yang</item>
-      <item>Eleanor</item>
-      <item>Nicole</item>
-      <item>Martin</item>
-      <item>Bryan</item>
-      <item>Aravindan</item>
-      <item>Michael</item>
-      <item>Ian</item>
-      <item>Alok</item>
-      <item>Yan</item>
-      <item>Xin</item>
-      <item>Brenna</item>
-      <item>Huxley</item>
-      <item>Jason</item>
-      <item>Christopher</item>
-      <item>Pred</item>
-      <item>Melissa</item>
-      <item>Norm</item>
-      <item>Tarik</item>
-      <item>Gloria</item>
-      <item>Judith</item>
-      <item>Patrick</item>
-      <item>Charlene</item>
-      <item>Svetlana</item>
-      <item>Katarzyna</item>
-      <item>Jakub</item>
-      <item>Jason</item>
-      <item>Brianna</item>
-      <item>Royce</item>
-      <item>George</item>
-      <item>Sean</item>
-      <item>Carrie</item>
-      <item>Janice</item>
-      <item>Nikki</item>
-      <item>Abi</item>
-      <item>Jeff</item>
-      <item>Kristen</item>
-      <item>Carol</item>
-      <item>Iliana</item>
-      <item>Ozlem</item>
+      <item>ChowBus</item>
+      <item>5 2 7</item>
+      <item>5 27</item>
     </one-of>
+    <item repeat="0-1">
+      <one-of>
+        <item>lunch</item>
+        <item>delivery</item>
+        <item>meal</item>
+        <item>lunch box</item>
+      </one-of>
+    </item>
   </rule>
-  <rule id="LastName">
-    <one-of>
-      <item>De</item>
-      <item>Mikhelson</item>
-      <item>Wei</item>
-      <item>Hester</item>
-      <item>Gergle</item>
-      <item>Freeman</item>
-      <item>Wessels</item>
-      <item>Findler</item>
-      <item>Zhou</item>
-      <item>Wu</item>
-      <item>Yuen</item>
-      <item>Ketterson</item>
-      <item>Scheuermann</item>
-      <item>Shenai</item>
-      <item>Zhu</item>
-      <item>Rogers</item>
-      <item>Rogers</item>
-      <item>Zaretsky</item>
-      <item>Shahriar</item>
-      <item>Hartline</item>
-      <item>Bayliss</item>
-      <item>Rahimi</item>
-      <item>Bai</item>
-      <item>Sahakian</item>
-      <item>Gu</item>
-      <item>Forbus</item>
-      <item>Worsley</item>
-      <item>Riesbeck</item>
-      <item>Cossairt</item>
-      <item>Ilyas</item>
-      <item>Tumblin</item>
-      <item>Thakur</item>
-      <item>Liao</item>
-      <item>Borhani</item>
-      <item>Hinrichs</item>
-      <item>Larson</item>
-      <item>Subramanian</item>
-      <item>Joseph</item>
-      <item>Lee</item>
-      <item>Hammond</item>
-      <item>Haddadi</item>
-      <item>Ho</item>
-      <item>Huang</item>
-      <item>Butz</item>
-      <item>Brown</item>
-      <item>Movaghar</item>
-      <item>Haddad</item>
-      <item>Aydin</item>
-      <item>Raptis</item>
-      <item>Hersam</item>
-      <item>Berry</item>
-      <item>Campanoni</item>
-      <item>Chang</item>
-      <item>Taflove</item>
-      <item>Slivken</item>
-      <item>Horn</item>
-      <item>Grayson</item>
-      <item>Razeghi</item>
-      <item>Tov</item>
-      <item>Khalili</item>
-      <item>Hardavellas</item>
-      <item>Jona</item>
-      <item>Aagard</item>
-      <item>Darvish</item>
-      <item>St-Amour</item>
-      <item>Norman</item>
-      <item>Zhang</item>
-      <item>Alshurafa</item>
-      <item>Mohseni</item>
-      <item>Agrawal</item>
-      <item>Watt</item>
-      <item>Nashed</item>
-      <item>Gradwohl</item>
-      <item>Kumar</item>
-      <item>Ortony</item>
-      <item>Birnbaum</item>
-      <item>Kuzmanovic</item>
-      <item>Guo</item>
-      <item>Epstein</item>
-      <item>Wilensky</item>
-      <item>Vohra</item>
-      <item>Henschen</item>
-      <item>McClintock</item>
-      <item>Dimoulas</item>
-      <item>Sood</item>
-      <item>McChesney</item>
-      <item>Pappas</item>
-      <item>Makarychev</item>
-      <item>Honig</item>
-      <item>Katsaggelos</item>
-      <item>Tsaftaris</item>
-      <item>Trajcevski</item>
-      <item>Bustamante</item>
-      <item>Piper</item>
-      <item>Hecht</item>
-      <item>Liu</item>
-      <item>Downey</item>
-      <item>Memik</item>
-      <item>Dinda</item>
-      <item>Nguyen</item>
-      <item>Murphy</item>
-      <item>Kao</item>
-      <item>O Rourke</item>
-      <item>Immorlica</item>
-      <item>Plonus</item>
-      <item>Pardo</item>
-      <item>Vijayaraghavan</item>
-      <item>Rubenstein</item>
-      <item>Horswill</item>
-      <item>Choudhary</item>
-      <item>Chen</item>
-      <item>Argall</item>
-      <item>Wilson</item>
-      <item>Bennett</item>
-      <item>Bachmann</item>
-      <item>Bundalo</item>
-      <item>Duong</item>
-      <item>Flasch</item>
-      <item>Hasan</item>
-      <item>Hernandez</item>
-      <item>Hernandez</item>
-      <item>Hickey</item>
-      <item>Jefferson-johnson</item>
-      <item>Kiperman</item>
-      <item>Maczka</item>
-      <item>Maximilian</item>
-      <item>Mcbride</item>
-      <item>Mello</item>
-      <item>Morris</item>
-      <item>Nejmeh</item>
-      <item>O'Connor</item>
-      <item>Ost</item>
-      <item>Perry</item>
-      <item>Piech</item>
-      <item>Shay</item>
-      <item>Stiers</item>
-      <item>Sudman</item>
-      <item>Surma</item>
-      <item>Vargas</item>
-      <item>Yildizhan</item>
-    </one-of>
-  </rule>
-  <rule id="NickName">
-    <one-of>
-      <item>Kemi</item>
-      <item>Thrasos</item>
-      <item>Willie</item>
-      <item>Huck</item>
-      <item>Jack</item>
-      <item>Tom</item>
-      <item>Ken</item>
-      <item>Doug</item>
-      <item>Lana</item>
-      <item>Kathy</item>
-      <item>Oz</item>
-    </one-of>
-  </rule>
-  <rule id="MiddleName">
-    <one-of>
-      <item>Amir</item>
-      <item>Fook</item>
-      <item>Ramezani</item>
-      <item>Owsley</item>
-      <item>Marie</item>
-    </one-of>
-  </rule>
-  <rule id="FullName">
-    <one-of>
-      <item>Anindya De</item>
-      <item>Ilya Mikhelson</item>
-      <item>Ermin Wei</item>
-      <item>Josiah Hester</item>
-      <item>Darren Gergle</item>
-      <item>Randy Freeman</item>
-      <item>Bruce Wessels</item>
-      <item>Robby Findler</item>
-      <item>Hai Zhou</item>
-      <item>Chi-Haur Wu</item>
-      <item>Ying Wu</item>
-      <item>Horace Yuen</item>
-      <item>Peter Scheuermann</item>
-      <item>Krishna Shenai</item>
-      <item>Qi Zhu</item>
-      <item>John Rogers</item>
-      <item>David Zaretsky</item>
-      <item>Selim Shahriar</item>
-      <item>Alvin Bayliss</item>
-      <item>Morteza Amir Rahimi</item>
-      <item>Amir Rahimi</item>
-      <item>Morteza Rahimi</item>
-      <item>Yanbo Bai</item>
-      <item>Jie Gu</item>
-      <item>Kenneth Forbus</item>
-      <item>Ken Forbus</item>
-      <item>Marcelo Worsley</item>
-      <item>Chris Riesbeck</item>
-      <item>Jibran Ilyas</item>
-      <item>Rajeev Thakur</item>
-      <item>Wei-Keng Liao</item>
-      <item>Reza Borhani</item>
-      <item>Thomas Hinrichs</item>
-      <item>Andrew Larson</item>
-      <item>Vijay Subramanian</item>
-      <item>Russell Joseph</item>
-      <item>Chung-Chieh Lee</item>
-      <item>Kim Fook Lee</item>
-      <item>Abbas Haddadi</item>
-      <item>Seng-Tiong Ho</item>
-      <item>Yuping Huang</item>
-      <item>Arthur Butz</item>
-      <item>Bijan Movaghar</item>
-      <item>Koray Aydin</item>
-      <item>Apostolos Raptis</item>
-      <item>Randall Berry</item>
-      <item>Simone Campanoni</item>
-      <item>Robert Chang</item>
-      <item>Allen Taflove</item>
-      <item>Steven Slivken</item>
-      <item>Michael Horn</item>
-      <item>Matthew Grayson</item>
-      <item>Manijeh Razeghi</item>
-      <item>Jesse Tov</item>
-      <item>Pedram Khalili</item>
-      <item>Nikos Hardavellas</item>
-      <item>Menachem Jona</item>
-      <item>James Aagard</item>
-      <item>Shaban Ramezani Darvish</item>
-      <item>Ramezani Darvish</item>
-      <item>Shaban Darvish</item>
-      <item>Vincent St-Amour</item>
-      <item>Vincent Saint-Amour</item>
-      <item>Don Norman</item>
-      <item>Haoqi Zhang</item>
-      <item>Nabil Alshurafa</item>
-      <item>Hooman Mohseni</item>
-      <item>Ankit Agrawal</item>
-      <item>Jeremy Watt</item>
-      <item>Youssef Nashed</item>
-      <item>Ronen Gradwohl</item>
-      <item>Prem Kumar</item>
-      <item>Larry Birnbaum</item>
-      <item>Aleksandar Kuzmanovic</item>
-      <item>Dongning Guo</item>
-      <item>Max Epstein</item>
-      <item>Uri Wilensky</item>
-      <item>Rakesh Vohra</item>
-      <item>Larry Henschen</item>
-      <item>Ryan Mcclintock</item>
-      <item>Christos Dimoulas</item>
-      <item>Sara Owsley Sood</item>
-      <item>Jessica Mcchesney</item>
-      <item>Konstantin Makarychev</item>
-      <item>Michael Honig</item>
-      <item>Goce Trajcevski</item>
-      <item>Anne Marie Piper</item>
-      <item>Brent Hecht</item>
-      <item>Han Liu</item>
-      <item>Douglas Downey</item>
-      <item>Gokhan Memik</item>
-      <item>Peter Dinda</item>
-      <item>Minh Nguyen</item>
-      <item>Ming-Yang Kao</item>
-      <item>Nicole Immorlica</item>
-      <item>Martin Plonus</item>
-      <item>Bryan Pardo</item>
-      <item>Aravindan Vijayaraghavan</item>
-      <item>Michael Rubenstein</item>
-      <item>Ian Horswill</item>
-      <item>Alok Choudhary</item>
-      <item>Yan Chen</item>
-      <item>Xin Chen</item>
-      <item>Brenna Argall</item>
-      <item>Christopher Bachmann</item>
-      <item>Pred Bundalo</item>
-      <item>Melissa Duong</item>
-      <item>Norm Flasch</item>
-      <item>Tarik Hasan</item>
-      <item>Gloria Hernandez</item>
-      <item>Judith Hernandez</item>
-      <item>Patrick Hickey</item>
-      <item>Charlene Jefferson-Johnson</item>
-      <item>Svetlana Kiperman</item>
-      <item>Katarzyna Maczka</item>
-      <item>Jakub Maximilian</item>
-      <item>Jason Mcbride</item>
-      <item>Brianna Mello</item>
-      <item>Royce Morris</item>
-      <item>George Nejmeh</item>
-      <item>Sean O'Connor</item>
-      <item>Carrie Ost</item>
-      <item>Janice Perry</item>
-      <item>Nikki Piech</item>
-      <item>Abi Shay</item>
-      <item>Jeff Stiers</item>
-      <item>Kristen Sudman</item>
-      <item>Carol Surma</item>
-      <item>Iliana Vargas</item>
-      <item>Ozlem Yildizhan</item>
-    </one-of>
-  </rule>
+  
 </grammar>

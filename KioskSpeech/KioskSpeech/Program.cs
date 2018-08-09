@@ -169,7 +169,7 @@ namespace NU.Kiosk.Speech
                 Language = "en-US",
                 Grammars = new GrammarInfo[]
                 {
-                     new GrammarInfo() { Name = Program.AppName, FileName = @"Resources\CuratedGrammar.grxml" }
+                     new GrammarInfo() { Name = Program.AppName, FileName = @"Resources\BaseGrammar.grxml" }
                 }
             });
             return recognizer;

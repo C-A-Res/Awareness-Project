@@ -35,7 +35,7 @@ namespace NU.Kqml
         {
             string message = quote_s.Replace(result.Text, "'s");
             double confidence = result.Confidence.Value;
-            Console.WriteLine($"[KioskInputTextPreProcessor] Received {message} with confidence {confidence}; ");// isAccepting {isAccepting}.");
+            Console.WriteLine($"[KioskInputTextPreProcessor] Received \"{message}\" with confidence {confidence}; ");// isAccepting {isAccepting}.");
             if (!isUsingIsAccepting || isUsingIsAccepting && isAccepting)
             {
                 if (confidence < 0.3)
