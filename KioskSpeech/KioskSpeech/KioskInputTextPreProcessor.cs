@@ -19,6 +19,8 @@ namespace NU.Kqml
         private SystemSpeechRecognizer recognizer;
         private int ReloadMessageIDCurrent = 0;
         private static Regex quote_s = new Regex("[ ][']s");
+        private static Regex course_num1 = new Regex(@"(\d)\s+(\d)0\s+(\d)");
+        private static Regex course_num2 = new Regex(@"(\d)\s+(\d+)");
         private int repeatCount = 0;
 
         public KioskInputTextPreProcessor(Pipeline pipeline, SystemSpeechRecognizer rec)
@@ -110,7 +112,11 @@ namespace NU.Kqml
                                 break;
                             }
                         default:
-                            this.Out.Post(message, DateTime.Now);
+                            // fix course numbers
+                            var x = course_num1.Replace(message, m => string.Format("{0}{1}{2}", m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value));
+                            var updated_text = course_num2.Replace(x, m => string.Format("{0}{1}", m.Groups[1].Value, m.Groups[2].Value));
+
+                            this.Out.Post(updated_text, DateTime.Now);
                             Console.WriteLine($"[KioskInputTextPreProcessor] Starting timer.");
                             if (isUsingIsAccepting)
                             {

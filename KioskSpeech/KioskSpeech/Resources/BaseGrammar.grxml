@@ -2271,7 +2271,7 @@
   <rule id="ZeroToNinetyNine">
     <one-of>
       <item>o</item>
-      <item>zero</item>
+      <item>0</item>
       <item>
         <ruleref uri="#OneToNine"/>
       </item>
@@ -2301,15 +2301,15 @@
   </rule>
   <rule id="OneToNine">
     <one-of>
-      <item>one</item>
-      <item>two</item>
-      <item>three</item>
-      <item>four</item>
-      <item>five</item>
-      <item>six</item>
-      <item>seven</item>
-      <item>eight</item>
-      <item>nine</item>
+      <item>1</item>
+      <item>2</item>
+      <item>3</item>
+      <item>4</item>
+      <item>5</item>
+      <item>6</item>
+      <item>7</item>
+      <item>8</item>
+      <item>9</item>
     </one-of>
   </rule>
   <rule id="OneToTwentyThree">
@@ -2324,9 +2324,9 @@
         twenty
         <item repeat="0-1">
           <one-of>
-            <item>one</item>
-            <item>two</item>
-            <item>three</item>
+            <item>1</item>
+            <item>2</item>
+            <item>3</item>
           </one-of>
         </item>
       </item>
@@ -2335,28 +2335,28 @@
   </rule>
   <rule id="TenToNineteen">
     <one-of>
-      <item>ten</item>
-      <item>eleven</item>
-      <item>twelve</item>
-      <item>thirteen</item>
-      <item>fourteen</item>
-      <item>fifteen</item>
-      <item>sixteen</item>
-      <item>seventeen</item>
-      <item>eighteen</item>
-      <item>nineteen</item>
+      <item>10</item>
+      <item>11</item>
+      <item>12</item>
+      <item>13</item>
+      <item>14</item>
+      <item>15</item>
+      <item>16</item>
+      <item>17</item>
+      <item>18</item>
+      <item>19</item>
     </one-of>
   </rule>
   <rule id="TwentyToNinety">
     <one-of>
-      <item>twenty</item>
-      <item>thirty</item>
-      <item>forty</item>
-      <item>fifty</item>
-      <item>sixty</item>
-      <item>seventy</item>
-      <item>eighty</item>
-      <item>ninety</item>
+      <item>20</item>
+      <item>30</item>
+      <item>40</item>
+      <item>50</item>
+      <item>60</item>
+      <item>70</item>
+      <item>80</item>
+      <item>90</item>
     </one-of>
   </rule>
 

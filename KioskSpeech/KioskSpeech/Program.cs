@@ -105,25 +105,27 @@ namespace NU.Kiosk.Speech
                 // Partial and final speech recognition results are posted on the same stream. Here
                 // we use Psi's Where() operator to filter out only the final recognition results.
                 var finalResults = recognizer.Out.Where(result => result.IsFinal);
-
-                KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
-                SystemSpeechSynthesizer speechSynth = CreateSpeechSynthesizer(pipeline);
+                finalResults.Do(x => Console.WriteLine(x));
+                //KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
+                //SystemSpeechSynthesizer speechSynth = CreateSpeechSynthesizer(pipeline);
                 KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline, (SystemSpeechRecognizer)recognizer);
 
                 finalResults.PipeTo(preproc.In);
-                preproc.Out.PipeTo(ui.UserInput);
+                preproc.Out.Do(x => Console.WriteLine($"Processed: {x}"));
+
+                //preproc.Out.PipeTo(ui.UserInput);
                 if (facilitatorIP != "none")
                 {
                     python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
-                    preproc.Out.PipeTo(ui.UserInput);
-                    python.Out.PipeTo(ui.CompResponse);
-                    python.Out.PipeTo(speechSynth);
+                    //preproc.Out.PipeTo(ui.UserInput);
+                    //python.Out.PipeTo(ui.CompResponse);
+                    //python.Out.PipeTo(speechSynth);
                 } else
                 {
-                    preproc.Out.PipeTo(ui.CompResponse);
-                    preproc.Out.PipeTo(speechSynth);
+                    //preproc.Out.PipeTo(ui.CompResponse);
+                    //preproc.Out.PipeTo(speechSynth);
                 }
-                speechSynth.SpeakCompleted.Do(x => preproc.setAccepting());
+                //speechSynth.SpeakCompleted.Do(x => preproc.setAccepting());
 
                 // Create a data store to log the data to if necessary. A data store is necessary
                 // only if output logging or live visualization are enabled.
