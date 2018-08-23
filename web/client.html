@@ -198,6 +198,10 @@
 
       }
 
+      $(".toggleDebug").click(function() {
+        $("#debug").toggle("slow", function(){});
+        $(".toggleDebug").toggleClass("debugOn");
+      });
 
     }
     
@@ -215,7 +219,6 @@
 </head>
 <body onload="init();"> 
   <div id="topSpace">  
-    <div id="chatSpace"></div>
     <div id="avatarSpace">
       <div id="state">Loading</div>
       <div id="shadow" class="shadow"></div>
@@ -224,20 +227,30 @@
         <span class="eye" id="eye2"></span>
       </figure>
     </div>
+    <div id="chatSpace">
+      <!-- <div class="newUserDiv">Where is Willie Wilson's office?</div>
+      <div class="newBotDiv">Willie Wilson's office is at Ford 3-330.</div>-->
+    </div> 
     <div id="lights">    
       <div id="connected" class="indicators"></div>
       <div id="listening" class="indicators"></div>
       <div id="thinking" class="indicators"></div>
     </div>
   </div>
-  <!-- <div id="bottomSpace">
+<!--   <div id="bottomSpace">
+    <div id="mapSpace">
+      <img id="map" src="map.png">
+    </div>
   </div> -->
+  <button class="toggleDebug"></button>
+  <div id="debug" style="display: none">
     <button id="btnClose">close</button>
     <button id="btnSleeping">sleeping</button>
     <button id="btnThinking">thinking</button>
     <button id="btnListening">listening</button>
     <button id="btnSpeaking">speaking</button>
 
-  <div id="log" style="height:150px; overflow: auto;"></div>
+    <div id="log" style="height:150px; overflow: auto;"></div>
+  </div>  
 </body>
 </html>
