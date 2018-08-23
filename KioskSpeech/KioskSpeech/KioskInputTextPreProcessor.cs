@@ -82,7 +82,7 @@ namespace NU.Kqml
                             }
                             else
                             {
-                                this.Out.Post(null, DateTime.Now);
+                                this.Out.Post(null, e.Time);
                             }
                             break;
                         case "Reload grammars":
@@ -116,20 +116,20 @@ namespace NU.Kqml
                             var x = course_num1.Replace(message, m => string.Format("{0}{1}{2}", m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value));
                             var updated_text = course_num2.Replace(x, m => string.Format("{0}{1}", m.Groups[1].Value, m.Groups[2].Value));
 
-                            this.Out.Post(updated_text, DateTime.Now);
-                            Console.WriteLine($"[KioskInputTextPreProcessor] Starting timer.");
-                            if (isUsingIsAccepting)
-                            {
-                                if (isAccepting)
-                                {
-                                    isAccepting = false;
-                                    restartAcceptingInMs(10000);
-                                }
-                            }
-                            else
-                            {
-                                // do nothing
-                            }
+                            this.Out.Post(updated_text, e.Time);
+                            //Console.WriteLine($"[KioskInputTextPreProcessor] Starting timer.");
+                            //if (isUsingIsAccepting)
+                            //{
+                            //    if (isAccepting)
+                            //    {
+                            //        isAccepting = false;
+                            //        restartAcceptingInMs(10000);
+                            //    }
+                            //}
+                            //else
+                            //{
+                            //    // do nothing
+                            //}
                             break;
                     }
                 }
@@ -148,6 +148,7 @@ namespace NU.Kqml
             {
                 setAccepting();
                 Console.WriteLine($"[KioskInputTextPreProcessor] Timer stopped; once again accepting.");
+                AutoResponse.Post("Sorry, I've having difficulty processing.", DateTime.Now);
             }
             else
             {

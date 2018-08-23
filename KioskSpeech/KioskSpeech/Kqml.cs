@@ -215,7 +215,7 @@ namespace NU.Kqml
         private void handleAchieve(KQMLMessage msg, AbstractSimpleSocket socket)
         {
             receivedMsgs.Add(msg); // is this really necessary?
-            this.Out.Post(msg.content.ToString(), DateTime.Now);
+            this.Out.Post(msg.content.ToString().Trim('"'), DateTime.Now);
             socket.Send(KQMLMessage.createTell(this.name, msg.sender, this.nextMsgId(), msg.reply_with, ":ok").ToString());
         }
     }
