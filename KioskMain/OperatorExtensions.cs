@@ -35,5 +35,6 @@ namespace NU.Kiosk
                     return maxValue >= threshold;
                 });
         }
+
     }
 }

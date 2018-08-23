@@ -4,6 +4,7 @@
     using System.IO;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using Microsoft.Kinect;
     using Microsoft.Psi;
     using Microsoft.Psi.Kinect.v1;
@@ -13,23 +14,66 @@
     using Microsoft.Psi.Data;
     using Microsoft.Psi.Speech;
     using Microsoft.Psi.Visualization.Client;
-    
+    using WebSocketSharp.Server;
+    using System.Threading.Tasks;
+    using System.Timers;
+
     public static class KinectKioskProgram
     {
         static string AppName = "Kiosk";
 
         static TimeSpan _100ms = TimeSpan.FromSeconds(0.1);
-        static TimeSpan _500ms = TimeSpan.FromSeconds(0.5);
+        static TimeSpan _300ms = TimeSpan.FromSeconds(0.1);
+        static TimeSpan _500ms = TimeSpan.FromSeconds(2.5);
+
+        static bool isAccepting = true;
+        static System.Timers.Timer timer = new System.Timers.Timer(1);
+        
+        private static void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            isAccepting = true;
+        }
+
+        private static void InitTimer()
+        {
+            timer = new System.Timers.Timer(10000);
+            timer.Elapsed += OnTimedEvent;
+        }
+
+        private static void StartTimer()
+        {
+            timer.Enabled = true;
+            Console.WriteLine("[StopTimer] Timer Enabled.");
+        }
+
+        private static void StopTimer()
+        {
+            timer.Enabled = false;
+            Console.WriteLine("[StopTimer] Timer Disabled");
+        }
+        
+        public static void setAccepting()
+        {
+            Console.WriteLine("[Main: setAccepting] Yes! Accepting!");
+            isAccepting = true;
+            StopTimer();
+        }
+
+        public static void setNotAccepting()
+        {
+            Console.WriteLine("[Main: setAccepting] No! Not accepting!");
+            isAccepting = false;
+            StartTimer();
+        }
 
         public static void Main(string[] args)
         {
             bool detected = false;
             bool usingKqml = true;
-            string facilitatorIP = "165.124.161.121";
-            //string facilitatorIP = "127.0.0.1";
-            int facilitatorPort = 9000;
-            int localPort = 8090;
-
+            string facilitatorIP = args[0]; 
+            int facilitatorPort = int.Parse(args[1]); 
+            int localPort = int.Parse(args[2]);
+            InitTimer();
 
             Console.WriteLine("Starting Kinect-based Kiosk.  Verify that Kinect is setup before continuing");
 
@@ -44,7 +88,15 @@
 
                 var recognizer = Speech.Program.CreateSpeechRecognizer(pipeline);
 
+                var merger = new Speech.SpeechMerger(pipeline);
+
                 var synthesizer = Speech.Program.CreateSpeechSynthesizer(pipeline);
+
+                NU.Kqml.SocketStringConsumer kqml = null;
+
+                NU.Kqml.KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline, (SystemSpeechRecognizer)recognizer);
+
+                KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
 
                 // Wiring together the components
                 var joinedFrames = kinectSensor.ColorImage.Join(kinectSensor.DepthImage).Join(kinectSensor.Skeletons);
@@ -57,43 +109,32 @@
                     {
                         Console.WriteLine("Face found");
                         detected = true;
-                    } 
+                    }
                     return x ? 1.0 : 0.0;
                 });
 
-                var mouthOpen = mouthOpenAsFloat.Hold(0.1);
-                // mouthOpen.Do(x => Console.Write($"{x} "));
+                // Hold faceDetected to true for a while, even after face is gone
+                var faceDetected = mouthOpenAsFloat.Hold(0.1, 0.05);
+                faceDetected.PipeTo(ui.FaceDetected);
 
-                // Not using speech detector for now
-                //kinectSensor.Audio.PipeTo(speechDetector);
-                //var mouthAndSpeechDetector = speechDetector.Join(mouthOpen, _100ms).Select((t, e) => t.Item1 && t.Item2);
-
-                kinectSensor.Audio.Join(mouthOpen, _500ms).Where(result => result.Item2).Select(pair => {
+                // Send audio to recognizer if face is detected and ready to accept more input    
+                //kinectSensor.Audio.Join(faceDetected, _300ms).Where(result => result.Item2 && isAccepting).Select(pair => {
+                //    return pair.Item1;
+                //}).PipeTo(recognizer);
+                kinectSensor.Audio.Join(faceDetected, _300ms).Pair(synthesizer.StateChanged).Where(result => result.Item2 && result.Item3.State == System.Speech.Synthesis.SynthesizerState.Ready).Select(pair => {
                     return pair.Item1;
-                    }
-                ).PipeTo(recognizer);
-                //kinectSensor.Audio.PipeTo(recognizer);
+                }).PipeTo(recognizer);
 
+                // Get final results of speech recognition
                 var finalResults = recognizer.Out.Where(result => result.IsFinal);
 
-                /*
-                finalResults.Join(mouthOpen, _500ms).Do(pair =>
+                var recognitionResult = finalResults.Select(r =>  // Need to add a Where Item2, but skipping for now
                 {
-                    var ssrResult = pair.Item1 as SpeechRecognitionResult;
-                    Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence}) (mouthOpen: {pair.Item2})");
+                    var ssrResult = r as IStreamingSpeechRecognitionResult;
+                    Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
+                    return ssrResult;
                 });
-                */
 
-                
-                ////var text = finalResults.Join(mouthOpen, _500ms).Select(pair =>  // Need to add a Where Item2, but skipping for now
-                ////{
-                ////    var ssrResult = pair.Item1 as SpeechRecognitionResult;
-                ////    Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence}) (mouthOpen: {pair.Item2})");
-                ////    return ssrResult.Text;
-                ////});
-
-                NU.Kqml.SocketStringConsumer kqml = null;
-                NU.Kqml.KioskInputTextPreProcessor preproc = null;
                 if (usingKqml)
                 {
                     Console.WriteLine("Setting up connection to Companion");
@@ -103,35 +144,73 @@
                     Console.WriteLine("Your Companion port is: " + facilitatorPort);
                     Console.WriteLine("Your local port is: " + localPort);
 
+                    // setup interface to Companion
                     kqml = new NU.Kqml.SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort_num, localPort_num);
-                    preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline);
 
-                    var recognitionResult = finalResults.Join(mouthOpen, _500ms).Select(pair =>  // Need to add a Where Item2, but skipping for now
-                    {
-                        var ssrResult = pair.Item1 as IStreamingSpeechRecognitionResult;
-                        Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence}) (mouthOpen: {pair.Item2})");
-                        return ssrResult;
-                    });
-
+                    // Send user input to preprocess
                     recognitionResult.PipeTo(preproc.In);
-                    preproc.Out.PipeTo(kqml.In);
-                    kqml.Out.Do(x => Console.WriteLine(x));
-                    kqml.Out.PipeTo(synthesizer);
-                    synthesizer.SpeakCompleted.Do(x => preproc.setAccepting());
-                } else
-                {
-                    var text = finalResults.Join(mouthOpen, _500ms).Select(pair =>  // Need to add a Where Item2, but skipping for now
-                    {
-                        var ssrResult = pair.Item1 as SpeechRecognitionResult;
-                        Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence}) (mouthOpen: {pair.Item2})");
-                        return ssrResult.Text;
+
+                    // Set accepting flag based on preprocessor output
+                    var non_trivial_result = preproc.Out.Where(x => {
+                        if (x == null)
+                        {
+                            //setAccepting();
+                            return false;
+                        }
+                        else
+                        {
+                            //setNotAccepting();
+                            return true;
+                        }
                     });
-                    text.PipeTo(synthesizer);
-                    //synthesizer.SpeakStarted;
-                    //synthesizer.SpeakCompleted;
+
+                    preproc.AutoResponse.PipeTo(merger.OtherIn);
+
+                    // Send processed user input to Companion and UI
+                    non_trivial_result.PipeTo(kqml.In);
+                    non_trivial_result.PipeTo(ui.UserInput);
+                    non_trivial_result.PipeTo(merger.LastOut);
+
+                    // Get response from Companion and forward to UI and synthesizer
+                    kqml.Out.Do(x => Console.WriteLine(x));
+                    kqml.Out.PipeTo(merger.In);
+                    merger.Out.PipeTo(ui.CompResponse);
+                    merger.Out.PipeTo(synthesizer);
+
+                    // When speaking complete, ready to accept more input
+                    //synthesizer.SpeakCompleted.Delay(_500ms).Do(x => setAccepting());
+                   
                 }
+                else
+                {
+                    Console.WriteLine("Status: Not using KQML");
+                   
+                    recognitionResult.PipeTo(preproc.In);
 
+                    var non_trivial_result = preproc.Out.Where(x => {
+                        if (x == null)
+                        {
+                            setAccepting();
+                            return false;
+                        }
+                        else
+                        {
+                            setNotAccepting();
+                            return true;
+                        }
+                    });
+                    non_trivial_result.PipeTo(ui.UserInput);
+                    var delayed = non_trivial_result.Select(result =>
+                    {
+                        Thread.Sleep(3000);
+                        return result;
+                    });
+                    TimeSpan the_wait = TimeSpan.FromSeconds(13.0);
+                    delayed.PipeTo(ui.CompResponse);
+                    delayed.PipeTo(synthesizer);
+                    synthesizer.SpeakCompleted.Do(x => setAccepting());
 
+                }
 
                 // Setup psi studio visualizations
                 //SetupDataStore(pipeline, @"..\..\..\Videos\" + AppName, "", true, kinectSensor, faceTracker, finalResults);
@@ -141,10 +220,9 @@
 
                 // Run the pipeline
                 pipeline.RunAsync();
-
+                
                 Console.WriteLine("Press any key to exit...");
                 Console.ReadKey(true);
-
             }
         }
 

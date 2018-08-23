@@ -132,6 +132,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="websocket-sharp, Version=1.0.2.59611, Culture=neutral, PublicKeyToken=5660b08a1845a91e, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebSocketSharp.1.0.3-rc11\lib\websocket-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +268,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <None Include="Resources\AdditionalGrammarToBeMerged.grxml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\CuratedGrammar.grxml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\BaseGrammar.grxml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TestOriginalGrammar.grxml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kinectv1\PsiKinectv1\PsiKinectv1.csproj">
@@ -274,6 +289,10 @@
     <ProjectReference Include="..\KioskSpeech\KioskSpeech\KioskSpeech.csproj">
       <Project>{c5ab7394-68fb-4641-bdae-8a956edc44a9}</Project>
       <Name>KioskSpeech</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KioskUI\KioskUI.csproj">
+      <Project>{cea3bc67-5dae-44b5-bec7-5596ee29629f}</Project>
+      <Name>KioskUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Kinect.Toolkit.FaceTracking\Microsoft.Kinect.Toolkit.FaceTracking.csproj">
       <Project>{1bcf9cee-df01-430e-b49d-41a9a88963eb}</Project>
@@ -329,6 +348,11 @@
     <None Include="NuiDatabase\HDFaceTracker\WholeHeadModel\FullHeadMaskVertexCorrespondence.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\primitive_grammar.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

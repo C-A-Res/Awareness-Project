@@ -1,0 +1,317 @@
+header{
+  font-size: 50px;
+  padding: 30px;
+  background-color: black;
+  color: white;
+  margin: 10px;
+  height: 75px;
+}
+
+.indicators {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  margin: 5px;
+  position: relative;
+}
+
+#connected {
+  background-color: grey;
+  top: 10px;
+}
+
+#listening {
+  background-color: red;
+  top: 25px;
+}
+
+#thinking {
+  background-color: yellow;
+  top: 40px;
+}
+
+#state {
+  font-size: 25px;
+  float: right;
+  text-align: right;
+}
+
+.newuserDiv{
+  border-radius: 25px;
+  border: 2px solid skyblue;
+  padding: 5px;
+  float: left;
+  text-align: left;
+  width: 70%;
+  margin: 5px;
+}
+
+.newbotDiv{
+  border-radius: 25px;
+  border: 2px solid purple;
+  padding: 5px;
+  float: right;
+  text-align: right;
+  width: 70%;
+  margin: 5px;
+  white-space: pre-wrap;
+}
+
+.ball {
+  display: block;
+  background: radial-gradient(circle at 130px 70px, #330099, #000);
+  border-radius: 50%;
+  height: 200px;
+  width: 200px;
+  margin: 0;
+  animation-name: thinking;
+  animation-duration: 2s;
+  animation-iteration-count: 2;
+  animation-timing-function: ease-out;
+  position: absolute;
+  top: 150px;
+  left: 70px;
+  transition: transform 1s;
+}
+
+.ball:before {
+  content: "";
+  position: absolute;
+  background: radial-gradient(circle at 50% 120%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  bottom: 2.5%;
+  left: 7.5%;
+  opacity: 0.4;
+  height: 100%;
+  width: 90%;
+  filter: blur(5px);
+  z-index: 2;
+}
+.ball:after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 5%;
+  left: 10%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8) 14%, rgba(255, 255, 255, 0) 24%);
+  transform: translateX(80px) translateY(-90px) skewX(-20deg);
+  filter: blur(10px);
+}
+
+.shadow {
+  position: relative;
+  width: 175px;
+  height: 16px;
+  background: #999;
+  opacity: .5;
+  border-radius: 100%;
+  margin: 0% 20% 0% 20%;
+  top: 330px;
+  left: -22px;
+  animation-name: shadow-bounce;
+  animation-duration: 2s;
+  animation-iteration-count: 2;
+  animation-timing-function: ease-out;
+}
+
+#eye1 {
+  left: -30px;
+  top: -20px;
+  transform: skewX(-5deg) skewY(-2deg);
+  
+}
+
+#eye2 {
+  left: 50px;
+  top: -20px;
+  transform: skewX(5deg) skewY(2deg);
+}
+
+.eye {
+  width: 30%;
+  height: 30%;
+  margin: 30%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #208ab4 0%, #6fbfff 30%, #4381b2 100%);
+  position: absolute;
+  animation: move-eye-skew 5s ease-out infinite;
+}
+.eye:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 37.5%;
+  height: 37.5%;
+  border-radius: 50%;
+  top: 31.25%;
+  left: 31.25%;
+  background: black;
+}
+.eye:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 31.25%;
+  height: 31.25%;
+  border-radius: 50%;
+  top: 18.75%;
+  left: 48.75%;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.eye-down {
+  width: 30%;
+  height: 30%;
+  margin: 30%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 70%, #208ab4 0%, #6fbfff 30%, #330099 100%);
+  position: absolute;
+}
+.eye-down:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 37.5%;
+  height: 37.5%;
+  border-radius: 50%;
+  top: 41.25%;
+  left: 31.25%;
+  background: black;
+  animation: look-down 100s ease-out infinite;
+}
+.eye-down:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 31.25%;
+  height: 31.25%;
+  border-radius: 50%;
+  top: 33.75%;
+  left: 48.75%;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+
+.eye-sleep {
+  width: 30%;
+  height: 30%;
+  margin: 30%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 70%, #4400aa 0%, #3700aa 30%, #330099 100%);
+  position: absolute;
+  transition: background 2s;
+}
+.eye-sleep:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 87.5%;
+  height: 37.5%;
+  border: solid 3px;
+  border-color: transparent transparent black transparent;
+  border-radius: 0 0 50% 50%;
+  top: 11.25%;
+  left: 0;
+}
+
+#topSpace{
+  display: flex;
+}
+
+#chatSpace{
+  overflow: auto;
+  width: 40%;
+  height: 500px;
+  border: 5px solid black;
+  padding: 15px;
+  margin: 10px;
+}
+
+#avatarSpace{
+  overflow: auto;
+  width: 20%;
+  height: 500px;
+  border: 5px solid purple;
+  padding: 15px;
+  margin: 10px;
+  position: relative;
+  flex: 1;
+  display: inline-block; 
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+}
+
+#bottomSpace{
+  width: 91%;
+  height: 300px;
+  border: 5px solid gray;
+  padding: 15px;
+  margin: 10px;
+}
+
+
+
+@keyframes bounce {
+  0% { transform: scale(1); }
+  40% { transform: translateY(-20px) scaleY(1.05) scaleX(0.95); }
+  80% { transform: scaleY(0.95) scaleX(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes lil-bounce {
+  0% { transform: scale(1); }
+  40% { transform: translateY(-5px) scaleY(1.05) scaleX(0.95); }
+  80% { transform: scaleY(0.95) scaleX(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes roll {
+  0% { transform: rotate(-5deg) scale(1); background: radial-gradient(circle at 130px 70px, #320088, #000); }
+  50% { transform: rotate(-15deg) scale(0.9) translateY(12px); background: radial-gradient(circle at 130px 70px, #320084, #000); }
+  100% { transform: rotate(-5deg) scale(1); background: radial-gradient(circle at 130px 70px, #320088, #000); }
+}
+
+@keyframes to-roll {
+  0% { transform: scale(1); }
+  100% { transform: rotate(-5deg) scale(1); 
+    background: radial-gradient(circle at 130px 70px, #330088, #000); }
+}
+
+@keyframes breathe {
+  0% { transform: scale(1); }
+  75% { transform: scale(1.03) translateY(-2px) ; }
+  100% { transform: scale(1); }
+}
+
+@keyframes shadow-bounce {
+  0% { transform: scale(1); }
+  40% { transform: margin: 0% 0% 0% 0%; opacity: 0.1; transform: scaleX(0.95) translateX(-5px);}
+  80% { transform:  margin: 0% 20% 0% 20%; opacity: 0.5; transform: scaleX(1.05);}
+  100% { transform: scale(1); }
+}
+
+@keyframes shadow-lil-bounce {
+  0% { transform: scale(1); }
+  40% { transform: margin: 0% 10% 0% 10%; opacity: 0.4; transform: scaleX(0.98) translateX(-2px);}
+  80% { transform:  margin: 0% 20% 0% 20%; opacity: 0.5; transform: scaleX(1.05);}
+  100% { transform: scale(1); }
+}
+
+@keyframes shadow-roll {
+  0% { transform: scale(0.95); }
+  50% {  transform: translateX(-5px) scale(0.9);}
+  100% { transform: scale(0.95); }
+}
+
+@keyframes look-down {
+  5% { transform: translateY(35%) translateX(-5%); }
+  10% { transform: translateY(35%) translateX(-10%); }
+  15% { transform: translateY(35%) translateX(-5%); }
+  25% { transform: translateY(35%) translateX(-10%) ; }
+  50% { transform: translateY(35%) translateX(0%); }
+  65% { transform: translateY(35%) translateX(-5%); }
+  75% { transform: translateY(35%) translateX(0%) ; }
+  100% { transform: translateY(35%) translateX(-5%); }
+}

@@ -1,4 +1,4 @@
-﻿<grammar xmlns="http://www.w3.org/2001/06/grammar"
+<grammar xmlns="http://www.w3.org/2001/06/grammar"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			xsi:schemaLocation="http://www.w3.org/2001/06/grammar 
 								http://www.w3.org/TR/speech-grammar/grammar.xsd"
@@ -9,33 +9,32 @@
   <!-- mark -->
   <rule id="Top">
     <one-of>
-      <item><ruleref uri="#Question"/></item>
-      <item><ruleref uri="#Greeting"/></item>
-      <item><ruleref uri="#WrapUp"/></item>
-      <item><ruleref uri="#Interjection"/></item>
-      <item><ruleref uri="#Question"/></item>
-      <item><ruleref uri="#Command"/></item>
-      <item><ruleref uri="#EasterEggs"/></item>
+      <item weight="10"><ruleref uri="#Question"/></item>
+      <item weight="2"><ruleref uri="#Greeting"/></item>
+      <item weight="1"><ruleref uri="#WrapUp"/></item>
+      <item weight="1"><ruleref uri="#Interjection"/></item>
+      <item weight="2"><ruleref uri="#Command"/></item>
+      <item weight="1"><ruleref uri="#EasterEggs"/></item>
     </one-of>
   </rule>
 
   <!-- mark -->
   <rule id="Question">
     <one-of>
-      <item><ruleref uri="#AreQuestion"/></item>
-      <item><ruleref uri="#DidQuestion"/></item>
-      <item><ruleref uri="#DoesQuestion"/></item>
-      <item><ruleref uri="#HasQuestion"/></item>
-      <item><ruleref uri="#IsQuestion"/></item>
-      <item><ruleref uri="#Inquisition"/></item>
-      <item><ruleref uri="#InquisitionOrder"/></item>
-      <item><ruleref uri="#HowQuestion"/></item>
-      <item><ruleref uri="#WhatQuestion"/></item>
-      <item><ruleref uri="#WhenQuestion"/></item>
-      <item><ruleref uri="#WhereQuestion"/></item>
-      <item><ruleref uri="#WhichQuestion"/></item>
-      <item><ruleref uri="#WhoQuestion"/></item>
-      <item><ruleref uri="#WillQuestion"/></item>
+      <item weight="1"><ruleref uri="#AreQuestion"/></item>
+      <item weight="1"><ruleref uri="#DidQuestion"/></item>
+      <item weight="1"><ruleref uri="#DoesQuestion"/></item>
+      <item weight="1"><ruleref uri="#HasQuestion"/></item>
+      <item weight="1"><ruleref uri="#IsQuestion"/></item>
+      <item weight="1"><ruleref uri="#Inquisition"/></item>
+      <item weight="1"><ruleref uri="#InquisitionOrder"/></item>
+      <item weight="1"><ruleref uri="#HowQuestion"/></item>
+      <item weight="10"><ruleref uri="#WhatQuestion"/></item>
+      <item weight="10"><ruleref uri="#WhenQuestion"/></item>
+      <item weight="10"><ruleref uri="#WhereQuestion"/></item>
+      <item weight="2"><ruleref uri="#WhichQuestion"/></item>
+      <item weight="2"><ruleref uri="#WhoQuestion"/></item>
+      <item weight="2"><ruleref uri="#WillQuestion"/></item>
     </one-of>
   </rule>
 
@@ -892,29 +891,29 @@
 
   <rule id="SpecificPlace">
     <one-of>
-      <item>
+      <item weight="1">
         Ford<item repeat="0-1">
           <ruleref uri="#OfficeNumber"/>
         </item>
       </item>
-      <item>QRG Lab</item>
-      <item>
+      <item weight="1">QRG Lab</item>
+      <item weight="1">
         Dean's
         <one-of>
           <item>conference room</item>
           <item>office</item>
         </one-of>
       </item>
-      <item>empty room</item>
-      <item>study room</item>
-      <item>
+      <item weight="1">empty room</item>
+      <item weight="1">study room</item>
+      <item weight="10">
         <ruleref uri="#PersonReference"/>'s
         <one-of>
           <item>office</item>
           <item>desk</item>
         </one-of>
       </item>
-      <item>
+      <item weight="3">
         <item repeat="0-1">
           <ruleref uri="#EnglishArticle"/>
         </item>
@@ -1063,16 +1062,16 @@
 
   <rule id="EventName">
     <one-of>
-      <item>
+      <item weight="10">
         <ruleref uri="#Course"/>
       </item>
-      <item>
+      <item weight="1">
         <ruleref uri="#GenericEvent"/>
       </item>
-      <item>
+      <item weight="1">
         <ruleref uri="#OneTimeEvent"/>
       </item>
-      <item>
+      <item weight="1">
         <ruleref uri="#RecurringEventWithSpecialName"/>
       </item>
     </one-of>
@@ -1139,10 +1138,10 @@
 
   <rule id="Course">
     <one-of>
-      <item>
+      <item weight="1">
         <ruleref uri="#Courses_name"/>
       </item>
-      <item>
+      <item weight="2">
         <ruleref uri="#Courses_id"/>
       </item>
     </one-of>
@@ -1755,25 +1754,16 @@
   </rule>
   <rule id="Courses_id">
     <one-of>
-      <item>
+      <item weight="4">
         EECS <ruleref uri="#Three_digit_number"/>
       </item>
-      <item>
+      <item weight="1">
         BME <ruleref uri="#Three_digit_number"/>
       </item>
-      <item>
+      <item weight="1">
         Cog Sci <ruleref uri="#Three_digit_number"/>
       </item>
-      <item>
-        EA
-        <one-of>
-          <item>1</item>
-          <item>2</item>
-          <item>3</item>
-          <item>4</item>
-        </one-of>
-      </item>
-      <item>
+      <item weight="10">
         <ruleref uri="#Three_digit_number"/>
       </item>
     </one-of>
@@ -2039,6 +2029,7 @@
       <item>Robby</item>
       <item>Ken</item>
       <item>Kenneth</item>
+      <item>Kris</item>
       <item>Kristian</item>
       <item>Jason</item>
       <item>Thomas</item>
@@ -2174,6 +2165,8 @@
       <item>Simone Campanoni</item>
       <item>Yan Chen</item>
       <item>Oliver S. Cossairt</item>
+      <item>Oliver Cossairt</item>
+      <item>Ollie Cossairt</item>
       <item>Anindya De</item>
       <item>Christos Dimoulas</item>
       <item>Peter Dinda</item>
@@ -2183,8 +2176,12 @@
       <item>Kenneth D. Forbus</item>
       <item>Kenneth Forbus</item>
       <item>Kristian J. Hammond</item>
+      <item>Kristian Hammond</item>
+      <item>Kris Hammond</item>
       <item>Jason D. Hartline</item>
+      <item>Jason Hartline</item>
       <item>Thomas Hinrichs</item>
+      <item>Tom Hinrichs</item>
       <item>Mike Horn</item>
       <item>Michael Horn</item>
       <item>Ian Horswill</item>
@@ -2197,6 +2194,7 @@
       <item>Bryan Pardo</item>
       <item>Chris Riesbeck</item>
       <item>Jennie M. Rogers</item>
+      <item>Jennie Rogers</item>
       <item>Mike Rubenstein</item>
       <item>Michael Rubenstein</item>
       <item>Sara Sood</item>
@@ -2217,17 +2215,12 @@
       <item>Brent Hecht</item>
       <item>Russell Joseph</item>
       <item>Aggelos K. Katsaggelos</item>
-      <item>Han Liu</item>
+      <item>Aggelos Katsaggelos</item>
       <item>Yuan Luo</item>
       <item>Gokhan Memik</item>
       <item>Anne Marie Piper</item>
       <item>Fabian Bustamante</item>
-      <item>Oliver Cossairt</item>
-      <item>Kristian Hammond</item>
-      <item>Jason Hartline</item>
-      <item>Jennie Rogers</item>
       <item>Jack Tumblin</item>
-      <item>Aggelos Katsaggelos</item>
       <item>Willie Wilson</item>
       <item>Jason Wilson</item>
       <item>Huxley Bennett</item>
@@ -2252,15 +2245,15 @@
   <!-- Numbers -->
   <rule id="Three_digit_number">
     <one-of>
-      <item>
+      <item weight="1">
         <ruleref uri="#OneToNine"/> hundred
       </item>
-      <item>
-        <ruleref uri="#OneToNine"/> o <ruleref uri="#OneToNine"/>
-      </item>
-      <item>
+      <item weight="10">
         <ruleref uri="#OneToNine"/>
         <ruleref uri="#TenToNinetyNine"/>
+      </item>
+      <item weight="2">
+        <ruleref uri="#OneToNine"/> o <ruleref uri="#OneToNine"/>
       </item>
     </one-of>
   </rule>
@@ -2271,7 +2264,7 @@
   <rule id="ZeroToNinetyNine">
     <one-of>
       <item>o</item>
-      <item>zero</item>
+      <item>0</item>
       <item>
         <ruleref uri="#OneToNine"/>
       </item>
@@ -2293,7 +2286,7 @@
       </item>
       <item>
         <ruleref uri="#TwentyToNinety"/>
-        <item repeat="0-1">
+        <item repeat="0-1" repeat-prob=".8">
           <ruleref uri="#OneToNine"/>
         </item>
       </item>
@@ -2301,15 +2294,15 @@
   </rule>
   <rule id="OneToNine">
     <one-of>
-      <item>one</item>
-      <item>two</item>
-      <item>three</item>
-      <item>four</item>
-      <item>five</item>
-      <item>six</item>
-      <item>seven</item>
-      <item>eight</item>
-      <item>nine</item>
+      <item>1</item>
+      <item>2</item>
+      <item>3</item>
+      <item>4</item>
+      <item>5</item>
+      <item>6</item>
+      <item>7</item>
+      <item>8</item>
+      <item>9</item>
     </one-of>
   </rule>
   <rule id="OneToTwentyThree">
@@ -2324,9 +2317,9 @@
         twenty
         <item repeat="0-1">
           <one-of>
-            <item>one</item>
-            <item>two</item>
-            <item>three</item>
+            <item>1</item>
+            <item>2</item>
+            <item>3</item>
           </one-of>
         </item>
       </item>
@@ -2335,28 +2328,28 @@
   </rule>
   <rule id="TenToNineteen">
     <one-of>
-      <item>ten</item>
-      <item>eleven</item>
-      <item>twelve</item>
-      <item>thirteen</item>
-      <item>fourteen</item>
-      <item>fifteen</item>
-      <item>sixteen</item>
-      <item>seventeen</item>
-      <item>eighteen</item>
-      <item>nineteen</item>
+      <item>10</item>
+      <item>11</item>
+      <item>12</item>
+      <item>13</item>
+      <item>14</item>
+      <item>15</item>
+      <item>16</item>
+      <item>17</item>
+      <item>18</item>
+      <item>19</item>
     </one-of>
   </rule>
   <rule id="TwentyToNinety">
     <one-of>
-      <item>twenty</item>
-      <item>thirty</item>
-      <item>forty</item>
-      <item>fifty</item>
-      <item>sixty</item>
-      <item>seventy</item>
-      <item>eighty</item>
-      <item>ninety</item>
+      <item>20</item>
+      <item>30</item>
+      <item>40</item>
+      <item>50</item>
+      <item>60</item>
+      <item>70</item>
+      <item>80</item>
+      <item>90</item>
     </one-of>
   </rule>
 

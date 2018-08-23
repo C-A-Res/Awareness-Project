@@ -1,0 +1,35 @@
+﻿<grammar xmlns="http://www.w3.org/2001/06/grammar"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="http://www.w3.org/2001/06/grammar 
+								http://www.w3.org/TR/speech-grammar/grammar.xsd"
+			xml:lang="en-US" version="1.0"
+			tag-format="semantics-ms/1.0">
+  <rule id="EasterEggs">
+    <one-of>
+      <item>
+        May the force be with you, <ruleref uri="#PersonReference"/>
+      </item>
+      <item>I've; see-een, thingss, you people wouldn't belee-eeve.</item>
+      <item>Attack ships on fye-err off, shoulder of-oh ryon.</item>
+      <item>I watched C beams; glitter in the dark near the Tannhäuser Gate.</item>
+      <item>All those, moments; will be lost; in time; like; tears; in rain</item>
+      <item>Dead or alive, you're coming with me</item>
+    </one-of>    
+  </rule>
+  <rule id="ObjectsOfInterest">
+    <one-of>
+      <item>ice cream</item>
+    </one-of>
+  </rule>
+  <rule id="RecurringEvent">
+    <one-of>
+      <item>EECS Free Bagel and Coffee</item>
+    </one-of>
+  </rule>
+  <rule id="OneTimeEvent">
+    <one-of>
+      <item>Hank Willis Thomas: Unbranded</item>
+      <item>Wildcats, Cubs and Giants at AT&amp;T Park</item>
+    </one-of>
+  </rule>
+</grammar>
