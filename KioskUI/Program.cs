@@ -24,19 +24,20 @@ namespace KioskUI
 
         protected override void OnMessage (MessageEventArgs e)
         {
-            var input = e.Data;
+            string input = e.Data;
+            kioskUI.TouchInput.Post(input, DateTime.Now);
 
             string msg = "";
 
             if (this.kioskUI != null)
             {
-                msg = buildJsonResponse(kioskUI.getUtterances(), kioskUI.getState(), kioskUI.getDebug());
+                msg = buildJsonResponse2(kioskUI.getUtterances(), kioskUI.getState(), kioskUI.getDebug());
             } else { 
                 List<(string, string)> utts = new List<(string,string)>();
                 utts.Add(("other", "Where does Prof Forbus work?"));
                 utts.Add(("kiosk", "His office is somewehre"));
                 string state = "listening";
-                msg = buildJsonResponse(utts, state, "false");
+                msg = buildJsonResponse2(utts, state, "false");
             }
 
             Send(msg);
@@ -55,7 +56,25 @@ namespace KioskUI
             return JsonConvert.SerializeObject(forJson);
         }
 
-        
+        private string buildJsonResponse2(List<(string, string)> utts, string state, string debug)
+        {
+            var forJson = new List<Dictionary<string, object>>();
+
+            foreach (var n in utts)
+            {
+                var speech = new Dictionary<string, string> { { "user", n.Item1 }, { "content", n.Item2 } };
+                var command_speech = new Dictionary<string, object> { { "command", "displayText" }, { "args", speech } };
+                forJson.Add(command_speech);
+            }
+
+            var command = new Dictionary<string, object> { { "command", "setAvatarState" }, { "args", state } };
+            forJson.Add(command);
+
+            var command_debug = new Dictionary<string, object> { { "command", "debug" }, { "args", debug} };
+            forJson.Add(command_debug);
+
+            return JsonConvert.SerializeObject(forJson);
+        }
     }
 
     public class KioskUI : IStartable
@@ -75,7 +94,7 @@ namespace KioskUI
         {
             this.pipeline = pipeline;
 
-            this.Updating = pipeline.CreateEmitter<bool>(this, nameof(this.Updating));
+            this.TouchInput = pipeline.CreateEmitter<string>(this, nameof(this.TouchInput));
 
             this.UserInput = pipeline.CreateReceiver<string>(this, ReceiveUserInput, nameof(this.UserInput));
             this.CompResponse = pipeline.CreateReceiver<string>(this, ReceiveCompResponse, nameof(this.CompResponse));
@@ -89,7 +108,7 @@ namespace KioskUI
         /// <summary>
         /// Not used yet
         /// </summary>
-        public Emitter<bool> Updating { get; private set; }
+        public Emitter<string> TouchInput { get; private set; }
 
         private void ReceiveUserInput(string message, Envelope e)
         {

@@ -5,205 +5,11 @@
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
+  <script src="agent.js"></script>
+
   <script type="text/javascript">
 
-    function init() {
-
-      // Animation
-      var avatarState;
-
-      var ball = document.getElementById("ball");
-      var shadow = document.getElementById("shadow");
-      var eye1 = document.getElementById("eye1");
-      var eye2 = document.getElementById("eye2");
-
-      var stateLabel = document.getElementById("state");
-
-      // Controls
-      var close = document.getElementById("btnClose");
-
-      var connected = document.getElementById("connected");
-      var listening = document.getElementById("listening");
-      var thinking = document.getElementById("thinking");
-
-
-      function animateAvitar(state) {
-        if (state != avatarState) {
-          thinking.style.backgroundColor = "yellow";
-          ball.style.animation = "none";
-          shadow.style.animation = "none";
-          ball.offsetHeight;
-          shadow.offsetHeight;
-          ball.style.animation = null;
-          shadow.style.animation = null;
-          //ball.style.animationName = state;
-          //ball.style.WebkitAnimationName = state;  //browser compatibility
-          switch(state) {
-            case "speaking":
-              stateLabel.innerHTML = "Speaking";
-              eye1.classList.remove('eye-down');
-              eye1.classList.remove('eye-sleep');
-              eye1.classList.add('eye');
-              eye2.classList.remove('eye-down');
-              eye2.classList.remove('eye-sleep');
-              eye2.classList.add('eye');
-              ball.style.animation = "bounce 2s ease-out 2";
-              shadow.style.animation = "shadow-bounce 2s ease-out 2";
-              thinking.style.backgroundColor = "maroon";
-              break;
-            case "thinking":
-              stateLabel.innerHTML = "Thinking";
-              eye1.classList.remove('eye');
-              eye1.classList.remove('eye-sleep');
-              eye1.classList.add('eye-down');
-              eye2.classList.remove('eye');
-              eye2.classList.remove('eye-sleep');
-              eye2.classList.add('eye-down');
-              ball.style.animation = "lil-bounce 2s linear infinite";
-              shadow.style.animation = "shadow-lil-bounce 2s linear infinite";
-              thinking.style.backgroundColor = "orange";
-              break;
-            case "listening":
-              stateLabel.innerHTML = "Listening";
-              eye1.classList.remove('eye-down');
-              eye1.classList.remove('eye-sleep');
-              eye1.classList.add('eye');
-              eye2.classList.remove('eye-down');
-              eye2.classList.remove('eye-sleep');
-              eye2.classList.add('eye');
-              //ball.style.transition = "transform 1s";
-              ball.style.animation = "breathe 3s linear infinite";
-              shadow.style.animation = "none";
-              break;
-            case "sleeping":
-              stateLabel.innerHTML = "Sleeping";
-              eye1.classList.remove('eye');
-              eye1.classList.remove('eye-down');
-              eye1.classList.add('eye-sleep');
-              eye2.classList.remove('eye');
-              eye2.classList.remove('eye-down');
-              eye2.classList.add('eye-sleep');
-              ball.style.animation = "to-roll 1s, roll 5s linear infinite";
-              //ball.style.animationName = "roll";
-              //ball.style.WebkitAnimationName = "roll";  //browser compatibility
-              //ball.style.animationIterationCount = "infinite";
-              shadow.style.animation = "shadow-roll 5s linear infinite";
-              //shadow.style.animationName = "shadow-roll";
-              //shadow.style.WebkitAnimationName = "shadow-roll";  //browser compatibility
-              //shadow.style.animationIterationCount = "infinite";
-              break;
-            default:
-              output("unknown state: " + state)
-
-          }
-          avatarState = state;
-        }
-      }
-
-      function updateScroll() {
-        $("#chatSpace").scrollTop($("#chatSpace")[0].scrollHeight);
-      }
-
-      //$.ajax({ url: "https://www.mccormick.northwestern.edu/images/research-and-faculty/directory/forbus-ken.jpg",
-      //  type: "POST",
-      //  crossDomain: true,
-      //});
-
-      animateAvitar("sleeping");
-
-      var btnSleeping = document.getElementById("btnSleeping");
-      btnSleeping.onclick= function() { animateAvitar('sleeping')}
-      var btnThinking = document.getElementById("btnThinking");
-      btnThinking.onclick= function() { animateAvitar("thinking")}
-      var btnListening = document.getElementById("btnListening");
-      btnListening.onclick= function() { animateAvitar("listening")}
-      var btnSpeaking = document.getElementById("btnSpeaking");
-      btnSpeaking.onclick= function() { animateAvitar("speaking")}
-
-
-      // Connect to Web Socket
-      var isConnected = false;
-      var connector = setInterval(connectToServer,3000);
-
-      var poller;
-
-      function connectToServer() {
-        ws = new WebSocket("ws://localhost:9791/dialog");
-        stateLabel.innerHTML = "Connecting...";
-
-        // this isn't working
-        close.setAttribute("onClick", "ws.close()");
-
-        // Set event handlers.
-        ws.onopen = function() {
-          output("onopen");
-          connected.style.backgroundColor = "darkblue";
-          isConnected = true;
-          clearInterval(connector);
-          poller = setInterval(pollPsi, 500);
-
-          avatarState = "none";
-        };
-        
-        ws.onmessage = function(e) {
-          // e.data contains received string.
-          output("onmessage: " + e.data);
-          json_data = JSON.parse(e.data);
-          newState = json_data.avatar.state;
-          animateAvitar(newState);
-          speech = json_data.speech;
-          for (i = 0; i < speech.length; i++) {
-            next = speech[i]
-            output("next: " + next);
-            var newTextNode = document.createTextNode(next.content);
-            var textContainer = document.createElement("div");
-            user = next.user;
-            if (user == "kiosk") {
-              textContainer.className = 'newbotDiv'; 
-              //animateAvitar("sleeping");
-            } else {
-              textContainer.className = 'newuserDiv';
-            }
-            textContainer.appendChild(newTextNode);
-            document.getElementById('chatSpace').appendChild(textContainer);    
-            updateScroll()      
-          }
-                  //// temp
-          if (json_data.debug == "true") {
-            listening.style.backgroundColor = "green";
-          } else {
-            listening.style.backgroundColor = "red";
-          }
-
-        };
-        
-        ws.onclose = function() {
-          output("onclose");
-          connected.style.backgroundColor = "gray";
-          if (isConnected) {
-            clearInterval(poller);
-            //connector = setInterval(connectToServer,3000);
-            stateLabel.innerHTML = "Disconnected";
-          }
-          isConnected = false;
-        };
-
-        ws.onerror = function(e) {
-          output("onerror");
-        };
-
-        function pollPsi() {
-          ws.send('');
-        }
-
-      }
-
-      $(".toggleDebug").click(function() {
-        $("#debug").toggle("slow", function(){});
-        $(".toggleDebug").toggleClass("debugOn");
-      });
-
-    }
+    
     
     function output(str) {
       var log = document.getElementById("log");
@@ -237,11 +43,85 @@
       <div id="thinking" class="indicators"></div>
     </div>
   </div>
-<!--   <div id="bottomSpace">
-    <div id="mapSpace">
-      <img id="map" src="map.png">
+  <div id="bottomSpace">
+    <div id="touchInput">
+      <div id="input" style="font-size: 20px"></div>
+      <div id="where" class="touchButton">Where is ____ ?</div>
+      <div id="when" class="touchButton">When is ____ ?</div>
+      <div id="what" class="touchButton">When is ____ ?</div>
+      <div id="titles">
+        <div id="Professor" class="touchButton">Professor</div>
+        <div id="Mr" class="touchButton" style="width: 100px">Mr.</div>
+        <div id="Ms" class="touchButton" style="width: 100px">Ms.</div>
+        <div id="Dr" class="touchButton" style="width: 100px">Dr.</div>
+        <div id="Room" class="touchButton" style="width: 100px">Room</div>
+      </div>
+      <div id="keys">
+        <div id="keyboard">
+          <div style="display: flex">        
+            <div class="keyButton">Q</div>
+            <div class="keyButton">W</div>
+            <div class="keyButton">E</div>
+            <div class="keyButton">R</div>
+            <div class="keyButton">T</div>
+            <div class="keyButton">Y</div>
+            <div class="keyButton">U</div>
+            <div class="keyButton">I</div>
+            <div class="keyButton">O</div>
+            <div class="keyButton">P</div>
+          </div>
+          <div style="display: flex">
+            <div style="width:20px"></div>
+            <div class="keyButton"">A</div>
+            <div class="keyButton">S</div>
+            <div class="keyButton">D</div>
+            <div class="keyButton">F</div>
+            <div class="keyButton">G</div>
+            <div class="keyButton">H</div>
+            <div class="keyButton">J</div>
+            <div class="keyButton">K</div>
+            <div class="keyButton">L</div>
+          </div>
+          <div style="display: flex">        
+            <div style="width:40px"></div>
+            <div class="keyButton">Z</div>
+            <div class="keyButton">X</div>
+            <div class="keyButton">C</div>
+            <div class="keyButton">V</div>
+            <div class="keyButton">B</div>
+            <div class="keyButton">N</div>
+            <div class="keyButton">M</div>
+          </div>
+          <div style="display: flex">
+            <div style="width: 200px"></div>
+            <div class="keyButton" style="width: 200px"> </div>
+          </div>
+        </div>
+        <div id="keypad">
+          <div style="display: flex">
+            <div class="keyButton">7</div>
+            <div class="keyButton">8</div>
+            <div class="keyButton">9</div>
+          </div>
+          <div style="display: flex">
+            <div class="keyButton">4</div>
+            <div class="keyButton">5</div>
+            <div class="keyButton">6</div>
+          </div>
+          <div style="display: flex">
+            <div class="keyButton">1</div>
+            <div class="keyButton">2</div>
+            <div class="keyButton">3</div>
+          </div>
+          <div style="display: flex">
+            <div class="keyButton">0</div>
+          </div>
+        </div>
+        
+      </div>
+      <div id="goback" class="touchButton">Go Back</div>
     </div>
-  </div> -->
+  </div>
   <button class="toggleDebug"></button>
   <div id="debug" style="display: none">
     <button id="btnClose">close</button>

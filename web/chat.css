@@ -69,7 +69,7 @@ header{
   animation-iteration-count: 2;
   animation-timing-function: ease-out;
   position: absolute;
-  top: 150px;
+  top: 157px;
   left: 70px;
   transition: transform 1s;
 }
@@ -230,7 +230,7 @@ header{
 }
 
 #avatarSpace{
-  overflow: auto;
+  overflow: hidden;
   width: 35%;
   height: 500px;
   border: 5px solid purple;
@@ -244,19 +244,51 @@ header{
 
 #bottomSpace {
   display: flex;
-}
 
-#mapSpace{
-  width: 91%;
-  height: 300px;
-  border: 5px solid gray;
+  width: 95%;
+  height: 600px;
+  border: 5px solid darkgray;
   padding: 2%;
   margin: 1%;
-  overflow: scroll;
+  position: relative;
 }
 
-#map {
-  max-width: 100%;
+.touchButton {
+  width: 250px;
+  height: 70px;
+  padding: 5px;
+  background-color: gray;
+  margin: 10px;
+  border: 2px solid black;
+  font-size: 30px;
+  text-align: center;
+  line-height: 75px;
+}
+
+#keys {
+  display: none;
+}
+
+#titles {
+  position: relative;
+  display: none;
+}
+
+#keyboard {
+  position: relative;
+  display: block;
+}
+
+.keyButton {
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  background-color: gray;
+  margin: 10px;
+  border: 2px solid black;
+  font-size: 20px;
+  text-align: center;
+  line-height: 45px;
 }
 
 .toggleDebug {
