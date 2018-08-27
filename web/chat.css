@@ -253,18 +253,6 @@ header{
   position: relative;
 }
 
-.touchButton {
-  width: 250px;
-  height: 70px;
-  padding: 5px;
-  background-color: gray;
-  margin: 10px;
-  border: 2px solid black;
-  font-size: 30px;
-  text-align: center;
-  line-height: 75px;
-}
-
 #keys {
   display: none;
 }
@@ -279,12 +267,54 @@ header{
   display: block;
 }
 
-.keyButton {
-  width: 40px;
-  height: 40px;
+#input {
+  font-size: 30px;
+  width: 600px;
+}
+
+
+.submitButton {
+  width: 150px;
+  height: 50px;
   padding: 5px;
   background-color: gray;
   margin: 10px;
+  border: 2px solid black;
+  font-size: 30px;
+  text-align: center;
+  line-height: 55px;
+}
+
+.touchButton {
+  width: 250px;
+  height: 70px;
+  padding: 5px;
+  background-color: gray;
+  margin: 10px;
+  border: 2px solid black;
+  font-size: 30px;
+  text-align: center;
+  line-height: 75px;
+}
+
+.touchButton2 {
+  width: 200px;
+  height: 50px;
+  padding: 5px;
+  background-color: gray;
+  margin: 10px;
+  border: 2px solid black;
+  font-size: 30px;
+  text-align: center;
+  line-height: 55px;
+}
+
+.keyButton {
+  width: 35px;
+  height: 35px;
+  padding: 5px;
+  background-color: gray;
+  margin: 5px;
   border: 2px solid black;
   font-size: 20px;
   text-align: center;
