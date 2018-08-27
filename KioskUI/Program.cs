@@ -106,7 +106,7 @@ namespace KioskUI
         public Receiver<bool> FaceDetected { get; private set; }
 
         /// <summary>
-        /// Not used yet
+        /// Input from user via the touch screen screen on the UI
         /// </summary>
         public Emitter<string> TouchInput { get; private set; }
 
@@ -187,10 +187,11 @@ namespace KioskUI
                     var timer2 = new Timer<string>(pipeline, 12100, TestGen);
                     var timer3 = new Timer<bool>(pipeline, 17100, TestBool);
 
-                    timer.Do(t => Console.WriteLine(t));                    
+                    //timer.Do(t => Console.WriteLine(t));                    
                     timer.PipeTo(ui.CompResponse);
                     timer2.PipeTo(ui.UserInput);
                     timer3.PipeTo(ui.FaceDetected);
+                    ui.TouchInput.Do(x => Console.WriteLine(x));
 
                     pipeline.RunAsync();
 
