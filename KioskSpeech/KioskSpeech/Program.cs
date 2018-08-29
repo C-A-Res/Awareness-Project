@@ -21,11 +21,10 @@ namespace NU.Kiosk.Speech
     public static class Program
     {
         private const string AppName = "PsiSpeechSample";
-
         private const string LogPath = @"..\..\..\Videos\" + Program.AppName;
-        
+        private const bool isUsingDragon = true;
         private static int ReloadMessageIDCurrent = 0;
-
+        
         // Component that serves as connection to Python
         static SocketStringConsumer python = null;
 
@@ -96,48 +95,82 @@ namespace NU.Kiosk.Speech
                     audioInput = new AudioSource(pipeline, new AudioSourceConfiguration() { OutputFormat = WaveFormat.Create16kHz1Channel16BitPcm() });
                 }
 
-                // Create System.Speech recognizer component
-                var recognizer = CreateSpeechRecognizer(pipeline);
-
-                // Subscribe the recognizer to the input audio
-                audioInput.PipeTo(recognizer);
-
-                // Partial and final speech recognition results are posted on the same stream. Here
-                // we use Psi's Where() operator to filter out only the final recognition results.
-                var finalResults = recognizer.Out.Where(result => result.IsFinal);
-                finalResults.Do(x => Console.WriteLine(x));
-                //KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
-                //SystemSpeechSynthesizer speechSynth = CreateSpeechSynthesizer(pipeline);
-                KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline, (SystemSpeechRecognizer)recognizer);
-
-                finalResults.PipeTo(preproc.In);
-                preproc.Out.Do(x => Console.WriteLine($"Processed: {x}"));
-
-                //preproc.Out.PipeTo(ui.UserInput);
-                if (facilitatorIP != "none")
+                if (isUsingDragon)
                 {
-                    python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
-                    //preproc.Out.PipeTo(ui.UserInput);
-                    //python.Out.PipeTo(ui.CompResponse);
-                    //python.Out.PipeTo(speechSynth);
+                    // Create System.Speecsh recognizer component
+                    var recognizer = new DragonRecognizer(pipeline);
+                    DragonSpeechSynthesizer speechSynth = new DragonSpeechSynthesizer(pipeline);
+                    recognizer.Out.PipeTo(speechSynth);
+                    speechSynth.SpeakCompleted.Do(x => {
+                        Console.WriteLine($"[Program.cs] SpeakCompleted; set accepting.");
+                        recognizer.setAccepting();
+                    });
+                    speechSynth.SpeakStarted.Do(x =>
+                    {
+                        Console.WriteLine($"[Program.cs] SpeakStarted...");
+                    });
                 } else
                 {
-                    //preproc.Out.PipeTo(ui.CompResponse);
-                    //preproc.Out.PipeTo(speechSynth);
-                }
-                //speechSynth.SpeakCompleted.Do(x => preproc.setAccepting());
+                    // Create System.Speecsh recognizer component
+                    var recognizer = CreateSpeechRecognizer(pipeline);
 
-                // Create a data store to log the data to if necessary. A data store is necessary
-                // only if output logging or live visualization are enabled.
-                var dataStore = CreateDataStore(pipeline, outputLogPath, showLiveVisualization);
+                    // Subscribe the recognizer to the input audio
+                    audioInput.PipeTo(recognizer);
 
-                // For disk logging or live visualization only
-                if (dataStore != null)
-                {
-                    // Log the microphone audio and recognition results
-                    audioInput.Write($"{Program.AppName}.MicrophoneAudio", dataStore);
-                    finalResults.Write($"{Program.AppName}.FinalRecognitionResults", dataStore);
-                }
+                    // Partial and final speech recognition results are posted on the same stream. Here
+                    // we use Psi's Where() operator to filter out only the final recognition results.
+                    var finalResults = recognizer.Out.Where(result => result.IsFinal);
+                    finalResults.Do(x => Console.WriteLine(x));
+                    KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
+                    SystemSpeechSynthesizer speechSynth = CreateSpeechSynthesizer(pipeline);
+                    KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline, (SystemSpeechRecognizer)recognizer);
+
+                    finalResults.PipeTo(preproc.In);
+                    preproc.Out.Do(x => Console.WriteLine($"Processed: {x}"));
+
+                    preproc.Out.PipeTo(ui.UserInput);
+                    if (facilitatorIP != "none")
+                    {
+                        python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
+                        preproc.Out.PipeTo(ui.UserInput);
+                        python.Out.PipeTo(ui.CompResponse);
+                        python.Out.PipeTo(speechSynth);
+                    }
+                    else
+                    {
+                        preproc.Out.PipeTo(ui.CompResponse);
+                        preproc.Out.PipeTo(speechSynth);
+                    }
+                    speechSynth.SpeakCompleted.Do(x =>
+                    {
+                        Console.WriteLine($"[Program.cs] SpeakCompleted; set accepting!");
+                        preproc.setAccepting();
+                    });
+                    speechSynth.SpeakStarted.Do(x =>
+                    {
+                        Console.WriteLine($"[Program.cs] SpeakStarted: '{x}'");
+                    });
+                    speechSynth.StateChanged.Do(x =>
+                    {
+                        Console.WriteLine($"[Program.cs] speechSynth state: '{x}'");
+                    });
+                    speechSynth.SpeakProgress.Do(x =>
+                    {
+                        Console.WriteLine($"[Program.cs] SpeakProgress: '{x}'");
+                    });
+
+                    // Create a data store to log the data to if necessary. A data store is necessary
+                    // only if output logging or live visualization are enabled.
+                    var dataStore = CreateDataStore(pipeline, outputLogPath, showLiveVisualization);
+
+                    // For disk logging or live visualization only
+                    if (dataStore != null)
+                    {
+                        // Log the microphone audio and recognition results
+                        audioInput.Write($"{Program.AppName}.MicrophoneAudio", dataStore);
+                        //finalResults.Write($"{Program.AppName}.FinalRecognitionResults", dataStore);
+                    }
+                }                
 
                 // Register an event handler to catch pipeline errors
                 pipeline.PipelineCompletionEvent += PipelineCompletionEvent;
