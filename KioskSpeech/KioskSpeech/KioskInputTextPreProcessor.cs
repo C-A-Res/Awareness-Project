@@ -28,15 +28,28 @@ namespace NU.Kqml
         {
             this.recognizer = rec;
 
+            this.UiInput = pipeline.CreateReceiver<string>(this, ReceiveUiInput, nameof(this.UiInput));
+
             this.AutoResponse = pipeline.CreateEmitter<string>(this, nameof(this.AutoResponse));
         }
-        
+
+        public Receiver<string> UiInput { get; private set; }
         public Emitter<string> AutoResponse { get; private set; }
+
+        private void ReceiveUiInput(string arg1, Envelope arg2)
+        {
+            handleInput(arg1, 1.0, arg2);
+        }
+
 
         protected override void Receive(IStreamingSpeechRecognitionResult result, Envelope e)
         {
             string message = quote_s.Replace(result.Text, "'s");
             double confidence = result.Confidence.Value;
+            handleInput(message, confidence, e);
+        }
+
+        private void handleInput(string message, double confidence, Envelope e) {
             Console.WriteLine($"[KioskInputTextPreProcessor] Received \"{message}\" with confidence {confidence}; ");// isAccepting {isAccepting}.");
             if (!isUsingIsAccepting || isUsingIsAccepting && isAccepting)
             {

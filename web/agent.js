@@ -236,7 +236,7 @@ function init() {
     $("#submit").click(function() {
       text = input.value;
       output("sending: " + text);
-      displayText("user", text);
+      //displayText("user", text);
       wsx.send(text);
       return false;
     });

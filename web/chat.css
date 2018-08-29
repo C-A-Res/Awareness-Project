@@ -274,10 +274,10 @@ header{
 
 
 .submitButton {
-  width: 150px;
+  width: 120px;
   height: 50px;
   padding: 5px;
-  background-color: gray;
+  background-color: lightgray;
   margin: 10px;
   border: 2px solid black;
   font-size: 30px;
@@ -289,7 +289,7 @@ header{
   width: 250px;
   height: 70px;
   padding: 5px;
-  background-color: gray;
+  background-color: lightgray;
   margin: 10px;
   border: 2px solid black;
   font-size: 30px;
@@ -298,10 +298,10 @@ header{
 }
 
 .touchButton2 {
-  width: 200px;
+  width: 80px;
   height: 50px;
   padding: 5px;
-  background-color: gray;
+  background-color: lightgray;
   margin: 10px;
   border: 2px solid black;
   font-size: 30px;
@@ -313,7 +313,7 @@ header{
   width: 35px;
   height: 35px;
   padding: 5px;
-  background-color: gray;
+  background-color: lightgray;
   margin: 5px;
   border: 2px solid black;
   font-size: 20px;
