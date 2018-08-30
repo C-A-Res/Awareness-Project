@@ -1,0 +1,218 @@
+﻿###################################################
+### Names
+
+# Faculty names
+
+# two words names
+Brenna Argall|Brenna Argall
+Larry Birnbaum|Larry Birnbaum
+Lawrence Birnbaum|Lawrence Birnbaum
+Fabian Bustamante|Fabian Bustamante
+Simone Campanoni|Simone Campanoni
+Yan Chen|Yan Chen
+Oliver Cossairt|Oliver Cossairt
+Anindya De|Anindya De
+Christos Dimoulas|Christos Dimoulas
+Peter Dinda|Peter Dinda
+Douglas Downey|Douglas Downey
+Robby Findler|Robby Findler
+Kenneth Forbus|Kenneth Forbus
+Kristian Hammond|Kristian Hammond
+Jason Hartline|Jason Hartline
+Thomas Hinrichs|Thomas Hinrichs
+Michael Horn|Michael Horn
+Ian Horswill|Ian Horswill
+Ming-Yang Kao|Ming-Yang Kao
+Aleksandar Kuzmanovic|Aleksandar Kuzmanovic
+Han Liu|Han Liu
+Konstantin Makarychev|Konstantin Makarychev
+Eleanor O'Rourke|Eleanor O'Rourke
+Bryan Pardo|Bryan Pardo
+Chris Riesbeck|Chris Riesbeck
+Jennie Rogers|Jennie Rogers
+Michael Rubenstein|Michael Rubenstein
+Sara Sood|Sara Sood
+Jesse Tov|Jesse Tov
+Jack Tumblin|Jack Tumblin
+Aravindan Vijayaraghavan|Aravindan Vijayaraghavan
+Uri Wilensky|Uri Wilensky
+Marcelo Worsley|Marcelo Worsley
+Haoqi Zhang|Haoqi Zhang
+Nabil Alshurafa|Nabil Alshurafa
+Randall Berry|Randall Berry
+Alok Choudhary|Alok Choudhary
+Elizabeth Gerber|Elizabeth Gerber
+Darren Gergle|Darren Gergle
+Ronen Gradwohl|Ronen Gradwohl
+Nikos Hardavellas|Nikos Hardavellas
+Brent Hecht|Brent Hecht
+Russell Joseph|Russell Joseph
+Aggelos Katsaggelos|Aggelos Katsaggelos
+Han Liu|Han Liu
+Yuan Luo|Yuan Luo
+Gokhan Memik|Gokhan Memik
+Anne Piper|Anne Piper
+
+# with middle name abbreviation
+Fabian E. Bustamante|Fabian E Bustamante
+Oliver S. Cossairt|Oliver S Cossairt
+Kenneth D. Forbus|Kenneth D Forbus
+Kristian J. Hammond|Kristian J Hammond
+Jason D. Hartline|Jason D Hartline
+Jennie M. Rogers|Jennie M Rogers
+Jack E. Tumblin|Jack E Tumblin
+Aggelos K. Katsaggelos|Aggelos K Katsaggelos
+
+# full name with middle name spelled out
+Sara Owsley Sood|Sara Owsley Sood
+Anne Marie Piper|Anne Marie Piper
+
+# nick name full names
+Doug Downey|Doug Downey
+Ken Forbus|Ken Forbus
+Kris Hammond|Kris Hammond
+Tom Hinrichs|Tom Hinrichs
+Mike Horn|Mike Horn
+Nell O'Rourke|Nell O'Rourke
+Mike Rubenstein|Mike Rubenstein
+
+# last names
+Argall|Argall
+Birnbaum|Birnbaum
+Bustamante|Bustamante
+Campanoni|Campanoni
+Chen|Chen
+Cossairt|Cossairt
+De|De
+Dimoulas|Dimoulas
+Dinda|Dinda
+Downey|Downey
+Findler|Findler
+Forbus|Forbus
+Hammond|Hammond
+Hartline|Hartline
+Hinrichs|Hinrichs
+Horn|Horn
+Horswill|Horswill
+Kao|Kao
+Kuzmanovic|Kuzmanovic
+Liu|Liu
+Makarychev|Makarychev
+Rourke|Rourke
+Pardo|Pardo
+Riesbeck|Riesbeck
+Rogers|Rogers
+Rubenstein|Rubenstein
+Sood|Sood
+Tov|Tov
+Tumblin|Tumblin
+Vijayaraghavan|Vijayaraghavan
+Wilensky|Wilensky
+Worsley|Worsley
+Zhang|Zhang
+Alshurafa|Alshurafa
+Berry|Berry
+Choudhary|Choudhary
+Gerber|Gerber
+Gergle|Gergle
+Gradwohl|Gradwohl
+Hardavellas|Hardavellas
+Hecht|Hecht
+Joseph|Joseph
+Katsaggelos|Katsaggelos
+Liu|Liu
+Luo|Luo
+Memik|Memik
+Piper|Piper
+
+# first names 
+Brenna|Brenna
+Fabian|Fabian
+Simone|Simone
+Yan|Yan
+Anindya|Anindya
+Christos|Christos
+Douglas|Douglas
+Robby|Robby
+Kristian|Kristian
+Ian|Ian
+Ming-Yang|Ming Yang
+Aleksandar|Aleksandar
+Han|Han
+Konstantin|Konstantin
+Eleanor|Eleanor
+Bryan|Bryan
+Aravindan|Aravindan
+Uri|Uri
+Marcelo|Marcelo
+Marcelo|Marcello
+Haoqi|Haoqi
+Nabil|Nabil
+Randall|Randall
+Alok|Alok
+Elizabeth|Elizabeth
+Darren|Darren
+Ronen|Ronen
+Nikos|Nikos
+Brent|Brent
+Russell|Russell
+Aggelos|Aggelos
+Han|Han
+Yuan|Yuan
+Gokhan|Gokhan
+Anne|Anne
+Sara|Sara
+
+# nick name
+Nell|Nell
+
+# Postdocs
+
+# two words full name
+Willie Wilson|Jason Wilson
+Willie Wilson|Jason R Wilson
+Huxley Bennett|Huxley Bennett
+Thomas Bochynek|Thomas Bochynek
+
+# nick name with last name
+Willie Wilson|Willie Wilson
+Huck Bennett|Huck Bennett
+
+# last name
+Bochynek|Bochynek
+
+# nick name 
+Willie|Willie
+Huck|Huck
+
+# Staff names
+
+# two words full name
+Brianna Mello|Brianna Mello
+Kim Kieras|Kim Kieras
+Jeff Stiers|Jeff Stiers
+Melissa Duong|Melissa Duong
+Iliana Vargas|Iliana Vargas
+
+# last names 
+Mello|Mello
+Kieras|Kieras
+Stiers|Stiers
+Duong|Duong
+Vargas|Vargas
+
+# first names
+Brianna|Brianna
+Iliana|Iliana
+
+###################################################
+### Places
+
+Mudd Library|mod library
+Mudd Library|monta library
+Mudd Library|monte library
+Mudd Library|month library
+Mudd Library|mud library
+Seeley G. Mudd|Seeley G. Mudd
+Seeley G. Mudd Library|Seeley G. Mudd Library
+Seeley Mudd Library|Seeley Mudd Library

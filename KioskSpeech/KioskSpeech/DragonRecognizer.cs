@@ -93,14 +93,14 @@ namespace NU.Kiosk.Speech
         private void initialize()
         {
             initializeDictation();
-            //initializeVocTools();
-            Console.WriteLine($"[DRAGON] DgnVocTools still does not load. Skipping.");
+            initializeVocTools();
+            //Console.WriteLine($"[DRAGON] DgnVocTools still does not load. Skipping.");
         }
         
         private void uninitialize()
         {
             uninitializeDictation();
-            //uninitializeVocTools();
+            uninitializeVocTools();
         }
 
         private bool initializeEngine()
@@ -160,23 +160,65 @@ namespace NU.Kiosk.Speech
                 VocTools = new DgnVocTools.DgnVocTools();
                 VocTools.Initialize("", "");
 
-                // Add proper names?
-
-                IDgnVocabularyBuilder builder = VocTools.VocabularyBuilder;
-                var wordList = VocTools.WordAnalyzer.CreateWordList();
-                wordList.CreateWord("Willie Wilson");
-                wordList.CreateWord("Mudd Library");
-
-                builder.AddWords(wordList);
-                builder.SaveChanges();
+                AddProperNouns();
 
                 // Load normals for current speaker if this option is allowed
                 //// UNUSED
-
             }
             catch (Exception exc)
             {
                 reportError(exc, false);
+            }
+        }
+
+        private void AddProperNouns(string inputPath = @"Resources\curated_proper_nouns_for_dragon.txt")
+        {
+            // Add proper names?
+            IDgnVocabularyBuilder builder = VocTools.VocabularyBuilder;
+            IDgnWordAnalyzer analyzer = VocTools.WordAnalyzer;
+            IDgnWords newWords = VocTools.WordAnalyzer.CreateWordList();
+
+            //builder.RemoveWords(newWords); // USE WITH CAUTION; once a word is removed, it must be re-added with "DiscernWords", instead of "AddWords"
+
+            string[] lines = System.IO.File.ReadAllLines(inputPath);
+            foreach (string line in lines)
+            {
+                string trimmed = line.Trim();
+                if (trimmed.Length <= 1 || trimmed.StartsWith("#"))
+                {
+
+                    continue;
+                } else if (trimmed.StartsWith("-"))
+                {
+                    var toBeDeleted = trimmed.Substring(1);
+                    Console.WriteLine($"[DRAGON] word removal is not yet implemented; term: \"{toBeDeleted}\"");
+                    continue;
+                }
+                else
+                {
+                    string[] split = trimmed.Split('|');
+                    if (split.Length != 2)
+                    {
+                        Console.WriteLine($"[DRAGON] cannot parse proper name input: \"{trimmed}\"");
+                        continue;
+                    }
+                    else
+                    {
+                        //Console.WriteLine($"[DRAGON] adding proper name term: {split[0].Trim()} <- {split[1].Trim()}");
+                        newWords.Add(analyzer.AnalyzeWord(split[0].Trim(), split[1].Trim()));
+                    }
+                }
+            }
+
+            if (newWords.Count > 0)
+            {
+                Console.Write($"[DRAGON] WordFreeSpace: {builder.WordFreeSpace}; updating vocabulary with {newWords.Count} words... ");
+                var addedWords = builder.AddWords(newWords, 1);
+                Console.WriteLine($"{addedWords.Count} new words added.");
+            }
+            else
+            {
+                Console.WriteLine($"[DRAGON] No word list is provided.");
             }
         }
 
