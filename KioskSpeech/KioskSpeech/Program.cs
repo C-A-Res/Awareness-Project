@@ -36,6 +36,8 @@ namespace NU.Kiosk.Speech
             //Console.WriteLine("Press any key to exit...");
             //Console.ReadKey(true);
 
+            //speechTester();
+
             string facilitatorIP = args[0];
             int facilitatorPort = int.Parse(args[1]);
             int localPort = int.Parse(args[2]);
@@ -59,6 +61,29 @@ namespace NU.Kiosk.Speech
             RunSystemSpeech(outputLogPath, inputLogPath, showLiveVisualization, facilitatorIP, facilitatorPort, localPort);
             if (python != null) python.Stop();
 
+        }
+
+        public static void speechTester()
+        {
+            Console.WriteLine("Enter 'exit' to exit...");
+            string input;
+            using (Pipeline pipeline = Pipeline.Create())
+            {
+                DragonSpeechSynthesizer speechSynth = new DragonSpeechSynthesizer(pipeline);
+                pipeline.RunAsync();
+                while ((input = Console.ReadLine()).ToLower() != "exit")
+                {
+                    if (input.Trim().Length > 0)
+                    {
+                        Console.WriteLine($"[Program.cs] '{input}'");
+                        speechSynth.speak(input);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"[Program.cs] Come again?");
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -102,12 +127,8 @@ namespace NU.Kiosk.Speech
                     DragonSpeechSynthesizer speechSynth = new DragonSpeechSynthesizer(pipeline);
                     recognizer.Out.PipeTo(speechSynth);
                     speechSynth.SpeakCompleted.Do(x => {
-                        Console.WriteLine($"[Program.cs] SpeakCompleted; set accepting.");
+                        //Console.WriteLine($"[Program.cs] SpeakCompleted; set accepting.");
                         recognizer.setAccepting();
-                    });
-                    speechSynth.SpeakStarted.Do(x =>
-                    {
-                        Console.WriteLine($"[Program.cs] SpeakStarted...");
                     });
                 } else
                 {

@@ -15,6 +15,7 @@ namespace NU.Kiosk.Speech
         public Receiver<string> In { get; }
 
         DgnVoiceTxt dgnVoiceTxt;
+        string postFixIdentifier;
         public Emitter<SpeakCompletedEventData> SpeakCompleted { get; private set; }
         public Emitter<SpeakStartedEventData> SpeakStarted { get; private set; }
 
@@ -22,8 +23,9 @@ namespace NU.Kiosk.Speech
         {
             this.In = pipeline.CreateReceiver<string>(this, this.speak, nameof(this.In));
 
-            this.SpeakCompleted = pipeline.CreateEmitter<SpeakCompletedEventData>(this, nameof(this.SpeakCompleted));
-            this.SpeakStarted = pipeline.CreateEmitter<SpeakStartedEventData>(this, nameof(this.SpeakStarted));
+            postFixIdentifier = DateTime.Now.ToLongTimeString();
+            this.SpeakCompleted = pipeline.CreateEmitter<SpeakCompletedEventData>(this, "SpeakCompleted"+ postFixIdentifier);
+            this.SpeakStarted = pipeline.CreateEmitter<SpeakStartedEventData>(this, "SpeakStarted" + postFixIdentifier);
         }
         
         public void speak(string utterance)
@@ -33,17 +35,19 @@ namespace NU.Kiosk.Speech
 
         private void speechHasStarted()
         {
+            //if (this.SpeakStarted.Name != null)
             this.SpeakStarted.Post(new SpeakStartedEventData(), DateTime.Now);
         }
 
         private void speechIsDone() {
+            //if (this.SpeakCompleted.Name != null)
             this.SpeakCompleted.Post(new SpeakCompletedEventData(), DateTime.Now);
         }
 
         public void Start(Action onCompleted, ReplayDescriptor descriptor)
         {
             dgnVoiceTxt = new DgnVoiceTxt();
-            dgnVoiceTxt.Register("Kiosk", "TTS");
+            dgnVoiceTxt.Register("Kiosk", "TTS"+ postFixIdentifier);
             dgnVoiceTxt.SpeakingStarted += speechHasStarted;
             dgnVoiceTxt.SpeakingDone += speechIsDone;
             dgnVoiceTxt.Enabled = true;
