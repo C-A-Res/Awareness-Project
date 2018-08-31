@@ -27,13 +27,13 @@ namespace NU.Kiosk.Speech
 
         public DialogManager(Pipeline pipeline) : base(pipeline)
         {
-            this.UserInput = pipeline.CreateReceiver<string>(this, ReceiveUserInput, nameof(this.UserInput));
+            this.UserInput = pipeline.CreateReceiver<Utterance>(this, ReceiveUserInput, nameof(this.UserInput));
             this.CompInput = pipeline.CreateReceiver<string>(this, ReceiveCompInput, nameof(this.CompInput));
             this.SpeechSynthesizerState = pipeline.CreateReceiver<SynthesizerState>(this, ReceiveSynthesizerState, nameof(this.SpeechSynthesizerState));
             this.FaceDetected = pipeline.CreateReceiver<bool>(this, ReceiveFaceDetected, nameof(this.FaceDetected));
 
 
-            this.UserOutput = pipeline.CreateEmitter<string>(this, nameof(this.UserOutput));
+            this.UserOutput = pipeline.CreateEmitter<Utterance>(this, nameof(this.UserOutput));
             this.CompOutput = pipeline.CreateEmitter<string>(this, nameof(this.CompOutput));
             this.StateChanged = pipeline.CreateEmitter<DialogState>(this, nameof(this.StateChanged));
 
@@ -42,18 +42,18 @@ namespace NU.Kiosk.Speech
             InitTimer();
         }
 
-        public Receiver<string> UserInput { get; private set; }
+        public Receiver<Utterance> UserInput { get; private set; }
         public Receiver<string> CompInput { get; private set; }
         public Receiver<SynthesizerState> SpeechSynthesizerState { get; private set; }
         public Receiver<bool> FaceDetected { get; private set; }
 
-        public Emitter<string> UserOutput { get; private set; }
+        public Emitter<Utterance> UserOutput { get; private set; }
         public Emitter<string> CompOutput { get; private set; }
         public Emitter<DialogState> StateChanged { get; private set; }
 
 
 
-        private void ReceiveUserInput(string arg1, Envelope arg2)
+        private void ReceiveUserInput(Utterance arg1, Envelope arg2)
         {
             if (state == DialogState.Listening)
             {

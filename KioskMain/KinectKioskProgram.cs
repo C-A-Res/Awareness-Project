@@ -68,6 +68,8 @@
 
                 KioskInputTextPreProcessor preproc = new KioskInputTextPreProcessor(pipeline, (SystemSpeechRecognizer)recognizer);
 
+                var responder = new Speech.Responder(pipeline);
+
                 KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
 
                 #endregion
@@ -133,16 +135,16 @@
                 recognitionResult.PipeTo(preproc.In);
                 ui.TouchInput.PipeTo(preproc.UiInput);
 
-                // Set accepting flag based on preprocessor output
-                var non_trivial_result = preproc.Out.Where(x => { return (x != null); });
-
                 // Send processed user input to Companion and UI
                 preproc.PipeTo(dialog.UserInput);
-                dialog.UserOutput.PipeTo(ui.UserInput);
+                dialog.UserOutput.Select(u => { return u.Text; }).PipeTo(ui.UserInput);
 
                 // Get response from Companion and forward to UI and synthesizer
                 dialog.CompOutput.PipeTo(ui.CompResponse);
                 dialog.CompOutput.PipeTo(synthesizer);
+
+                dialog.UserOutput.PipeTo(responder.UserInput);
+                responder.CompResponse.PipeTo(dialog.CompInput);
 
                 synthesizer.StateChanged.Select(x =>
                 {
@@ -163,8 +165,13 @@
                     // setup interface to Companion
                     kqml = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort_num, localPort_num);
 
-                    dialog.UserOutput.PipeTo(kqml);
-                    kqml.Out.PipeTo(dialog.CompInput);
+                    responder.KQMLRequest.PipeTo(kqml);
+                    kqml.PipeTo(responder.KQMLResponse);
+                }
+                else
+                {
+                    // echo
+                    responder.KQMLRequest.PipeTo(responder.KQMLResponse);
                 }
 
                 #endregion

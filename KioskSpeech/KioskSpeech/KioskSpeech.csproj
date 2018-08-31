@@ -273,8 +273,10 @@
     <Compile Include="Class4.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Responder.cs" />
     <Compile Include="Sockets.cs" />
     <Compile Include="SpeechMerger.cs" />
+    <Compile Include="Utterance.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

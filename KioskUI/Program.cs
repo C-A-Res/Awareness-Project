@@ -25,7 +25,10 @@ namespace KioskUI
         protected override void OnMessage (MessageEventArgs e)
         {
             string input = e.Data;
-            kioskUI.TouchInput.Post(input, DateTime.Now);
+            if (input.Length > 0)
+            {
+                kioskUI.TouchInput.Post(input, DateTime.Now);
+            }
 
             string msg = "";
 
