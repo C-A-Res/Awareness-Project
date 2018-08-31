@@ -30,7 +30,10 @@ namespace NU.Kiosk.Speech
         
         public void speak(string utterance)
         {
-            dgnVoiceTxt.Speak(utterance);            
+            if (utterance != null && utterance.Length > 0)
+            {
+                dgnVoiceTxt.Speak(utterance);
+            }
         }
 
         private void speechHasStarted()
