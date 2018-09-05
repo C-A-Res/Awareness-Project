@@ -110,6 +110,22 @@ function init() {
     updateScroll()  
   }
 
+  function displayMap(name, x, y) {
+    mapSpace.style.display = "block";
+    touchInput.style.display = "none";
+    dest.style.left = x;
+    dest.style.top = y;
+  }
+
+  function displayKeyboard() {
+    btnwhere.style.display = "none";
+    when.style.display = "none";
+    what.style.display = "none";
+    other.style.display = "none";
+    keys.style.display = "flex";
+    titles.style.display = "flex";
+  }
+
   //$.ajax({ url: "https://www.mccormick.northwestern.edu/images/research-and-faculty/directory/forbus-ken.jpg",
   //  type: "POST",
   //  crossDomain: true,
@@ -131,11 +147,21 @@ function init() {
   var btnwhere = document.getElementById("where");
   btnwhere.onclick = function() { 
     input.value = "Where is ?";
-    btnwhere.style.display = "none";
-    when.style.display = "none";
-    what.style.display = "none";
-    keys.style.display = "flex";
-    titles.style.display = "flex";
+    displayKeyboard();
+  } 
+  var btnwhen = document.getElementById("when");
+  btnwhen.onclick = function() { 
+    input.value = "When is ?";
+    displayKeyboard();
+  } 
+  var btnwhat = document.getElementById("what");
+  btnwhat.onclick = function() { 
+    input.value = "What is ?";
+    displayKeyboard();
+  } 
+  var btnother = document.getElementById("other");
+  btnother.onclick = function() { 
+    displayKeyboard();
   } 
 
   var keyButtons = document.getElementsByClassName("keyButton");
@@ -164,6 +190,25 @@ function init() {
       }
       input.value = text;
     }
+  }
+
+  backspace.onclick = function() {
+    text = input.value;
+    if (text.endsWith('?')) {
+        input.value = text.substring(0,text.length-2) + '?';
+      } else {
+        input.value = text.substring(0,text.length-1);
+      }
+    
+  }
+
+  ok.onclick = function() {
+    mapSpace.style.display = "none";
+    touchInput.style.display = "block";
+  }
+
+  showmap.onclick = function() {
+    displayMap("", 0, 2000);
   }
 
   // Connect to Web Socket
@@ -209,6 +254,12 @@ function init() {
             break;
           case "debug":
             output(args);
+            break;
+          case "displayMap":
+            displayMap(args.name, args.x, args.y);
+            break;
+          default:
+            output("Unrecognized command: " + command);
         }
       }
 
@@ -238,6 +289,7 @@ function init() {
       output("sending: " + text);
       //displayText("user", text);
       wsx.send(text);
+      input.value = "";
       return false;
     });
 

@@ -244,7 +244,7 @@ header{
 
 #bottomSpace {
   display: flex;
-
+  overflow: hidden;
   width: 95%;
   height: 600px;
   border: 5px solid darkgray;
@@ -274,7 +274,7 @@ header{
 
 
 .submitButton {
-  width: 120px;
+  width: 150px;
   height: 50px;
   padding: 5px;
   background-color: lightgray;
@@ -341,6 +341,38 @@ header{
   border-top: none;
 }
 
+#mapSpace {
+  display: none;
+}
+
+#map {
+  width: 1335px;
+  margin: -100px 0 0 -115px;
+}
+
+#ok {
+  left: 720px;
+  top: 0px;
+  position: absolute;
+}
+
+.mapMarker {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: purple;
+  text-indent: 12px;
+  line-height: 10px;
+}
+
+#youarehere {
+  left: 270px;
+  top: 208px;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: purple;
+}
 
 @keyframes bounce {
   0% { transform: scale(1); }

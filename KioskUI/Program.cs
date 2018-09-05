@@ -73,8 +73,11 @@ namespace KioskUI
             var command = new Dictionary<string, object> { { "command", "setAvatarState" }, { "args", state } };
             forJson.Add(command);
 
-            var command_debug = new Dictionary<string, object> { { "command", "debug" }, { "args", debug} };
-            forJson.Add(command_debug);
+            if (debug.Length > 0)
+            {
+                var command_debug = new Dictionary<string, object> { { "command", "debug" }, { "args", debug } };
+                forJson.Add(command_debug);
+            }
 
             return JsonConvert.SerializeObject(forJson);
         }

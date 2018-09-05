@@ -8,18 +8,13 @@
   <script src="agent.js"></script>
 
   <script type="text/javascript">
-
-    
-    
     function output(str) {
       var log = document.getElementById("log");
       var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").
         replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
       log.innerHTML = escaped + "<br>" + log.innerHTML;
 
-    }
-
-    
+    } 
 
   </script>
 </head>
@@ -44,14 +39,23 @@
     </div>
   </div>
   <div id="bottomSpace">
+    <div id="mapSpace">
+      <img src="mudd_plan_clean.svg" id="map">
+      <div id="ok" class="touchbutton">Ok</div>
+      <div id="youarehere" class="mapMarker">You</div>
+      <div id="dest" class="mapMarker">Destination</div>
+    </div>
     <div id="touchInput">
       <div style="display: flex">
         <input type="text" id="input">
-        <div id="submit" class="submitButton">Submit</div>      
+        <div id="submit" class="submitButton">Submit</div>
+        <div id="backspace" class="submitButton">Backspace</div>   
       </div>
       <div id="where" class="touchButton">Where is ____ ?</div>
       <div id="when" class="touchButton">When is ____ ?</div>
-      <div id="what" class="touchButton">When is ____ ?</div>
+      <div id="what" class="touchButton">What is ____ ?</div>
+      <div id="showmap" class="touchButton">Show Map</div>
+      <div id="other" class="touchButton">Other</div>
       <div id="titles">
         <div id="Professor" class="touchButton2" style="width: 125px">Professor</div>
         <div id="Mr" class="touchButton2">Mr.</div>
@@ -124,7 +128,7 @@
         </div>
         
       </div>
-      <div id="goback" class="touchButton">Go Back</div>
+      <!-- <div id="goback" class="touchButton">Go Back</div> -->
     </div>
   </div>
   <button class="toggleDebug"></button>
