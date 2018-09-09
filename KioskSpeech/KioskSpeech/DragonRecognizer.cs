@@ -74,6 +74,7 @@ namespace NU.Kiosk.Speech
                 {
                     // Speaker is loaded, and we can initialize the dictation.
                     initialize();
+                    DgnEngine.RecognitionMode = DNSTools.DgnRecognitionModeConstants.dgnrecmodeDictation;
                     Console.WriteLine($"[DRAGON] Engine initialized.");
                 }
             }
@@ -316,10 +317,6 @@ namespace NU.Kiosk.Speech
                 }
             }
 
-            // Default constants
-            public const String csLeftBracket = "{{";
-            public const String csRightBracket = "}}";
-
             // NormalsConfig members
             public List<WordsPair> wpNormals;
             public List<WordsPair> wpTriggers;
@@ -530,16 +527,16 @@ namespace NU.Kiosk.Speech
         private async void restartAcceptingInMs(int ms, DateTime timeStarted)
         {
             await delay(ms); 
-            if (DgnDictCust.Active == false && timeStarted.Equals(TimerStartTime))
+            if (DgnDictCust.Active == false && timeStarted <= TimerStartTime)
             {
                 Console.WriteLine($"[DragonRecognizer] Timer stopped; once again accepting.");
                 setAccepting();
                 Out.Post("Sorry, I've having difficulty processing.", DateTime.Now);
             }
-            else
-            {
-                Console.WriteLine($"[DragonRecognizer] Timer stopped; already accepting.");
-            }
+            //else
+            //{
+            //    Console.WriteLine($"[DragonRecognizer] Timer stopped; already accepting.");
+            //}
         }
 
         public void setAccepting()
@@ -547,7 +544,7 @@ namespace NU.Kiosk.Speech
             resetText();
             DgnDictCust.Active = true;
             TimerStartTime = DateTime.Now;
-            Console.WriteLine($"[DragonRecognizer] Once again accepting.");
+            //Console.WriteLine($"[DragonRecognizer] Once again accepting.");
         }
         #endregion
     }
