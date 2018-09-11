@@ -4,13 +4,14 @@ using Microsoft.Psi.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Speech.Synthesis;
 using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.Psi.Speech.SystemSpeechSynthesizer;
 
 namespace NU.Kiosk.Speech
 {
-    class DragonSpeechSynthesizer : IConsumer<string>, IStartable, IDisposable
+    public class DragonSpeechSynthesizer : IConsumer<string>, IStartable, IDisposable
     {
         public Receiver<string> In { get; }
 
@@ -18,6 +19,7 @@ namespace NU.Kiosk.Speech
         string postFixIdentifier;
         public Emitter<SpeakCompletedEventData> SpeakCompleted { get; private set; }
         public Emitter<SpeakStartedEventData> SpeakStarted { get; private set; }
+        public Emitter<SynthesizerState> UpdatedState { get; private set; }
 
         public DragonSpeechSynthesizer(Pipeline pipeline)
         {
@@ -26,6 +28,7 @@ namespace NU.Kiosk.Speech
             postFixIdentifier = DateTime.Now.ToLongTimeString();
             this.SpeakCompleted = pipeline.CreateEmitter<SpeakCompletedEventData>(this, "SpeakCompleted"+ postFixIdentifier);
             this.SpeakStarted = pipeline.CreateEmitter<SpeakStartedEventData>(this, "SpeakStarted" + postFixIdentifier);
+            this.UpdatedState = pipeline.CreateEmitter<SynthesizerState>(this, "UpdatedState" + postFixIdentifier);
         }
         
         public void speak(string utterance)
@@ -38,13 +41,16 @@ namespace NU.Kiosk.Speech
 
         private void speechHasStarted()
         {
-            //if (this.SpeakStarted.Name != null)
-            this.SpeakStarted.Post(new SpeakStartedEventData(), DateTime.Now);
+            var time = DateTime.Now;
+            this.SpeakStarted.Post(new SpeakStartedEventData(), time);
+            this.UpdatedState.Post(SynthesizerState.Speaking, time);
         }
 
-        private void speechIsDone() {
-            //if (this.SpeakCompleted.Name != null)
-            this.SpeakCompleted.Post(new SpeakCompletedEventData(), DateTime.Now);
+        private void speechIsDone()
+        {
+            var time = DateTime.Now;
+            this.SpeakCompleted.Post(new SpeakCompletedEventData(), time);
+            this.UpdatedState.Post(SynthesizerState.Ready, time);
         }
 
         public void Start(Action onCompleted, ReplayDescriptor descriptor)

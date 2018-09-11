@@ -33,17 +33,17 @@ namespace NU.Kqml
 
         private void ReceiveUiInput(string arg1, Envelope arg2)
         {
-            handleInput(arg1, 1.0, "ui", arg2);
+            handleInput(arg1, 1.0, StringResultSource.ui, arg2);
         }
 
         protected override void Receive(IStreamingSpeechRecognitionResult result, Envelope e)
         {
             string message = quote_s.Replace(result.Text, "'s");
             double confidence = result.Confidence.Value;
-            handleInput(message, confidence, "speech", e);
+            handleInput(message, confidence, StringResultSource.speech, e);
         }
 
-        private void handleInput(string message, double confidence, string source, Envelope e) {
+        private void handleInput(string message, double confidence, StringResultSource source, Envelope e) {
             Console.WriteLine($"[KioskInputTextPreProcessor] Received \"{message}\" with confidence {confidence}; ");// isAccepting {isAccepting}.");
             switch (message)
             {
