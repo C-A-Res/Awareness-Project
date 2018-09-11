@@ -31,7 +31,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -266,21 +266,22 @@
   <ItemGroup>
     <Compile Include="DragonDialogManager.cs" />
     <Compile Include="DialogManager.cs" />
-    <Compile Include="DragonRecognizer.cs" />
-    <Compile Include="DragonSpeechSynthesizer.cs" />
+    <Compile Include="DragonInputTextProcessor.cs" />
     <Compile Include="GrammarUtils\AllXMLGrammarWriter.cs" />
     <Compile Include="GrammarUtils\GrammarWriter.cs" />
     <Compile Include="GrammarUtils\PrimitiveGrammarWriter.cs" />
-    <Compile Include="DragonInputTextPreProcessor.cs" />
     <Compile Include="KioskInputTextPreProcessor.cs" />
     <Compile Include="Kqml.cs" />
     <Compile Include="Class3.cs" />
     <Compile Include="Class4.cs" />
+    <Compile Include="PipeListener.cs" />
+    <Compile Include="PipeSender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Responder.cs" />
     <Compile Include="Sockets.cs" />
     <Compile Include="SpeechMerger.cs" />
+    <Compile Include="StreamString.cs" />
     <Compile Include="Utterance.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -293,9 +294,6 @@
     <None Include="Resources\BaseGrammar.grxml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="Resources\curated_proper_nouns_for_dragon.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\primitive_grammar.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

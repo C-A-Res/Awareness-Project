@@ -13,7 +13,6 @@ namespace NU.Kiosk.Speech
     public class DialogManager : ConsumerProducer<string, string>
     {
         private readonly Pipeline pipeline;
-        private DragonRecognizer dragon_recognizer;
 
         private DialogState state;
         public enum DialogState
@@ -26,7 +25,7 @@ namespace NU.Kiosk.Speech
 
         private bool face = false;
 
-        public DialogManager(Pipeline pipeline, DragonRecognizer dragon = null) : base(pipeline)
+        public DialogManager(Pipeline pipeline) : base(pipeline)
         {
             this.UserInput = pipeline.CreateReceiver<Utterance>(this, ReceiveUserInput, nameof(this.UserInput));
             this.CompInput = pipeline.CreateReceiver<string>(this, ReceiveCompInput, nameof(this.CompInput));
@@ -38,8 +37,7 @@ namespace NU.Kiosk.Speech
             this.CompOutput = pipeline.CreateEmitter<string>(this, nameof(this.CompOutput));
             this.StateChanged = pipeline.CreateEmitter<DialogState>(this, nameof(this.StateChanged));
 
-            this.state = DialogState.Listening;
-            this.dragon_recognizer = dragon;
+            state = DialogState.Listening;
 
             InitTimer();
         }
@@ -88,15 +86,7 @@ namespace NU.Kiosk.Speech
         {
             if (state == DialogState.Speaking && arg1 == SynthesizerState.Ready)
             {
-                if (face)
-                {
-                    state = DialogState.Listening;
-                    dragon_recognizer.setAccepting();
-                } else
-                {
-                    state = DialogState.Sleeping;
-                    dragon_recognizer.setNotAccepting();
-                }
+                state = face ? DialogState.Listening : DialogState.Sleeping;
             }
         }
 
@@ -106,10 +96,6 @@ namespace NU.Kiosk.Speech
             if (state == DialogState.Sleeping)
             {
                 state = DialogState.Listening;
-                if (dragon_recognizer != null)
-                {
-                    dragon_recognizer.setAccepting();
-                }
             }
         }
 
@@ -134,17 +120,12 @@ namespace NU.Kiosk.Speech
         {
             timer.Enabled = true;
             Console.WriteLine("[Merger: StartTimer] Timer Enabled.");
-
         }
 
         private void StopTimer()
         {
             timer.Enabled = false;
             Console.WriteLine("[Merger: StopTimer] Timer Disabled");
-            if (dragon_recognizer != null)
-            {
-                dragon_recognizer.setAccepting();
-            }
         }
 
     }

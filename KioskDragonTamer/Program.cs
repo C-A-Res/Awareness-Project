@@ -19,12 +19,7 @@ namespace NU.Kiosk.Speech
     using System.Threading.Tasks;
 
     public static class Program
-    {
-        private const string AppName = "PsiSpeechSample";
-        private const string LogPath = @"..\..\..\Videos\" + Program.AppName;
-        private const bool isUsingDragon = true;
-        private static int ReloadMessageIDCurrent = 0;
-        
+    {       
 
         public static void Main(string[] args)
         {
@@ -35,11 +30,13 @@ namespace NU.Kiosk.Speech
         {
             var recognizer = new DragonRecognizer();
             var speechSynth = new DragonSpeechSynthesizer(recognizer);
-            new Task(() => recognizer.Initialize()).Start();
-            Console.WriteLine("Recognizer initialized.");
-            new Task(() => speechSynth.Initialize()).Start();
-            Console.WriteLine("Synthesizer initialized.");
-            Console.WriteLine("Press any key to exit...");
+
+            recognizer.Initialize();
+            Console.WriteLine("[KioskDragonTamer.Run] Recognizer initialized.");
+            speechSynth.Initialize();
+            Console.WriteLine("[KioskDragonTamer.Run] Synthesizer initialized.");
+
+            Console.WriteLine("[KioskDragonTamer.Run] Press any key to exit...");
             Console.ReadKey(true);
             // must go in this order
             speechSynth.Dispose();
@@ -48,7 +45,7 @@ namespace NU.Kiosk.Speech
 
         public static void speechTester()
         {
-            Console.WriteLine("Enter 'exit' to exit...");
+            Console.WriteLine("[KioskDragonTamer.Run] Enter 'exit' to exit...");
             string input;
             var recognizer = new DragonRecognizer();
             DragonSpeechSynthesizer speechSynth = new DragonSpeechSynthesizer(recognizer);
@@ -56,12 +53,12 @@ namespace NU.Kiosk.Speech
             {
                 if (input.Trim().Length > 0)
                 {
-                    Console.WriteLine($"[Program.cs] '{input}'");
+                    Console.WriteLine($"[KioskDragonTamer.Run] '{input}'");
                     speechSynth.Speak(input);
                 }
                 else
                 {
-                    Console.WriteLine($"[Program.cs] Come again?");
+                    Console.WriteLine($"[KioskDragonTamer.Run] Come again?");
                 }
             }
         }

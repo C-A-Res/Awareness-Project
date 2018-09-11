@@ -166,6 +166,7 @@
         /// </summary>
         void IStartable.Stop()
         {
+            this.reading = false;
             this.kinectSensor?.Stop();
         }
 
@@ -176,6 +177,7 @@
         {
             if (!this.disposed)
             {
+                this.reading = false;
                 this.kinectSensor?.Stop();
                 this.disposed = true;
             }

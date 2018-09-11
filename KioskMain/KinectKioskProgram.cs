@@ -32,7 +32,7 @@
         {
             bool usingDragon = true;
             bool usingKqml = false;
-            bool usingKinect = false;
+            bool usingKinect = true;
 
             string facilitatorIP = "";
             int facilitatorPort = 0;
@@ -50,7 +50,7 @@
                     localPort = int.Parse(args[i + 3]);
                 } else if (arg0 == "-nokinect" || arg0 == "-nok")
                 {
-                    usingKinect = true;
+                    usingKinect = false;
                 }
                 i++;
             }
@@ -72,13 +72,14 @@
                 Console.WriteLine("[KinectKiostkProgram] Using Dragon.");
 
                 #region Component declarations
-                var recognizer = new Speech.DragonRecognizer(pipeline);
-                var synthesizer = new Speech.DragonSpeechSynthesizer(pipeline);
-                var dialog = new Speech.DialogManager(pipeline, recognizer);
+                var dialog = new Speech.DragonDialogManager(pipeline);
                 SocketStringConsumer kqml = null;
-                DragonInputTextPreProcessor preproc = new DragonInputTextPreProcessor(pipeline);
+                var preproc = new Speech.DragonInputTextProcessor(pipeline);
                 var responder = new Speech.Responder(pipeline);
                 KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
+
+                Microsoft.Psi.Kinect.v1.KinectSensor kinectSensor = null;
+                Microsoft.Psi.Kinect.v1.SkeletonFaceTracker faceTracker = null;
                 #endregion
 
 
@@ -89,8 +90,8 @@
                 if (usingKinect)
                 {
                     Console.WriteLine("Starting Kinect-based Kiosk.  Verify that Kinect is setup before continuing");
-                    Microsoft.Psi.Kinect.v1.KinectSensor kinectSensor = new Microsoft.Psi.Kinect.v1.KinectSensor(pipeline);
-                    Microsoft.Psi.Kinect.v1.SkeletonFaceTracker faceTracker = new Microsoft.Psi.Kinect.v1.SkeletonFaceTracker(pipeline, kinectSensor.kinectSensor);
+                    kinectSensor = new Microsoft.Psi.Kinect.v1.KinectSensor(pipeline);
+                    faceTracker = new Microsoft.Psi.Kinect.v1.SkeletonFaceTracker(pipeline, kinectSensor.kinectSensor);
                     var joinedFrames = kinectSensor.ColorImage.Join(kinectSensor.DepthImage).Join(kinectSensor.Skeletons);
                     joinedFrames.PipeTo(faceTracker);
                     var mouthOpenAsFloat = faceTracker.FaceDetected.Select((bool x) =>
@@ -108,20 +109,7 @@
                     faceDetected.PipeTo(dialog.FaceDetected);
                     faceDetected.PipeTo(ui.FaceDetected);
                 }
-
-
-                // Get final results of speech recognition
-                //var finalResults = recognizer.Out.Where(result => result.IsFinal);
-
-                var recognitionResult = recognizer.Out.Select(r =>  // Need to add a Where Item2, but skipping for now
-                {
-                    Console.WriteLine($"{r} (confidence: Disabled)");
-                    return r;
-                });
-
-
-                // Send user input to preprocess
-                recognitionResult.PipeTo(preproc.In);
+                
                 ui.TouchInput.PipeTo(preproc.UiInput);
 
                 // Send processed user input to Companion and UI
@@ -130,12 +118,12 @@
 
                 // Get response from Companion and forward to UI and synthesizer
                 dialog.CompOutput.PipeTo(ui.CompResponse);
-                dialog.CompOutput.PipeTo(synthesizer);
+                //dialog.CompOutput.PipeTo(synthesizer);
 
                 dialog.UserOutput.PipeTo(responder.UserInput);
                 responder.CompResponse.PipeTo(dialog.CompInput);
 
-                synthesizer.UpdatedState.PipeTo(dialog.SpeechSynthesizerState);
+                //synthesizer.UpdatedState.PipeTo(dialog.SpeechSynthesizerState);
                 Console.Out.WriteLine("Synthisizer select");
 
                 if (usingKqml)
