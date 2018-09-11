@@ -149,23 +149,23 @@ namespace NU.Kiosk.Speech
                     finalResults.PipeTo(preproc.In);
                     preproc.Out.Do(x => Console.WriteLine($"Processed: {x}"));
 
-                    preproc.Out.PipeTo(ui.UserInput);
+                    preproc.Out.Select(x => x.Text).PipeTo(ui.UserInput);
                     if (facilitatorIP != "none")
                     {
                         python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
-                        preproc.Out.PipeTo(ui.UserInput);
+                        preproc.Out.Select(x => x.Text).PipeTo(ui.UserInput);
                         python.Out.PipeTo(ui.CompResponse);
                         python.Out.PipeTo(speechSynth);
                     }
                     else
                     {
-                        preproc.Out.PipeTo(ui.CompResponse);
-                        preproc.Out.PipeTo(speechSynth);
+                        preproc.Out.Select(x => x.Text).PipeTo(ui.CompResponse);
+                        preproc.Out.Select(x => x.Text).PipeTo(speechSynth);
                     }
                     speechSynth.SpeakCompleted.Do(x =>
                     {
-                        Console.WriteLine($"[Program.cs] SpeakCompleted; set accepting!");
-                        preproc.setAccepting();
+                        throw (new Exception($"[Program.cs] SpeakCompleted; set accepting not implemented!"));
+                        //preproc.setAccepting();
                     });
                     speechSynth.SpeakStarted.Do(x =>
                     {

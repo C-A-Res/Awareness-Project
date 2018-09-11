@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace NU.Kiosk.Speech
 {
-    public class DragonRecognizer : IProducer<string>, IStartable, IDisposable
+    public class DragonRecognizer : IDisposable
     {
         private DgnEngineControl DgnEngine;
         private DgnDictCustom DgnDictCust;
@@ -24,36 +24,43 @@ namespace NU.Kiosk.Speech
         private NormalsConfig m_NormalConfig;
         //DateTime TimerStartTime;
 
-        public Emitter<string> Out { get; }
+        private DragonInputTextProcessor text_proc;
 
-        public static void Main(string[] args) {
+        public static void Main(string[] args)
+        {
             DragonRecognizer rec = null;
             try
             {
-                using (Pipeline pipeline = Pipeline.Create())
-                {
-                    rec = new DragonRecognizer(pipeline);
-                    Console.WriteLine("Press any key to exit...");
-                    Console.ReadKey();
-                }                    
+                rec = new DragonRecognizer();
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey();
             }
             catch (Exception e)
             {
                 reportError(e, true);
-            } 
+            }
         }
 
-        public DragonRecognizer(Pipeline pipeline) {
-
+        public DragonRecognizer()
+        {
             txtEdit = new TextBox();
             txtEdit.Text = "";
             txtEdit.Enabled = true;
             txtEdit.Focus();
-            this.Out = pipeline.CreateEmitter<string>(this, "DragonRecognitionEngine");
+            text_proc = new DragonInputTextProcessor();
         }
 
-        public void Start(Action onCompleted, ReplayDescriptor descriptor)
+        public void Dispose()
         {
+            Console.WriteLine("[DragonSpeechSynthesizer] Dispose");
+            text_proc.Dispose();
+            uninitialize();
+        }
+
+        public void Initialize()
+        {
+            text_proc.Initialize();
+            Console.WriteLine($"[DRAGON] Text Processor inialized.");
             if (initializeEngine())
             {
                 // Show current speaker name and its training status
@@ -87,10 +94,7 @@ namespace NU.Kiosk.Speech
             // do nothing
         }
 
-        public void Dispose()
-        {
-            uninitialize();
-        }
+
 
         #region DragonRecognizer Dragon Utilities
         private void initialize()
@@ -99,7 +103,7 @@ namespace NU.Kiosk.Speech
             initializeVocTools();
             initMicControl();
         }
-        
+
         private void uninitialize()
         {
             uninitializeDictation();
@@ -114,7 +118,7 @@ namespace NU.Kiosk.Speech
             if (DgnMicControl.Paused)
             {
                 ((IDgnMicBtn)DgnMicControl).MicState = DgnMicStateConstants.dgnmicResume;
-            } 
+            }
         }
 
         private void uninitMicControl()
@@ -212,7 +216,8 @@ namespace NU.Kiosk.Speech
                 {
 
                     continue;
-                } else if (trimmed.StartsWith("-"))
+                }
+                else if (trimmed.StartsWith("-"))
                 {
                     var toBeDeleted = trimmed.Substring(1);
                     Console.WriteLine($"[DRAGON] word removal is not yet implemented; term: \"{toBeDeleted}\"");
@@ -266,7 +271,8 @@ namespace NU.Kiosk.Speech
         {
             setNotAccepting();
             var t = new String(Text.ToCharArray());
-            this.Out.Post(t, DateTime.Now);
+            //this.Out.Post(t, DateTime.Now);
+            new Task( () => text_proc.Send(t)).Start();
             Console.WriteLine($"[DRAGON] Generated text: '{t}'");
             resetText();
             //DateTime TimerStart = DateTime.Now;
@@ -540,39 +546,16 @@ namespace NU.Kiosk.Speech
         #endregion
 
         #region DragonRecognizer accept
-        //async Task delay(int ms)
-        //{
-        //    await Task.Delay(ms);
-        //}
-
-        //private async void restartAcceptingInMs(int ms, DateTime timeStarted)
-        //{
-        //    await delay(ms);
-        //    if (DgnDictCust.Active == false && timeStarted >= TimerStartTime)
-        //    {
-        //        Console.WriteLine($"[DragonRecognizer] Timer stopped; once again accepting.");
-        //        setAccepting();
-        //        Out.Post("Sorry, I've having difficulty processing.", DateTime.Now);
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine($"[DragonRecognizer] Timer stopped; already accepting.");
-        //    }
-        //}
-
         public void setAccepting()
         {
             ((IDgnMicBtn)DgnMicControl).MicState = DgnMicStateConstants.dgnmicResume;
             DgnDictCust.Active = true;
-            //TimerStartTime = DateTime.Now;
-            //Console.WriteLine($"[DragonRecognizer] Once again accepting.");
         }
 
         public void setNotAccepting()
         {
             ((IDgnMicBtn)DgnMicControl).MicState = DgnMicStateConstants.dgnmicPause;
-            DgnDictCust.Active = false;      
-            //Console.WriteLine($"[DragonRecognizer] stopped accepting.");
+            DgnDictCust.Active = false;
         }
         #endregion
     }

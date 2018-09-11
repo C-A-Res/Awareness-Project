@@ -10,7 +10,7 @@ using Microsoft.Psi.Components;
 
 namespace NU.Kiosk.Speech
 {
-    public class DialogManager : ConsumerProducer<string, string>
+    public class DragonDialogManager : ConsumerProducer<string, string>
     {
         private readonly Pipeline pipeline;
         private DragonRecognizer dragon_recognizer;
@@ -26,7 +26,7 @@ namespace NU.Kiosk.Speech
 
         private bool face = false;
 
-        public DialogManager(Pipeline pipeline, DragonRecognizer dragon = null) : base(pipeline)
+        public DragonDialogManager(Pipeline pipeline, DragonRecognizer dragon = null) : base(pipeline)
         {
             this.UserInput = pipeline.CreateReceiver<Utterance>(this, ReceiveUserInput, nameof(this.UserInput));
             this.CompInput = pipeline.CreateReceiver<string>(this, ReceiveCompInput, nameof(this.CompInput));

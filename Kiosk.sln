@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Kinect.Toolkit.Fa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KioskUI", "KioskUI\KioskUI.csproj", "{CEA3BC67-5DAE-44B5-BEC7-5596EE29629F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KioskDragonTamer", "KioskDragonTamer\KioskDragonTamer.csproj", "{442CF5D5-9983-4F6C-81B5-EB0D786BD326}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +109,18 @@ Global
 		{CEA3BC67-5DAE-44B5-BEC7-5596EE29629F}.Release|x64.Build.0 = Release|Any CPU
 		{CEA3BC67-5DAE-44B5-BEC7-5596EE29629F}.Release|x86.ActiveCfg = Release|Any CPU
 		{CEA3BC67-5DAE-44B5-BEC7-5596EE29629F}.Release|x86.Build.0 = Release|Any CPU
+		{442CF5D5-9983-4F6C-81B5-EB0D786BD326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{442CF5D5-9983-4F6C-81B5-EB0D786BD326}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{442CF5D5-9983-4F6C-81B5-EB0D786BD326}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{442CF5D5-9983-4F6C-81B5-EB0D786BD326}.Debug|x64.Build.0 = Debug|Any CPU
+		{442CF5D5-9983-4F6C-81B5-EB0D786BD326}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{442CF5D5-9983-4F6C-81B5-EB0D786BD326}.Debug|x86.Build.0 = Debug|Any CPU
+		{442CF5D5-9983-4F6C-81B5-EB0D786BD326}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{442CF5D5-9983-4F6C-81B5-EB0D786BD326}.Release|Any CPU.Build.0 = Release|Any CPU
+		{442CF5D5-9983-4F6C-81B5-EB0D786BD326}.Release|x64.ActiveCfg = Release|Any CPU
+		{442CF5D5-9983-4F6C-81B5-EB0D786BD326}.Release|x64.Build.0 = Release|Any CPU
+		{442CF5D5-9983-4F6C-81B5-EB0D786BD326}.Release|x86.ActiveCfg = Release|Any CPU
+		{442CF5D5-9983-4F6C-81B5-EB0D786BD326}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
