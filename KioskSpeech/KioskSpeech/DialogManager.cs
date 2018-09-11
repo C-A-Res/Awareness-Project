@@ -13,7 +13,6 @@ namespace NU.Kiosk.Speech
     public class DialogManager : ConsumerProducer<string, string>
     {
         private readonly Pipeline pipeline;
-        private DragonRecognizer dragon_recognizer;
 
         private DialogState state;
         public enum DialogState
@@ -27,7 +26,7 @@ namespace NU.Kiosk.Speech
         private bool face = false;
         private bool sessionActive = false;
 
-        public DialogManager(Pipeline pipeline, DragonRecognizer dragon = null) : base(pipeline)
+        public DialogManager(Pipeline pipeline) : base(pipeline)
         {
             this.UserInput = pipeline.CreateReceiver<Utterance>(this, ReceiveUserInput, nameof(this.UserInput));
             this.CompInput = pipeline.CreateReceiver<string>(this, ReceiveCompInput, nameof(this.CompInput));
@@ -39,8 +38,6 @@ namespace NU.Kiosk.Speech
             this.UserOutput = pipeline.CreateEmitter<Utterance>(this, nameof(this.UserOutput));
             this.CompOutput = pipeline.CreateEmitter<string>(this, nameof(this.CompOutput));
             this.StateChanged = pipeline.CreateEmitter<string>(this, nameof(this.StateChanged));
-
-            state = DialogState.Sleeping;
 
             InitResponseTimer();
             InitSessionTimer();
@@ -186,7 +183,6 @@ namespace NU.Kiosk.Speech
             //timer.Enabled = true;
             timer.Start();
             Console.WriteLine("[Merger: StartTimer] Timer Enabled.");
-
         }
 
         private void StopResponseTimer()
@@ -194,10 +190,6 @@ namespace NU.Kiosk.Speech
             //timer.Enabled = false;
             timer.Stop();
             Console.WriteLine("[Merger: StopTimer] Timer Disabled");
-            if (dragon_recognizer != null)
-            {
-                dragon_recognizer.setAccepting();
-            }
         }
 
 

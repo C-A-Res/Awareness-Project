@@ -10,11 +10,24 @@ using System.Windows.Forms;
 using Microsoft.Psi;
 using Microsoft.Psi.Components;
 using System.Threading;
+using System.IO.Pipes;
 
 namespace NU.Kiosk.Speech
 {
     public class DragonRecognizer : IDisposable
     {
+        // debug purpose
+        //private const string listener_pipe_name = "dragon_synthesizer_pipe";
+        //private const string destination_pipe_name = "dragon_processed_text_pipe";
+
+        // start stop listener
+        private const string listener_pipe_name = "dragon_start_stop_pipe";
+        private PipeListener listener;
+
+        // text processing sender
+        private const string destination_pipe_name = "dragon_processed_text_pipe";
+        private PipeSender sender;
+
         private DgnEngineControl DgnEngine;
         private DgnDictCustom DgnDictCust;
         private DgnMicBtn DgnMicControl;
@@ -22,24 +35,8 @@ namespace NU.Kiosk.Speech
 
         private TextBox txtEdit;
         private NormalsConfig m_NormalConfig;
-        //DateTime TimerStartTime;
 
-        private DragonInputTextProcessor text_proc;
-
-        public static void Main(string[] args)
-        {
-            DragonRecognizer rec = null;
-            try
-            {
-                rec = new DragonRecognizer();
-                Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
-            }
-            catch (Exception e)
-            {
-                reportError(e, true);
-            }
-        }
+        private bool initial_listen_state = true;  // start as not listening, until face is detected.
 
         public DragonRecognizer()
         {
@@ -47,19 +44,26 @@ namespace NU.Kiosk.Speech
             txtEdit.Text = "";
             txtEdit.Enabled = true;
             txtEdit.Focus();
-            text_proc = new DragonInputTextProcessor();
+            //text_proc = new DragonInputTextProcessor();
+
+            listener = new PipeListener(ChangeState, listener_pipe_name);
+            sender = new PipeSender(destination_pipe_name);
         }
 
         public void Dispose()
         {
             Console.WriteLine("[DragonSpeechSynthesizer] Dispose");
-            text_proc.Dispose();
+            //text_proc.Dispose();
+
+            listener.Dispose();
+            sender.Dispose();
+
             uninitialize();
         }
 
         public void Initialize()
         {
-            text_proc.Initialize();
+            //text_proc.Initialize();
             Console.WriteLine($"[DRAGON] Text Processor inialized.");
             if (initializeEngine())
             {
@@ -86,15 +90,14 @@ namespace NU.Kiosk.Speech
                     DgnEngine.RecognitionMode = DNSTools.DgnRecognitionModeConstants.dgnrecmodeDictation;
                     Console.WriteLine($"[DRAGON] Engine initialized.");
                 }
-            }
+            }            
         }
-
+        
         public void Stop()
         {
             // do nothing
         }
-
-
+        
 
         #region DragonRecognizer Dragon Utilities
         private void initialize()
@@ -102,8 +105,29 @@ namespace NU.Kiosk.Speech
             initializeDictation();
             initializeVocTools();
             initMicControl();
+            initializePipeServer();
         }
 
+        private void initializePipeServer()
+        {
+            new Task(() => listener.Initialize()).Start();
+            new Task(() => sender.Initialize()).Start();
+        }
+
+        private void ChangeState(string res)
+        {
+            if (res.Equals("1"))
+            {
+                Console.WriteLine($"[DragonRecognizer] set accepting");
+                setAccepting();
+            }
+            else if (res.Equals("0"))
+            {
+                Console.WriteLine($"[DragonRecognizer] set not accepting");
+                setNotAccepting();
+            } 
+        }
+        
         private void uninitialize()
         {
             uninitializeDictation();
@@ -154,7 +178,7 @@ namespace NU.Kiosk.Speech
                 DgnDictCust = new DgnDictCustom();
                 DgnDictCust.Register(DgnRegisterConstants.dgnregNoTrayMic);
                 DgnDictCust.set_Option(DgnDictationOptionConstants.dgndictoptionResetDeletesAudio, true);
-                DgnDictCust.Active = true;
+                DgnDictCust.Active = initial_listen_state;
 
                 //Add DgnDictCustom event handlers
                 DgnDictCust.MakeChanges += new _DDgnDictCustomEvents_MakeChangesEventHandler(DgnDictCust_MakeChanges);
@@ -272,7 +296,7 @@ namespace NU.Kiosk.Speech
             setNotAccepting();
             var t = new String(Text.ToCharArray());
             //this.Out.Post(t, DateTime.Now);
-            new Task( () => text_proc.Send(t)).Start();
+            new Task( () => sender.Send(t)).Start();
             Console.WriteLine($"[DRAGON] Generated text: '{t}'");
             resetText();
             //DateTime TimerStart = DateTime.Now;

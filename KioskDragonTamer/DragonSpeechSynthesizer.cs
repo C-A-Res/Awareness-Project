@@ -15,48 +15,51 @@ namespace NU.Kiosk.Speech
 {
     public class DragonSpeechSynthesizer : IDisposable
     {
-        private const string listener_pipe_name = "dragon_synthesizer_pipe";
+        // debug purpose
+        //private const string listener_pipe_name = "dragon_processed_text_pipe";
+        //private const string destination_pipe_name = "dragon_synthesizer_pipe";
 
-        private const int NumThreads = 2;
-        private NamedPipeServerStream pipeServer;
-        private StreamString ss;
-        private Thread listenerThread;
-        private DragonRecognizer recognizer;
-        
+        private const string listener_pipe_name = "dragon_synthesizer_pipe";
+        private PipeListener listener;
+
+        private const string destination_pipe_name = "dragon_synthesizer_state_pipe";
+        private PipeSender sender;
+
+        private DragonRecognizer recognizer;        
         DgnVoiceTxt dgnVoiceTxt;
+        
         string postFixIdentifier;
 
         public DragonSpeechSynthesizer(DragonRecognizer rec)
         {
             this.recognizer = rec;
             postFixIdentifier = DateTime.Now.ToLongTimeString();
+            listener = new PipeListener(Speak, listener_pipe_name);
+            sender = new PipeSender(destination_pipe_name);
         }
 
         public void Dispose()
         {
             Console.WriteLine("[DragonSpeechSynthesizer] Dispose");
-            listenerThread.Abort();
+            listener.Dispose();
+            sender.Dispose();
 
             dgnVoiceTxt.Enabled = false;
-            if (pipeServer.CanWrite)
-            {
-                pipeServer.Disconnect();
-            }
-            pipeServer.Dispose();
-
             dgnVoiceTxt.UnRegister();
             dgnVoiceTxt = null;
         }
 
         private void speechHasStarted()
         {
-            // do nothing. Or later send a message back to dialog manager
+            sender.Send("Start");
+            recognizer.setNotAccepting();
         }
 
         private void speechIsDone()
         {
+            Console.WriteLine("[DragonSpeechSynthesizer] Speak is done");
             recognizer.setAccepting();
-            // and... do nothing. Or later send a message back to dialog manager
+            sender.Send("Done");
         }
 
         public void Initialize()
@@ -67,24 +70,8 @@ namespace NU.Kiosk.Speech
             dgnVoiceTxt.SpeakingDone += speechIsDone;
             dgnVoiceTxt.Enabled = true;
 
-            pipeServer = new NamedPipeServerStream(listener_pipe_name, PipeDirection.In, NumThreads);
-            Console.WriteLine($"[DragonSpeechSynthesizer] Waiting for connection... ");
-            pipeServer.WaitForConnection();
-            Console.WriteLine($"[DragonSpeechSynthesizer] Synthesizer Connected!");
-
-            ss = new StreamString(pipeServer);
-            listenerThread = new Thread(StartListening);
-            listenerThread.Start();
-        }
-
-        private void StartListening(object o)
-        {
-            while (true)
-            {
-                var res = ss.ReadString();
-                Console.WriteLine($"[DragonSpeechSynthesizer] received: {res}");
-                Speak(res);
-            }
+            new Task(() => listener.Initialize()).Start();
+            new Task(() => sender.Initialize()).Start();
         }
 
         public void Speak(string utterance)

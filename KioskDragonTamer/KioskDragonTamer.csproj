@@ -266,7 +266,8 @@
   <ItemGroup>
     <Compile Include="DragonRecognizer.cs" />
     <Compile Include="DragonSpeechSynthesizer.cs" />
-    <Compile Include="DragonInputTextProcessor.cs" />
+    <Compile Include="PipeListener.cs" />
+    <Compile Include="PipeSender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sockets.cs" />
