@@ -9,33 +9,75 @@
   <!-- mark -->
   <rule id="Top">
     <one-of>
-      <item><ruleref uri="#Question"/></item>
-      <item><ruleref uri="#Greeting"/></item>
-      <item><ruleref uri="#WrapUp"/></item>
-      <item><ruleref uri="#Interjection"/></item>
-      <item><ruleref uri="#Question"/></item>
-      <item><ruleref uri="#Command"/></item>
-      <item><ruleref uri="#EasterEggs"/></item>
+      <item>
+        <ruleref uri="#Question"/>
+      </item>
+      <item>
+        <ruleref uri="#Greeting"/>
+      </item>
+      <item>
+        <ruleref uri="#WrapUp"/>
+      </item>
+      <item>
+        <ruleref uri="#Interjection"/>
+      </item>
+      <item>
+        <ruleref uri="#Question"/>
+      </item>
+      <item>
+        <ruleref uri="#Command"/>
+      </item>
+      <item>
+        <ruleref uri="#EasterEggs"/>
+      </item>
     </one-of>
   </rule>
 
   <!-- mark -->
   <rule id="Question">
     <one-of>
-      <item><ruleref uri="#AreQuestion"/></item>
-      <item><ruleref uri="#DidQuestion"/></item>
-      <item><ruleref uri="#DoesQuestion"/></item>
-      <item><ruleref uri="#HasQuestion"/></item>
-      <item><ruleref uri="#IsQuestion"/></item>
-      <item><ruleref uri="#Inquisition"/></item>
-      <item><ruleref uri="#InquisitionOrder"/></item>
-      <item><ruleref uri="#HowQuestion"/></item>
-      <item><ruleref uri="#WhatQuestion"/></item>
-      <item><ruleref uri="#WhenQuestion"/></item>
-      <item><ruleref uri="#WhereQuestion"/></item>
-      <item><ruleref uri="#WhichQuestion"/></item>
-      <item><ruleref uri="#WhoQuestion"/></item>
-      <item><ruleref uri="#WillQuestion"/></item>
+      <item>
+        <ruleref uri="#AreQuestion"/>
+      </item>
+      <item>
+        <ruleref uri="#DidQuestion"/>
+      </item>
+      <item>
+        <ruleref uri="#DoesQuestion"/>
+      </item>
+      <item>
+        <ruleref uri="#HasQuestion"/>
+      </item>
+      <item>
+        <ruleref uri="#IsQuestion"/>
+      </item>
+      <item>
+        <ruleref uri="#Inquisition"/>
+      </item>
+      <item>
+        <ruleref uri="#InquisitionOrder"/>
+      </item>
+      <item>
+        <ruleref uri="#HowQuestion"/>
+      </item>
+      <item>
+        <ruleref uri="#WhatQuestion"/>
+      </item>
+      <item>
+        <ruleref uri="#WhenQuestion"/>
+      </item>
+      <item>
+        <ruleref uri="#WhereQuestion"/>
+      </item>
+      <item>
+        <ruleref uri="#WhichQuestion"/>
+      </item>
+      <item>
+        <ruleref uri="#WhoQuestion"/>
+      </item>
+      <item>
+        <ruleref uri="#WillQuestion"/>
+      </item>
     </one-of>
   </rule>
 
@@ -418,10 +460,16 @@
           <item>
             <ruleref uri="#LocationOrPerson"/>
           </item>
+          <item>
+            <ruleref uri="#ObjectsOfInterest"/>
+          </item>
         </one-of>
       </item>
       <item>
-        is
+        <one-of>
+          <item>is</item>
+          <item>are</item>
+        </one-of>
         <one-of>
           <item>
             <ruleref uri="#LocationOrPerson"/>
@@ -431,7 +479,15 @@
           </item>
           <item>
             <ruleref uri="#EventMaybeTemporallyStampped"/>
-            going to take place
+            <item repeat="0-1">going to take place</item>
+          </item>
+          <item>
+            <item repeat="0-1">
+              <ruleref uri="#EnglishArticle"/>
+            </item>
+            <ruleref uri="#ObjectCanBePossessed"/>
+            for
+            <ruleref uri="#PersonReference"/>
           </item>
         </one-of>
       </item>
@@ -632,7 +688,6 @@
     <one-of>
       <item>a</item>
       <item>an</item>
-      <item>some</item>
       <item>any</item>
       <item>the</item>
     </one-of>
@@ -841,6 +896,13 @@
       <item>
         <ruleref uri="#Homepage"/>
       </item>
+      <item>
+        office
+        <one-of>
+          <item>hour</item>
+          <item>hours</item>
+        </one-of>
+      </item>
     </one-of>
   </rule>
   <rule id="ObjectPossessedByPerson">
@@ -890,14 +952,45 @@
     </one-of>
   </rule>
 
+  <rule id="Labs">
+    <one-of>
+      <item>QRG Lab</item>
+      <item>Qualitative Reasoning Group</item>
+      <item>Aqua Lab</item>
+      <item>Assistive And Rehabilitation Robotics Laboratory</item>
+      <item>Assistive And Rehabilitation Robotics Lab</item>
+      <item>Campanoni Lab</item>
+      <item>Center For Connected Learning And Computer-based Modeling</item>
+      <item>Delta Lab</item>
+      <item>Economics Group</item>
+      <item>Image And Video Processing Laboratory</item>
+      <item>Image And Video Processing Lab</item>
+      <item>Intelligent Information Laboratory</item>
+      <item>Intelligent Information Lab</item>
+      <item>Interactive Audio Lab</item>
+      <item>Internet And Security Lab</item>
+      <item>Northwestern Lab For Internet And Security Technology</item>
+      <item>Networks Group</item>
+      <item>Northwestern Networks Group</item>
+      <item>Parallel Architecture Group At Northwestern</item>
+      <item>Parallel Architecture Group</item>
+      <item>Prescience Lab</item>
+      <item>Swarm Robotics Lab</item>
+    </one-of>
+  </rule>
+
   <rule id="SpecificPlace">
     <one-of>
       <item>
-        Ford<item repeat="0-1">
-          <ruleref uri="#OfficeNumber"/>
-        </item>
+        <item repeat="0-1">Mudd</item>
+        <ruleref uri="#OfficeNumber"/>
       </item>
-      <item>QRG Lab</item>
+      <item>
+        <ruleref uri="#Labs"/>
+      </item>
+      <item>
+        Room <ruleref uri="#OfficeNumber"/>
+      </item>
       <item>
         Dean's
         <one-of>
@@ -911,6 +1004,7 @@
         <ruleref uri="#PersonReference"/>'s
         <one-of>
           <item>office</item>
+          <item>lab</item>
           <item>desk</item>
         </one-of>
       </item>
@@ -1035,16 +1129,37 @@
     <one-of>
       <item>
         <ruleref uri="#TemporalReference"/>'s
-        <ruleref uri="#EventName"/>
+        <one-of>
+          <item>
+            <ruleref uri="#EventName"/>
+          </item>
+          <item>
+            <ruleref uri="#Course"/>
+          </item>
+        </one-of>
       </item>
       <item>
         <item repeat="0-1">the</item>
-        <ruleref uri="#EventName"/>
+        <one-of>
+          <item>
+            <ruleref uri="#EventName"/>
+          </item>
+          <item>
+            <ruleref uri="#Course"/>
+          </item>
+        </one-of>
         <ruleref uri="#TemporalReference"/>
       </item>
       <item>
         <item repeat="0-1">the</item>
-        <ruleref uri="#EventName"/>
+        <one-of>
+          <item>
+            <ruleref uri="#EventName"/>
+          </item>
+          <item>
+            <ruleref uri="#Course"/>
+          </item>
+        </one-of>
         <one-of>
           <item>on</item>
           <item>of</item>
@@ -1053,19 +1168,26 @@
         <ruleref uri="#TemporalReference"/>
       </item>
       <item>
+        <ruleref uri="#Course"/>
+      </item>
+      <item>
         <item repeat="0-1">
           <ruleref uri="#EnglishArticle"/>
         </item>
-        <ruleref uri="#EventName"/>
+        <one-of>
+          <item>
+            <ruleref uri="#EventName"/>
+          </item>
+          <item>
+            <ruleref uri="#RecurringEventWithSpecialName"/>
+          </item>
+        </one-of>
       </item>
     </one-of>
   </rule>
 
   <rule id="EventName">
     <one-of>
-      <item>
-        <ruleref uri="#Course"/>
-      </item>
       <item>
         <ruleref uri="#GenericEvent"/>
       </item>
@@ -1149,633 +1271,740 @@
   </rule>
   <rule id="Courses_name">
     <one-of>
-      <item>EECS 100 Electrons, Photons, And Bits: Adventures In Electrical And Computer Engineering</item>
-      <item>EECS 1 01 An Introduction to Computer Science for Everyone</item>
-      <item>EECS 1 10 An Introduction to Programming for Non-majors using the C programming language</item>
-      <item>EECS 1 10 An Introduction to Programming for Non-majors using the Python</item>
-      <item>EECS 1 11 Fundamentals of Computer Programming 1</item>
-      <item>EECS 2 02 Introduction to Electrical Engineering</item>
-      <item>EECS 2 03 Introduction to Computer Engineering</item>
-      <item>EECS 2 05 Fundamentals of Computer Systems Software</item>
-      <item>EECS 2 11 Fundamentals of Computer Programming 2</item>
-      <item>EECS 2 12 Mathematical Foundations of Computer Science</item>
-      <item>EECS 2 13 Introduction to Computer Systems</item>
-      <item>EECS 2 14 Data Structures and Data Management</item>
-      <item>EECS 2 21 Fundamentals of Circuits</item>
-      <item>EECS 2 22 Fundamentals of Signals and Systems</item>
-      <item>EECS 2 23 Fundamentals of Solid State Engineering</item>
-      <item>EECS 2 24 Fundamentals of Electromagnetics and Photonics</item>
-      <item>EECS 2 25 Fundamentals of Electronics</item>
-      <item>EECS 2 30 Programming for Engineers</item>
-      <item>EECS 2 50 Physical Electronics and Devices</item>
-      <item>EECS 3 01 Introductory Robotics Laboratory</item>
-      <item>EECS 3 02 Probabilistic Systems and Random Signals</item>
-      <item>EECS 3 03 Advanced Digital Logic Design</item>
-      <item>EECS 3 03 Advanced Logic Design</item>
-      <item>EECS 3 03 Digital Logic Design</item>
-      <item>EECS 3 07 Communications Systems</item>
-      <item>EECS 3 08 Advanced Electromagnetics and Photonics</item>
-      <item>EECS 3 21 Programming Languages</item>
-      <item>EECS 3 22 Compiler Construction</item>
-      <item>EECS 3 25 Artificial Intelligence Programming</item>
-      <item>EECS 3 28 Numerical Methods for Engineers</item>
-      <item>EECS 3 30 Human-Computer Interaction</item>
-      <item>EECS 3 32 Digital Image Analysis</item>
-      <item>EECS 3 32 Introduction to Computer Vision</item>
-      <item>EECS 3 33 Introduction to Communication Networks</item>
-      <item>EECS 3 35 Introduction to the Theory of Computation</item>
-      <item>EECS 3 36 Design and Analysis of Algorithms</item>
-      <item>EECS 3 37 Semantic Information Processing</item>
-      <item>EECS 3 38 Practicum in Intelligent Information Systems</item>
-      <item>EECS 3 39 Introduction to Databases</item>
-      <item>EECS 3 40 Introduction to Computer Networking</item>
-      <item>EECS 3 40 Introduction to Networking</item>
-      <item>EECS 3 43 Operating Systems</item>
-      <item>EECS 3 44 Design of Computer Problem Solvers</item>
-      <item>EECS 3 45 Distributed Systems</item>
-      <item>EECS 3 46 Microprocessor System Design</item>
-      <item>EECS 3 47 1 Microprocessor Systems Projects 1</item>
-      <item>EECS 3 47 2 Microprocessor Systems Projects 2</item>
-      <item>EECS 3 48 Introduction to Artificial Intelligence</item>
-      <item>EECS 3 49 Machine Learning</item>
-      <item>EECS 3 50 Introduction to Computer Security</item>
-      <item>EECS 3 51 Introduction to Computer Graphics</item>
-      <item>EECS 3 52 Machine Perception of Music</item>
-      <item>EECS 3 53 Digital Microelectronics</item>
-      <item>EECS 3 54 Network Penetration and Security</item>
-      <item>EECS 3 55 ASIC and FPGA Design</item>
-      <item>EECS 3 57 Introduction to VLSI CAD</item>
-      <item>EECS 3 58 Introduction to Parallel Computing</item>
-      <item>EECS 3 59 Digital Signal Processing</item>
-      <item>EECS 3 60 Introduction to Feedback Systems</item>
-      <item>EECS 3 61 Computer Architecture I</item>
-      <item>EECS 3 62 Computer Architecture Project</item>
-      <item>EECS 3 63 Digital Filters</item>
-      <item>EECS 3 68 Programming Massively Parallel Processors with CUDA</item>
-      <item>EECS 3 70 Computer Game Design</item>
-      <item>EECS 3 71 Knowledge Representation</item>
-      <item>EECS 3 72 Designing and Constructing Models with Multi-Agent Languages</item>
-      <item>EECS 3 74 Introduction to Digital Control</item>
-      <item>EECS 3 78 Digital Communications</item>
-      <item>EECS 3 79 Lasers and Coherent Optics</item>
-      <item>EECS 3 80 Wireless Communications</item>
-      <item>EECS 3 81 Electronic Properties of Materials</item>
-      <item>EECS 3 82 Photonic Information Processing</item>
-      <item>EECS 3 83 Fiber-Optic Communications</item>
-      <item>EECS 3 84 Solid State Electronic Devices</item>
-      <item>EECS 3 85 Optoelectronics</item>
-      <item>EECS 3 86 Computational Electromagnetics and Photonics</item>
-      <item>EECS 3 88 Nanotechnology</item>
-      <item>EECS 3 90 Introduction to Robotics</item>
-      <item>EECS 3 91 CMOS VLSI Circuits Design</item>
-      <item>EECS 3 92 VLSI Systems Design Projects</item>
-      <item>EECS 3 93 Design and Analysis of High-Speed Integrated Circuits</item>
-      <item>EECS 4 93 Design and Analysis of High-Speed Integrated Circuits</item>
-      <item>EECS 3 94 Software Project Management</item>
-      <item>EECS 3 95 Advanced Networking</item>
-      <item>EECS 3 95 Algorithmic Techniques for Bioinformatics</item>
-      <item>EECS 3 95 Biometrics</item>
-      <item>EECS 3 95 Code Analysis and Transformation</item>
-      <item>EECS 3 95 Cognitive Simulation for Virtual Characters</item>
-      <item>EECS 3 95 Computational Geometry</item>
-      <item>EECS 3 95 Computational Photography Seminar</item>
-      <item>EECS 3 95 Concurrent Programming in Rust</item>
-      <item>EECS 3 95 Data Science</item>
-      <item>EECS 3 95 Design, Technology, and Research</item>
-      <item>EECS 3 95 Digital Forensics and Incident Response</item>
-      <item>EECS 3 95 Embedded Systems</item>
-      <item>EECS 3 95 Game Design and Development</item>
-      <item>EECS 3 95 Game Development Studio</item>
-      <item>EECS 3 95 Geospatial Vision and Visualization</item>
-      <item>EECS 3 95 Innovation in Journalism and Technology</item>
-      <item>EECS 3 95 Intermediate Computer Graphics</item>
-      <item>EECS 3 95 Internet of Things</item>
-      <item>EECS 3 95 Introduction to Computational Learning Theory</item>
-      <item>EECS 3 95 Introduction to Computational Photography</item>
-      <item>EECS 3 95 Introduction to the Theory of Computation</item>
-      <item>EECS 3 95 Kernel and Other Low-level Software Development</item>
-      <item>EECS 3 95 Knowledge, Representation and Reasoning for Game Characters</item>
-      <item>EECS 3 95 Machine Learning: Foundations, Applications, and Algorithms</item>
-      <item>EECS 3 95 Networking Problems in Cloud Computing</item>
-      <item>EECS 3 95 Software Construction</item>
-      <item>EECS 3 95 Special Topics in Machine Learning</item>
-      <item>EECS 3 95 Special Topics in Swarms and Multi-robot Systems</item>
-      <item>EECS 3 95 Tangible Interaction Design and Learning</item>
-      <item>EECS 3 95 The Art of Multicore Concurrent Programming</item>
-      <item>EECS 3 95 Wireless and Mobile Health</item>
-      <item>EECS 3 98 Electrical Engineering Design</item>
-      <item>EECS 3 99 Independent Study</item>
-      <item>EECS 4 28 Information Theory</item>
-      <item>EECS 4 33 Statistical Pattern Recognition</item>
-      <item>EECS 4 40 Advanced Networking</item>
-      <item>EECS 4 41 Resource Virtualization</item>
-      <item>EECS 4 44 Networking Problems in Cloud Computing</item>
-      <item>EECS 4 50 Internet Security</item>
-      <item>EECS 4 52 Advanced Computer Architecture</item>
-      <item>EECS 4 53 Parallel Architectures</item>
-      <item>EECS 4 57 Advanced Algorithms</item>
-      <item>EECS 4 59 VLSI Algorithmics</item>
-      <item>EECS 4 68 Programming Massively Parallel Prossors with CUDA</item>
-      <item>EECS 4 69 Machine Learning and Artificial Intelligence for Robotics</item>
-      <item>EECS 4 72 Designing and Constructing Models with Multi-Agent Languages</item>
-      <item>EECS 4 73 1 NUvention: Web and Media</item>
-      <item>EECS 4 73 2 NUvention: Web and Media</item>
-      <item>EECS 4 74 Probabilistic Graphical Models</item>
-      <item>EECS 4 95 Advanced Networking</item>
-      <item>EECS 4 95 Algorithmic Techniques for Bioinformatics</item>
-      <item>EECS 4 95 Biometrics</item>
-      <item>EECS 4 95 Code Analysis and Transformation</item>
-      <item>EECS 4 95 Cognitive Simulation for Virtual Characters</item>
-      <item>EECS 4 95 Computational Geometry</item>
-      <item>EECS 4 95 Computational Photography Seminar</item>
-      <item>EECS 4 95 Concurrent Programming in Rust</item>
-      <item>EECS 4 95 Data Science</item>
-      <item>EECS 4 95 Design, Technology, and Research</item>
-      <item>EECS 4 95 Digital Forensics and Incident Response</item>
-      <item>EECS 4 95 Embedded Systems</item>
-      <item>EECS 4 95 Game Development Studio</item>
-      <item>EECS 4 95 Geospatial Vision and Visualization</item>
-      <item>EECS 4 95 Innovation in Journalism and Technology</item>
-      <item>EECS 4 95 Intermediate Computer Graphics</item>
-      <item>EECS 4 95 Internet of Things</item>
-      <item>EECS 4 95 Introduction to Computational Learning Theory</item>
-      <item>EECS 4 95 Introduction to Computational Photography</item>
-      <item>EECS 4 95 Kernel and Other Low-level Software Development</item>
-      <item>EECS 4 95 Knowledge, Representation and Reasoning for Game Characters</item>
-      <item>EECS 4 95 Machine Learning: Foundations, Applications, and Algorithms</item>
-      <item>EECS 4 95 Networking Problems in Cloud Computing</item>
-      <item>EECS 4 95 Special Topics in Machine Learning</item>
-      <item>EECS 4 95 Special Topics in Swarms and Multi-robot Systems</item>
-      <item>EECS 4 95 Tangible Interaction Design and Learning</item>
-      <item>EECS 4 95 The Art of Multicore Concurrent Programming</item>
-      <item>EECS 4 95 Wireless and Mobile Health</item>
-      <item>EECS 4 99 Independent Study</item>
-      <item>EECS 100 Adventures In Electrical And Computer Engineering</item>
-      <item>EECS 100 Adventures In EE and CE</item>
-      <item>EECS 1 01 Intro to Computer Science for Everyone</item>
-      <item>EECS 1 01 Intro to CS for Everyone</item>
-      <item>EECS 1 01 Intro to CS</item>
-      <item>EECS 1 10 Intro to Programming for Non-majors</item>
-      <item>EECS 1 10 Intro to Programming for Non-majors using C</item>
-      <item>EECS 1 10 Intro to Programming for Non-majors using Python</item>
-      <item>EECS 2 02 Intro to Electrical Engineering</item>
-      <item>EECS 2 02 Intro to EE</item>
-      <item>EECS 2 03 Intro to Computer Engineering</item>
-      <item>EECS 2 03 Intro to CE</item>
-      <item>EECS 2 13 Intro to Computer Systems</item>
-      <item>EECS 3 01 Intro Robotics Laboratory</item>
-      <item>EECS 3 01 Intro Robotics Lab</item>
-      <item>EECS 3 25 AI Programming</item>
-      <item>EECS 3 32 Intro to Computer Vision</item>
-      <item>EECS 3 33 Intro to Communication Networks</item>
-      <item>EECS 3 35 Intro to the Theory of Computation</item>
-      <item>EECS 3 39 Intro to Databases</item>
-      <item>EECS 3 40 Intro to Computer Networking</item>
-      <item>EECS 3 40 Intro to Networking</item>
-      <item>EECS 3 48 Intro to Artificial Intelligence</item>
-      <item>EECS 3 48 Intro to AI</item>
-      <item>EECS 3 50 Intro to Computer Security</item>
-      <item>EECS 3 51 Intro to Computer Graphics</item>
-      <item>EECS 3 57 Intro to VLSI CAD</item>
-      <item>EECS 3 58 Intro to Parallel Computing</item>
-      <item>EECS 3 60 Intro to Feedback Systems</item>
-      <item>EECS 3 74 Intro to Digital Control</item>
-      <item>EECS 3 90 Intro to Robotics</item>
-      <item>EECS 3 95 Intro to Computational Learning Theory</item>
-      <item>EECS 3 95 Intro to Computational Photography</item>
-      <item>EECS 3 95 Intro to the Theory of Computation</item>
-      <item>100 Electrons, Photons, And Bits: Adventures In Electrical And Computer Engineering</item>
-      <item>1 01 An Introduction to Computer Science for Everyone</item>
-      <item>1 10 An Introduction to Programming for Non-majors using the C programming language</item>
-      <item>1 10 An Introduction to Programming for Non-majors using the Python</item>
-      <item>1 11 Fundamentals of Computer Programming 1</item>
-      <item>2 02 Introduction to Electrical Engineering</item>
-      <item>2 03 Introduction to Computer Engineering</item>
-      <item>2 05 Fundamentals of Computer Systems Software</item>
-      <item>2 11 Fundamentals of Computer Programming 2</item>
-      <item>2 12 Mathematical Foundations of Computer Science</item>
-      <item>2 13 Introduction to Computer Systems</item>
-      <item>2 14 Data Structures and Data Management</item>
-      <item>2 21 Fundamentals of Circuits</item>
-      <item>2 22 Fundamentals of Signals and Systems</item>
-      <item>2 23 Fundamentals of Solid State Engineering</item>
-      <item>2 24 Fundamentals of Electromagnetics and Photonics</item>
-      <item>2 25 Fundamentals of Electronics</item>
-      <item>2 30 Programming for Engineers</item>
-      <item>2 50 Physical Electronics and Devices</item>
-      <item>3 01 Introductory Robotics Laboratory</item>
-      <item>3 02 Probabilistic Systems and Random Signals</item>
-      <item>3 03 Advanced Digital Logic Design</item>
-      <item>3 03 Advanced Logic Design</item>
-      <item>3 03 Digital Logic Design</item>
-      <item>3 07 Communications Systems</item>
-      <item>3 08 Advanced Electromagnetics and Photonics</item>
-      <item>3 21 Programming Languages</item>
-      <item>3 22 Compiler Construction</item>
-      <item>3 25 Artificial Intelligence Programming</item>
-      <item>3 28 Numerical Methods for Engineers</item>
-      <item>3 30 Human-Computer Interaction</item>
-      <item>3 32 Digital Image Analysis</item>
-      <item>3 32 Introduction to Computer Vision</item>
-      <item>3 33 Introduction to Communication Networks</item>
-      <item>3 35 Introduction to the Theory of Computation</item>
-      <item>3 36 Design and Analysis of Algorithms</item>
-      <item>3 37 Semantic Information Processing</item>
-      <item>3 38 Practicum in Intelligent Information Systems</item>
-      <item>3 39 Introduction to Databases</item>
-      <item>3 40 Introduction to Computer Networking</item>
-      <item>3 40 Introduction to Networking</item>
-      <item>3 43 Operating Systems</item>
-      <item>3 44 Design of Computer Problem Solvers</item>
-      <item>3 45 Distributed Systems</item>
-      <item>3 46 Microprocessor System Design</item>
-      <item>3 47 1 Microprocessor Systems Projects 1</item>
-      <item>3 47 2 Microprocessor Systems Projects 2</item>
-      <item>3 48 Introduction to Artificial Intelligence</item>
-      <item>3 49 Machine Learning</item>
-      <item>3 50 Introduction to Computer Security</item>
-      <item>3 51 Introduction to Computer Graphics</item>
-      <item>3 52 Machine Perception of Music</item>
-      <item>3 53 Digital Microelectronics</item>
-      <item>3 54 Network Penetration and Security</item>
-      <item>3 55 ASIC and FPGA Design</item>
-      <item>3 57 Introduction to VLSI CAD</item>
-      <item>3 58 Introduction to Parallel Computing</item>
-      <item>3 59 Digital Signal Processing</item>
-      <item>3 60 Introduction to Feedback Systems</item>
-      <item>3 61 Computer Architecture I</item>
-      <item>3 62 Computer Architecture Project</item>
-      <item>3 63 Digital Filters</item>
-      <item>3 68 Programming Massively Parallel Processors with CUDA</item>
-      <item>3 70 Computer Game Design</item>
-      <item>3 71 Knowledge Representation</item>
-      <item>3 72 Designing and Constructing Models with Multi-Agent Languages</item>
-      <item>3 74 Introduction to Digital Control</item>
-      <item>3 78 Digital Communications</item>
-      <item>3 79 Lasers and Coherent Optics</item>
-      <item>3 80 Wireless Communications</item>
-      <item>3 81 Electronic Properties of Materials</item>
-      <item>3 82 Photonic Information Processing</item>
-      <item>3 83 Fiber-Optic Communications</item>
-      <item>3 84 Solid State Electronic Devices</item>
-      <item>3 85 Optoelectronics</item>
-      <item>3 86 Computational Electromagnetics and Photonics</item>
-      <item>3 88 Nanotechnology</item>
-      <item>3 90 Introduction to Robotics</item>
-      <item>3 91 CMOS VLSI Circuits Design</item>
-      <item>3 92 VLSI Systems Design Projects</item>
-      <item>3 93 Design and Analysis of High-Speed Integrated Circuits</item>
-      <item>4 93 Design and Analysis of High-Speed Integrated Circuits</item>
-      <item>3 94 Software Project Management</item>
-      <item>3 95 Advanced Networking</item>
-      <item>3 95 Algorithmic Techniques for Bioinformatics</item>
-      <item>3 95 Biometrics</item>
-      <item>3 95 Code Analysis and Transformation</item>
-      <item>3 95 Cognitive Simulation for Virtual Characters</item>
-      <item>3 95 Computational Geometry</item>
-      <item>3 95 Computational Photography Seminar</item>
-      <item>3 95 Concurrent Programming in Rust</item>
-      <item>3 95 Data Science</item>
-      <item>3 95 Design, Technology, and Research</item>
-      <item>3 95 Digital Forensics and Incident Response</item>
-      <item>3 95 Embedded Systems</item>
-      <item>3 95 Game Design and Development</item>
-      <item>3 95 Game Development Studio</item>
-      <item>3 95 Geospatial Vision and Visualization</item>
-      <item>3 95 Innovation in Journalism and Technology</item>
-      <item>3 95 Intermediate Computer Graphics</item>
-      <item>3 95 Internet of Things</item>
-      <item>3 95 Introduction to Computational Learning Theory</item>
-      <item>3 95 Introduction to Computational Photography</item>
-      <item>3 95 Introduction to the Theory of Computation</item>
-      <item>3 95 Kernel and Other Low-level Software Development</item>
-      <item>3 95 Knowledge, Representation and Reasoning for Game Characters</item>
-      <item>3 95 Machine Learning: Foundations, Applications, and Algorithms</item>
-      <item>3 95 Machine Learning</item>
-      <item>3 95 Networking Problems in Cloud Computing</item>
-      <item>3 95 Software Construction</item>
-      <item>3 95 Special Topics in Machine Learning</item>
-      <item>3 95 Special Topics in Swarms and Multi-robot Systems</item>
-      <item>3 95 Tangible Interaction Design and Learning</item>
-      <item>3 95 The Art of Multicore Concurrent Programming</item>
-      <item>3 95 Wireless and Mobile Health</item>
-      <item>3 98 Electrical Engineering Design</item>
-      <item>3 99 Independent Study</item>
-      <item>4 28 Information Theory</item>
-      <item>4 33 Statistical Pattern Recognition</item>
-      <item>4 40 Advanced Networking</item>
-      <item>4 41 Resource Virtualization</item>
-      <item>4 44 Networking Problems in Cloud Computing</item>
-      <item>4 50 Internet Security</item>
-      <item>4 52 Advanced Computer Architecture</item>
-      <item>4 53 Parallel Architectures</item>
-      <item>4 57 Advanced Algorithms</item>
-      <item>4 59 VLSI Algorithmics</item>
-      <item>4 68 Programming Massively Parallel Prossors with CUDA</item>
-      <item>4 69 Machine Learning and Artificial Intelligence for Robotics</item>
-      <item>4 72 Designing and Constructing Models with Multi-Agent Languages</item>
-      <item>4 73 1 NUvention: Web and Media</item>
-      <item>4 73 2 NUvention: Web and Media</item>
-      <item>4 74 Probabilistic Graphical Models</item>
-      <item>4 95 Advanced Networking</item>
-      <item>4 95 Algorithmic Techniques for Bioinformatics</item>
-      <item>4 95 Biometrics</item>
-      <item>4 95 Code Analysis and Transformation</item>
-      <item>4 95 Cognitive Simulation for Virtual Characters</item>
-      <item>4 95 Computational Geometry</item>
-      <item>4 95 Computational Photography Seminar</item>
-      <item>4 95 Concurrent Programming in Rust</item>
-      <item>4 95 Data Science</item>
-      <item>4 95 Design, Technology, and Research</item>
-      <item>4 95 Digital Forensics and Incident Response</item>
-      <item>4 95 Embedded Systems</item>
-      <item>4 95 Game Development Studio</item>
-      <item>4 95 Geospatial Vision and Visualization</item>
-      <item>4 95 Innovation in Journalism and Technology</item>
-      <item>4 95 Intermediate Computer Graphics</item>
-      <item>4 95 Internet of Things</item>
-      <item>4 95 Introduction to Computational Learning Theory</item>
-      <item>4 95 Introduction to Computational Photography</item>
-      <item>4 95 Kernel and Other Low-level Software Development</item>
-      <item>4 95 Knowledge, Representation and Reasoning for Game Characters</item>
-      <item>4 95 Machine Learning: Foundations, Applications, and Algorithms</item>
-      <item>4 95 Machine Learning</item>
-      <item>4 95 Networking Problems in Cloud Computing</item>
-      <item>4 95 Special Topics in Machine Learning</item>
-      <item>4 95 Special Topics in Swarms and Multi-robot Systems</item>
-      <item>4 95 Tangible Interaction Design and Learning</item>
-      <item>4 95 The Art of Multicore Concurrent Programming</item>
-      <item>4 95 Wireless and Mobile Health</item>
-      <item>4 99 Independent Study</item>
-      <item>1 01 Intro to Computer Science for Everyone</item>
-      <item>1 01 Intro to CS for Everyone</item>
-      <item>1 01 Intro to CS</item>
-      <item>1 10 Intro to Programming for Non-majors</item>
-      <item>1 10 Intro to Programming for Non-majors using C</item>
-      <item>1 10 Intro to Programming for Non-majors using Python</item>
-      <item>2 02 Intro to Electrical Engineering</item>
-      <item>2 02 Intro to EE</item>
-      <item>2 03 Intro to Computer Engineering</item>
-      <item>2 03 Intro to CE</item>
-      <item>2 13 Intro to Computer Systems</item>
-      <item>3 01 Intro Robotics Laboratory</item>
-      <item>3 01 Intro Robotics Lab</item>
-      <item>3 25 AI Programming</item>
-      <item>3 32 Intro to Computer Vision</item>
-      <item>3 33 Intro to Communication Networks</item>
-      <item>3 35 Intro to the Theory of Computation</item>
-      <item>3 39 Intro to Databases</item>
-      <item>3 40 Intro to Computer Networking</item>
-      <item>3 40 Intro to Networking</item>
-      <item>3 48 Intro to Artificial Intelligence</item>
-      <item>3 48 Intro to AI</item>
-      <item>3 50 Intro to Computer Security</item>
-      <item>3 51 Intro to Computer Graphics</item>
-      <item>3 57 Intro to VLSI CAD</item>
-      <item>3 58 Intro to Parallel Computing</item>
-      <item>3 60 Intro to Feedback Systems</item>
-      <item>3 74 Intro to Digital Control</item>
-      <item>3 90 Intro to Robotics</item>
-      <item>3 95 Intro to Computational Learning Theory</item>
-      <item>3 95 Intro to Computational Photography</item>
-      <item>3 95 Intro to the Theory of Computation</item>
-      <item>Electrons, Photons, And Bits: Adventures In Electrical And Computer Engineering</item>
-      <item>An Introduction to Computer Science for Everyone</item>
-      <item>An Introduction to Programming for Non-majors using the C programming language</item>
-      <item>An Introduction to Programming for Non-majors using the Python</item>
-      <item>Fundamentals of Computer Programming 1</item>
-      <item>Introduction to Electrical Engineering</item>
-      <item>Introduction to Computer Engineering</item>
-      <item>Fundamentals of Computer Systems Software</item>
-      <item>Fundamentals of Computer Programming 2</item>
-      <item>Mathematical Foundations of Computer Science</item>
+      <item>CS 101 Computer Science: Concepts, Philosophy, and Connections</item>
+      <item>CS 110 Introduction to Computer Programming</item>
+      <item>COG SCI 207 Introduction to Cognitive Modeling</item>
+      <item>CS 213 Introduction to Computer Systems</item>
+      <item>CS 301 Introduction to Robotics Laboratory</item>
+      <item>CS 331 Introduction to Computational Photography</item>
+      <item>CS 332 Introduction to Computer Vision</item>
+      <item>CS 335 Introduction to the Theory of Computation</item>
+      <item>CS 339 Introduction to Databases</item>
+      <item>CS 340 Introduction to Computer Networking</item>
+      <item>CS 348 Introduction to Artificial Intelligence</item>
+      <item>CS 350 Introduction to Computer Security</item>
+      <item>CS 351-1 Introduction to Computer Graphics</item>
+      <item>CS 356 Introduction to Formal Verification</item>
+      <item>CS 358 Introduction to Parallel Computing</item>
+      <item>CS 395 Introduction to Computational Learning Theory</item>
+      <item>CS 495 Introduction to Computational Learning Theory</item>
+      <item>CS 495 Introduction to Database Systems</item>
+      <item>CS 495 Introduction to Computational Linguistics</item>
+      <item>DTC 106 Design, Thinking, and Communication</item>
+      <item>CS 111 Fundamentals of Computer Programming 1</item>
+      <item>CS 130 Tools and Technology of the World Wide Web</item>
+      <item>CS 205 Fundamentals of Computer System Software</item>
+      <item>General Engineering 205 Engineering Analysis</item>
+      <item>GEN ENG 205 Engineering Analysis</item>
+      <item>EA 1 205 Engineering Analysis</item>
+      <item>CS 211 Fundamentals of Computer Programming 2</item>
+      <item>CS 212 Mathematical Foundations of Computer Science</item>
+      <item>CS 214 Data Structures and Data Management</item>
+      <item>CS 230 Programming for Engineers</item>
+      <item>CS 295 Intensive Program Design</item>
+      <item>CS 295 Fundamentals of Computer Programming 1.5</item>
+      <item>CS 313 Tangible Interaction Design and Learning</item>
+      <item>CS 413 Tangible Interaction Design and Learning</item>
+      <item>CS 314 Technology and Human Interaction</item>
+      <item>CS 315 Design, Technology, and Research</item>
+      <item>CS 497 Design, Technology, and Research</item>
+      <item>CS 321 Programming Languages</item>
+      <item>CS 322 Compiler Construction</item>
+      <item>CS 325 Artificial Intelligence Programming</item>
+      <item>CS 330 Human Computer Interaction</item>
+      <item>CS 336 Design and Analysis of Algorithms</item>
+      <item>CS 337 Semantic Information Processing</item>
+      <item>CS 338 Practicum in Intelligent Information Systems</item>
+      <item>CS 343 Operating Systems</item>
+      <item>CS 344 Design of Problem Solvers</item>
+      <item>CS 345 Distributed Systems</item>
+      <item>CS 349 Machine Learning</item>
+      <item>CS 351-2 Intermediate Computer Graphics</item>
+      <item>CS 352 Machine Perception of Music and Audio</item>
+      <item>CS 354 Network Penetration and Security</item>
+      <item>CS 361 Computer Architecture 1</item>
+      <item>CS 362 Computer Architecture Project</item>
+      <item>CS 368 Programming Massively Parallel Processors with CUDA</item>
+      <item>CS 468 Programming Massively Parallel Processors with CUDA</item>
+      <item>CS 370 Computer Game Design</item>
+      <item>CS 371 Knowledge Representation and Reasoning</item>
+      <item>CS 372 Designing and Constructing Models with Multi-Agent Languages</item>
+      <item>CS 472 Designing and Constructing Models with Multi-Agent Languages</item>
+      <item>CS 375 Machine Learning: Foundations, Applications, and Algorithms</item>
+      <item>CS 475 Machine Learning: Foundations, Applications, and Algorithms</item>
+      <item>CS 375 Machine Learning</item>
+      <item>CS 475 Machine Learning</item>
+      <item>CS 394 Software Project Management and Development</item>
+      <item>CS 395 Economics and Computation</item>
+      <item>CS 395-20 Data as Art</item>
+      <item>CS 395 Advanced Compiler Hacking</item>
+      <item>CS 495 Advanced Compiler Hacking</item>
+      <item>CS 395 Advanced Topics in Computer Architecture</item>
+      <item>CS 495 Advanced Topics in Computer Architecture</item>
+      <item>CS 395 Algorithmic DNA Self-Assembly Seminar</item>
+      <item>CS 495 Algorithmic DNA Self-Assembly Seminar</item>
+      <item>CS 395 DNA Self-Assembly Seminar</item>
+      <item>CS 495 DNA Self-Assembly Seminar</item>
+      <item>CS 395 Algorithmic and Economic Aspects of Social Networks</item>
+      <item>CS 495 Algorithmic and Economic Aspects of Social Networks</item>
+      <item>CS 395 Algorithmic Techniques for Bioinformatics Seminar</item>
+      <item>CS 495 Algorithmic Techniques for Bioinformatics Seminar</item>
+      <item>CS 395 Cognitive Simulation for Virtual Characters</item>
+      <item>CS 495 Cognitive Simulation for Virtual Characters</item>
+      <item>CS 395 Building Next-Generation AI Applications with IBM Watson</item>
+      <item>CS 495 Building Next-Generation AI Applications with IBM Watson</item>
+      <item>CS 395 Collaboration Technology</item>
+      <item>CS 495 Collaboration Technology</item>
+      <item>CS 395 Computational Auditory Scene Analysis</item>
+      <item>CS 495 Computational Auditory Scene Analysis</item>
+      <item>CS 395 Human-level Artificial Intelligence</item>
+      <item>CS 495 Human-level Artificial Intelligence</item>
+      <item>CS 395 Mobile Apps and Systems</item>
+      <item>CS 495 Mobile Apps and Systems</item>
+      <item>CS 395 Object-Oriented Languages and Environments</item>
+      <item>CS 495 Object-Oriented Languages and Environments</item>
+      <item>CS 395 Web Information Retrieval and Extraction</item>
+      <item>CS 495 Web Information Retrieval and Extraction</item>
+      <item>CS 395 Optimization Techniques for Machine Learning and Deep Learning</item>
+      <item>CS 495 Optimization Techniques for Machine Learning and Deep Learning</item>
+      <item>CS 395 Deep Learning Foundations from Scratch</item>
+      <item>CS 495 Deep Learning Foundations from Scratch</item>
+      <item>CS 395 Platforms and Networked Markets</item>
+      <item>CS 495 Platforms and Networked Markets</item>
+      <item>CS 376 Game Design and Development</item>
+      <item>CS 396 Special Topics in Game AI - Logic Programming</item>
+      <item>CS 496 Special Topics in Game AI - Logic Programming</item>
+      <item>CS 396 Special Topics in Game AI</item>
+      <item>CS 496 Special Topics in Game AI</item>
+      <item>CS 396 Logic Programming</item>
+      <item>CS 496 Logic Programming</item>
+      <item>CS 396 Companion Cognitive System Studio</item>
+      <item>CS 496 Companion Cognitive System Studio</item>
+      <item>CS 323 Code Analysis and Transformation</item>
+      <item>CS 396 Computational Geometry</item>
+      <item>CS 496 Computational Geometry</item>
+      <item>CS 396 Data Science Seminar</item>
+      <item>CS 496 Data Science Seminar</item>
+      <item>CS 396 Special Topics in Swarms and Multi-robot Systems</item>
+      <item>CS 496 Special Topics in Swarms and Multi-robot Systems</item>
+      <item>CS 396 Swarms and Multi-robot Systems</item>
+      <item>CS 496 Swarms and Multi-robot Systems</item>
+      <item>CS 396 Quadrotor Design and Control</item>
+      <item>CS 496 Quadrotor Design and Control</item>
+      <item>CS 396 Systems Programming in Rust</item>
+      <item>CS 496 Systems Programming in Rust</item>
+      <item>CS 396 Programming Languages Seminar</item>
+      <item>CS 496 Programming Languages Seminar</item>
+      <item>CS 396 Randomized Algorithms</item>
+      <item>CS 496 Randomized Algorithms</item>
+      <item>CS 396 Affective Computing Seminar</item>
+      <item>CS 496 Affective Computing Seminar</item>
+      <item>CS 396 Type Systems</item>
+      <item>CS 496 Type Systems</item>
+      <item>CS 396 Multi-Modal Analytics</item>
+      <item>CS 496 Multi-Modal Analytics</item>
+      <item>CS 396 Operational Semantics</item>
+      <item>CS 496 Operational Semantics</item>
+      <item>CS 396 Conversational Interfaces</item>
+      <item>CS 496 Conversational Interfaces</item>
+      <item>CS 396 Statistical Machine Learning</item>
+      <item>CS 496 Statistical Machine Learning</item>
+      <item>CS 397 Digital Luthier</item>
+      <item>CS 397 Software Construction</item>
+      <item>CS 497 Software Construction</item>
+      <item>CS 397 Computational Photography Seminar</item>
+      <item>CS 497 Computational Photography Seminar</item>
+      <item>CS 397 Game Development Studio</item>
+      <item>CS 497 Game Development Studio</item>
+      <item>CS 397 Advanced Topics in Compilers</item>
+      <item>CS 497 Advanced Topics in Compilers</item>
+      <item>CS 397 Digital Forensics and Incident Response</item>
+      <item>CS 497 Digital Forensics and Incident Response</item>
+      <item>CS 397 Innovation in Journalism and Technology</item>
+      <item>CS 497 Innovation in Journalism and Technology</item>
+      <item>CS 397 Social Computing and Crowd Sourcing</item>
+      <item>CS 497 Social Computing and Crowd Sourcing</item>
+      <item>CS 397 Inclusive Making</item>
+      <item>CS 497 Inclusive Making</item>
+      <item>CS 397 Internet-scale Experimentation</item>
+      <item>CS 497 Internet-scale Experimentation</item>
+      <item>CS 397 Algorithms and Society</item>
+      <item>CS 497 Algorithms and Society</item>
+      <item>CS 397 Wireless and Mobile Health</item>
+      <item>CS 497 Wireless and Mobile Health</item>
+      <item>CS 397 mHealth</item>
+      <item>CS 497 mHealth</item>
+      <item>CS 397 Innovation Lab: Building Technologies for the Law</item>
+      <item>CS 497 Innovation Lab: Building Technologies for the Law</item>
+      <item>CS 397 Advanced Multimodal Interfaces and Analytics Research</item>
+      <item>CS 497 Advanced Multimodal Interfaces and Analytics Research</item>
+      <item>CS 397 Computing and Socioeconomic Mobility</item>
+      <item>CS 497 Computing and Socioeconomic Mobility</item>
+      <item>CS 422 Random Processes in Communications and Control 1</item>
+      <item>CS 423 Random Processes in Communications and Control 2</item>
+      <item>CS 428 Information Theory</item>
+      <item>CS 430 Design of Interactive Learning Environments</item>
+      <item>CS 435 Deep Reinforcement Learning from Scratch</item>
+      <item>CS 440 Advanced Networking</item>
+      <item>CS 441 Resource Virtualization</item>
+      <item>CS 442 Dynamic Behavior of Applications, Hosts, and Networks</item>
+      <item>CS 443 Advanced Operating Systems</item>
+      <item>CS 446 Kernel and Other Low-level Software Development</item>
+      <item>CS 450 Internet Security</item>
+      <item>CS 452 Advanced Computer Architecture 1</item>
+      <item>CS 455 Distributed Computing Systems</item>
+      <item>CS 457 Advanced Algorithms</item>
+      <item>CS 469 Machine Learning and Artificial Intelligence for Robotics</item>
+      <item>CS 472 Designing and Constructing Models with Multi-Agent Languages</item>
+      <item>CS 473-1 NUvention: Web and Media</item>
+      <item>CS 473-2 NUvention: Web and Media</item>
+      <item>CS 474 Probabilistic Graphical Models</item>
+      <item>CS 495 Machine Learning and Artificial Intelligence for Robotics</item>
+      <item>CS 495 Intensive Program Design</item>
+      <item>CS 496 The Design of Technological Tools for Thinking and Learning</item>
+      <item>CS 496 Computational Complexity</item>
+      <item>CS 496 Topics in Theoretical Machine Learning</item>
+      <item>CS 496 Theoretical Machine Learning</item>
+      <item>CS 496 Graduate Algorithms</item>
+      <item>CS 496 Seminar in Statistical Language Modeling</item>
+      <item>CS 496 Distributed Systems in Challenging Environments</item>
+      <item>CS 496 Computational Auditory Scene Analysis</item>
+      <item>CS 496 Mechanism Design</item>
+      <item>CS 497 Rapid Prototyping for Software Innovation</item>
+      <item>CS 510 Social Media Mining</item>
+      <item>CS 512 Parallelism Seminar</item>
+
+      <item>CS 110 Intro to Computer Programming</item>
+      <item>COG SCI 207 Intro to Cognitive Modeling</item>
+      <item>CS 213 Intro to Computer Systems</item>
+      <item>CS 301 Intro to Robotics Laboratory</item>
+      <item>CS 331 Intro to Computational Photography</item>
+      <item>CS 332 Intro to Computer Vision</item>
+      <item>CS 335 Intro to the Theory of Computation</item>
+      <item>CS 339 Intro to Databases</item>
+      <item>CS 340 Intro to Computer Networking</item>
+      <item>CS 348 Intro to Artificial Intelligence</item>
+      <item>CS 348 Intro to AI</item>
+      <item>CS 350 Intro to Computer Security</item>
+      <item>CS 351-1 Intro to Computer Graphics</item>
+      <item>CS 356 Intro to Formal Verification</item>
+      <item>CS 358 Intro to Parallel Computing</item>
+      <item>CS 395 Intro to Computational Learning Theory</item>
+      <item>CS 495 Intro to Computational Learning Theory</item>
+      <item>CS 495 Intro to Database Systems</item>
+      <item>CS 495 Intro to Computational Linguistics</item>
+
+      <item>101 Computer Science: Concepts, Philosophy, and Connections</item>
+      <item>110 Introduction to Computer Programming</item>
+      <item>207 Introduction to Cognitive Modeling</item>
+      <item>213 Introduction to Computer Systems</item>
+      <item>301 Introduction to Robotics Laboratory</item>
+      <item>331 Introduction to Computational Photography</item>
+      <item>332 Introduction to Computer Vision</item>
+      <item>335 Introduction to the Theory of Computation</item>
+      <item>339 Introduction to Databases</item>
+      <item>340 Introduction to Computer Networking</item>
+      <item>348 Introduction to Artificial Intelligence</item>
+      <item>348 Introduction to AI</item>
+      <item>350 Introduction to Computer Security</item>
+      <item>351-1 Introduction to Computer Graphics</item>
+      <item>356 Introduction to Formal Verification</item>
+      <item>358 Introduction to Parallel Computing</item>
+      <item>395 Introduction to Computational Learning Theory</item>
+      <item>495 Introduction to Computational Learning Theory</item>
+      <item>495 Introduction to Database Systems</item>
+      <item>495 Introduction to Computational Linguistics</item>
+      <item>110 Intro to Computer Programming</item>
+      <item>207 Intro to Cognitive Modeling</item>
+      <item>213 Intro to Computer Systems</item>
+      <item>301 Intro to Robotics Laboratory</item>
+      <item>331 Intro to Computational Photography</item>
+      <item>332 Intro to Computer Vision</item>
+      <item>335 Intro to the Theory of Computation</item>
+      <item>339 Intro to Databases</item>
+      <item>340 Intro to Computer Networking</item>
+      <item>348 Intro to Artificial Intelligence</item>
+      <item>348 Intro to AI</item>
+      <item>350 Intro to Computer Security</item>
+      <item>351-1 Intro to Computer Graphics</item>
+      <item>356 Intro to Formal Verification</item>
+      <item>358 Intro to Parallel Computing</item>
+      <item>395 Intro to Computational Learning Theory</item>
+      <item>495 Intro to Computational Learning Theory</item>
+      <item>495 Intro to Database Systems</item>
+      <item>495 Intro to Computational Linguistics</item>
+      <item>106 Design, Thinking, and Communication</item>
+      <item>111 Fundamentals of Computer Programming 1</item>
+      <item>130 Tools and Technology of the World Wide Web</item>
+      <item>205 Fundamentals of Computer System Software</item>
+      <item>205 Engineering Analysis</item>
+      <item>205 Engineering Analysis</item>
+      <item>211 Fundamentals of Computer Programming 2</item>
+      <item>212 Mathematical Foundations of Computer Science</item>
+      <item>214 Data Structures and Data Management</item>
+      <item>230 Programming for Engineers</item>
+      <item>295 Intensive Program Design</item>
+      <item>295 Fundamentals of Computer Programming 1.5</item>
+      <item>313 Tangible Interaction Design and Learning</item>
+      <item>413 Tangible Interaction Design and Learning</item>
+      <item>314 Technology and Human Interaction</item>
+      <item>315 Design, Technology, and Research</item>
+      <item>497 Design, Technology, and Research</item>
+      <item>321 Programming Languages</item>
+      <item>322 Compiler Construction</item>
+      <item>325 Artificial Intelligence Programming</item>
+      <item>330 Human Computer Interaction</item>
+      <item>336 Design and Analysis of Algorithms</item>
+      <item>337 Semantic Information Processing</item>
+      <item>338 Practicum in Intelligent Information Systems</item>
+      <item>343 Operating Systems</item>
+      <item>344 Design of Problem Solvers</item>
+      <item>345 Distributed Systems</item>
+      <item>349 Machine Learning</item>
+      <item>351-2 Intermediate Computer Graphics</item>
+      <item>352 Machine Perception of Music and Audio</item>
+      <item>354 Network Penetration and Security</item>
+      <item>361 Computer Architecture 1</item>
+      <item>362 Computer Architecture Project</item>
+      <item>368 Programming Massively Parallel Processors with CUDA</item>
+      <item>468 Programming Massively Parallel Processors with CUDA</item>
+      <item>370 Computer Game Design</item>
+      <item>371 Knowledge Representation and Reasoning</item>
+      <item>372 Designing and Constructing Models with Multi-Agent Languages</item>
+      <item>472 Designing and Constructing Models with Multi-Agent Languages</item>
+      <item>375 Machine Learning: Foundations, Applications, and Algorithms</item>
+      <item>475 Machine Learning: Foundations, Applications, and Algorithms</item>
+      <item>375 Machine Learning</item>
+      <item>475 Machine Learning</item>
+      <item>394 Software Project Management and Development</item>
+      <item>395 Economics and Computation</item>
+      <item>395-20 Data as Art</item>
+      <item>395 Advanced Compiler Hacking</item>
+      <item>495 Advanced Compiler Hacking</item>
+      <item>395 Advanced Topics in Computer Architecture</item>
+      <item>495 Advanced Topics in Computer Architecture</item>
+      <item>395 Algorithmic DNA Self-Assembly Seminar</item>
+      <item>495 Algorithmic DNA Self-Assembly Seminar</item>
+      <item>395 DNA Self-Assembly Seminar</item>
+      <item>495 DNA Self-Assembly Seminar</item>
+      <item>395 Algorithmic and Economic Aspects of Social Networks</item>
+      <item>495 Algorithmic and Economic Aspects of Social Networks</item>
+      <item>395 Algorithmic Techniques for Bioinformatics Seminar</item>
+      <item>495 Algorithmic Techniques for Bioinformatics Seminar</item>
+      <item>395 Cognitive Simulation for Virtual Characters</item>
+      <item>495 Cognitive Simulation for Virtual Characters</item>
+      <item>395 Building Next-Generation AI Applications with IBM Watson</item>
+      <item>495 Building Next-Generation AI Applications with IBM Watson</item>
+      <item>395 Collaboration Technology</item>
+      <item>495 Collaboration Technology</item>
+      <item>395 Computational Auditory Scene Analysis</item>
+      <item>495 Computational Auditory Scene Analysis</item>
+      <item>395 Human-level Artificial Intelligence</item>
+      <item>495 Human-level Artificial Intelligence</item>
+      <item>395 Mobile Apps and Systems</item>
+      <item>495 Mobile Apps and Systems</item>
+      <item>395 Object-Oriented Languages and Environments</item>
+      <item>495 Object-Oriented Languages and Environments</item>
+      <item>395 Web Information Retrieval and Extraction</item>
+      <item>495 Web Information Retrieval and Extraction</item>
+      <item>395 Optimization Techniques for Machine Learning and Deep Learning</item>
+      <item>495 Optimization Techniques for Machine Learning and Deep Learning</item>
+      <item>395 Deep Learning Foundations from Scratch</item>
+      <item>495 Deep Learning Foundations from Scratch</item>
+      <item>395 Platforms and Networked Markets</item>
+      <item>495 Platforms and Networked Markets</item>
+      <item>376 Game Design and Development</item>
+      <item>396 Special Topics in Game AI - Logic Programming</item>
+      <item>496 Special Topics in Game AI - Logic Programming</item>
+      <item>396 Special Topics in Game AI</item>
+      <item>496 Special Topics in Game AI</item>
+      <item>396 Logic Programming</item>
+      <item>496 Logic Programming</item>
+      <item>396 Companion Cognitive System Studio</item>
+      <item>496 Companion Cognitive System Studio</item>
+      <item>323 Code Analysis and Transformation</item>
+      <item>396 Computational Geometry</item>
+      <item>496 Computational Geometry</item>
+      <item>396 Data Science Seminar</item>
+      <item>496 Data Science Seminar</item>
+      <item>396 Special Topics in Swarms and Multi-robot Systems</item>
+      <item>496 Special Topics in Swarms and Multi-robot Systems</item>
+      <item>396 Swarms and Multi-robot Systems</item>
+      <item>496 Swarms and Multi-robot Systems</item>
+      <item>396 Quadrotor Design and Control</item>
+      <item>496 Quadrotor Design and Control</item>
+      <item>396 Systems Programming in Rust</item>
+      <item>496 Systems Programming in Rust</item>
+      <item>396 Programming Languages Seminar</item>
+      <item>496 Programming Languages Seminar</item>
+      <item>396 Randomized Algorithms</item>
+      <item>496 Randomized Algorithms</item>
+      <item>396 Affective Computing Seminar</item>
+      <item>496 Affective Computing Seminar</item>
+      <item>396 Type Systems</item>
+      <item>496 Type Systems</item>
+      <item>396 Multi-Modal Analytics</item>
+      <item>496 Multi-Modal Analytics</item>
+      <item>396 Operational Semantics</item>
+      <item>496 Operational Semantics</item>
+      <item>396 Conversational Interfaces</item>
+      <item>496 Conversational Interfaces</item>
+      <item>396 Statistical Machine Learning</item>
+      <item>496 Statistical Machine Learning</item>
+      <item>397 Digital Luthier</item>
+      <item>397 Software Construction</item>
+      <item>497 Software Construction</item>
+      <item>397 Computational Photography Seminar</item>
+      <item>497 Computational Photography Seminar</item>
+      <item>397 Game Development Studio</item>
+      <item>497 Game Development Studio</item>
+      <item>397 Advanced Topics in Compilers</item>
+      <item>497 Advanced Topics in Compilers</item>
+      <item>397 Digital Forensics and Incident Response</item>
+      <item>497 Digital Forensics and Incident Response</item>
+      <item>397 Innovation in Journalism and Technology</item>
+      <item>497 Innovation in Journalism and Technology</item>
+      <item>397 Social Computing and Crowd Sourcing</item>
+      <item>497 Social Computing and Crowd Sourcing</item>
+      <item>397 Inclusive Making</item>
+      <item>497 Inclusive Making</item>
+      <item>397 Internet-scale Experimentation</item>
+      <item>497 Internet-scale Experimentation</item>
+      <item>397 Algorithms and Society</item>
+      <item>497 Algorithms and Society</item>
+      <item>397 Wireless and Mobile Health</item>
+      <item>497 Wireless and Mobile Health</item>
+      <item>397 mHealth</item>
+      <item>497 mHealth</item>
+      <item>397 Innovation Lab: Building Technologies for the Law</item>
+      <item>497 Innovation Lab: Building Technologies for the Law</item>
+      <item>397 Advanced Multimodal Interfaces and Analytics Research</item>
+      <item>497 Advanced Multimodal Interfaces and Analytics Research</item>
+      <item>397 Computing and Socioeconomic Mobility</item>
+      <item>497 Computing and Socioeconomic Mobility</item>
+      <item>422 Random Processes in Communications and Control 1</item>
+      <item>423 Random Processes in Communications and Control 2</item>
+      <item>428 Information Theory</item>
+      <item>430 Design of Interactive Learning Environments</item>
+      <item>435 Deep Reinforcement Learning from Scratch</item>
+      <item>440 Advanced Networking</item>
+      <item>441 Resource Virtualization</item>
+      <item>442 Dynamic Behavior of Applications, Hosts, and Networks</item>
+      <item>443 Advanced Operating Systems</item>
+      <item>446 Kernel and Other Low-level Software Development</item>
+      <item>450 Internet Security</item>
+      <item>452 Advanced Computer Architecture 1</item>
+      <item>455 Distributed Computing Systems</item>
+      <item>457 Advanced Algorithms</item>
+      <item>469 Machine Learning and Artificial Intelligence for Robotics</item>
+      <item>472 Designing and Constructing Models with Multi-Agent Languages</item>
+      <item>473-1 NUvention: Web and Media</item>
+      <item>473-2 NUvention: Web and Media</item>
+      <item>474 Probabilistic Graphical Models</item>
+      <item>495 Machine Learning and Artificial Intelligence for Robotics</item>
+      <item>495 Intensive Program Design</item>
+      <item>496 The Design of Technological Tools for Thinking and Learning</item>
+      <item>496 Computational Complexity</item>
+      <item>496 Topics in Theoretical Machine Learning</item>
+      <item>496 Theoretical Machine Learning</item>
+      <item>496 Graduate Algorithms</item>
+      <item>496 Seminar in Statistical Language Modeling</item>
+      <item>496 Distributed Systems in Challenging Environments</item>
+      <item>496 Computational Auditory Scene Analysis</item>
+      <item>496 Mechanism Design</item>
+      <item>497 Rapid Prototyping for Software Innovation</item>
+      <item>510 Social Media Mining</item>
+      <item>512 Parallelism Seminar</item>
+
+      <item>110 Intro to Computer Programming</item>
+      <item>207 Intro to Cognitive Modeling</item>
+      <item>213 Intro to Computer Systems</item>
+      <item>301 Intro to Robotics Laboratory</item>
+      <item>331 Intro to Computational Photography</item>
+      <item>332 Intro to Computer Vision</item>
+      <item>335 Intro to the Theory of Computation</item>
+      <item>339 Intro to Databases</item>
+      <item>340 Intro to Computer Networking</item>
+      <item>348 Intro to Artificial Intelligence</item>
+      <item>350 Intro to Computer Security</item>
+      <item>351-1 Intro to Computer Graphics</item>
+      <item>356 Intro to Formal Verification</item>
+      <item>358 Intro to Parallel Computing</item>
+      <item>395 Intro to Computational Learning Theory</item>
+      <item>495 Intro to Computational Learning Theory</item>
+      <item>495 Intro to Database Systems</item>
+      <item>495 Intro to Computational Linguistics</item>
+
+      <item>Computer Science: Concepts, Philosophy, and Connections</item>
+      <item>Introduction to Computer Programming</item>
+      <item>Introduction to Cognitive Modeling</item>
       <item>Introduction to Computer Systems</item>
-      <item>Data Structures and Data Management</item>
-      <item>Fundamentals of Circuits</item>
-      <item>Fundamentals of Signals and Systems</item>
-      <item>Fundamentals of Solid State Engineering</item>
-      <item>Fundamentals of Electromagnetics and Photonics</item>
-      <item>Fundamentals of Electronics</item>
-      <item>Programming for Engineers</item>
-      <item>Physical Electronics and Devices</item>
-      <item>Introductory Robotics Laboratory</item>
-      <item>Probabilistic Systems and Random Signals</item>
-      <item>Advanced Digital Logic Design</item>
-      <item>Advanced Logic Design</item>
-      <item>Digital Logic Design</item>
-      <item>Communications Systems</item>
-      <item>Advanced Electromagnetics and Photonics</item>
-      <item>Programming Languages</item>
-      <item>Compiler Construction</item>
-      <item>Artificial Intelligence Programming</item>
-      <item>Numerical Methods for Engineers</item>
-      <item>Human-Computer Interaction</item>
-      <item>Digital Image Analysis</item>
+      <item>Introduction to Robotics Laboratory</item>
+      <item>Introduction to Medical Imaging</item>
+      <item>Introduction to Computational Photography</item>
       <item>Introduction to Computer Vision</item>
       <item>Introduction to Communication Networks</item>
       <item>Introduction to the Theory of Computation</item>
+      <item>Introduction to Databases</item>
+      <item>Introduction to Computer Networking</item>
+      <item>Introduction to Artificial Intelligence</item>
+      <item>Introduction to Computer Security</item>
+      <item>Introduction to Computer Graphics</item>
+      <item>Introduction to Formal Verification</item>
+      <item>Introduction to Parallel Computing</item>
+      <item>Introduction to Computational Learning Theory</item>
+      <item>Introduction to Database Systems</item>
+      <item>Introduction to Computational Linguistics</item>
+      <item>Design, Thinking, and Communication</item>
+      <item>Intro to Computer Programming</item>
+      <item>Fundamentals of Computer Programming 1</item>
+      <item>Intro to Computers and Info Technology</item>
+      <item>Tools and Technology of the World Wide Web</item>
+      <item>Fundamentals of Computer System Software</item>
+      <item>Engineering Analysis</item>
+      <item>Engineering Analysis (Honors)</item>
+      <item>Intro to Cognitive Modeling</item>
+      <item>Fundamentals of Computer Programming 2</item>
+      <item>Mathematical Foundations of Computer Science</item>
+      <item>Intro to Computer Systems</item>
+      <item>Data Structures and Data Management</item>
+      <item>Programming for Engineers</item>
+      <item>Intensive Program Design</item>
+      <item>Fundamentals of Computer Programming 1.5</item>
+      <item>Intro to Robotics Laboratory</item>
+      <item>Probabilistic Systems</item>
+      <item>Communications Systems</item>
+      <item>Tangible Interaction Design and Learning</item>
+      <item>Technology and Human Interaction</item>
+      <item>Design, Technology, and Research</item>
+      <item>Data Management and Information Processing</item>
+      <item>Programming Languages</item>
+      <item>Compiler Construction</item>
+      <item>Artificial Intelligence Programming</item>
+      <item>AI Programming</item>
+      <item>Numerical Methods for Engineers</item>
+      <item>Human Computer Interaction</item>
+      <item>Intro to Computational Photography</item>
+      <item>Intro to Computer Vision</item>
+      <item>Intro to Communication Networks</item>
+      <item>Intro to the Theory of Computation</item>
       <item>Design and Analysis of Algorithms</item>
       <item>Semantic Information Processing</item>
       <item>Practicum in Intelligent Information Systems</item>
-      <item>Introduction to Databases</item>
-      <item>Introduction to Computer Networking</item>
-      <item>Introduction to Networking</item>
+      <item>Intro to Databases</item>
+      <item>Intro to Computer Networking</item>
       <item>Operating Systems</item>
-      <item>Design of Computer Problem Solvers</item>
+      <item>Design of Problem Solvers</item>
       <item>Distributed Systems</item>
-      <item>Microprocessor System Design</item>
-      <item>Microprocessor Systems Projects 1</item>
-      <item>Microprocessor Systems Projects 2</item>
-      <item>Introduction to Artificial Intelligence</item>
+      <item>Intro to Artificial Intelligence</item>
+      <item>Intro to AI</item>
       <item>Machine Learning</item>
-      <item>Introduction to Computer Security</item>
-      <item>Introduction to Computer Graphics</item>
-      <item>Machine Perception of Music</item>
-      <item>Digital Microelectronics</item>
+      <item>Intro to Computer Security</item>
+      <item>Intro to Computer Graphics</item>
+      <item>Intermediate Computer Graphics</item>
+      <item>Machine Perception of Music and Audio</item>
       <item>Network Penetration and Security</item>
-      <item>ASIC and FPGA Design</item>
-      <item>Introduction to VLSI CAD</item>
-      <item>Introduction to Parallel Computing</item>
-      <item>Digital Signal Processing</item>
-      <item>Introduction to Feedback Systems</item>
-      <item>Computer Architecture I</item>
+      <item>Intro to Formal Verification</item>
+      <item>Intro to Parallel Computing</item>
+      <item>Computer Architecture 1</item>
       <item>Computer Architecture Project</item>
-      <item>Digital Filters</item>
       <item>Programming Massively Parallel Processors with CUDA</item>
       <item>Computer Game Design</item>
-      <item>Knowledge Representation</item>
+      <item>Knowledge Representation and Reasoning</item>
       <item>Designing and Constructing Models with Multi-Agent Languages</item>
-      <item>Introduction to Digital Control</item>
-      <item>Digital Communications</item>
-      <item>Lasers and Coherent Optics</item>
-      <item>Wireless Communications</item>
-      <item>Electronic Properties of Materials</item>
-      <item>Photonic Information Processing</item>
-      <item>Fiber-Optic Communications</item>
-      <item>Solid State Electronic Devices</item>
-      <item>Optoelectronics</item>
-      <item>Computational Electromagnetics and Photonics</item>
-      <item>Nanotechnology</item>
-      <item>Introduction to Robotics</item>
-      <item>CMOS VLSI Circuits Design</item>
-      <item>VLSI Systems Design Projects</item>
-      <item>Design and Analysis of High-Speed Integrated Circuits</item>
-      <item>Design and Analysis of High-Speed Integrated Circuits</item>
-      <item>Software Project Management</item>
-      <item>Advanced Networking</item>
-      <item>Algorithmic Techniques for Bioinformatics</item>
-      <item>Biometrics</item>
-      <item>Code Analysis and Transformation</item>
-      <item>Cognitive Simulation for Virtual Characters</item>
-      <item>Computational Geometry</item>
-      <item>Computational Photography Seminar</item>
-      <item>Concurrent Programming in Rust</item>
-      <item>Data Science</item>
-      <item>Design, Technology, and Research</item>
-      <item>Digital Forensics and Incident Response</item>
-      <item>Embedded Systems</item>
-      <item>Game Design and Development</item>
-      <item>Game Development Studio</item>
-      <item>Geospatial Vision and Visualization</item>
-      <item>Innovation in Journalism and Technology</item>
-      <item>Intermediate Computer Graphics</item>
-      <item>Internet of Things</item>
-      <item>Introduction to Computational Learning Theory</item>
-      <item>Introduction to Computational Photography</item>
-      <item>Introduction to the Theory of Computation</item>
-      <item>Kernel and Other Low-level Software Development</item>
-      <item>Knowledge, Representation and Reasoning for Game Characters</item>
       <item>Machine Learning: Foundations, Applications, and Algorithms</item>
-      <item>Networking Problems in Cloud Computing</item>
-      <item>Software Construction</item>
-      <item>Special Topics in Machine Learning</item>
+      <item>Machine Learning</item>
+      <item>Software Project Management and Development</item>
+      <item>Economics and Computation</item>
+      <item>Data as Art</item>
+      <item>Advanced Compiler Hacking</item>
+      <item>Advanced Topics in Computer Architecture</item>
+      <item>Algorithmic DNA Self-Assembly Seminar</item>
+      <item>DNA Self-Assembly Seminar</item>
+      <item>Algorithmic and Economic Aspects of Social Networks</item>
+      <item>Algorithmic Techniques for Bioinformatics Seminar</item>
+      <item>Cognitive Simulation for Virtual Characters</item>
+      <item>Biometrics</item>
+      <item>Building Next-Generation AI Applications with IBM Watson</item>
+      <item>Collaboration Technology</item>
+      <item>Computational Auditory Scene Analysis</item>
+      <item>Human-level Artificial Intelligence</item>
+      <item>Mobile Apps and Systems</item>
+      <item>Object-Oriented Languages and Environments</item>
+      <item>Web Information Retrieval and Extraction</item>
+      <item>Technology Infrastructure</item>
+      <item>Concepts, Requirements, Design, and Operation</item>
+      <item>Technology Infrastructure</item>
+      <item>Intro to Computational Learning Theory</item>
+      <item>Internet-of-Things Sensors, Systems, and Applications</item>
+      <item>Optimization Techniques for Machine Learning and Deep Learning</item>
+      <item>Deep Learning Foundations from Scratch</item>
+      <item>Platforms and Networked Markets</item>
+      <item>Game Design and Development</item>
+      <item>Special Topics in Game AI - Logic Programming</item>
+      <item>Special Topics in Game A1</item>
+      <item>Logic Programming</item>
+      <item>Companion Cognitive System Studio</item>
+      <item>Code Analysis and Transformation</item>
+      <item>Computational Geometry</item>
+      <item>Data Science Seminar</item>
       <item>Special Topics in Swarms and Multi-robot Systems</item>
-      <item>Tangible Interaction Design and Learning</item>
-      <item>The Art of Multicore Concurrent Programming</item>
+      <item>Swarms and Multi-robot Systems</item>
+      <item>Quadrotor Design and Control</item>
+      <item>Systems Programming in Rust</item>
+      <item>Programming Languages Seminar</item>
+      <item>Randomized Algorithms</item>
+      <item>Affective Computing Seminar</item>
+      <item>Type Systems</item>
+      <item>Multi-Modal Analytics</item>
+      <item>Operational Semantics</item>
+      <item>Conversational Interfaces</item>
+      <item>Digital Luthier</item>
+      <item>Software Construction</item>
+      <item>Computational Photography Seminar</item>
+      <item>Game Development Studio</item>
+      <item>Advanced Topics in Compilers</item>
+      <item>Digital Forensics and Incident Response</item>
+      <item>Innovation in Journalism and Technology</item>
+      <item>Social Computing and Crowd Sourcing</item>
+      <item>Inclusive Making</item>
+      <item>Internet-scale Experimentation</item>
+      <item>Algorithms and Society</item>
       <item>Wireless and Mobile Health</item>
-      <item>Electrical Engineering Design</item>
-      <item>Independent Study</item>
+      <item>Wireless and Mobile Health</item>
+      <item>Innovation Lab: Building Technologies for the Law</item>
+      <item>Advanced Multimodal Interfaces and Analytics Research</item>
+      <item>Computing and Socioeconomic Mobility</item>
+      <item>Digital Image Processing</item>
+      <item>Random Processes in Communications and Control 1</item>
+      <item>Random Processes in Communications and Control 2</item>
+      <item>Distributed Optimization</item>
       <item>Information Theory</item>
+      <item>Design of Interactive Learning Environments</item>
+      <item>Advanced Computer Vision</item>
       <item>Statistical Pattern Recognition</item>
+      <item>Deep Reinforcement Learning from Scratch</item>
       <item>Advanced Networking</item>
       <item>Resource Virtualization</item>
-      <item>Networking Problems in Cloud Computing</item>
+      <item>Dynamic Behavior of Applications, Hosts, and Networks</item>
+      <item>Advanced Operating Systems</item>
+      <item>Kernel and Other Low-level Software Development</item>
       <item>Internet Security</item>
-      <item>Advanced Computer Architecture</item>
-      <item>Parallel Architectures</item>
+      <item>Advanced Computer Architecture 1</item>
+      <item>Distributed Computing Systems</item>
       <item>Advanced Algorithms</item>
-      <item>VLSI Algorithmics</item>
-      <item>Programming Massively Parallel Prossors with CUDA</item>
       <item>Machine Learning and Artificial Intelligence for Robotics</item>
       <item>Designing and Constructing Models with Multi-Agent Languages</item>
       <item>NUvention: Web and Media</item>
       <item>Probabilistic Graphical Models</item>
-      <item>Advanced Networking</item>
-      <item>Algorithmic Techniques for Bioinformatics</item>
-      <item>Biometrics</item>
-      <item>Code Analysis and Transformation</item>
-      <item>Cognitive Simulation for Virtual Characters</item>
-      <item>Computational Geometry</item>
-      <item>Computational Photography Seminar</item>
-      <item>Concurrent Programming in Rust</item>
-      <item>Data Science</item>
-      <item>Design, Technology, and Research</item>
-      <item>Digital Forensics and Incident Response</item>
-      <item>Embedded Systems</item>
-      <item>Game Development Studio</item>
-      <item>Geospatial Vision and Visualization</item>
-      <item>Innovation in Journalism and Technology</item>
-      <item>Intermediate Computer Graphics</item>
-      <item>Internet of Things</item>
-      <item>Introduction to Computational Learning Theory</item>
-      <item>Introduction to Computational Photography</item>
-      <item>Kernel and Other Low-level Software Development</item>
-      <item>Knowledge, Representation and Reasoning for Game Characters</item>
-      <item>Machine Learning: Foundations, Applications, and Algorithms</item>
-      <item>Networking Problems in Cloud Computing</item>
-      <item>Special Topics in Machine Learning</item>
-      <item>Special Topics in Swarms and Multi-robot Systems</item>
-      <item>Tangible Interaction Design and Learning</item>
-      <item>The Art of Multicore Concurrent Programming</item>
-      <item>Wireless and Mobile Health</item>
-      <item>Independent Study</item>
-      <item>Adventures In Electrical And Computer Engineering</item>
-      <item>Adventures In EE and CE</item>
-      <item>Intro to Computer Science for Everyone</item>
-      <item>Intro to CS for Everyone</item>
-      <item>Intro to CS</item>
-      <item>Intro to Programming for Non-majors</item>
-      <item>Intro to Programming for Non-majors using C</item>
-      <item>Intro to Programming for Non-majors using Python</item>
-      <item>Intro to Electrical Engineering</item>
-      <item>Intro to EE</item>
-      <item>Intro to Computer Engineering</item>
-      <item>Intro to CE</item>
-      <item>Intro to Computer Systems</item>
-      <item>Intro Robotics Laboratory</item>
-      <item>Intro Robotics Lab</item>
-      <item>AI Programming</item>
-      <item>Intro to Computer Vision</item>
-      <item>Intro to Communication Networks</item>
-      <item>Intro to the Theory of Computation</item>
-      <item>Intro to Databases</item>
-      <item>Intro to Computer Networking</item>
-      <item>Intro to Networking</item>
-      <item>Intro to Artificial Intelligence</item>
-      <item>Intro to AI</item>
-      <item>Intro to Computer Security</item>
-      <item>Intro to Computer Graphics</item>
-      <item>Intro to VLSI CAD</item>
-      <item>Intro to Parallel Computing</item>
-      <item>Intro to Feedback Systems</item>
-      <item>Intro to Digital Control</item>
-      <item>Intro to Robotics</item>
-      <item>Intro to Computational Learning Theory</item>
-      <item>Intro to Computational Photography</item>
-      <item>Intro to the Theory of Computation</item>
-      <item>Machine Learning</item>
-      <item>DTC 1 06 Design, Thinking, And Communication</item>
-      <item>1 06 Design, Thinking, And Communication</item>
-      <item>Design, Thinking, And Communication</item>
-      <item>EA 1 2 05 Engineering Analysis</item>
-      <item>2 05 Engineering Analysis</item>
-      <item>Engineering Analysis</item>
-      <item>EA 1 2 06 Honors Engineering Analysis</item>
-      <item>2 06 Honors Engineering Analysis</item>
-      <item>Honors Engineering Analysis</item>
-      <item>Cogitive Science 2 07 Introduction to Cognitive Modeling</item>
-      <item>Cog Sci 2 07 Introduction to Cognitive Modeling</item>
-      <item>Cog Sci 2 07 Intro to Cognitive Modeling</item>
-      <item>2 07 Intro to Cognitive Modeling</item>
-      <item>Intro to Cognitive Modeling</item>
-      <item>BME 3 25 Introduction to Medical Imaging</item>
-      <item>BME 3 25 Intro to Medical Imaging</item>
-      <item>Intro to Medical Imaging</item>
+      <item>Machine Learning and Artificial Intelligence for Robotics</item>
+      <item>Intensive Program Design</item>
+      <item>Intro to Database Systems</item>
+      <item>NUvention Impact</item>
+      <item>The Design of Technological Tools for Thinking and Learning</item>
+      <item>Game Theory and Networked Systems</item>
+      <item>Intro to Computational Linguistics</item>
+      <item>Computational Complexity</item>
+      <item>Topics in Theoretical Machine Learning</item>
+      <item>Theoretical Machine Learning</item>
+      <item>Graduate Algorithms</item>
+      <item>Seminar in Statistical Language Modeling</item>
+      <item>Distributed Systems in Challenging Environments</item>
+      <item>Computational Auditory Scene Analysis</item>
+      <item>Mechanism Design</item>
+      <item>Rapid Prototyping for Software Innovation</item>
+      <item>Social Media Mining</item>
+      <item>Parallelism Seminar</item>
     </one-of>
   </rule>
   <rule id="Courses_id">
     <one-of>
-      <item>
-        EECS <ruleref uri="#Three_digit_number"/>
-      </item>
-      <item>
-        BME <ruleref uri="#Three_digit_number"/>
-      </item>
-      <item>
-        Cog Sci <ruleref uri="#Three_digit_number"/>
-      </item>
-      <item>
-        EA
-        <one-of>
-          <item>1</item>
-          <item>2</item>
-          <item>3</item>
-          <item>4</item>
-        </one-of>
-      </item>
-      <item>
-        <ruleref uri="#Three_digit_number"/>
-      </item>
+      <item>CS 101</item>
+      <item>CS 110</item>
+      <item>COG SCI 207</item>
+      <item>CS 213</item>
+      <item>CS 301</item>
+      <item>CS 331</item>
+      <item>CS 332</item>
+      <item>CS 335</item>
+      <item>CS 339</item>
+      <item>CS 340</item>
+      <item>CS 348</item>
+      <item>CS 350</item>
+      <item>CS 351-1</item>
+      <item>CS 356</item>
+      <item>CS 358</item>
+      <item>DTC 106</item>
+      <item>CS 111</item>
+      <item>CS 130</item>
+      <item>CS 205</item>
+      <item>General Engineering 205</item>
+      <item>GEN ENG 205</item>
+      <item>EA 1 205</item>
+      <item>CS 211</item>
+      <item>CS 212</item>
+      <item>CS 214</item>
+      <item>CS 230</item>
+      <item>CS 295</item>
+      <item>CS 295</item>
+      <item>CS 313</item>
+      <item>CS 413</item>
+      <item>CS 314</item>
+      <item>CS 315</item>
+      <item>CS 321</item>
+      <item>CS 322</item>
+      <item>CS 325</item>
+      <item>CS 330</item>
+      <item>CS 336</item>
+      <item>CS 337</item>
+      <item>CS 338</item>
+      <item>CS 343</item>
+      <item>CS 344</item>
+      <item>CS 345</item>
+      <item>CS 349</item>
+      <item>CS 351-2</item>
+      <item>CS 352</item>
+      <item>CS 354</item>
+      <item>CS 361</item>
+      <item>CS 362</item>
+      <item>CS 368</item>
+      <item>CS 468</item>
+      <item>CS 370</item>
+      <item>CS 371</item>
+      <item>CS 372</item>
+      <item>CS 472</item>
+      <item>CS 394</item>
+      <item>CS 376</item>
+      <item>CS 323</item>
+      <item>CS 422</item>
+      <item>CS 423</item>
+      <item>CS 428</item>
+      <item>CS 430</item>
+      <item>CS 435</item>
+      <item>CS 440</item>
+      <item>CS 441</item>
+      <item>CS 442</item>
+      <item>CS 443</item>
+      <item>CS 446</item>
+      <item>CS 450</item>
+      <item>CS 452</item>
+      <item>CS 455</item>
+      <item>CS 457</item>
+      <item>CS 469</item>
+      <item>CS 472</item>
+      <item>CS 473-1</item>
+      <item>CS 473-2</item>
+      <item>CS 474</item>
+      <item>CS 510</item>
+      <item>CS 512</item>
+      <item>CS 395</item>
+      <item>CS 495</item>
+      <item>CS 396</item>
+      <item>CS 496</item>
+      <item>CS 397</item>
+      <item>CS 497</item>
+      <item>CS 375</item>
+      <item>CS 475</item>
     </one-of>
   </rule>
 
@@ -1980,52 +2209,10 @@
       <item>its</item>
     </one-of>
   </rule>
-  <rule id="PersonReference">
-    <one-of>
-      <item>
-        <ruleref uri="#ExplicitPersonName"/>
-      </item>
-      <item>
-        <ruleref uri="#TitledName"/>
-      </item>
-    </one-of>
-  </rule>
-  <rule id="ExplicitPersonName">
-    <one-of>
-      <item>
-        <ruleref uri="#FirstName"/>
-      </item>
-      <item>
-        <ruleref uri="#NickName"/>
-      </item>
-      <item>
-        <ruleref uri="#FullName"/>
-      </item>
-    </one-of>
-  </rule>
-  <rule id="TitledName">
-    <one-of>
-      <item>
-        <ruleref uri="#PersonTitle"/>
-        <ruleref uri="#LastName"/>
-      </item>
-      <item>
-        <ruleref uri="#PersonTitle"/>
-        <ruleref uri="#FullName"/>
-      </item>
-    </one-of>
-  </rule>
-  <rule id="PersonTitle">
-    <one-of>
-      <item>Professor</item>
-      <item>Doctor</item>
-      <item>Mister</item>
-      <item>Missus</item>
-      <item>Miss</item>
-    </one-of>
-  </rule>
+
   <rule id="FirstName">
     <one-of>
+      <!-- Faculty -->
       <item>Brenna</item>
       <item>Larry</item>
       <item>Fabian</item>
@@ -2079,22 +2266,42 @@
       <item>Jennie</item>
       <item>Jack</item>
       <item>Aggelos</item>
+      <item>Vincent</item>
+      <item>Sarah</item>
+      <item>Jessica</item>
+      <item>Xiao</item>
+      <!-- Postdoc -->
       <item>Willie</item>
       <item>Jason</item>
       <item>Huxley</item>
       <item>Huck</item>
       <item>Thomas</item>
+      <item>Tom</item>
+      <!-- staff -->
       <item>Iliana</item>
       <item>Brianna</item>
       <item>Kim</item>
       <item>Jeff</item>
       <item>Melissa</item>
       <item>Iliana</item>
+      <item>Madeline</item>
     </one-of>
   </rule>
-  <rule id="LastName">
+
+  <rule id="FemaleFacultyLastName">
     <one-of>
       <item>Argall</item>
+      <item>O'Rourke</item>
+      <item>Sood</item>
+      <item>Gerber</item>
+      <item>Piper</item>
+      <item>Rogers</item>
+      <item>Van Wart</item>
+      <item>Hullman</item>
+    </one-of>
+  </rule>
+  <rule id="MaleFacultyLastName">
+    <one-of>
       <item>Birnbaum</item>
       <item>Campanoni</item>
       <item>Chen</item>
@@ -2111,11 +2318,9 @@
       <item>Kuzmanovic</item>
       <item>Liu</item>
       <item>Makarychev</item>
-      <item>O'Rourke</item>
       <item>Pardo</item>
       <item>Riesbeck</item>
       <item>Rubenstein</item>
-      <item>Sood</item>
       <item>Tov</item>
       <item>Vijayaraghavan</item>
       <item>Wilensky</item>
@@ -2124,7 +2329,6 @@
       <item>Alshurafa</item>
       <item>Berry</item>
       <item>Choudhary</item>
-      <item>Gerber</item>
       <item>Gergle</item>
       <item>Gradwohl</item>
       <item>Hardavellas</item>
@@ -2133,42 +2337,68 @@
       <item>Liu</item>
       <item>Luo</item>
       <item>Memik</item>
-      <item>Piper</item>
       <item>Bustamante</item>
       <item>Cossairt</item>
       <item>Hammond</item>
       <item>Hartline</item>
-      <item>Rogers</item>
       <item>Tumblin</item>
       <item>Katsaggelos</item>
+      <item>St. Amour</item>
+      <item>Wang</item>
+    </one-of>
+  </rule>
+  <rule id="FacultyLastName">
+    <one-of>
+      <item>
+        <ruleref uri="#FemaleFacultyLastName"/>
+      </item>
+      <item>
+        <ruleref uri="#MaleFacultyLastName"/>
+      </item>
+    </one-of>
+  </rule>
+
+  <rule id="FemaleStaffLastName">
+    <one-of>
+      <item>Mello</item>
+      <item>Kieras</item>
+      <item>Duong</item>
+      <item>Vargas</item>
+      <item>Usher</item>
+    </one-of>
+  </rule>
+  <rule id="MaleStaffLastName">
+    <one-of>
+      <item>Stiers</item>
+    </one-of>
+  </rule>
+
+  <rule id="MalePostdocLastName">
+    <one-of>
       <item>Wilson</item>
       <item>Bennett</item>
       <item>Bochynek</item>
-      <item>Mello</item>
-      <item>Kieras</item>
-      <item>Stiers</item>
-      <item>Duong</item>
-      <item>Vargas</item>
     </one-of>
   </rule>
-  <rule id="NickName">
-    <one-of>
-      <item>Willie</item>
-      <item>Nell</item>
-      <item>Jack</item>
-      <item>Mike</item>
-      <item>Huck</item>
-    </one-of>
-  </rule>
-  <rule id="MiddleName">
-    <one-of>
-      <item>Owsley</item>
-      <item>Marie</item>
-    </one-of>
-  </rule>
-  <rule id="FullName">
+
+  <rule id="FemaleFacultyFullName">
     <one-of>
       <item>Brenna Argall</item>
+      <item>Nell O'Rourke</item>
+      <item>Eleanor O'Rourke</item>
+      <item>Sara Sood</item>
+      <item>Sara Owsley</item>
+      <item>Sara Owsley Sood</item>
+      <item>Elizabeth Gerber</item>
+      <item>Anne Marie Piper</item>
+      <item>Jennie Rogers</item>
+      <item>Sarah Van Wart</item>
+      <item>Jessica Hullman</item>
+    </one-of>
+  </rule>
+
+  <rule id="MaleFacultyFullName">
+    <one-of>
       <item>Larry Birnbaum</item>
       <item>Fabian E. Bustamante</item>
       <item>Simone Campanoni</item>
@@ -2192,15 +2422,11 @@
       <item>Aleksandar Kuzmanovic</item>
       <item>Han Liu</item>
       <item>Konstantin Makarychev</item>
-      <item>Nell O'Rourke</item>
-      <item>Eleanor O'Rourke</item>
       <item>Bryan Pardo</item>
       <item>Chris Riesbeck</item>
       <item>Jennie M. Rogers</item>
       <item>Mike Rubenstein</item>
       <item>Michael Rubenstein</item>
-      <item>Sara Sood</item>
-      <item>Sara Owsley Sood</item>
       <item>Jesse Tov</item>
       <item>Jack E. Tumblin</item>
       <item>Aravindan Vijayaraghavan</item>
@@ -2210,7 +2436,6 @@
       <item>Nabil Alshurafa</item>
       <item>Randall Berry</item>
       <item>Alok Choudhary</item>
-      <item>Elizabeth Gerber</item>
       <item>Darren Gergle</item>
       <item>Ronen Gradwohl</item>
       <item>Nikos Hardavellas</item>
@@ -2220,31 +2445,156 @@
       <item>Han Liu</item>
       <item>Yuan Luo</item>
       <item>Gokhan Memik</item>
-      <item>Anne Marie Piper</item>
       <item>Fabian Bustamante</item>
       <item>Oliver Cossairt</item>
       <item>Kristian Hammond</item>
       <item>Jason Hartline</item>
-      <item>Jennie Rogers</item>
       <item>Jack Tumblin</item>
       <item>Aggelos Katsaggelos</item>
+      <item>Vincent St. Amour</item>
+      <item>Xiao Wang</item>
+    </one-of>
+  </rule>
+
+  <rule id="FacultyFullName">
+    <one-of>
+      <item>
+        <ruleref uri="#FemaleFacultyFullName"/>
+      </item>
+      <item>
+        <ruleref uri="#MaleFacultyFullName"/>
+      </item>
+    </one-of>
+  </rule>
+
+  <rule id="MalePostdocFullName">
+    <one-of>
       <item>Willie Wilson</item>
       <item>Jason Wilson</item>
       <item>Huxley Bennett</item>
       <item>Huck Bennett</item>
       <item>Thomas Bochynek</item>
-      <item>Brianna Mello</item>
-      <item>Kim Kieras</item>
-      <item>Jeff Stiers</item>
-      <item>Melissa Duong</item>
-      <item>Iliana Vargas</item>
+      <item>Tom Bochynek</item>
     </one-of>
   </rule>
 
+  <rule id="FemaleStaffFullName">
+    <one-of>
+      <item>Brianna Mello</item>
+      <item>Kim Kieras</item>
+      <item>Melissa Duong</item>
+      <item>Iliana Vargas</item>
+      <item>Madeline Usher</item>
+      <item>Maddy Usher</item>
+    </one-of>
+  </rule>
+  <rule id="MaleStaffFullName">
+    <one-of>
+      <item>Jeff Stiers</item>
+    </one-of>
+  </rule>
 
+  <rule id="NickName">
+    <one-of>
+      <item>Willie</item>
+      <item>Nell</item>
+      <item>Jack</item>
+      <item>Mike</item>
+      <item>Huck</item>
+      <item>Tom</item>
+      <item>Maddy</item>
+    </one-of>
+  </rule>
+  <rule id="MiddleName">
+    <one-of>
+      <item>Owsley</item>
+      <item>Marie</item>
+    </one-of>
+  </rule>
 
-
-
+  <rule id="PersonReference">
+    <one-of>
+      <item>
+        <ruleref uri="#ExplicitPersonName"/>
+      </item>
+      <item>
+        <ruleref uri="#TitledName"/>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="ExplicitPersonName">
+    <one-of>
+      <item>
+        <ruleref uri="#FirstName"/>
+      </item>
+      <item>
+        <ruleref uri="#NickName"/>
+      </item>
+      <item>
+        <ruleref uri="#FemaleFacultyFullName"/>
+      </item>
+      <item>
+        <ruleref uri="#MaleFacultyFullName"/>
+      </item>
+      <item>
+        <ruleref uri="#MalePostdocFullName"/>
+      </item>
+      <item>
+        <ruleref uri="#FemaleStaffFullName"/>
+      </item>
+      <item>
+        <ruleref uri="#MaleStaffFullName"/>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="TitledName">
+    <one-of>
+      <item>
+        Professor
+        <one-of>
+          <item>
+            <ruleref uri="#FacultyLastName"/>
+          </item>
+          <item>
+            <ruleref uri="#FacultyFullName"/>
+          </item>
+        </one-of>
+      </item>
+      <item>
+        Doctor
+        <one-of>
+          <item>
+            <ruleref uri="#MalePostdocLastName"/>
+          </item>
+          <item>
+            <ruleref uri="#MalePostdocFullName"/>
+          </item>
+        </one-of>
+      </item>
+      <item>
+        Ms.
+        <one-of>
+          <item>
+            <ruleref uri="#FemaleStaffLastName"/>
+          </item>
+          <item>
+            <ruleref uri="#FemaleStaffFullName"/>
+          </item>
+        </one-of>
+      </item>
+      <item>
+        Mr.
+        <one-of>
+          <item>
+            <ruleref uri="#MaleStaffLastName"/>
+          </item>
+          <item>
+            <ruleref uri="#MaleStaffFullName"/>
+          </item>
+        </one-of>
+      </item>
+    </one-of>
+  </rule>
 
 
 
@@ -2265,13 +2615,35 @@
     </one-of>
   </rule>
   <rule id="OfficeNumber">
-    <ruleref uri="#OneToNine"/>
-    <ruleref uri="#Three_digit_number"/>
+    <one-of>
+      <item>
+        three
+        <ruleref uri="#ZeroToNine"/>
+        <ruleref uri="#ZeroToNine"/>
+        <ruleref uri="#ZeroToNine"/>
+      </item>
+      <item>
+        <ruleref uri="#TenToNinetyNine"/>
+        <ruleref uri="#ZeroToNine"/>
+        <ruleref uri="#ZeroToNine"/>
+      </item>
+      <item>
+        <ruleref uri="#TenToNinetyNine"/>
+        <ruleref uri="#TenToNinetyNine"/>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="Zero">
+    <one-of>
+      <item>zero</item>
+      <item>o</item>
+    </one-of>
   </rule>
   <rule id="ZeroToNinetyNine">
     <one-of>
-      <item>o</item>
-      <item>zero</item>
+      <item>
+        <ruleref uri="#Zero"/>
+      </item>
       <item>
         <ruleref uri="#OneToNine"/>
       </item>
@@ -2296,6 +2668,16 @@
         <item repeat="0-1">
           <ruleref uri="#OneToNine"/>
         </item>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="ZeroToNine">
+    <one-of>
+      <item>
+        <ruleref uri="#Zero"/>
+      </item>
+      <item>
+        <ruleref uri="#OneToNine"/>
       </item>
     </one-of>
   </rule>
@@ -2412,24 +2794,48 @@
       <item>Beam me up, Scotty!</item>
       <item>Huck you</item>
       <item>Say something</item>
+      <item>What is the meaning of life?</item>
     </one-of>
   </rule>
 
   <rule id="ObjectsOfInterest">
-    <item repeat="0-1">
-      <ruleref uri="#EnglishArticle" />
-    </item>
     <one-of>
-      <item>food</item>
-      <item>snack</item>
-      <item>something to eat</item>
-      <item>printer</item>
-      <item>coffee</item>
-      <item>coffee machine</item>
-      <item>Nespresso</item>
-      <item>Nespresso machine</item>
-      <item>water fountain</item>
-      <item>tea</item>
+      <item>
+        <item repeat="0-1">
+          <ruleref uri="#EnglishArticle" />
+        </item>
+        <one-of>
+          <item>printer</item>
+          <item>printing machine</item>
+          <item>copier</item>
+          <item>copying machine</item>
+          <item>coffee machine</item>
+          <item>Nespresso</item>
+          <item>Nespresso machine</item>
+          <item>water fountain</item>
+        </one-of>
+      </item>
+      <item>
+        some
+        <one-of>
+          <item>food</item>
+          <item>snack</item>
+          <item>coffee</item>
+          <item>Nespresso</item>
+          <item>tea</item>
+        </one-of>
+      </item>
+      <item>
+        something to eat
+      </item>
+      <item>
+        a cup of
+        <one-of>
+          <item>coffee</item>
+          <item>Nespresso</item>
+          <item>tea</item>
+        </one-of>
+      </item>
     </one-of>
   </rule>
 
@@ -2483,5 +2889,5 @@
       </one-of>
     </item>
   </rule>
-  
+
 </grammar>
