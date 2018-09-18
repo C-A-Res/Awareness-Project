@@ -73,7 +73,10 @@ namespace NU.Kiosk.Speech
                 // Disable compatibility modules
                 // use -1 as appWnd handle to communicate with Dragon, this setting is saved in 
                 // C:\Users\<UserName>\AppData\Roaming\Nuance\NaturallySpeaking15\nsuser.ini
-                DgnEngine.set_CompatibilityModule(DgnCompatibilityModuleConstants.dgncompmoduleAll, -1, false);
+                //DgnEngine.set_CompatibilityModule(DgnCompatibilityModuleConstants.dgncompmoduleAll, -1, false);
+                DgnEngine.set_CompatibilityModule(DgnCompatibilityModuleConstants.dgncompmoduleNatText, -1, false);
+                DgnEngine.set_CompatibilityModule(DgnCompatibilityModuleConstants.dgncompmoduleNlp, -1, false);
+                DgnEngine.set_CompatibilityModule(DgnCompatibilityModuleConstants.dgncompmoduleTracking, -1, false);                
                 DgnEngine.set_Option(DgnEngineOptionConstants.dgnengoptionUseConfidence, true);
                 DgnEngine.set_Option(DgnEngineOptionConstants.dgnengoptionUseActiveAccessibility, false);
 
