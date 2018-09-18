@@ -53,6 +53,9 @@ Yuan Luo|Yuan Luo
 Gokhan Memik|Gokhan Memik
 Anne Piper|Anne Piper
 Vincent St-Amour|Vincent St-Amour
+Sarah Van Wart|Sarah Van Wart
+Jessica Hullman|Jessica Hullman
+Xiao Wang|Xiao Wang
 
 # with middle name abbreviation
 Fabian E. Bustamante|Fabian E Bustamante
@@ -126,6 +129,9 @@ Luo|Luo
 Memik|Memik
 Piper|Piper
 St-Amour|St-Amour
+Van Wart|Van Wart
+Hullman|Hullman
+Wang|Wang
 
 # titled last names
 
@@ -176,7 +182,11 @@ Prof. Liu|Prof. Liu
 Prof. Luo|Prof. Luo
 Prof. Memik|Prof. Memik
 Prof. Piper|Prof. Piper
+Prof. St-Amour|Prof. St-Amour
 Dr. St-Amour|Dr. St-Amour
+Prof. Van Wart|Prof. Van Wart
+Prof. Hullman|Prof. Hullman
+Prof. Wang|Prof. Wang
 
 # titled two word names
 Prof. Brenna Argall|Prof. Brenna Argall
@@ -230,7 +240,12 @@ Prof. Han Liu|Prof. Han Liu
 Prof. Yuan Luo|Prof. Yuan Luo
 Prof. Gokhan Memik|Prof. Gokhan Memik
 Prof. Anne Piper|Prof. Anne Piper
+Prof. Vincent St-Amour|Prof. Vincent St-Amour
 Dr. Vincent St-Amour|Dr. Vincent St-Amour
+Prof. Sarah Van Wart|Prof. Sarah Van Wart
+Prof. Jessica Hullman|Prof. Jessica Hullman
+Prof. Xiao Wang|Prof. Xiao Wang
+
 
 # first names 
 Brenna|Brenna
@@ -270,6 +285,9 @@ Gokhan|Gokhan
 Anne|Anne
 Sara|Sara
 Vincent|Vincent
+Sarah|Sarah
+Jessica|Jessica
+Xiao|Xiao
 
 # nick name
 Nell|Nell
@@ -286,6 +304,7 @@ Thomas Bochynek|Thomas Bochynek
 # nick name with last name
 Willie Wilson|Willie Wilson
 Huck Bennett|Huck Bennett
+Tom Bochynek|Tom Bochynek
 
 # last name
 Bochynek|Bochynek
@@ -293,6 +312,7 @@ Bochynek|Bochynek
 # nick name 
 Willie|Willie
 Huck|Huck
+Tom|Tom
 
 # Staff names
 
@@ -319,7 +339,17 @@ Ms. Vargas|Ms. Vargas
 
 # first names
 Brianna|Brianna
+Kim|Kim
+Jeff|Jeff
+Melissa|Melissa
 Iliana|Iliana
+
+# titled two words full name
+Ms. Brianna Mello|Ms. Brianna Mello
+Ms. Kim Kieras|Ms. Kim Kieras
+Mr. Jeff Stiers|Mr. Jeff Stiers
+Ms. Melissa Duong|Ms. Melissa Duong
+Ms. Iliana Vargas|Ms. Iliana Vargas
 
 ###################################################
 ### Places
@@ -329,9 +359,36 @@ Mudd Library|monta library
 Mudd Library|monte library
 Mudd Library|month library
 Mudd Library|mud library
+Seeley G.|Seeley G.
 Seeley G. Mudd|Seeley G. Mudd
 Seeley G. Mudd Library|Seeley G. Mudd Library
 Seeley Mudd Library|Seeley Mudd Library
+
+###################################################
+### Academic Groups
+
+QRG Lab|QRG Lab
+Qualitative Reasoning Group|Qualitative Reasoning Group
+Aqua Lab|Aqua Lab
+Assistive And Rehabilitation Robotics Lab|Assistive And Rehabilitation Robotics Lab
+Assistive And Rehabilitation Robotics Laboratory|Assistive And Rehabilitation Robotics Laboratory
+Campanoni Lab|Campanoni Lab
+Center For Connected Learning And Computer-based Modeling|Center For Connected Learning And Computer-based Modeling
+Delta Lab|Delta Lab
+Economics Group|Economics Group
+Image And Video Processing Lab|Image And Video Processing Lab
+Image And Video Processing Laboratory|Image And Video Processing Laboratory
+Intelligent Information Lab|Intelligent Information Lab
+Intelligent Information Laboratory|Intelligent Information Laboratory
+Interactive Audio Lab|Interactive Audio Lab
+Internet And Security Lab|Internet And Security Lab
+Northwestern Lab For Internet And Security Technology|Northwestern Lab For Internet And Security Technology
+Networks Group|Networks Group
+Northwestern Networks Group|Northwestern Networks Group
+Parallel Architecture Group|Parallel Architecture Group
+Parallel Architecture Group At Northwestern|Parallel Architecture Group At Northwestern
+Prescience Lab|Prescience Lab
+Swarm Robotics Lab|Swarm Robotics Lab
 
 ###################################################
 ### Courses 
@@ -409,7 +466,7 @@ Intro to Formal Verification|Intro to Formal Verification
 Intro to Parallel Computing|Intro to Parallel Computing
 #Digital Signal Processing|Digital Signal Processing
 #Intro to Feedback Systems|Intro to Feedback Systems
-Computer Architecture I|Computer Architecture I 
+Computer Architecture I|Computer Architecture one
 Computer Architecture Project|Computer Architecture Project
 #Digital Filtering|Digital Filtering
 #Embedded Systems|Embedded Systems 
@@ -598,41 +655,43 @@ Seminar in Statistical Language Modeling|Seminar in Statistical Language Modelin
 Distributed Systems in Challenging Environments|Distributed Systems in Challenging Environments
 Computational Auditory Scene Analysis|Computational Auditory Scene Analysis
 Mechanism Design|Mechanism Design 
+Rapid Prototyping for Software Innovation|Rapid Prototyping for Software Innovation
 Social Media Mining|Social Media Mining
 Parallelism Seminar|Parallelism Seminar
 
-An introduction to Computer Science for Everyone|An introduction to Computer Science for Everyone
-introduction to Computer Programming|introduction to Computer Programming
-introduction to Computers and Info Technology|introduction to Computers and Info Technology
-#introduction to Electrical Engineering|introduction to Electrical Engineering
-#introduction to Computer Engineering|introduction to Computer Engineering
-introduction to Cognitive Modeling|introduction to Cognitive Modeling
-introduction to Computer Systems|introduction to Computer Systems
-introduction to Robotics Laboratory|introduction to Robotics Laboratory
-introduction to Medical Imaging|introduction to Medical Imaging
-introduction to Computational Photography|introduction to Computational Photography
-introduction to Computer Vision|introduction to Computer Vision
-introduction to Communication Networks|introduction to Communication Networks
-introduction to the Theory of Computation|introduction to the Theory of Computation
-introduction to Databases|introduction to Databases
-introduction to Computer Networking|introduction to Computer Networking
-introduction to Artificial Intelligence|introduction to Artificial Intelligence
-introduction to Computer Security|introduction to Computer Security
-introduction to Computer Graphics|introduction to Computer Graphics
-introduction to Formal Verification|introduction to Formal Verification
-#introduction to VLSI CAD|introduction to VLSI CAD
-introduction to Parallel Computing|introduction to Parallel Computing
-#introduction to Feedback Systems|introduction to Feedback Systems
-#introduction to Digital Control|introduction to Digital Control
-#introduction to Robotics|introduction to Robotics
-#introduction to Smart Grid Systems|introduction to Smart Grid Systems
-introduction to Computational Learning Theory|introduction to Computational Learning Theory
-#introduction to Nanophotonics and Plasmonics Science and Technology|introduction to Nanophotonics and Plasmonics Science and Technology
-#introduction to Nonlinear Control Theory|introduction to Nonlinear Control Theory
-introduction to Database Systems|introduction to Database Systems
-introduction to Computational Linguistics|introduction to Computational Linguistics
+An Introduction to Computer Science for Everyone|An Introduction to Computer Science for Everyone
+Introduction to Computer Programming|Introduction to Computer Programming
+Introduction to Computers and Info Technology|Introduction to Computers and Info Technology
+#Introduction to Electrical Engineering|Introduction to Electrical Engineering
+#Introduction to Computer Engineering|Introduction to Computer Engineering
+Introduction to Cognitive Modeling|Introduction to Cognitive Modeling
+Introduction to Computer Systems|Introduction to Computer Systems
+Introduction to Robotics Laboratory|Introduction to Robotics Laboratory
+Introduction to Medical Imaging|Introduction to Medical Imaging
+Introduction to Computational Photography|Introduction to Computational Photography
+Introduction to Computer Vision|Introduction to Computer Vision
+Introduction to Communication Networks|Introduction to Communication Networks
+Introduction to the Theory of Computation|Introduction to the Theory of Computation
+Introduction to Databases|Introduction to Databases
+Introduction to Computer Networking|Introduction to Computer Networking
+Introduction to Artificial Intelligence|Introduction to Artificial Intelligence
+Introduction to Computer Security|Introduction to Computer Security
+Introduction to Computer Graphics|Introduction to Computer Graphics
+Introduction to Formal Verification|Introduction to Formal Verification
+#Introduction to VLSI CAD|Introduction to VLSI CAD
+Introduction to Parallel Computing|Introduction to Parallel Computing
+#Introduction to Feedback Systems|Introduction to Feedback Systems
+#Introduction to Digital Control|Introduction to Digital Control
+#Introduction to Robotics|Introduction to Robotics
+#Introduction to Smart Grid Systems|Introduction to Smart Grid Systems
+Introduction to Computational Learning Theory|Introduction to Computational Learning Theory
+#Introduction to Nanophotonics and Plasmonics Science and Technology|Introduction to Nanophotonics and Plasmonics Science and Technology
+#Introduction to Nonlinear Control Theory|Introduction to Nonlinear Control Theory
+Introduction to Database Systems|Introduction to Database Systems
+Introduction to Computational Linguistics|Introduction to Computational Linguistics
 
 
+Cog Sci|Cog Sci
 Cog Sci|cog sci
 EA1|EA one
 
@@ -663,6 +722,7 @@ Prof. Choudhary|Prof. Calgary
 Kieras|Karas
 Katsaggelos|Kasai jewels
 Katsaggelos|the sagittal's
+Horswill|horse will
 Aravindan|Irvington
 Aravindan|Arrington
 Aravindan|Errington
@@ -686,4 +746,27 @@ office hour|office hour
 office hour|office our
 EECS|EECS
 EECS|ekes
-umm | umm
+G. Memik|G Memik
+G. Memik|Jean mimic
+G. Memik|Gmail make
+Prof. G. Memik|Prof. G Memik
+Prof. G. Memik|Prof. Jean mimic
+Prof. G. Memik|Prof. Gmail make
+Prof. De|Prof. D
+Prof. Zhang|Prof. John
+Prof. Cossairt|Prof. Kao start
+Prof. Cossairt|Prof. Cozart
+Prof. Hecht|Prof. Hatch
+Prof. Hecht|Prof. Hatched
+CS 101|CS 101
+AI Programming|EI Programming
+AI Programming|AI Programming
+Prof. Zhang | Prof. John
+Prof. Cossairt|Prof. croissant
+Prof. De|Prof. D
+Prof. Hecht|Prof. Hatched
+Prof. Hecht|Prof. Hatch
+Prescience Lab|pre-science lab
+Prescience Lab|per science lab
+Campanoni|Can Benoni
+Campanoni|Kemp annuity
