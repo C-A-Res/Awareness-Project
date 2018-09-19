@@ -47,7 +47,7 @@ namespace NU.Kiosk.Speech
 
         private void ReceiveKQMLResponse(string arg1, Envelope arg2)
         {
-            CompResponse.Post(arg1, arg2.OriginatingTime);
+            CompResponse.Post(arg1, DateTime.Now);
         }
 
         private bool generateAutoResponse(Utterance arg1, Envelope arg2)
@@ -76,13 +76,12 @@ namespace NU.Kiosk.Speech
                 repeatCount = 0;
                 switch (text)
                 {
-                    case "":
                     case "Hi":
                     case "Hello":
                     case "Greetings":
                     case "Good morning":
                     case "Sup":
-                        CompResponse.Post("Hello", arg2.OriginatingTime);
+                        CompResponse.Post("Hello", DateTime.Now);
                         return true;
                     case "What can you do?":
                     case "What do you do?":
@@ -92,8 +91,9 @@ namespace NU.Kiosk.Speech
                     case "What time is it?":
                     case "What's the time?":
                         var time = DateTime.Now.ToString("h:mm tt");
-                        CompResponse.Post($"It is {time}", arg2.OriginatingTime);
+                        CompResponse.Post($"It is {time}", DateTime.Now);
                         return true;
+                    case "":
                     case "okay":
                     case "hm":
                     case "um":
@@ -114,6 +114,25 @@ namespace NU.Kiosk.Speech
         private void generateHelpResponse(Envelope arg2)
         {
             CompResponse.Post("I can answer questions about where someone's office is and how to contact a professor.", arg2.OriginatingTime);
+        }
+
+        private void actionInterpreter(Action a, DateTime dt)
+        {
+            switch (a.Name)
+            {
+                case "psikiSayText":
+                    CompResponse.Post(a.Args[0].ToString(), dt);
+                    break;
+                case "psikiDisplayMap":
+                    CompResponse.Post(a.Args[0].ToString(), dt);
+                    break;
+                case "psikiDisplayUrl":
+                    CompResponse.Post(a.Args[0].ToString(), dt);
+                    break;
+                default:
+                    Console.WriteLine("Unrecognized action: " + a.Name);
+                    break;
+            }
         }
     }
 }

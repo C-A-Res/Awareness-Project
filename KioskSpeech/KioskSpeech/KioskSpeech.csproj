@@ -263,6 +263,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Action.cs" />
     <Compile Include="DialogManager.cs" />
     <Compile Include="GrammarUtils\AllXMLGrammarWriter.cs" />
     <Compile Include="GrammarUtils\GrammarWriter.cs" />

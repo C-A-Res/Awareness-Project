@@ -371,13 +371,13 @@
   <rule id="WhenQuestion">
     When
     <one-of>
-      <item>
+      <item weight="2">
         does <ruleref uri="#Course"/> meet
       </item>
-      <item>
+      <item weight="1">
         should I go to <ruleref uri="#EventMaybeTemporallyStampped"/>
       </item>
-      <item>
+      <item weight="1">
         will
         <ruleref uri="#EventMaybeTemporallyStampped"/>
         <one-of>
@@ -385,13 +385,13 @@
           <item>end</item>
         </one-of>
       </item>
-      <item>
+      <item weight="100">
         is
         <one-of>
-          <item>
+          <item weight="10">
             <ruleref uri="#EventMaybeTemporallyStampped"/>
           </item>
-          <item>
+          <item weight="1">
             the next <ruleref uri="#EventName"/>
           </item>
         </one-of>
@@ -422,15 +422,18 @@
       <item>
         is
         <one-of>
-          <item>
+          <item weight="2">
             <ruleref uri="#LocationOrPerson"/>
           </item>
-          <item>
+          <item weight="1">
             <ruleref uri="#ObjectPossessedByPerson"/>
           </item>
-          <item>
+          <item weight="1">
             <ruleref uri="#EventMaybeTemporallyStampped"/>
             going to take place
+          </item>
+          <item weight="10">
+            <ruleref uri="#EventMaybeTemporallyStampped"/>
           </item>
         </one-of>
       </item>
@@ -445,7 +448,7 @@
         does
         <one-of>
           <item>
-            <ruleref uri="#EventMaybeTemporallyStampped"/>meet
+            <ruleref uri="#EventMaybeTemporallyStampped"/> meet
           </item>
           <item>
             <ruleref uri="#PersonReference"/> work
@@ -897,7 +900,7 @@
         </item>
       </item>
       <item weight="1">QRG Lab</item>
-      <item weight="1">
+      <item weight="0">
         Dean's
         <one-of>
           <item>conference room</item>
@@ -906,14 +909,14 @@
       </item>
       <item weight="1">empty room</item>
       <item weight="1">study room</item>
-      <item weight="10">
+      <item weight="100">
         <ruleref uri="#PersonReference"/>'s
         <one-of>
           <item>office</item>
           <item>desk</item>
         </one-of>
       </item>
-      <item weight="3">
+      <item weight="30">
         <item repeat="0-1">
           <ruleref uri="#EnglishArticle"/>
         </item>
@@ -1032,16 +1035,16 @@
 
   <rule id="EventMaybeTemporallyStampped">
     <one-of>
-      <item>
+      <item weight="1">
         <ruleref uri="#TemporalReference"/>'s
         <ruleref uri="#EventName"/>
       </item>
-      <item>
+      <item weight="1">
         <item repeat="0-1">the</item>
         <ruleref uri="#EventName"/>
         <ruleref uri="#TemporalReference"/>
       </item>
-      <item>
+      <item weight="0">
         <item repeat="0-1">the</item>
         <ruleref uri="#EventName"/>
         <one-of>
@@ -1051,7 +1054,7 @@
         </one-of>
         <ruleref uri="#TemporalReference"/>
       </item>
-      <item>
+      <item weight="100">
         <item repeat="0-1">
           <ruleref uri="#EnglishArticle"/>
         </item>
@@ -1065,13 +1068,16 @@
       <item weight="10">
         <ruleref uri="#Course"/>
       </item>
+      <item weight="20">
+        <ruleref uri="#OfficeHours"/>
+      </item>
       <item weight="1">
         <ruleref uri="#GenericEvent"/>
       </item>
       <item weight="1">
         <ruleref uri="#OneTimeEvent"/>
       </item>
-      <item weight="1">
+      <item weight="2">
         <ruleref uri="#RecurringEventWithSpecialName"/>
       </item>
     </one-of>
@@ -1136,12 +1142,29 @@
     </one-of>
   </rule>
 
+  <rule id="OfficeHours">
+    <one-of>
+      <item weight="10">
+        <ruleref uri="#Course"/> office hours
+      </item>
+      <item weight="1">
+        office hours for <ruleref uri="#Course"/>
+      </item>
+      <item weight="5">
+        <ruleref uri="#PersonReference"/> 's office hours
+      </item>
+      <item weight="1">
+        office hours for <ruleref uri="#PersonReference"/>
+      </item>
+    </one-of>
+  </rule>
+  
   <rule id="Course">
     <one-of>
       <item weight="1">
         <ruleref uri="#Courses_name"/>
       </item>
-      <item weight="2">
+      <item weight="20">
         <ruleref uri="#Courses_id"/>
       </item>
     </one-of>
@@ -2081,6 +2104,7 @@
       <item>Jeff</item>
       <item>Melissa</item>
       <item>Iliana</item>
+      <item>Vincent</item>
     </one-of>
   </rule>
   <rule id="LastName">
@@ -2140,6 +2164,7 @@
       <item>Stiers</item>
       <item>Duong</item>
       <item>Vargas</item>
+      <item>St-Amour</item>
     </one-of>
   </rule>
   <rule id="NickName">
@@ -2217,6 +2242,7 @@
       <item>Aggelos K. Katsaggelos</item>
       <item>Aggelos Katsaggelos</item>
       <item>Yuan Luo</item>
+      <item>Yuan Luo</item>
       <item>Gokhan Memik</item>
       <item>Anne Marie Piper</item>
       <item>Fabian Bustamante</item>
@@ -2231,6 +2257,7 @@
       <item>Jeff Stiers</item>
       <item>Melissa Duong</item>
       <item>Iliana Vargas</item>
+      <item>Vincent St-Amour</item>
     </one-of>
   </rule>
 

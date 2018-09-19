@@ -133,6 +133,9 @@ namespace NU.Kiosk.Speech
             StartTimer();
         }
 
-
+        public void Start(System.Action onCompleted, ReplayDescriptor descriptor)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

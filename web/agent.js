@@ -69,6 +69,7 @@ function init() {
           listening.style.backgroundColor = "green";
           break;
         case "sleeping":
+          resetScreen();
           stateLabel.innerHTML = "Sleeping";
           eye1.classList.remove('eye');
           eye1.classList.remove('eye-down');
@@ -122,8 +123,27 @@ function init() {
     when.style.display = "none";
     what.style.display = "none";
     other.style.display = "none";
+    showmap.style.display = "none";
     keys.style.display = "flex";
     titles.style.display = "flex";
+  }
+
+  function displayInputStarters() {
+    where.style.display = "block";
+    when.style.display = "block";
+    what.style.display = "block";
+    other.style.display = "block";
+    showmap.style.display = "block";
+    keys.style.display = "none";
+    titles.style.display = "none";
+    mapSpace.style.display = "none";
+  }
+
+  function resetScreen() {
+    displayInputStarters()
+    var cloned = chatSpace.cloneNode(false);
+    chatSpace.parentNode.replaceChild(cloned, chatSpace);
+    input.value = "";
   }
 
   //$.ajax({ url: "https://www.mccormick.northwestern.edu/images/research-and-faculty/directory/forbus-ken.jpg",
@@ -143,25 +163,29 @@ function init() {
   btnSpeaking.onclick= function() { animateAvitar("speaking")}
 
   // touch input
-  var input = document.getElementById("input");
+  //var input = document.getElementById("input");
   var btnwhere = document.getElementById("where");
   btnwhere.onclick = function() { 
     input.value = "Where is ?";
     displayKeyboard();
+    ws.send(":wake");
   } 
   var btnwhen = document.getElementById("when");
   btnwhen.onclick = function() { 
     input.value = "When is ?";
     displayKeyboard();
+    ws.send(":wake");
   } 
   var btnwhat = document.getElementById("what");
   btnwhat.onclick = function() { 
     input.value = "What is ?";
     displayKeyboard();
+    ws.send(":wake");
   } 
   var btnother = document.getElementById("other");
   btnother.onclick = function() { 
     displayKeyboard();
+    ws.send(":wake");
   } 
 
   var keyButtons = document.getElementsByClassName("keyButton");
@@ -290,12 +314,11 @@ function init() {
       //displayText("user", text);
       wsx.send(text);
       input.value = "";
+      displayInputStarters();
       return false;
     });
 
   }
-
-
 
   $(".toggleDebug").click(function() {
     $("#debug").toggle("slow", function(){});

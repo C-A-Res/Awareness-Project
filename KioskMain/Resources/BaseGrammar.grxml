@@ -1032,16 +1032,16 @@
 
   <rule id="EventMaybeTemporallyStampped">
     <one-of>
-      <item>
+      <item weight="1">
         <ruleref uri="#TemporalReference"/>'s
         <ruleref uri="#EventName"/>
       </item>
-      <item>
+      <item weight="1">
         <item repeat="0-1">the</item>
         <ruleref uri="#EventName"/>
         <ruleref uri="#TemporalReference"/>
       </item>
-      <item>
+      <item weight="1">
         <item repeat="0-1">the</item>
         <ruleref uri="#EventName"/>
         <one-of>
@@ -1051,7 +1051,7 @@
         </one-of>
         <ruleref uri="#TemporalReference"/>
       </item>
-      <item>
+      <item weight="10">
         <item repeat="0-1">
           <ruleref uri="#EnglishArticle"/>
         </item>
@@ -1065,13 +1065,16 @@
       <item weight="10">
         <ruleref uri="#Course"/>
       </item>
+      <item weight="20">
+        <ruleref uri="#OfficeHours"/>
+      </item>
       <item weight="1">
         <ruleref uri="#GenericEvent"/>
       </item>
       <item weight="1">
         <ruleref uri="#OneTimeEvent"/>
       </item>
-      <item weight="1">
+      <item weight="2">
         <ruleref uri="#RecurringEventWithSpecialName"/>
       </item>
     </one-of>
@@ -1136,6 +1139,23 @@
     </one-of>
   </rule>
 
+  <rule id="OfficeHours">
+    <one-of>
+      <item weight="1">
+        <ruleref uri="#Courses_name"/> office hours
+      </item>
+      <item weight="1">
+        office hours for <ruleref uri="#Courses_name"/>
+      </item>
+      <item>
+        <ruleref uri="#PersonReference"/> office hours
+      </item>
+      <item>
+        office hours for <ruleref uri="#PersonReference"/>
+      </item>
+    </one-of>
+  </rule>
+  
   <rule id="Course">
     <one-of>
       <item weight="1">

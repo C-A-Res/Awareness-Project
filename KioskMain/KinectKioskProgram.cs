@@ -32,7 +32,7 @@
         {
             bool detected = false;
             bool usingKqml = false;
-            bool usingKinect = false;
+            bool usingKinect = true;
 
             string facilitatorIP = "";
             int facilitatorPort = 0;
@@ -74,8 +74,14 @@
 
                 #endregion
 
-                
+
                 #region Wiring together the components
+
+                // send wakeup signal to dialog
+                ui.Wake.PipeTo(dialog.WakeUp);
+
+                // update UI with dialog state
+                dialog.StateChanged.PipeTo(ui.DialogStateChanged);
 
                 // Combine all the kinect image outputs
                 // This might be doable in a single join
@@ -90,6 +96,7 @@
                     var joinedFrames = kinectSensor.ColorImage.Join(kinectSensor.DepthImage).Join(kinectSensor.Skeletons);
 
                     joinedFrames.PipeTo(faceTracker);
+                    joinedFrames.Do(x => Console.Write('.'));
 
                     var mouthOpenAsFloat = faceTracker.FaceDetected.Select((bool x) =>
                     {
@@ -102,9 +109,10 @@
                     });
 
                     // Hold faceDetected to true for a while, even after face is gone
-                    var faceDetected = mouthOpenAsFloat.Hold(0.1, 0.05);
+                    var faceDetected = mouthOpenAsFloat.Hold(0.1, 0.01);
                     faceDetected.PipeTo(dialog.FaceDetected);
                     faceDetected.PipeTo(ui.FaceDetected);
+                    faceDetected.Do(x => { if (x) { Console.Write(1); } else { Console.Write(0); } });
 
                     // Send audio to recognizer if face is detected and ready to accept more input    
                     kinectSensor.Audio.Join(faceDetected, _300ms).Where(result => result.Item2).Select(pair => {

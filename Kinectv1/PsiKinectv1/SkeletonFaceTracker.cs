@@ -70,50 +70,64 @@
 
         protected override void Receive((Shared<Image>, Shared<Image>, List<Skeleton>) frames, Envelope envelope)
         {
-            // Update the list of trackers and the trackers with the current frame information
-            foreach (Skeleton skeleton in frames.Item3)
+            var faceDetectedNow = false;
+            try
             {
-                if (skeleton.TrackingState == SkeletonTrackingState.Tracked
-                    || skeleton.TrackingState == SkeletonTrackingState.PositionOnly)
+                // Update the list of trackers and the trackers with the current frame information
+                foreach (Skeleton skeleton in frames.Item3)
                 {
-                    // We want keep a record of any skeleton, tracked or untracked.
-                    if (!this.trackedSkeletons.ContainsKey(skeleton.TrackingId))
+                    if (skeleton.TrackingState == SkeletonTrackingState.Tracked
+                        || skeleton.TrackingState == SkeletonTrackingState.PositionOnly)
                     {
-                        this.trackedSkeletons.Add(skeleton.TrackingId, this);
-                    }
-
-                    // Give each tracker the upated frame.
-                    SkeletonFaceTracker skeletonFaceTracker;
-                    if (this.trackedSkeletons.TryGetValue(skeleton.TrackingId, out skeletonFaceTracker))
-                    {
-                        byte[] colorImage = new byte[frames.Item1.Resource.Height * frames.Item1.Resource.Width * PixelFormatHelper.GetBytesPerPixel(frames.Item1.Resource.PixelFormat)];
-                        frames.Item1.Resource.CopyTo(colorImage);
-
-                        short[] depthImage = new short[frames.Item2.Resource.Height * frames.Item2.Resource.Width * PixelFormatHelper.GetBytesPerPixel(frames.Item2.Resource.PixelFormat) / 2];
-                        byte[] depthImageB = new byte[frames.Item2.Resource.Height * frames.Item2.Resource.Width * PixelFormatHelper.GetBytesPerPixel(frames.Item2.Resource.PixelFormat)];
-                        frames.Item2.Resource.CopyTo(depthImageB);
-                        // gotta be a better way to do this
-                        for (int i = 0; i < depthImageB.Length; i+=2)
+                        // We want keep a record of any skeleton, tracked or untracked.
+                        if (!this.trackedSkeletons.ContainsKey(skeleton.TrackingId))
                         {
-                            depthImage[i/2] = BitConverter.ToInt16(depthImageB, i);
+                            this.trackedSkeletons.Add(skeleton.TrackingId, this);
                         }
 
-                        skeletonFaceTracker.OnFrameReady(kinectSensor.ColorStream.Format, colorImage, kinectSensor.DepthStream.Format, depthImage, skeleton);
-                        // this isn't exactly LastTrackedFrame, will need to change this or get rid of it
-                        skeletonFaceTracker.LastTrackedFrame = envelope.SequenceId; // skeletonFrame.FrameNumber;
-                        if (skeletonFaceTracker.lastFaceTrackSucceeded)
+                        // Give each tracker the upated frame.
+                        SkeletonFaceTracker skeletonFaceTracker;
+                        if (this.trackedSkeletons.TryGetValue(skeleton.TrackingId, out skeletonFaceTracker))
                         {
-                            //if (skeletonFaceTracker.LastTrackedFrame % 10 == 0)
+                            byte[] colorImage = new byte[frames.Item1.Resource.Height * frames.Item1.Resource.Width * PixelFormatHelper.GetBytesPerPixel(frames.Item1.Resource.PixelFormat)];
+                            frames.Item1.Resource.CopyTo(colorImage);
+
+                            short[] depthImage = new short[frames.Item2.Resource.Height * frames.Item2.Resource.Width * PixelFormatHelper.GetBytesPerPixel(frames.Item2.Resource.PixelFormat) / 2];
+                            byte[] depthImageB = new byte[frames.Item2.Resource.Height * frames.Item2.Resource.Width * PixelFormatHelper.GetBytesPerPixel(frames.Item2.Resource.PixelFormat)];
+                            frames.Item2.Resource.CopyTo(depthImageB);
+                            // gotta be a better way to do this
+                            for (int i = 0; i < depthImageB.Length; i += 2)
+                            {
+                                depthImage[i / 2] = BitConverter.ToInt16(depthImageB, i);
+                            }
+
+                            skeletonFaceTracker.OnFrameReady(kinectSensor.ColorStream.Format, colorImage, kinectSensor.DepthStream.Format, depthImage, skeleton);
+                            // this isn't exactly LastTrackedFrame, will need to change this or get rid of it
+                            skeletonFaceTracker.LastTrackedFrame = envelope.SequenceId; // skeletonFrame.FrameNumber;
+                            if (skeletonFaceTracker.lastFaceTrackSucceeded)
+                            {
+                                //if (skeletonFaceTracker.LastTrackedFrame % 10 == 0)
                                 //Console.WriteLine(true);
-                            this.FaceDetected.Post(true, envelope.OriginatingTime);
-                        }
-                        else
-                        {
-                            //Console.WriteLine(false);
-                            this.FaceDetected.Post(false, envelope.OriginatingTime);
+                                this.FaceDetected.Post(true, envelope.OriginatingTime);
+                                faceDetectedNow = true;
+                            }
+                            else
+                            {
+                                //Console.WriteLine(false);
+                                //this.FaceDetected.Post(false, envelope.OriginatingTime);
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return;
+            }
+            if (!faceDetectedNow)
+            {
+                this.FaceDetected.Post(false, envelope.OriginatingTime);
             }
         }
 

@@ -15,24 +15,31 @@ namespace NU.Kqml
         {
             IPHostEntry ipHostInfo = Dns.GetHostEntry(hostNameOrAddress);
             IPAddress ipAddress = null;
+            IPEndPoint localEndPoint = null;
+
             foreach (IPAddress ipa in ipHostInfo.AddressList)
             {
-                //Console.WriteLine(ipa.ToString());
-                //Console.WriteLine(ipa.AddressFamily);
+                Console.WriteLine(ipa.ToString());
+                Console.WriteLine(ipa.AddressFamily);
                 if (ipa.AddressFamily == AddressFamily.InterNetwork)
                 {
                     ipAddress = ipa;
-                    break;
+                    localEndPoint = new IPEndPoint(ipAddress, port);
+                    return localEndPoint;
                 }
+
             }
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, port);
+            IPEndPoint end = new IPEndPoint(IPAddress.Parse(hostNameOrAddress), port);
+            Console.WriteLine(end);
+            //IPEndPoint localEndPoint = new IPEndPoint(ipAddress, port);
+
             //Console.WriteLine("IPHostEntry:" + ipHostInfo.ToString());
             //Console.WriteLine("IPAddress:" + ipAddress.ToString());
             //Console.WriteLine("AddressFamily:" + ipAddress.AddressFamily);
             //Console.WriteLine("IsLoopback:" + IPAddress.IsLoopback(ipAddress));
             //Console.WriteLine("IPEndPoint:" + localEndPoint.ToString());
 
-            return localEndPoint;
+            return end;
         }
     }
 

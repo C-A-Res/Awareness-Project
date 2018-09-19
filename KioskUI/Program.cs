@@ -27,7 +27,15 @@ namespace KioskUI
             string input = e.Data;
             if (input.Length > 0)
             {
-                kioskUI.TouchInput.Post(input, DateTime.Now);
+                if (input.Equals(":wake"))
+                {
+                    Console.WriteLine("Received wake from UI");
+                    kioskUI.Wake.Post(true, DateTime.Now);
+                } else
+                {
+                    Console.WriteLine("Received from UI: " + input);
+                    kioskUI.TouchInput.Post(input, DateTime.Now);
+                }
             }
 
             string msg = "";
@@ -95,26 +103,32 @@ namespace KioskUI
         private bool faceDetected = false;
         private bool thinking = false;
         private bool speaking = false;
+        private string state = "sleeping";
 
         public KioskUI(Pipeline pipeline)
         {
             this.pipeline = pipeline;
 
             this.TouchInput = pipeline.CreateEmitter<string>(this, nameof(this.TouchInput));
+            this.Wake = pipeline.CreateEmitter<bool>(this, nameof(this.Wake));
 
             this.UserInput = pipeline.CreateReceiver<string>(this, ReceiveUserInput, nameof(this.UserInput));
             this.CompResponse = pipeline.CreateReceiver<string>(this, ReceiveCompResponse, nameof(this.CompResponse));
             this.FaceDetected = pipeline.CreateReceiver<bool>(this, ReceiveFaceDetected, nameof(this.FaceDetected));
+            this.DialogStateChanged = pipeline.CreateReceiver<string>(this, ReceiveDialogStateChanged, nameof(this.DialogStateChanged));
         }
 
         public Receiver<string> UserInput { get; private set; }
         public Receiver<string> CompResponse { get; private set; }
         public Receiver<bool> FaceDetected { get; private set; }
+        public Receiver<string> DialogStateChanged { get; private set; }
 
         /// <summary>
         /// Input from user via the touch screen screen on the UI
         /// </summary>
         public Emitter<string> TouchInput { get; private set; }
+
+        public Emitter<bool> Wake { get; private set; }
 
         private void ReceiveUserInput(string message, Envelope e)
         {
@@ -132,6 +146,11 @@ namespace KioskUI
         private void ReceiveFaceDetected(bool message, Envelope e)
         {
             this.faceDetected = message;
+        }
+
+        private void ReceiveDialogStateChanged(string arg1, Envelope arg2)
+        {
+            state = arg1;
         }
 
         public void Start(Action onCompleted, ReplayDescriptor descriptor)
@@ -156,20 +175,21 @@ namespace KioskUI
 
         public string getState()
         {
-            if (speaking)
-            {
-                speaking = false;
-                return "speaking";
-            } else if (thinking)
-            {
-                return "thinking";
-            } else if (faceDetected)
-            {
-                return "listening";
-            } else
-            {
-                return "sleeping";
-            }
+            return state;
+            //if (speaking)
+            //{
+            //    speaking = false;
+            //    return "speaking";
+            //} else if (thinking)
+            //{
+            //    return "thinking";
+            //} else if (faceDetected)
+            //{
+            //    return "listening";
+            //} else
+            //{
+            //    return "sleeping";
+            //}
         }
 
         public string getDebug()
