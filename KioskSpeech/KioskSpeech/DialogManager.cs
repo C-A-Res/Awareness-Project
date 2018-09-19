@@ -23,15 +23,17 @@ namespace NU.Kiosk.Speech
             Speaking
         }
 
+        private bool isDetectingFace;
         private bool face = false;
 
-        public DialogManager(Pipeline pipeline) : base(pipeline)
+        public DialogManager(Pipeline pipeline, bool isDetectingFace = true) : base(pipeline)
         {
             this.UserInput = pipeline.CreateReceiver<Utterance>(this, ReceiveUserInput, nameof(this.UserInput));
             this.CompInput = pipeline.CreateReceiver<string>(this, ReceiveCompInput, nameof(this.CompInput));
             this.SpeechSynthesizerState = pipeline.CreateReceiver<SynthesizerState>(this, ReceiveSynthesizerState, nameof(this.SpeechSynthesizerState));
             this.FaceDetected = pipeline.CreateReceiver<bool>(this, ReceiveFaceDetected, nameof(this.FaceDetected));
 
+            this.isDetectingFace = isDetectingFace;
 
             this.UserOutput = pipeline.CreateEmitter<Utterance>(this, nameof(this.UserOutput));
             this.CompOutput = pipeline.CreateEmitter<string>(this, nameof(this.CompOutput));
@@ -76,8 +78,8 @@ namespace NU.Kiosk.Speech
         {
             if (state == DialogState.Thinking)
             {
-                CompOutput.Post(text, origTime);
                 state = DialogState.Speaking;
+                CompOutput.Post(text, origTime);                
             }
             StopTimer();
         }
@@ -86,14 +88,14 @@ namespace NU.Kiosk.Speech
         {
             if (state == DialogState.Speaking && arg1 == SynthesizerState.Ready)
             {
-                state = face ? DialogState.Listening : DialogState.Sleeping;
+                state = face || !isDetectingFace ? DialogState.Listening : DialogState.Sleeping;
             }
         }
 
         private void ReceiveFaceDetected(bool arg1, Envelope arg2)
         {
             face = arg1;
-            if (state == DialogState.Sleeping)
+            if (!isDetectingFace || state == DialogState.Sleeping)
             {
                 state = DialogState.Listening;
             }

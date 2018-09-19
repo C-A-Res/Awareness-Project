@@ -89,11 +89,12 @@ namespace KioskUI
 
         private List<(string,string)> utterances = new List<(string,string)>();
 
+        private bool isDetectingFace;
         private bool faceDetected = false;
         private bool thinking = false;
         private bool speaking = false;
 
-        public KioskUI(Pipeline pipeline)
+        public KioskUI(Pipeline pipeline, bool isDetectingFace = true)
         {
             this.pipeline = pipeline;
 
@@ -102,6 +103,12 @@ namespace KioskUI
             this.UserInput = pipeline.CreateReceiver<string>(this, ReceiveUserInput, nameof(this.UserInput));
             this.CompResponse = pipeline.CreateReceiver<string>(this, ReceiveCompResponse, nameof(this.CompResponse));
             this.FaceDetected = pipeline.CreateReceiver<bool>(this, ReceiveFaceDetected, nameof(this.FaceDetected));
+
+            this.isDetectingFace = isDetectingFace;
+            if (!isDetectingFace)
+            {
+                faceDetected = true;
+            }
         }
 
         public Receiver<string> UserInput { get; private set; }
@@ -160,7 +167,7 @@ namespace KioskUI
             } else if (thinking)
             {
                 return "thinking";
-            } else if (faceDetected)
+            } else if (!isDetectingFace || faceDetected)
             {
                 return "listening";
             } else
