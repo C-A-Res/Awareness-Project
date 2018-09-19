@@ -33,8 +33,7 @@ namespace NU.Kiosk.Speech
             this.SpeechSynthesizerState = pipeline.CreateReceiver<SynthesizerState>(this, ReceiveSynthesizerState, nameof(this.SpeechSynthesizerState));
             this.FaceDetected = pipeline.CreateReceiver<bool>(this, ReceiveFaceDetected, nameof(this.FaceDetected));
             this.WakeUp = pipeline.CreateReceiver<bool>(this, ReceiveWakeUp, nameof(this.WakeUp));
-
-
+            
             this.UserOutput = pipeline.CreateEmitter<Utterance>(this, nameof(this.UserOutput));
             this.CompOutput = pipeline.CreateEmitter<string>(this, nameof(this.CompOutput));
             this.StateChanged = pipeline.CreateEmitter<string>(this, nameof(this.StateChanged));

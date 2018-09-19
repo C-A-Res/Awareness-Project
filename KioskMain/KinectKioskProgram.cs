@@ -30,7 +30,7 @@
 
         public static void Main(string[] args)
         {
-            bool usingDragon = true;
+            bool usingDragon = false;
             bool usingKqml = false;
             bool usingKinect = true;
 
@@ -76,7 +76,7 @@
                 SocketStringConsumer kqml = null;
                 var preproc = new Speech.DragonInputTextProcessor(pipeline);
                 var responder = new Speech.Responder(pipeline);
-                KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
+                KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline, usingKinect);
 
                 Microsoft.Psi.Kinect.v1.KinectSensor kinectSensor = null;
                 Microsoft.Psi.Kinect.v1.SkeletonFaceTracker faceTracker = null;

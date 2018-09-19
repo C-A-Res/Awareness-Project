@@ -100,12 +100,13 @@ namespace KioskUI
 
         private List<(string,string)> utterances = new List<(string,string)>();
 
+        private bool isDetectingFace;
         private bool faceDetected = false;
         private bool thinking = false;
         private bool speaking = false;
         private string state = "sleeping";
 
-        public KioskUI(Pipeline pipeline)
+        public KioskUI(Pipeline pipeline, bool isDetectingFace = true)
         {
             this.pipeline = pipeline;
 
@@ -176,20 +177,6 @@ namespace KioskUI
         public string getState()
         {
             return state;
-            //if (speaking)
-            //{
-            //    speaking = false;
-            //    return "speaking";
-            //} else if (thinking)
-            //{
-            //    return "thinking";
-            //} else if (faceDetected)
-            //{
-            //    return "listening";
-            //} else
-            //{
-            //    return "sleeping";
-            //}
         }
 
         public string getDebug()

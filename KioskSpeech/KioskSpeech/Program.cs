@@ -130,18 +130,18 @@ namespace NU.Kiosk.Speech
                     Console.WriteLine($"[Program.cs] SpeakCompleted; set accepting!");
                     //preproc.setAccepting();
                 });
-                speechSynth.SpeakStarted.Do(x =>
-                {
-                    Console.WriteLine($"[Program.cs] SpeakStarted: '{x}'");
-                });
-                speechSynth.StateChanged.Do(x =>
-                {
-                    Console.WriteLine($"[Program.cs] speechSynth state: '{x}'");
-                });
-                speechSynth.SpeakProgress.Do(x =>
-                {
-                    Console.WriteLine($"[Program.cs] SpeakProgress: '{x}'");
-                });
+                //speechSynth.SpeakStarted.Do(x =>
+                //{
+                //    Console.WriteLine($"[Program.cs] SpeakStarted: '{x}'");
+                //});
+                //speechSynth.StateChanged.Do(x =>
+                //{
+                //    Console.WriteLine($"[Program.cs] speechSynth state: '{x}'");
+                //});
+                //speechSynth.SpeakProgress.Do(x =>
+                //{
+                //    Console.WriteLine($"[Program.cs] SpeakProgress: '{x}'");
+                //});
 
                 // Create a data store to log the data to if necessary. A data store is necessary
                 // only if output logging or live visualization are enabled.
