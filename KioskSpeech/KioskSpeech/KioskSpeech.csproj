@@ -267,6 +267,7 @@
     <Compile Include="Action.cs" />
     <Compile Include="DragonDialogManager.cs" />
     <Compile Include="DialogManager.cs" />
+    <Compile Include="IntervalBooleanProducer.cs" />
     <Compile Include="DragonInputTextProcessor.cs" />
     <Compile Include="GrammarUtils\AllXMLGrammarWriter.cs" />
     <Compile Include="GrammarUtils\GrammarWriter.cs" />

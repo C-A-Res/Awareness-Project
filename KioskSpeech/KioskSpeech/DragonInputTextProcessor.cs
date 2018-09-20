@@ -53,7 +53,7 @@ namespace NU.Kiosk.Speech
             }            
         }
 
-        public void Start(Action onCompleted, ReplayDescriptor descriptor)
+        public void Start(System.Action onCompleted, ReplayDescriptor descriptor)
         {
             listener.Initialize();
             isUsing = true;

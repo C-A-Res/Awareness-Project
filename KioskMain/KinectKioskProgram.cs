@@ -32,7 +32,7 @@
         {
             bool usingDragon = false;
             bool usingKqml = false;
-            bool usingKinect = true;
+            bool usingKinect = false;
 
             string facilitatorIP = "";
             int facilitatorPort = 0;
@@ -186,6 +186,8 @@
 
                 KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
 
+                Speech.IntervalBooleanProducer intervalboolean;
+
                 #endregion
 
 
@@ -237,6 +239,25 @@
                 {
                     // Create the AudioSource component to capture audio from the default device in 16 kHz 1-channel
                     // PCM format as required by both the voice activity detector and speech recognition components.
+
+                    intervalboolean = new Speech.IntervalBooleanProducer(pipeline, new int[]{ 1000 }, 50);
+
+                    var mouthOpenAsFloat = intervalboolean.Out.Select((bool x) =>
+                    {
+                        if (!detected)
+                        {
+                            Console.WriteLine("Face found");
+                            detected = true;
+                        }
+                        return x ? 1.0 : 0.0;
+                    });
+
+                    // Hold faceDetected to true for a while, even after face is gone
+                    var faceDetected = mouthOpenAsFloat.Hold(0.1, 0.01);
+                    faceDetected.PipeTo(dialog.FaceDetected);
+                    faceDetected.PipeTo(ui.FaceDetected);
+                    faceDetected.Do(x => { if (x) { Console.Write(1); } else { Console.Write(0); } });
+
 
                     var audioInput = new AudioSource(pipeline, new AudioSourceConfiguration() { OutputFormat = WaveFormat.Create16kHz1Channel16BitPcm() });
                     audioInput.PipeTo(recognizer);

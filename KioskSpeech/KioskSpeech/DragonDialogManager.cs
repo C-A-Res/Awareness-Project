@@ -62,7 +62,7 @@ namespace NU.Kiosk.Speech
             InitTimer();
         }
 
-        public void Start(Action onCompleted, ReplayDescriptor descriptor)
+        public void Start(System.Action onCompleted, ReplayDescriptor descriptor)
         {
             new Task(() => synth_sender.Initialize()).Start();
             new Task(() => start_stop_sender.Initialize()).Start();

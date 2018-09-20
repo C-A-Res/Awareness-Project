@@ -1,448 +1,194 @@
-﻿<grammar xmlns="http://www.w3.org/2001/06/grammar"
-			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			xsi:schemaLocation="http://www.w3.org/2001/06/grammar 
-								http://www.w3.org/TR/speech-grammar/grammar.xsd"
-			xml:lang="en-US" version="1.0"
-			tag-format="semantics-ms/1.0"
-			root="Top">
-
+﻿<grammar xmlns="http://www.w3.org/2001/06/grammar" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/06/grammar          http://www.w3.org/TR/speech-grammar/grammar.xsd" xml:lang="en-US" version="1.0" tag-format="semantics-ms/1.0" root="Top">
   <!-- mark -->
   <rule id="Top">
     <one-of>
       <item>
-        <ruleref uri="#Question"/>
+        <ruleref uri="#Question" />
       </item>
       <item>
-        <ruleref uri="#Greeting"/>
+        <ruleref uri="#Greeting" />
       </item>
       <item>
-        <ruleref uri="#WrapUp"/>
+        <ruleref uri="#WrapUp" />
       </item>
       <item>
-        <ruleref uri="#Interjection"/>
+        <ruleref uri="#Interjection" />
       </item>
       <item>
-        <ruleref uri="#Question"/>
+        <ruleref uri="#Question" />
       </item>
       <item>
-        <ruleref uri="#Command"/>
+        <ruleref uri="#Command" />
       </item>
       <item>
-        <ruleref uri="#EasterEggs"/>
+        <ruleref uri="#EasterEggs" />
       </item>
     </one-of>
   </rule>
-
   <!-- mark -->
   <rule id="Question">
     <one-of>
       <item>
-        <ruleref uri="#AreQuestion"/>
+        <ruleref uri="#AreQuestion" />
       </item>
       <item>
-        <ruleref uri="#DidQuestion"/>
+        <ruleref uri="#DidQuestion" />
       </item>
       <item>
-        <ruleref uri="#DoesQuestion"/>
+        <ruleref uri="#DoesQuestion" />
       </item>
       <item>
-        <ruleref uri="#HasQuestion"/>
+        <ruleref uri="#HasQuestion" />
       </item>
       <item>
-        <ruleref uri="#IsQuestion"/>
+        <ruleref uri="#IsQuestion" />
       </item>
       <item>
-        <ruleref uri="#Inquisition"/>
+        <ruleref uri="#Inquisition" />
       </item>
       <item>
-        <ruleref uri="#InquisitionOrder"/>
+        <ruleref uri="#InquisitionOrder" />
       </item>
       <item>
-        <ruleref uri="#HowQuestion"/>
+        <ruleref uri="#HowQuestion" />
       </item>
       <item>
-        <ruleref uri="#WhatQuestion"/>
+        <ruleref uri="#WhatQuestion" />
       </item>
       <item>
-        <ruleref uri="#WhenQuestion"/>
+        <ruleref uri="#WhenQuestion" />
       </item>
       <item>
-        <ruleref uri="#WhereQuestion"/>
+        <ruleref uri="#WhereQuestion" />
       </item>
       <item>
-        <ruleref uri="#WhichQuestion"/>
+        <ruleref uri="#WhichQuestion" />
       </item>
       <item>
-        <ruleref uri="#WhoQuestion"/>
+        <ruleref uri="#WhoQuestion" />
       </item>
       <item>
-        <ruleref uri="#WillQuestion"/>
+        <ruleref uri="#WillQuestion" />
       </item>
     </one-of>
   </rule>
-
   <!-- mark -->
   <rule id="AreQuestion">
     Are there
-    <item>
-      <item repeat="0-1">
+    <item><item repeat="0-1">
         any
-        <one-of>
-          <item>good</item>
-          <item>short</item>
-        </one-of>
-      </item>
-      <ruleref uri="#EventMaybeTemporallyStampped"/>
-    </item>
-    <item repeat="0-1">
-      <one-of>
-        <item>
-          <ruleref uri="#DurationComparison"/>
-        </item>
-        <item>
-          that are <ruleref uri="#DurationComparison"/>
-        </item>
-        <item>that are short</item>
-        <item>that I should go to</item>
-      </one-of>
-    </item>
-    <item repeat="0-1">
-      <ruleref uri="#TemporalReference"/>
-    </item>
-  </rule>
-
+        <one-of><item>good</item><item>short</item></one-of></item><ruleref uri="#EventMaybeTemporallyStampped" /></item><item repeat="0-1"><one-of><item><ruleref uri="#DurationComparison" /></item><item>
+          that are <ruleref uri="#DurationComparison" /></item><item>that are short</item><item>that I should go to</item></one-of></item><item repeat="0-1"><ruleref uri="#TemporalReference" /></item></rule>
   <rule id="DidQuestion">
     Did
-    <ruleref uri='#PersonReference'/>
+    <ruleref uri="#PersonReference" />
     go to
-    <ruleref uri='#School'/>
-    <item repeat="0-1">
+    <ruleref uri="#School" /><item repeat="0-1">
       for
-      <item repeat="0-1">
-        <ruleref uri="#PossessivePronoun"/>
-      </item>
-      <ruleref uri="#DegreeLevel"/>
-    </item>
-  </rule>
-
+      <item repeat="0-1"><ruleref uri="#PossessivePronoun" /></item><ruleref uri="#DegreeLevel" /></item></rule>
   <rule id="DoesQuestion">
     Does
-    <one-of>
-      <item>
-        <ruleref uri="#EventMaybeTemporallyStampped"/>
+    <one-of><item><ruleref uri="#TemporalReference" />'s
+        <one-of><item><ruleref uri="#EventName" /></item><item><ruleref uri="#Course" /></item></one-of>
         meet
-        <item repeat="0-1">in the usual place</item>
-        <item repeat="0-1">
-          <one-of>
-            <item>
-              <ruleref uri="#TemporalReference"/>
-            </item>
-            <item>
-              on<ruleref uri="#Date"/>
-            </item>
-            <item>
-              <one-of>
-                <item>on</item>
-                <item>this</item>
-                <item>next</item>
-              </one-of>
-              <ruleref uri="#DayOfTheWeek"/>
-            </item>
-          </one-of>
-        </item>
-      </item>
-      <item>
-        <ruleref uri="#PersonReference"/>
-        <one-of>
-          <item>
+        <item repeat="0-1">in the usual place</item></item><item><one-of><item><ruleref uri="#EventName" /></item><item><ruleref uri="#Course" /></item></one-of>
+        meet
+        <one-of><item><ruleref uri="#TemporalReference" /></item><item>
+            on<ruleref uri="#Date" /></item><item><one-of><item>on</item><item>this</item><item>next</item></one-of><ruleref uri="#DayOfTheWeek" /></item></one-of></item><item><ruleref uri="#PersonReference" /><one-of><item>
             do research in
-            <ruleref uri="#AcademicDiscipline"/>
-          </item>
-          <item>
+            <ruleref uri="#AcademicDiscipline" /></item><item>
             teach
-            <ruleref uri="#Course"/>
-            <item repeat="0-1">
-              <ruleref uri="#QuarterReference"/>
-            </item>
-          </item>
-          <item>have an office here</item>
-          <item>work here</item>
-        </one-of>
-      </item>
-      <item>
-        <ruleref uri="#EventName"/>start now
-      </item>
-    </one-of>
-  </rule>
-
+            <ruleref uri="#Course" /><item repeat="0-1"><ruleref uri="#QuarterReference" /></item></item><item>have an office here</item><item>work here</item></one-of></item><item><ruleref uri="#EventName" />start now
+      </item></one-of></rule>
   <rule id="HasQuestion">
     <item>
       Has
-      <ruleref uri="#PersonReference"/>
+      <ruleref uri="#PersonReference" />
       listed his
-      <ruleref uri="#Email"/>
-    </item>
+      <ruleref uri="#Email" /></item>
   </rule>
-
   <rule id="IsQuestion">
     Is
-    <one-of>
-      <item>
-        <ruleref uri="#EventMaybeTemporallyStampped"/>
-        <one-of>
-          <item>
-            hosted by<ruleref uri="#PersonReference"/>
-          </item>
-          <item>
-            <ruleref uri="#DurationComparison"/>
-          </item>
-        </one-of>
-      </item>
-      <item>
-        <ruleref uri="#EventMaybeTemporallyStampped"/>
+    <one-of><item><ruleref uri="#EventMaybeTemporallyStampped" /><one-of><item>
+            hosted by<ruleref uri="#PersonReference" /></item><item><ruleref uri="#DurationComparison" /></item></one-of></item><item><ruleref uri="#EventMaybeTemporallyStampped" />
         still
-        <one-of>
-          <item>happening</item>
-          <item>going on</item>
-          <item>on</item>
-        </one-of>
-      </item>
-      <item>
-        <ruleref uri="#EventMaybeTemporallyStampped"/>at<ruleref uri="#TimeStamp"/>
-      </item>
-      <item>
-        <ruleref uri="#EventMaybeTemporallyStampped"/>in<ruleref uri="#Place"/>
-      </item>
-      <item>
-        <ruleref uri="#PersonReference"/>
-        <one-of>
-          <item>
-            <ruleref uri="#EnglishArticle"/>
-            <ruleref uri="#AcademicDiscipline"/>
-            <one-of>
-              <item>faculty</item>
-              <item>professor</item>
-            </one-of>
-          </item>
-          <item>
+        <one-of><item>happening</item><item>going on</item><item>on</item></one-of></item><item><ruleref uri="#EventMaybeTemporallyStampped" />at<ruleref uri="#TimeStamp" /></item><item><ruleref uri="#EventMaybeTemporallyStampped" />in<ruleref uri="#Place" /></item><item><ruleref uri="#PersonReference" /><one-of><item><ruleref uri="#EnglishArticle" /><ruleref uri="#AcademicDiscipline" /><one-of><item>faculty</item><item>professor</item></one-of></item><item>
             in
-            <item repeat="0-1">the</item>
-            <ruleref uri="#AcademicDiscipline"/>
-            <item repeat="0-1">group</item>
-          </item>
-          <item>
+            <item repeat="0-1">the</item><ruleref uri="#AcademicDiscipline" /><item repeat="0-1">group</item></item><item>
             teaching
-            <item repeat="0-1">the</item>
-            <ruleref uri="#Course"/>
-            <ruleref uri="#QuarterReference"/>
-          </item>
-          <item>
+            <item repeat="0-1">the</item><ruleref uri="#Course" /><ruleref uri="#QuarterReference" /></item><item>
             an
-            <ruleref uri="#Alumn"/>
+            <ruleref uri="#Alumn" />
             of
-            <ruleref uri="#School"/>
-          </item>
-          <item>
+            <ruleref uri="#School" /></item><item>
             's office
-            <one-of>
-              <item>
-                <one-of>
-                  <item>in</item>
-                  <item>on</item>
-                </one-of>
-                <ruleref uri="#SpecificPlace"/>
-              </item>
-              <item>
-                <ruleref uri="#LocationReference"/>
-              </item>
-            </one-of>
-          </item>
-        </one-of>
-      </item>
-      <item>
-        <ruleref uri="#School"/>
+            <one-of><item><one-of><item>in</item><item>on</item></one-of><ruleref uri="#SpecificPlace" /></item><item><ruleref uri="#LocationReference" /></item></one-of></item></one-of></item><item><ruleref uri="#School" />
         where
-        <ruleref uri="#PersonReference"/>
-        <one-of>
-          <item>
-            <item>got</item>
-            <ruleref uri="#PossessivePronoun"/>
-            <ruleref uri="#DegreeLevel"/>
-          </item>
-          <item>
-            went <item repeat="0-1">to</item>for<ruleref uri="#SchoolLevel"/>
-          </item>
-        </one-of>
-      </item>
-      <item>
+        <ruleref uri="#PersonReference" /><one-of><item><item>got</item><ruleref uri="#PossessivePronoun" /><ruleref uri="#DegreeLevel" /></item><item>
+            went <item repeat="0-1">to</item>for<ruleref uri="#SchoolLevel" /></item></one-of></item><item>
         there
-        <item repeat="0-1">
-          <one-of>
-            <item>a</item>
-            <item>an</item>
-            <item>any</item>
-          </one-of>
-        </item>
-        <one-of>
-          <item>
-            <ruleref uri="#Email"/>
+        <item repeat="0-1"><one-of><item>a</item><item>an</item><item>any</item></one-of></item><one-of><item><ruleref uri="#Email" />
             of
-            <ruleref uri="#PersonReference"/>
-            <item repeat="0-1">available</item>
-          </item>
-          <item>
-            <item repeat="0-1">invited</item>
-            <ruleref uri="#EventMaybeTemporallyStampped"/>
-          </item>
-          <item>
-            <ruleref uri="#Course"/>
-            <item repeat="0-1">available</item>
-            <ruleref uri="#QuarterReference"/>
-          </item>
-          <item>
+            <ruleref uri="#PersonReference" /><item repeat="0-1">available</item></item><item><item repeat="0-1">invited</item><ruleref uri="#EventMaybeTemporallyStampped" /></item><item><ruleref uri="#Course" /><item repeat="0-1">available</item><ruleref uri="#QuarterReference" /></item><item>
             discussion session for
-            <ruleref uri="#EventMaybeTemporallyStampped"/>
-          </item>
-        </one-of>
-      </item>
-    </one-of>
-  </rule>
-
+            <ruleref uri="#EventMaybeTemporallyStampped" /></item></one-of></item></one-of></rule>
   <rule id="Inquisition">
-    <ruleref uri="#InquiryStarter"/>
+    <ruleref uri="#InquiryStarter" />
     <one-of>
       <item>
-        <ruleref uri="#ObjectInquiryContent"/>
+        <ruleref uri="#ObjectInquiryContent" />
       </item>
       <item>
-        <ruleref uri="#PersonInquiryContent"/>
+        <ruleref uri="#PersonInquiryContent" />
       </item>
     </one-of>
   </rule>
-
   <rule id="InquisitionOrder">
-    <ruleref uri="#InquisitionOrderStarter"/>
+    <ruleref uri="#InquisitionOrderStarter" />
     <one-of>
       <item>
-        <ruleref uri="#ObjectInquiryContent"/>
+        <ruleref uri="#ObjectInquiryContent" />
       </item>
       <item>
-        <ruleref uri="#PersonInquiryContent"/>
+        <ruleref uri="#PersonInquiryContent" />
       </item>
     </one-of>
   </rule>
-
   <rule id="HowQuestion">
     How
-    <one-of>
-      <item>
-        <one-of>
-          <item>do</item>
-          <item>can</item>
-          <item>could</item>
-          <item>may</item>
-        </one-of>
-        <one-of>
-          <item>I</item>
-          <item>We</item>
-        </one-of>
-        <one-of>
-          <item>get to</item>
-          <item>find</item>
-          <item>reach</item>
-        </one-of>
-        <ruleref uri="#LocationOrPerson"/>
-      </item>
-      <item>
+    <one-of><item><one-of><item>do</item><item>can</item><item>could</item><item>may</item></one-of><one-of><item>I</item><item>We</item></one-of><one-of><item>get to</item><item>find</item><item>reach</item></one-of><ruleref uri="#LocationOrPerson" /></item><item>
         long is
-        <ruleref uri="#EventMaybeTemporallyStampped"/>
-      </item>
-      <item>
-        many <ruleref uri="#EventName"/> are
-        <item repeat="0-1">there</item>
-        <ruleref uri="#TemporalReference"/>
-      </item>
-    </one-of>
-  </rule>
-
+        <ruleref uri="#EventMaybeTemporallyStampped" /></item><item>
+        many <ruleref uri="#EventName" /> are
+        <item repeat="0-1">there</item><ruleref uri="#TemporalReference" /></item></one-of></rule>
   <rule id="WhatQuestion">
     what
-    <one-of>
-      <item>
+    <one-of><item>
         is
-        <one-of>
-          <item>going on today</item>
-          <item>
-            <ruleref uri="#ObjectPossessedByPerson"/>
-          </item>
-          <item>
+        <one-of><item>going on today</item><item><ruleref uri="#ObjectPossessedByPerson" /></item><item>
             the time for
-            <ruleref uri="#EventMaybeTemporallyStampped"/>
-          </item>
-          <item>
+            <ruleref uri="#EventMaybeTemporallyStampped" /></item><item>
             the purpose of
-            <one-of>
-              <item>
-                <ruleref uri="#EventMaybeTemporallyStampped"/>
-              </item>
-              <item>this event</item>
-            </one-of>
-          </item>
-          <item>
-            <ruleref uri="#TemporalReference"/>'s
+            <one-of><item><ruleref uri="#EventMaybeTemporallyStampped" /></item><item>this event</item></one-of></item><item><ruleref uri="#TemporalReference" />'s
             event schedule
-          </item>
-          <item>
-            <ruleref uri="#EventMaybeTemporallyStampped"/>
+          </item><item><ruleref uri="#EventMaybeTemporallyStampped" />
             about
-          </item>
-        </one-of>
-      </item>
-      <item>
-        <ruleref uri="#EventCategory"/>
+          </item></one-of></item><item><ruleref uri="#EventCategory" />
         are
-        <ruleref uri="#TemporalReference"/>
-      </item>
-      <item>
+        <ruleref uri="#TemporalReference" /></item><item>
         do I have
-        <item repeat="0-1">for</item>
-        <ruleref uri="#TemporalReference"/>
-      </item>
-    </one-of>
-  </rule>
-
+        <item repeat="0-1">for</item><ruleref uri="#TemporalReference" /></item></one-of></rule>
   <rule id="WhenQuestion">
     When
-    <one-of>
-      <item>
-        does <ruleref uri="#Course"/> meet
-      </item>
-      <item>
-        should I go to <ruleref uri="#EventMaybeTemporallyStampped"/>
-      </item>
-      <item>
+    <one-of><item weight="2">
+        does <ruleref uri="#Course" /> meet
+      </item><item weight="1">
+        should I go to <ruleref uri="#EventMaybeTemporallyStampped" /></item><item weight="1">
         will
-        <ruleref uri="#EventMaybeTemporallyStampped"/>
-        <one-of>
-          <item>start</item>
-          <item>end</item>
-        </one-of>
-      </item>
-      <item>
+        <ruleref uri="#EventMaybeTemporallyStampped" /><one-of><item>start</item><item>end</item></one-of></item><item weight="100">
         is
-        <one-of>
-          <item>
-            <ruleref uri="#EventMaybeTemporallyStampped"/>
-          </item>
-          <item>
-            the next <ruleref uri="#EventName"/>
-          </item>
-        </one-of>
-      </item>
-    </one-of>
-  </rule>
-
-
+        <one-of><item weight="10"><ruleref uri="#EventMaybeTemporallyStampped" /></item><item weight="1">
+            the next <ruleref uri="#EventName" /></item></one-of></item></one-of></rule>
   <rule id="WhereQuestion">
     Where
     <one-of>
@@ -454,236 +200,96 @@
         </one-of>
         I find
         <one-of>
-          <item>
-            <ruleref uri="#ObjectPossessedByPerson"/>
-          </item>
-          <item>
-            <ruleref uri="#LocationOrPerson"/>
-          </item>
-          <item>
-            <ruleref uri="#ObjectsOfInterest"/>
-          </item>
+          <item><ruleref uri="#ObjectPossessedByPerson" /></item>
+          <item><ruleref uri="#LocationOrPerson" /></item>
+          <item><ruleref uri="#ObjectsOfInterest" /></item>
         </one-of>
       </item>
       <item>
+        is
         <one-of>
-          <item>is</item>
-          <item>are</item>
-        </one-of>
-        <one-of>
-          <item>
-            <ruleref uri="#LocationOrPerson"/>
-          </item>
-          <item>
-            <ruleref uri="#ObjectPossessedByPerson"/>
-          </item>
-          <item>
-            <ruleref uri="#EventMaybeTemporallyStampped"/>
+          <item weight="2"><ruleref uri="#LocationOrPerson" /></item>
+          <item weight="1"><ruleref uri="#ObjectPossessedByPerson" /></item>
+          <item weight="1">
+            <ruleref uri="#EventMaybeTemporallyStampped" />
             <item repeat="0-1">going to take place</item>
           </item>
           <item>
-            <item repeat="0-1">
-              <ruleref uri="#EnglishArticle"/>
-            </item>
-            <ruleref uri="#ObjectCanBePossessed"/>
+            <item repeat="0-1"><ruleref uri="#EnglishArticle" /></item>
+            <ruleref uri="#ObjectCanBePossessed" />
             for
-            <ruleref uri="#PersonReference"/>
-          </item>
+            <ruleref uri="#PersonReference" /></item>
+          <item weight="10"><ruleref uri="#EventMaybeTemporallyStampped" /></item>
         </one-of>
       </item>
       <item>
         did
-        <ruleref uri="#PersonReference"/>
+        <ruleref uri="#PersonReference" />
         get
-        <ruleref uri="#PossessivePronoun"/>
-        <ruleref uri="#DegreeLevel"/>
-      </item>
-      <item>
+        <ruleref uri="#PossessivePronoun" /><ruleref uri="#DegreeLevel" /></item><item>
         does
-        <one-of>
-          <item>
-            <ruleref uri="#EventMaybeTemporallyStampped"/>meet
-          </item>
-          <item>
-            <ruleref uri="#PersonReference"/> work
-          </item>
-        </one-of>
-      </item>
-    </one-of>
-  </rule>
-
+        <one-of><item><ruleref uri="#EventMaybeTemporallyStampped" />meet
+          </item><item><ruleref uri="#PersonReference" /> work
+          </item></one-of></item></one-of></rule>
   <rule id="WhichQuestion">
     <item>
       Which
-      <one-of>
-        <item>
-          <ruleref uri="#Email"/>
+      <one-of><item><ruleref uri="#Email" />
           of
-          <ruleref uri="#PersonReference"/>
+          <ruleref uri="#PersonReference" />
           do you have
-        </item>
-        <item>
-          <one-of>
-            <item>
-              <item repeat="0-1">
+        </item><item><one-of><item><item repeat="0-1">
                 graduate
               </item>
               students are
-            </item>
-            <item>professors are</item>
-            <item>faculties are</item>
-          </one-of>
+            </item><item>professors are</item><item>faculties are</item></one-of>
           in
-          <ruleref uri="#AcademicDiscipline"/>
-          <item repeat="0-1">group</item>
-        </item>
-        <item>
-          days are <ruleref uri="#Course"/>
-          <item repeat="0-1">offered</item>
-        </item>
-        <item>
-          group is <ruleref uri="#PersonReference"/> in
-        </item>
-      </one-of>
-    </item>
+          <ruleref uri="#AcademicDiscipline" /><item repeat="0-1">group</item></item><item>
+          days are <ruleref uri="#Course" /><item repeat="0-1">offered</item></item><item>
+          group is <ruleref uri="#PersonReference" /> in
+        </item></one-of></item>
   </rule>
-
   <rule id="WhoQuestion">
     <one-of>
       <item>
         Who
-        <one-of>
-          <item>
+        <one-of><item>
             are
-            <one-of>
-              <item>
-                the <ruleref uri="#AcademicDiscipline"/>
-                <one-of>
-                  <item>professors</item>
-                  <item>faculties</item>
-                </one-of>
-              </item>
-              <item>
-                in <ruleref uri="#AcademicDiscipline"/>
-              </item>
-            </one-of>
-          </item>
-          <item>
+            <one-of><item>
+                the <ruleref uri="#AcademicDiscipline" /><one-of><item>professors</item><item>faculties</item></one-of></item><item>
+                in <ruleref uri="#AcademicDiscipline" /></item></one-of></item><item>
             is
-            <one-of>
-              <item>
-                <ruleref uri="#EventMaybeTemporallyStampped"/> for
-              </item>
-              <item>
+            <one-of><item><ruleref uri="#EventMaybeTemporallyStampped" /> for
+              </item><item>
                 teaching
-                <one-of>
-                  <item>
-                    <ruleref uri="#Course"/>
-                    <item repeat="0-1">
-                      <ruleref uri="#QuarterReference"/>
-                    </item>
-                  </item>
-                  <item>
-                    the introduction class in the <ruleref uri="#AcademicDiscipline"/> track
-                  </item>
-                </one-of>
-              </item>
-              <item>
-                hosting <ruleref uri="#EventMaybeTemporallyStampped"/>
-              </item>
-              <item>
-                in <ruleref uri="#AcademicDiscipline"/>
-              </item>
-              <item>
-                <item repeat="0-1">the name of</item>
-                the professor for <ruleref uri="#Course"/>
-                <item repeat="0-1">
-                  <ruleref uri="#QuarterReference"/>
-                </item>
-              </item>
-            </one-of>
-          </item>
-          <item>
+                <one-of><item><ruleref uri="#Course" /><item repeat="0-1"><ruleref uri="#QuarterReference" /></item></item><item>
+                    the introduction class in the <ruleref uri="#AcademicDiscipline" /> track
+                  </item></one-of></item><item>
+                hosting <ruleref uri="#EventMaybeTemporallyStampped" /></item><item>
+                in <ruleref uri="#AcademicDiscipline" /></item><item><item repeat="0-1">the name of</item>
+                the professor for <ruleref uri="#Course" /><item repeat="0-1"><ruleref uri="#QuarterReference" /></item></item></one-of></item><item>
             does
-            <one-of>
-              <item>
-                <one-of>
-                  <item>work</item>
-                  <item>research</item>
-                </one-of>
-                in <ruleref uri="#AcademicDiscipline"/>
-              </item>
-              <item>
-                <ruleref uri="#AcademicDiscipline"/> research
-              </item>
-            </one-of>
-          </item>
-          <item>
-            can teach me some knowledge of <ruleref uri="#AcademicDiscipline"/>
-          </item>
-          <item>
+            <one-of><item><one-of><item>work</item><item>research</item></one-of>
+                in <ruleref uri="#AcademicDiscipline" /></item><item><ruleref uri="#AcademicDiscipline" /> research
+              </item></one-of></item><item>
+            can teach me some knowledge of <ruleref uri="#AcademicDiscipline" /></item><item>
             should I talk with to get more information of
-            <item repeat="0-1">the</item>
-            <ruleref uri="#EventMaybeTemporallyStampped"/>
-          </item>
-          <item>
-            works in <ruleref uri="#AcademicDiscipline"/>
-          </item>
-        </one-of>
-      </item>
+            <item repeat="0-1">the</item><ruleref uri="#EventMaybeTemporallyStampped" /></item><item>
+            works in <ruleref uri="#AcademicDiscipline" /></item></one-of></item>
       <item>
         Whose class should I take to
-        <one-of>
-          <item>
-            learn some introduction information of <ruleref uri="#AcademicDiscipline"/>
-          </item>
-          <item>
-            learn some introductory information of <ruleref uri="#AcademicDiscipline"/>
-          </item>
-          <item>
-            get an introduction of <ruleref uri="#AcademicDiscipline"/>
-          </item>
-        </one-of>
-      </item>
+        <one-of><item>
+            learn some introduction information of <ruleref uri="#AcademicDiscipline" /></item><item>
+            learn some introductory information of <ruleref uri="#AcademicDiscipline" /></item><item>
+            get an introduction of <ruleref uri="#AcademicDiscipline" /></item></one-of></item>
     </one-of>
   </rule>
-
   <rule id="WillQuestion">
     Will
-    <one-of>
-      <item>
-        <ruleref uri="#EventMaybeTemporallyStampped"/>
+    <one-of><item><ruleref uri="#EventMaybeTemporallyStampped" />
         be
-        <one-of>
-          <item>
-            <ruleref uri="#Duration"/>
-          </item>
-          <item>
-            <ruleref uri="#DurationComparison"/>
-          </item>
-          <item>long</item>
-          <item>short</item>
-        </one-of>
-      </item>
-    </one-of>
-  </rule>
-
-
+        <one-of><item><ruleref uri="#Duration" /></item><item><ruleref uri="#DurationComparison" /></item><item>long</item><item>short</item></one-of></item></one-of></rule>
   <!-- returner -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <rule id="EnglishArticle">
     <one-of>
       <item>a</item>
@@ -695,25 +301,24 @@
   <rule id="ThingsOfInterest">
     <one-of>
       <item>
-        <ruleref uri="#ObjectsOfInterest"/>
+        <ruleref uri="#ObjectsOfInterest" />
       </item>
       <item>
-        <ruleref uri="#LocationOrPerson"/>
+        <ruleref uri="#LocationOrPerson" />
       </item>
     </one-of>
   </rule>
   <rule id="LocationOrPerson">
     <one-of>
       <item>
-        <ruleref uri="#PersonReference"/>
+        <ruleref uri="#PersonReference" />
       </item>
       <item>
         <item repeat="0-1">the</item>
-        <ruleref uri="#SpecificPlace"/>
+        <ruleref uri="#SpecificPlace" />
       </item>
     </one-of>
   </rule>
-
   <rule id="Alumn">
     <one-of>
       <item>alumn</item>
@@ -740,11 +345,11 @@
     <item>
       <one-of>
         <item>
-          <ruleref uri="#Month"/>
+          <ruleref uri="#Month" />
         </item>
         <item>the</item>
       </one-of>
-      <ruleref uri="#OrdinalForDates"/>
+      <ruleref uri="#OrdinalForDates" />
     </item>
   </rule>
   <rule id="Month">
@@ -774,25 +379,23 @@
       <item>Sunday</item>
     </one-of>
   </rule>
-
   <rule id="OrdinalForDates">
     <one-of>
       <item>
-        <ruleref uri="#OrdinalNumberFirstToNinth"/>
+        <ruleref uri="#OrdinalNumberFirstToNinth" />
       </item>
       <item>
-        <ruleref uri="#OrdinalNumberEleventhToNinteenth"/>
+        <ruleref uri="#OrdinalNumberEleventhToNinteenth" />
       </item>
       <item>
-        <ruleref uri="#OrdinalNumberTenths"/>
+        <ruleref uri="#OrdinalNumberTenths" />
       </item>
       <item>
-        <ruleref uri="#TwentyToNinety"/>
-        <ruleref uri="#OrdinalNumberFirstToNinth"/>
+        <ruleref uri="#TwentyToNinety" />
+        <ruleref uri="#OrdinalNumberFirstToNinth" />
       </item>
     </one-of>
   </rule>
-
   <rule id="OrdinalNumberFirstToNinth">
     <one-of>
       <item>first</item>
@@ -832,7 +435,6 @@
       <item>ninetieth</item>
     </one-of>
   </rule>
-
   <rule id="SchoolLevel">
     <one-of>
       <item>graduate school</item>
@@ -849,7 +451,7 @@
   </rule>
   <rule id="TimeStamp">
     <item>
-      <ruleref uri="#OneToTwentyThree"/>
+      <ruleref uri="#OneToTwentyThree" />
       <item repeat="0-1">
         <one-of>
           <item>o'clock</item>
@@ -885,44 +487,36 @@
       </item>
     </one-of>
   </rule>
-
   <rule id="ObjectCanBePossessed">
     <one-of>
       <item>office</item>
       <item>desk</item>
       <item>
-        <ruleref uri="#Email"/>
+        <ruleref uri="#Email" />
       </item>
       <item>
-        <ruleref uri="#Homepage"/>
+        <ruleref uri="#Homepage" />
       </item>
       <item>
         office
-        <one-of>
-          <item>hour</item>
-          <item>hours</item>
-        </one-of>
-      </item>
+        <one-of><item>hour</item><item>hours</item></one-of></item>
     </one-of>
   </rule>
   <rule id="ObjectPossessedByPerson">
     <one-of>
       <item>
-        <ruleref uri="#PersonReference"/>'s
-        <ruleref uri="#ObjectCanBePossessed"/>
-      </item>
+        <ruleref uri="#PersonReference" />'s
+        <ruleref uri="#ObjectCanBePossessed" /></item>
       <item>
         the
-        <ruleref uri="#ObjectCanBePossessed"/>
+        <ruleref uri="#ObjectCanBePossessed" />
         of
-        <ruleref uri="#PersonReference"/>
-      </item>
+        <ruleref uri="#PersonReference" /></item>
     </one-of>
   </rule>
   <rule id="Email">
     email
-    <item repeat="0-1">address</item>
-  </rule>
+    <item repeat="0-1">address</item></rule>
   <rule id="Homepage">
     <one-of>
       <item>webpage</item>
@@ -931,18 +525,16 @@
     </one-of>
     <item repeat="0-1"> address</item>
   </rule>
-
   <rule id="Place">
     <one-of>
       <item>
-        <ruleref uri="#LocationReference"/>
+        <ruleref uri="#LocationReference" />
       </item>
       <item>
-        <ruleref uri="#SpecificPlace"/>
+        <ruleref uri="#SpecificPlace" />
       </item>
     </one-of>
   </rule>
-
   <rule id="LocationReference">
     <one-of>
       <item>here</item>
@@ -951,7 +543,6 @@
       <item>this floor</item>
     </one-of>
   </rule>
-
   <rule id="Labs">
     <one-of>
       <item>QRG Lab</item>
@@ -978,39 +569,28 @@
       <item>Swarm Robotics Lab</item>
     </one-of>
   </rule>
-
   <rule id="SpecificPlace">
     <one-of>
       <item>
         <item repeat="0-1">Mudd</item>
-        <ruleref uri="#OfficeNumber"/>
+        <ruleref uri="#OfficeNumber" />
       </item>
       <item>
-        <ruleref uri="#Labs"/>
+        <ruleref uri="#Labs" />
       </item>
       <item>
-        Room <ruleref uri="#OfficeNumber"/>
-      </item>
-      <item>
+        Room <ruleref uri="#OfficeNumber" /></item>
+      <item weight="0">
         Dean's
-        <one-of>
-          <item>conference room</item>
-          <item>office</item>
-        </one-of>
-      </item>
-      <item>empty room</item>
-      <item>study room</item>
-      <item>
-        <ruleref uri="#PersonReference"/>'s
-        <one-of>
-          <item>office</item>
-          <item>lab</item>
-          <item>desk</item>
-        </one-of>
-      </item>
-      <item>
+        <one-of><item>conference room</item><item>office</item></one-of></item>
+      <item weight="1">empty room</item>
+      <item weight="1">study room</item>
+      <item weight="100">
+        <ruleref uri="#PersonReference" />'s
+        <one-of><item>office</item><item>lab</item><item>desk</item></one-of></item>
+      <item weight="30">
         <item repeat="0-1">
-          <ruleref uri="#EnglishArticle"/>
+          <ruleref uri="#EnglishArticle" />
         </item>
         <item repeat="0-1">
           <one-of>
@@ -1020,6 +600,7 @@
         </item>
         <one-of>
           <item>bathroom</item>
+          <item>restroom</item>
           <item>toilet</item>
         </one-of>
       </item>
@@ -1057,7 +638,7 @@
         <item>only</item>
       </one-of>
     </item>
-    <ruleref uri="#Duration"/>
+    <ruleref uri="#Duration" />
     <item repeat="0-1">
       <one-of>
         <item>or less</item>
@@ -1107,57 +688,46 @@
         </item>
         <one-of>
           <item>
-            <ruleref uri="#DayOfTheWeek"/>
+            <ruleref uri="#DayOfTheWeek" />
           </item>
           <item>week</item>
           <item>weekend</item>
         </one-of>
       </item>
       <item>
-        <ruleref uri="#Date"/>
+        <ruleref uri="#Date" />
       </item>
       <item>
-        the week of<ruleref uri="#Date"/>
-      </item>
+        the week of<ruleref uri="#Date" /></item>
       <item>
-        the <ruleref uri="#DayOfTheWeek"/> of<ruleref uri="#Date"/>
-      </item>
+        the <ruleref uri="#DayOfTheWeek" /> of<ruleref uri="#Date" /></item>
     </one-of>
   </rule>
-
   <rule id="EventMaybeTemporallyStampped">
     <one-of>
-      <item>
-        <ruleref uri="#TemporalReference"/>'s
-        <one-of>
-          <item>
-            <ruleref uri="#EventName"/>
-          </item>
-          <item>
-            <ruleref uri="#Course"/>
-          </item>
-        </one-of>
-      </item>
-      <item>
+      <item weight="1">
+        <ruleref uri="#TemporalReference" />'s
+        <one-of><item><ruleref uri="#EventName" /></item><item><ruleref uri="#Course" /></item></one-of></item>
+      <item weight="1">
         <item repeat="0-1">the</item>
         <one-of>
           <item>
-            <ruleref uri="#EventName"/>
+            <ruleref uri="#EventName" />
           </item>
           <item>
-            <ruleref uri="#Course"/>
+            <ruleref uri="#Course" />
           </item>
         </one-of>
-        <ruleref uri="#TemporalReference"/>
+        <ruleref uri="#TemporalReference" />
       </item>
-      <item>
+      <item weight="0">
         <item repeat="0-1">the</item>
         <one-of>
           <item>
-            <ruleref uri="#EventName"/>
+            <ruleref uri="#EventName" />
           </item>
           <item>
-            <ruleref uri="#Course"/>
+            <ruleref uri="#Course" />
           </item>
         </one-of>
         <one-of>
@@ -1165,37 +735,42 @@
           <item>of</item>
           <item>for</item>
         </one-of>
-        <ruleref uri="#TemporalReference"/>
+        <ruleref uri="#TemporalReference" />
       </item>
       <item>
-        <ruleref uri="#Course"/>
+        <ruleref uri="#Course" />
       </item>
-      <item>
+      <item weight="100">
         <item repeat="0-1">
-          <ruleref uri="#EnglishArticle"/>
+          <ruleref uri="#EnglishArticle" />
         </item>
         <one-of>
           <item>
-            <ruleref uri="#EventName"/>
+            <ruleref uri="#EventName" />
           </item>
           <item>
-            <ruleref uri="#RecurringEventWithSpecialName"/>
+            <ruleref uri="#RecurringEventWithSpecialName" />
           </item>
         </one-of>
       </item>
     </one-of>
   </rule>
-
   <rule id="EventName">
     <one-of>
-      <item>
-        <ruleref uri="#GenericEvent"/>
+      <item weight="10">
+        <ruleref uri="#Course" />
+      </item>
+      <item weight="20">
+        <ruleref uri="#OfficeHours" />
+      </item>
+      <item weight="1">
+        <ruleref uri="#GenericEvent" />
       </item>
       <item>
-        <ruleref uri="#OneTimeEvent"/>
+        <ruleref uri="#OneTimeEvent" />
       </item>
-      <item>
-        <ruleref uri="#RecurringEventWithSpecialName"/>
+      <item weight="2">
+        <ruleref uri="#RecurringEventWithSpecialName" />
       </item>
     </one-of>
   </rule>
@@ -1204,9 +779,10 @@
       <item>The Art and Science of Picasso's Blues</item>
       <item>Economic Thinking of Communication Networks</item>
       <item>CS Barbecue</item>
+      <item>Hank Willis Thomas: Unbranded</item>
+      <item>Wildcats, Cubs and Giants at AT&amp;T Park</item>
     </one-of>
   </rule>
-
   <rule id="RecurringEventWithSpecialName">
     <one-of>
       <item>QRG Lunch</item>
@@ -1225,13 +801,12 @@
           </one-of>
         </item>
         <item repeat="0-1">
-          <ruleref uri="#AcademicDiscipline"/>
+          <ruleref uri="#AcademicDiscipline" />
         </item>
-        <ruleref uri="#EventCategory"/>
+        <ruleref uri="#EventCategory" />
       </item>
     </one-of>
   </rule>
-
   <rule id="EventCategory">
     <one-of>
       <item>talk</item>
@@ -1258,14 +833,27 @@
       <item>events</item>
     </one-of>
   </rule>
-
+  <rule id="OfficeHours">
+    <one-of>
+      <item weight="10">
+        <ruleref uri="#Course" /> office hours
+      </item>
+      <item weight="1">
+        office hours for <ruleref uri="#Course" /></item>
+      <item weight="5">
+        <ruleref uri="#PersonReference" /> 's office hours
+      </item>
+      <item weight="1">
+        office hours for <ruleref uri="#PersonReference" /></item>
+    </one-of>
+  </rule>
   <rule id="Course">
     <one-of>
       <item>
-        <ruleref uri="#Courses_name"/>
+        <ruleref uri="#Courses_name" />
       </item>
-      <item>
-        <ruleref uri="#Courses_id"/>
+      <item weight="20">
+        <ruleref uri="#Courses_id" />
       </item>
     </one-of>
   </rule>
@@ -1473,7 +1061,6 @@
       <item>CS 497 Rapid Prototyping for Software Innovation</item>
       <item>CS 510 Social Media Mining</item>
       <item>CS 512 Parallelism Seminar</item>
-
       <item>CS 110 Intro to Computer Programming</item>
       <item>COG SCI 207 Intro to Cognitive Modeling</item>
       <item>CS 213 Intro to Computer Systems</item>
@@ -1493,7 +1080,6 @@
       <item>CS 495 Intro to Computational Learning Theory</item>
       <item>CS 495 Intro to Database Systems</item>
       <item>CS 495 Intro to Computational Linguistics</item>
-
       <item>101 Computer Science: Concepts, Philosophy, and Connections</item>
       <item>110 Introduction to Computer Programming</item>
       <item>207 Introduction to Cognitive Modeling</item>
@@ -1715,7 +1301,6 @@
       <item>497 Rapid Prototyping for Software Innovation</item>
       <item>510 Social Media Mining</item>
       <item>512 Parallelism Seminar</item>
-
       <item>110 Intro to Computer Programming</item>
       <item>207 Intro to Cognitive Modeling</item>
       <item>213 Intro to Computer Systems</item>
@@ -1734,7 +1319,6 @@
       <item>495 Intro to Computational Learning Theory</item>
       <item>495 Intro to Database Systems</item>
       <item>495 Intro to Computational Linguistics</item>
-
       <item>Computer Science: Concepts, Philosophy, and Connections</item>
       <item>Introduction to Computer Programming</item>
       <item>Introduction to Cognitive Modeling</item>
@@ -2007,32 +1591,11 @@
       <item>CS 475</item>
     </one-of>
   </rule>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <rule id="InquiryStarter">
     <one-of>
       <item>
         Do you
-        <item repeat="0-1">happen to</item>
-        <one-of>
-          <item>have</item>
-          <item>know</item>
-        </one-of>
-      </item>
+        <item repeat="0-1">happen to</item><one-of><item>have</item><item>know</item></one-of></item>
       <item>
         <one-of>
           <item>Can</item>
@@ -2043,31 +1606,26 @@
       </item>
     </one-of>
   </rule>
-
   <rule id="InquisitionOrderStarter">
     <one-of>
       <item>Show me</item>
       <item>Tell me</item>
     </one-of>
   </rule>
-
   <rule id="PersonInquiryContent">
     <one-of>
       <item>
-        where I can find<ruleref uri="#PersonReference"/>
+        where I can find<ruleref uri="#PersonReference" /></item>
+      <item>
+        where to find<ruleref uri="#PersonReference" /></item>
+      <item>
+        where <ruleref uri="#PersonReference" /> is
       </item>
       <item>
-        where to find<ruleref uri="#PersonReference"/>
-      </item>
-      <item>
-        where <ruleref uri="#PersonReference"/> is
-      </item>
-      <item>
-        the professor for <ruleref uri="#PersonReference"/> is
+        the professor for <ruleref uri="#PersonReference" /> is
       </item>
     </one-of>
   </rule>
-
   <rule id="ObjectInquiryContent">
     <one-of>
       <item>
@@ -2083,10 +1641,10 @@
             <item>the</item>
           </one-of>
         </item>
-        <ruleref uri="#EventMaybeTemporallyStampped"/>
+        <ruleref uri="#EventMaybeTemporallyStampped" />
       </item>
       <item>
-        <ruleref uri="#ObjectPossessedByPerson"/>
+        <ruleref uri="#ObjectPossessedByPerson" />
         <item repeat="0-1">
           <one-of>
             <item>lying around</item>
@@ -2099,33 +1657,22 @@
           <item>if</item>
           <item>whether</item>
         </one-of>
-        <ruleref uri="#Course"/>
+        <ruleref uri="#Course" />
         is offered
         <item repeat="0-1">
           by
-          <item repeat="0-1">
-            <ruleref uri="#PersonReference"/>
-          </item>
-        </item>
-        <item repeat="0-1">
-          <ruleref uri="#QuarterReference"/>
-        </item>
-      </item>
+          <item repeat="0-1"><ruleref uri="#PersonReference" /></item></item><item repeat="0-1"><ruleref uri="#QuarterReference" /></item></item>
       <item>
         <one-of>
           <item>when</item>
           <item>where</item>
         </one-of>
-        <ruleref uri="#EventMaybeTemporallyStampped"/>
+        <ruleref uri="#EventMaybeTemporallyStampped" />
         is
       </item>
       <item>
         the name of the professor for
-        <ruleref uri="#Course"/>
-        <item repeat="0-1">
-          <ruleref uri="#QuarterReference"/>
-        </item>
-      </item>
+        <ruleref uri="#Course" /><item repeat="0-1"><ruleref uri="#QuarterReference" /></item></item>
       <item>
         <one-of>
           <item>the professor who</item>
@@ -2136,7 +1683,7 @@
               <item>whether</item>
               <item>if</item>
             </one-of>
-            <ruleref uri="#PersonReference"/>
+            <ruleref uri="#PersonReference" />
             is
           </item>
         </one-of>
@@ -2148,9 +1695,9 @@
           <item>the professor for teaching</item>
           <item>the person for</item>
         </one-of>
-        <ruleref uri="#Course"/>
+        <ruleref uri="#Course" />
         <item repeat="0-1">
-          <ruleref uri="#QuarterReference"/>
+          <ruleref uri="#QuarterReference" />
         </item>
       </item>
       <item>
@@ -2161,9 +1708,9 @@
           <item>who lectures</item>
           <item>who teaches</item>
         </one-of>
-        <ruleref uri="#Course"/>
+        <ruleref uri="#Course" />
         <item repeat="0-1">
-          <ruleref uri="#QuarterReference"/>
+          <ruleref uri="#QuarterReference" />
         </item>
       </item>
       <item>
@@ -2173,30 +1720,13 @@
           <item>the time for</item>
           <item>the time of</item>
         </one-of>
-        <ruleref uri="#EventName"/>
+        <ruleref uri="#EventName" />
         <item repeat="0-1">
-          <ruleref uri="#QuarterReference"/>
+          <ruleref uri="#QuarterReference" />
         </item>
       </item>
     </one-of>
   </rule>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <!-- name related -->
   <rule id="PossessivePronoun">
     <one-of>
@@ -2209,7 +1739,6 @@
       <item>its</item>
     </one-of>
   </rule>
-
   <rule id="FirstName">
     <one-of>
       <!-- Faculty -->
@@ -2287,7 +1816,6 @@
       <item>Madeline</item>
     </one-of>
   </rule>
-
   <rule id="FemaleFacultyLastName">
     <one-of>
       <item>Argall</item>
@@ -2344,20 +1872,20 @@
       <item>Tumblin</item>
       <item>Katsaggelos</item>
       <item>St. Amour</item>
+      <item>St-Amour</item>
       <item>Wang</item>
     </one-of>
   </rule>
   <rule id="FacultyLastName">
     <one-of>
       <item>
-        <ruleref uri="#FemaleFacultyLastName"/>
+        <ruleref uri="#FemaleFacultyLastName" />
       </item>
       <item>
-        <ruleref uri="#MaleFacultyLastName"/>
+        <ruleref uri="#MaleFacultyLastName" />
       </item>
     </one-of>
   </rule>
-
   <rule id="FemaleStaffLastName">
     <one-of>
       <item>Mello</item>
@@ -2372,7 +1900,6 @@
       <item>Stiers</item>
     </one-of>
   </rule>
-
   <rule id="MalePostdocLastName">
     <one-of>
       <item>Wilson</item>
@@ -2380,7 +1907,6 @@
       <item>Bochynek</item>
     </one-of>
   </rule>
-
   <rule id="FemaleFacultyFullName">
     <one-of>
       <item>Brenna Argall</item>
@@ -2396,7 +1922,6 @@
       <item>Jessica Hullman</item>
     </one-of>
   </rule>
-
   <rule id="MaleFacultyFullName">
     <one-of>
       <item>Larry Birnbaum</item>
@@ -2451,22 +1976,21 @@
       <item>Jason Hartline</item>
       <item>Jack Tumblin</item>
       <item>Aggelos Katsaggelos</item>
+      <item>Vincent St-Amour</item>
       <item>Vincent St. Amour</item>
       <item>Xiao Wang</item>
     </one-of>
   </rule>
-
   <rule id="FacultyFullName">
     <one-of>
       <item>
-        <ruleref uri="#FemaleFacultyFullName"/>
+        <ruleref uri="#FemaleFacultyFullName" />
       </item>
       <item>
-        <ruleref uri="#MaleFacultyFullName"/>
+        <ruleref uri="#MaleFacultyFullName" />
       </item>
     </one-of>
   </rule>
-
   <rule id="MalePostdocFullName">
     <one-of>
       <item>Willie Wilson</item>
@@ -2477,7 +2001,6 @@
       <item>Tom Bochynek</item>
     </one-of>
   </rule>
-
   <rule id="FemaleStaffFullName">
     <one-of>
       <item>Brianna Mello</item>
@@ -2493,7 +2016,6 @@
       <item>Jeff Stiers</item>
     </one-of>
   </rule>
-
   <rule id="NickName">
     <one-of>
       <item>Willie</item>
@@ -2511,39 +2033,38 @@
       <item>Marie</item>
     </one-of>
   </rule>
-
   <rule id="PersonReference">
     <one-of>
       <item>
-        <ruleref uri="#ExplicitPersonName"/>
+        <ruleref uri="#ExplicitPersonName" />
       </item>
       <item>
-        <ruleref uri="#TitledName"/>
+        <ruleref uri="#TitledName" />
       </item>
     </one-of>
   </rule>
   <rule id="ExplicitPersonName">
     <one-of>
       <item>
-        <ruleref uri="#FirstName"/>
+        <ruleref uri="#FirstName" />
       </item>
       <item>
-        <ruleref uri="#NickName"/>
+        <ruleref uri="#NickName" />
       </item>
       <item>
-        <ruleref uri="#FemaleFacultyFullName"/>
+        <ruleref uri="#FemaleFacultyFullName" />
       </item>
       <item>
-        <ruleref uri="#MaleFacultyFullName"/>
+        <ruleref uri="#MaleFacultyFullName" />
       </item>
       <item>
-        <ruleref uri="#MalePostdocFullName"/>
+        <ruleref uri="#MalePostdocFullName" />
       </item>
       <item>
-        <ruleref uri="#FemaleStaffFullName"/>
+        <ruleref uri="#FemaleStaffFullName" />
       </item>
       <item>
-        <ruleref uri="#MaleStaffFullName"/>
+        <ruleref uri="#MaleStaffFullName" />
       </item>
     </one-of>
   </rule>
@@ -2551,66 +2072,29 @@
     <one-of>
       <item>
         Professor
-        <one-of>
-          <item>
-            <ruleref uri="#FacultyLastName"/>
-          </item>
-          <item>
-            <ruleref uri="#FacultyFullName"/>
-          </item>
-        </one-of>
-      </item>
+        <one-of><item><ruleref uri="#FacultyLastName" /></item><item><ruleref uri="#FacultyFullName" /></item><item><ruleref uri="#MalePostdocLastName" /></item><item><ruleref uri="#MalePostdocFullName" /></item></one-of></item>
       <item>
         Doctor
-        <one-of>
-          <item>
-            <ruleref uri="#MalePostdocLastName"/>
-          </item>
-          <item>
-            <ruleref uri="#MalePostdocFullName"/>
-          </item>
-        </one-of>
-      </item>
+        <one-of><item><ruleref uri="#FacultyLastName" /></item><item><ruleref uri="#FacultyFullName" /></item><item><ruleref uri="#MalePostdocLastName" /></item><item><ruleref uri="#MalePostdocFullName" /></item></one-of></item>
       <item>
         Ms.
-        <one-of>
-          <item>
-            <ruleref uri="#FemaleStaffLastName"/>
-          </item>
-          <item>
-            <ruleref uri="#FemaleStaffFullName"/>
-          </item>
-        </one-of>
-      </item>
+        <one-of><item><ruleref uri="#FemaleStaffLastName" /></item><item><ruleref uri="#FemaleStaffFullName" /></item></one-of></item>
       <item>
         Mr.
-        <one-of>
-          <item>
-            <ruleref uri="#MaleStaffLastName"/>
-          </item>
-          <item>
-            <ruleref uri="#MaleStaffFullName"/>
-          </item>
-        </one-of>
-      </item>
+        <one-of><item><ruleref uri="#MaleStaffLastName" /></item><item><ruleref uri="#MaleStaffFullName" /></item></one-of></item>
     </one-of>
   </rule>
-
-
-
-
   <!-- Numbers -->
   <rule id="Three_digit_number">
     <one-of>
       <item>
-        <ruleref uri="#OneToNine"/> hundred
+        <ruleref uri="#OneToNine" /> hundred
       </item>
       <item>
-        <ruleref uri="#OneToNine"/> o <ruleref uri="#OneToNine"/>
-      </item>
+        <ruleref uri="#OneToNine" /> o <ruleref uri="#OneToNine" /></item>
       <item>
-        <ruleref uri="#OneToNine"/>
-        <ruleref uri="#TenToNinetyNine"/>
+        <ruleref uri="#OneToNine" />
+        <ruleref uri="#TenToNinetyNine" />
       </item>
     </one-of>
   </rule>
@@ -2618,18 +2102,15 @@
     <one-of>
       <item>
         three
-        <ruleref uri="#ZeroToNine"/>
-        <ruleref uri="#ZeroToNine"/>
-        <ruleref uri="#ZeroToNine"/>
+        <ruleref uri="#ZeroToNine" /><ruleref uri="#ZeroToNine" /><ruleref uri="#ZeroToNine" /></item>
+      <item>
+        <ruleref uri="#TenToNinetyNine" />
+        <ruleref uri="#ZeroToNine" />
+        <ruleref uri="#ZeroToNine" />
       </item>
       <item>
-        <ruleref uri="#TenToNinetyNine"/>
-        <ruleref uri="#ZeroToNine"/>
-        <ruleref uri="#ZeroToNine"/>
-      </item>
-      <item>
-        <ruleref uri="#TenToNinetyNine"/>
-        <ruleref uri="#TenToNinetyNine"/>
+        <ruleref uri="#TenToNinetyNine" />
+        <ruleref uri="#TenToNinetyNine" />
       </item>
     </one-of>
   </rule>
@@ -2642,18 +2123,18 @@
   <rule id="ZeroToNinetyNine">
     <one-of>
       <item>
-        <ruleref uri="#Zero"/>
+        <ruleref uri="#Zero" />
       </item>
       <item>
-        <ruleref uri="#OneToNine"/>
+        <ruleref uri="#OneToNine" />
       </item>
       <item>
-        <ruleref uri="#TenToNineteen"/>
+        <ruleref uri="#TenToNineteen" />
       </item>
       <item>
-        <ruleref uri="#TwentyToNinety"/>
+        <ruleref uri="#TwentyToNinety" />
         <item repeat="0-1">
-          <ruleref uri="#OneToNine"/>
+          <ruleref uri="#OneToNine" />
         </item>
       </item>
     </one-of>
@@ -2661,12 +2142,12 @@
   <rule id="TenToNinetyNine">
     <one-of>
       <item>
-        <ruleref uri="#TenToNineteen"/>
+        <ruleref uri="#TenToNineteen" />
       </item>
       <item>
-        <ruleref uri="#TwentyToNinety"/>
+        <ruleref uri="#TwentyToNinety" />
         <item repeat="0-1">
-          <ruleref uri="#OneToNine"/>
+          <ruleref uri="#OneToNine" />
         </item>
       </item>
     </one-of>
@@ -2674,10 +2155,10 @@
   <rule id="ZeroToNine">
     <one-of>
       <item>
-        <ruleref uri="#Zero"/>
+        <ruleref uri="#Zero" />
       </item>
       <item>
-        <ruleref uri="#OneToNine"/>
+        <ruleref uri="#OneToNine" />
       </item>
     </one-of>
   </rule>
@@ -2697,21 +2178,14 @@
   <rule id="OneToTwentyThree">
     <one-of>
       <item>
-        <ruleref uri="#OneToNine"/>
+        <ruleref uri="#OneToNine" />
       </item>
       <item>
-        <ruleref uri="#TenToNineteen"/>
+        <ruleref uri="#TenToNineteen" />
       </item>
       <item>
         twenty
-        <item repeat="0-1">
-          <one-of>
-            <item>one</item>
-            <item>two</item>
-            <item>three</item>
-          </one-of>
-        </item>
-      </item>
+        <item repeat="0-1"><one-of><item>one</item><item>two</item><item>three</item></one-of></item></item>
       <item>zero</item>
     </one-of>
   </rule>
@@ -2741,7 +2215,6 @@
       <item>ninety</item>
     </one-of>
   </rule>
-
   <!-- Less important stuff -->
   <rule id="Greeting">
     <one-of>
@@ -2750,14 +2223,7 @@
       <item>Greetings</item>
       <item>
         Good
-        <one-of>
-          <item>morning</item>
-          <item>afternoon</item>
-          <item>evening</item>
-          <item>day</item>
-          <item>night</item>
-        </one-of>
-      </item>
+        <one-of><item>morning</item><item>afternoon</item><item>evening</item><item>day</item><item>night</item></one-of></item>
       <item>How are you</item>
       <item>What's Sup</item>
       <item>Sup</item>
@@ -2795,9 +2261,15 @@
       <item>Huck you</item>
       <item>Say something</item>
       <item>What is the meaning of life?</item>
+      <item>
+        May the force be with you, <ruleref uri="#PersonReference" /></item>
+      <item>I've; see-een, thingss, you people wouldn't belee-eeve.</item>
+      <item>Attack ships on fye-err off, shoulder of-oh ryon.</item>
+      <item>I watched C beams; glitter in the dark near the Tannhäuser Gate.</item>
+      <item>All those, moments; will be lost; in time; like; tears; in rain</item>
+      <item>Dead or alive, you're coming with me</item>
     </one-of>
   </rule>
-
   <rule id="ObjectsOfInterest">
     <one-of>
       <item>
@@ -2817,28 +2289,16 @@
       </item>
       <item>
         some
-        <one-of>
-          <item>food</item>
-          <item>snack</item>
-          <item>coffee</item>
-          <item>Nespresso</item>
-          <item>tea</item>
-        </one-of>
-      </item>
+        <one-of><item>food</item><item>snack</item><item>coffee</item><item>Nespresso</item><item>tea</item></one-of></item>
       <item>
         something to eat
       </item>
       <item>
         a cup of
-        <one-of>
-          <item>coffee</item>
-          <item>Nespresso</item>
-          <item>tea</item>
-        </one-of>
-      </item>
+        <one-of><item>coffee</item><item>Nespresso</item><item>tea</item></one-of></item>
+      <item>ice cream</item>
     </one-of>
   </rule>
-
   <!-- Unused -->
   <rule id="Shuttle">
     <item repeat="0-1">
@@ -2856,13 +2316,7 @@
     </one-of>
     <item repeat="0-1">
       to
-      <one-of>
-        <item>Downtown Chicago</item>
-        <item>South Campus</item>
-        <item>the Chicago Campus</item>
-        <item>Chicago Campus</item>
-      </one-of>
-    </item>
+      <one-of><item>Downtown Chicago</item><item>South Campus</item><item>the Chicago Campus</item><item>Chicago Campus</item></one-of></item>
   </rule>
   <rule id="LunchPickUp">
     <item repeat="0-1">
@@ -2870,15 +2324,14 @@
         <item>my</item>
         <item>my friend's</item>
         <item>
-          <ruleref uri="#EnglishArticle"/>
+          <ruleref uri="#EnglishArticle" />
         </item>
       </one-of>
     </item>
     <one-of>
       <item>Krishna</item>
       <item>ChowBus</item>
-      <item>5 2 7</item>
-      <item>5 27</item>
+      <item>527</item>
     </one-of>
     <item repeat="0-1">
       <one-of>
@@ -2889,5 +2342,9 @@
       </one-of>
     </item>
   </rule>
-
+  <rule id="RecurringEvent">
+    <one-of>
+      <item>EECS Free Bagel and Coffee</item>
+    </one-of>
+  </rule>
 </grammar>
