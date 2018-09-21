@@ -1,5 +1,5 @@
 ﻿<grammar xmlns="http://www.w3.org/2001/06/grammar" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/06/grammar          http://www.w3.org/TR/speech-grammar/grammar.xsd" xml:lang="en-US" version="1.0" tag-format="semantics-ms/1.0" root="Top">
-  <!-- mark -->
+  <!-- The curated version -->
   <rule id="Top">
     <one-of>
       <item>
@@ -75,63 +75,237 @@
   <!-- mark -->
   <rule id="AreQuestion">
     Are there
-    <item><item repeat="0-1">
+    <item>
+      <item repeat="0-1">
         any
-        <one-of><item>good</item><item>short</item></one-of></item><ruleref uri="#EventMaybeTemporallyStampped" /></item><item repeat="0-1"><one-of><item><ruleref uri="#DurationComparison" /></item><item>
-          that are <ruleref uri="#DurationComparison" /></item><item>that are short</item><item>that I should go to</item></one-of></item><item repeat="0-1"><ruleref uri="#TemporalReference" /></item></rule>
+        <one-of>
+          <item>good</item>
+          <item>short</item>
+        </one-of>
+      </item>
+      <ruleref uri="#EventMaybeTemporallyStampped" />
+    </item><item repeat="0-1">
+      <one-of>
+        <item>
+          <ruleref uri="#DurationComparison" />
+        </item>
+        <item>
+          that are <ruleref uri="#DurationComparison" />
+        </item>
+        <item>that are short</item>
+        <item>that I should go to</item>
+      </one-of>
+    </item><item repeat="0-1">
+      <ruleref uri="#TemporalReference" />
+    </item>
+  </rule>
   <rule id="DidQuestion">
     Did
     <ruleref uri="#PersonReference" />
     go to
     <ruleref uri="#School" /><item repeat="0-1">
       for
-      <item repeat="0-1"><ruleref uri="#PossessivePronoun" /></item><ruleref uri="#DegreeLevel" /></item></rule>
+      <item repeat="0-1">
+        <ruleref uri="#PossessivePronoun" />
+      </item><ruleref uri="#DegreeLevel" />
+    </item>
+  </rule>
   <rule id="DoesQuestion">
     Does
-    <one-of><item><ruleref uri="#TemporalReference" />'s
-        <one-of><item><ruleref uri="#EventName" /></item><item><ruleref uri="#Course" /></item></one-of>
+    <one-of>
+      <item>
+        <ruleref uri="#TemporalReference" />'s
+        <one-of>
+          <item>
+            <ruleref uri="#EventName" />
+          </item>
+          <item>
+            <ruleref uri="#Course" />
+          </item>
+        </one-of>
         meet
-        <item repeat="0-1">in the usual place</item></item><item><one-of><item><ruleref uri="#EventName" /></item><item><ruleref uri="#Course" /></item></one-of>
+        <item repeat="0-1">in the usual place</item>
+      </item>
+      <item>
+        <one-of>
+          <item>
+            <ruleref uri="#EventName" />
+          </item>
+          <item>
+            <ruleref uri="#Course" />
+          </item>
+        </one-of>
         meet
-        <one-of><item><ruleref uri="#TemporalReference" /></item><item>
-            on<ruleref uri="#Date" /></item><item><one-of><item>on</item><item>this</item><item>next</item></one-of><ruleref uri="#DayOfTheWeek" /></item></one-of></item><item><ruleref uri="#PersonReference" /><one-of><item>
+        <one-of>
+          <item>
+            <ruleref uri="#TemporalReference" />
+          </item>
+          <item>
+            on<ruleref uri="#Date" />
+          </item>
+          <item>
+            <one-of>
+              <item>on</item>
+              <item>this</item>
+              <item>next</item>
+            </one-of>
+            <ruleref uri="#DayOfTheWeek" />
+          </item>
+        </one-of>
+      </item>
+      <item>
+        <ruleref uri="#FacultyPostdocTitledName" />
+        <one-of>
+          <item>
             do research in
-            <ruleref uri="#AcademicDiscipline" /></item><item>
+            <ruleref uri="#AcademicDiscipline" />
+          </item>
+          <item>
             teach
-            <ruleref uri="#Course" /><item repeat="0-1"><ruleref uri="#QuarterReference" /></item></item><item>have an office here</item><item>work here</item></one-of></item><item><ruleref uri="#EventName" />start now
-      </item></one-of></rule>
+            <ruleref uri="#Course" /><item repeat="0-1">
+              <ruleref uri="#QuarterReference" />
+            </item>
+          </item>
+          <item>have an office here</item>
+          <item>work here</item>
+        </one-of>
+      </item>
+      <item>
+        <ruleref uri="#EventName" />start now
+      </item>
+    </one-of>
+  </rule>
   <rule id="HasQuestion">
     <item>
       Has
       <ruleref uri="#PersonReference" />
       listed his
-      <ruleref uri="#Email" /></item>
+      <ruleref uri="#Email" />
+    </item>
   </rule>
   <rule id="IsQuestion">
     Is
-    <one-of><item><ruleref uri="#EventMaybeTemporallyStampped" /><one-of><item>
-            hosted by<ruleref uri="#PersonReference" /></item><item><ruleref uri="#DurationComparison" /></item></one-of></item><item><ruleref uri="#EventMaybeTemporallyStampped" />
+    <one-of>
+      <item>
+        <ruleref uri="#EventMaybeTemporallyStampped" />
+        <one-of>
+          <item>
+            hosted by<ruleref uri="#PersonReference" />
+          </item>
+          <item>
+            <ruleref uri="#DurationComparison" />
+          </item>
+        </one-of>
+      </item>
+      <item>
+        <ruleref uri="#EventMaybeTemporallyStampped" />
         still
-        <one-of><item>happening</item><item>going on</item><item>on</item></one-of></item><item><ruleref uri="#EventMaybeTemporallyStampped" />at<ruleref uri="#TimeStamp" /></item><item><ruleref uri="#EventMaybeTemporallyStampped" />in<ruleref uri="#Place" /></item><item><ruleref uri="#PersonReference" /><one-of><item><ruleref uri="#EnglishArticle" /><ruleref uri="#AcademicDiscipline" /><one-of><item>faculty</item><item>professor</item></one-of></item><item>
+        <one-of>
+          <item>happening</item>
+          <item>going on</item>
+          <item>on</item>
+        </one-of>
+      </item>
+      <item>
+        <ruleref uri="#EventMaybeTemporallyStampped" />at<ruleref uri="#TimeStamp" />
+      </item>
+      <item>
+        <ruleref uri="#EventMaybeTemporallyStampped" />in<ruleref uri="#Place" />
+      </item>
+      <item>
+        <ruleref uri="#PersonReference" />
+        <one-of>
+          <item>
+            <ruleref uri="#EnglishArticle" />
+            <ruleref uri="#AcademicDiscipline" />
+            <one-of>
+              <item>faculty</item>
+              <item>professor</item>
+            </one-of>
+          </item>
+          <item>
             in
-            <item repeat="0-1">the</item><ruleref uri="#AcademicDiscipline" /><item repeat="0-1">group</item></item><item>
+            <item repeat="0-1">the</item><ruleref uri="#AcademicDiscipline" /><item repeat="0-1">group</item>
+          </item>
+          <item>
             teaching
-            <item repeat="0-1">the</item><ruleref uri="#Course" /><ruleref uri="#QuarterReference" /></item><item>
+            <item repeat="0-1">the</item><ruleref uri="#Course" /><ruleref uri="#QuarterReference" />
+          </item>
+          <item>
             an
             <ruleref uri="#Alumn" />
             of
-            <ruleref uri="#School" /></item><item>
+            <ruleref uri="#School" />
+          </item>
+          <item>
             's office
-            <one-of><item><one-of><item>in</item><item>on</item></one-of><ruleref uri="#SpecificPlace" /></item><item><ruleref uri="#LocationReference" /></item></one-of></item></one-of></item><item><ruleref uri="#School" />
+            <one-of>
+              <item>
+                <one-of>
+                  <item>in</item>
+                  <item>on</item>
+                </one-of>
+                <ruleref uri="#SpecificPlace" />
+              </item>
+              <item>
+                <ruleref uri="#LocationReference" />
+              </item>
+            </one-of>
+          </item>
+        </one-of>
+      </item>
+      <item>
+        <ruleref uri="#School" />
         where
-        <ruleref uri="#PersonReference" /><one-of><item><item>got</item><ruleref uri="#PossessivePronoun" /><ruleref uri="#DegreeLevel" /></item><item>
-            went <item repeat="0-1">to</item>for<ruleref uri="#SchoolLevel" /></item></one-of></item><item>
+        <ruleref uri="#PersonReference" /><one-of>
+          <item>
+            <item>got</item>
+            <ruleref uri="#PossessivePronoun" />
+            <ruleref uri="#DegreeLevel" />
+          </item>
+          <item>
+            went <item repeat="0-1">to</item>for<ruleref uri="#SchoolLevel" />
+          </item>
+        </one-of>
+      </item>
+      <item>
         there
-        <item repeat="0-1"><one-of><item>a</item><item>an</item><item>any</item></one-of></item><one-of><item><ruleref uri="#Email" />
+        <item repeat="0-1">
+          <one-of>
+            <item>a</item>
+            <item>an</item>
+            <item>any</item>
+          </one-of>
+        </item><one-of>
+          <item>
+            <one-of>
+              <item>
+                <ruleref uri="#Email"/>
+              </item>
+              <item>
+                <ruleref uri="#PhoneNumber"/>
+              </item>
+            </one-of>
             of
-            <ruleref uri="#PersonReference" /><item repeat="0-1">available</item></item><item><item repeat="0-1">invited</item><ruleref uri="#EventMaybeTemporallyStampped" /></item><item><ruleref uri="#Course" /><item repeat="0-1">available</item><ruleref uri="#QuarterReference" /></item><item>
+            <ruleref uri="#PersonReference" /><item repeat="0-1">available</item>
+          </item>
+          <item>
+            <item repeat="0-1">invited</item>
+            <ruleref uri="#EventMaybeTemporallyStampped" />
+          </item>
+          <item>
+            <ruleref uri="#Course" />
+            <item repeat="0-1">available</item>
+            <ruleref uri="#QuarterReference" />
+          </item>
+          <item>
             discussion session for
-            <ruleref uri="#EventMaybeTemporallyStampped" /></item></one-of></item></one-of></rule>
+            <ruleref uri="#EventMaybeTemporallyStampped" />
+          </item>
+        </one-of>
+      </item>
+    </one-of>
+  </rule>
   <rule id="Inquisition">
     <ruleref uri="#InquiryStarter" />
     <one-of>
@@ -145,50 +319,152 @@
   </rule>
   <rule id="InquisitionOrder">
     <ruleref uri="#InquisitionOrderStarter" />
-    <one-of>
-      <item>
-        <ruleref uri="#ObjectInquiryContent" />
-      </item>
-      <item>
-        <ruleref uri="#PersonInquiryContent" />
-      </item>
-    </one-of>
+    <ruleref uri="#InquisitionOrderContent" />
   </rule>
   <rule id="HowQuestion">
     How
-    <one-of><item><one-of><item>do</item><item>can</item><item>could</item><item>may</item></one-of><one-of><item>I</item><item>We</item></one-of><one-of><item>get to</item><item>find</item><item>reach</item></one-of><ruleref uri="#LocationOrPerson" /></item><item>
+    <one-of>
+      <item>
+        is
+        <one-of>
+          <item>
+            the weather <item repeat="0-1">like</item> today
+          </item>
+        </one-of>
+      </item>
+      <item>
+        <one-of>
+          <item>do</item>
+          <item>can</item>
+          <item>could</item>
+          <item>may</item>
+        </one-of>
+        <one-of>
+          <item>I</item>
+          <item>We</item>
+        </one-of>
+        <one-of>
+          <item>get to</item>
+          <item>find</item>
+          <item>reach</item>
+        </one-of>
+        <ruleref uri="#LocationOrPerson" />
+      </item>
+      <item>
         long is
-        <ruleref uri="#EventMaybeTemporallyStampped" /></item><item>
+        <ruleref uri="#EventMaybeTemporallyStampped" />
+      </item>
+      <item>
         many <ruleref uri="#EventName" /> are
-        <item repeat="0-1">there</item><ruleref uri="#TemporalReference" /></item></one-of></rule>
+        <item repeat="0-1">there</item><ruleref uri="#TemporalReference" />
+      </item>
+    </one-of>
+  </rule>
   <rule id="WhatQuestion">
     what
-    <one-of><item>
+    <one-of>
+      <item>
         is
-        <one-of><item>going on today</item><item><ruleref uri="#ObjectPossessedByPerson" /></item><item>
+        <one-of>
+          <item>
+            the
+            <one-of>
+              <item>date</item>
+              <item>day</item>
+            </one-of>today
+          </item>
+          <item>your name</item>
+          <item>going on today</item>
+          <item>
+            <ruleref uri="#ObjectPossessedByPerson" />
+          </item>
+          <item>
             the time for
-            <ruleref uri="#EventMaybeTemporallyStampped" /></item><item>
+            <ruleref uri="#EventMaybeTemporallyStampped" />
+          </item>
+          <item>
             the purpose of
-            <one-of><item><ruleref uri="#EventMaybeTemporallyStampped" /></item><item>this event</item></one-of></item><item><ruleref uri="#TemporalReference" />'s
+            <one-of>
+              <item>
+                <ruleref uri="#EventMaybeTemporallyStampped" />
+              </item>
+              <item>this event</item>
+            </one-of>
+          </item>
+          <item>
+            <ruleref uri="#TemporalReference" />'s
             event schedule
-          </item><item><ruleref uri="#EventMaybeTemporallyStampped" />
+          </item>
+          <item>
+            <ruleref uri="#EventMaybeTemporallyStampped" />
             about
-          </item></one-of></item><item><ruleref uri="#EventCategory" />
+          </item>
+        </one-of>
+      </item>
+      <item>
+        <ruleref uri="#EventCategory" />
         are
-        <ruleref uri="#TemporalReference" /></item><item>
-        do I have
-        <item repeat="0-1">for</item><ruleref uri="#TemporalReference" /></item></one-of></rule>
+        <ruleref uri="#TemporalReference" />
+      </item>
+      <item>
+        <one-of>
+          <item>can</item>
+          <item>do</item>
+        </one-of>
+        you
+        <one-of>
+          <item>answer</item>
+          <item>do</item>
+          <item>know</item>
+        </one-of>
+      </item>
+      <item>can you do</item>
+      <item>
+        kind of
+        <one-of>
+          <item>question</item>
+          <item>questions</item>
+        </one-of>
+        <one-of>
+          <item>can</item>
+          <item>do</item>
+        </one-of>you answer
+      </item>
+    </one-of>
+  </rule>
   <rule id="WhenQuestion">
     When
-    <one-of><item weight="2">
+    <one-of>
+      <item weight="2">
         does <ruleref uri="#Course" /> meet
-      </item><item weight="1">
-        should I go to <ruleref uri="#EventMaybeTemporallyStampped" /></item><item weight="1">
+      </item>
+      <item weight="1">
+        should I go to <ruleref uri="#EventMaybeTemporallyStampped" />
+      </item>
+      <item weight="1">
         will
-        <ruleref uri="#EventMaybeTemporallyStampped" /><one-of><item>start</item><item>end</item></one-of></item><item weight="100">
+        <ruleref uri="#EventMaybeTemporallyStampped" /><one-of>
+          <item>start</item>
+          <item>end</item>
+        </one-of>
+      </item>
+      <item weight="100">
         is
-        <one-of><item weight="10"><ruleref uri="#EventMaybeTemporallyStampped" /></item><item weight="1">
-            the next <ruleref uri="#EventName" /></item></one-of></item></one-of></rule>
+        <one-of>
+          <item weight="10">
+            <ruleref uri="#EventMaybeTemporallyStampped" />
+          </item>
+          <item weight="1">
+            the next <ruleref uri="#RecurringEventName" />
+          </item>
+          <item>
+            <item repeat="0-1">the</item>
+            <ruleref uri="#OfficeHours" />
+          </item>
+        </one-of>
+      </item>
+    </one-of>
+  </rule>
   <rule id="WhereQuestion">
     Where
     <one-of>
@@ -198,98 +474,238 @@
           <item>can</item>
           <item>could</item>
         </one-of>
-        I find
+        I
         <one-of>
-          <item><ruleref uri="#ObjectPossessedByPerson" /></item>
-          <item><ruleref uri="#LocationOrPerson" /></item>
-          <item><ruleref uri="#ObjectsOfInterest" /></item>
+          <item>
+            take
+            <one-of>
+              <item>a shower</item>
+              <item>a nap</item>
+            </one-of>
+          </item>
+          <item>
+            find
+            <one-of>
+              <item>
+                <ruleref uri="#ObjectPossessedByPerson" />
+              </item>
+              <item>
+                <ruleref uri="#LocationOrPerson" />
+              </item>
+              <item>
+                <ruleref uri="#ObjectsOfInterest" />
+              </item>
+            </one-of>
+          </item>
+          <item>
+            get<ruleref uri="#UncountableObjectsOfInterest" />
+          </item>
         </one-of>
       </item>
       <item>
         is
         <one-of>
-          <item weight="2"><ruleref uri="#LocationOrPerson" /></item>
-          <item weight="1"><ruleref uri="#ObjectPossessedByPerson" /></item>
+          <item>
+            <item repeat="0-1">the</item>
+            <ruleref uri="#SingularImmobileObjectOfInterest" />
+          </item>
+          <item weight="2">
+            <ruleref uri="#LocationOrPerson" />
+          </item>
+          <item weight="1">
+            <ruleref uri="#ObjectPossessedByPerson" />
+          </item>
           <item weight="1">
             <ruleref uri="#EventMaybeTemporallyStampped" />
             <item repeat="0-1">going to take place</item>
           </item>
           <item>
-            <item repeat="0-1"><ruleref uri="#EnglishArticle" /></item>
+            <item repeat="0-1">
+              <ruleref uri="#EnglishArticle" />
+            </item>
             <ruleref uri="#ObjectCanBePossessed" />
             for
-            <ruleref uri="#PersonReference" /></item>
-          <item weight="10"><ruleref uri="#EventMaybeTemporallyStampped" /></item>
+            <ruleref uri="#PersonReference" />
+          </item>
+          <item weight="10">
+            <ruleref uri="#EventMaybeTemporallyStampped" />
+          </item>
         </one-of>
       </item>
       <item>
         did
-        <ruleref uri="#PersonReference" />
-        get
-        <ruleref uri="#PossessivePronoun" /><ruleref uri="#DegreeLevel" /></item><item>
+        <one-of>
+          <item>
+            <ruleref uri="#FemalePersonReference" />get her<ruleref uri="#DegreeLevel" />
+          </item>
+          <item>
+            <ruleref uri="#MalePersonReference" />get his<ruleref uri="#DegreeLevel" />
+          </item>
+        </one-of>
+      </item>
+      <item>
         does
-        <one-of><item><ruleref uri="#EventMaybeTemporallyStampped" />meet
-          </item><item><ruleref uri="#PersonReference" /> work
-          </item></one-of></item></one-of></rule>
+        <one-of>
+          <item>
+            <ruleref uri="#EventMaybeTemporallyStampped" />meet
+          </item>
+          <item>
+            <ruleref uri="#PersonReference" /> work
+          </item>
+        </one-of>
+      </item>
+    </one-of>
+  </rule>
   <rule id="WhichQuestion">
     <item>
       Which
-      <one-of><item><ruleref uri="#Email" />
+      <one-of>
+        <item>
+          <ruleref uri="#Email" />
           of
           <ruleref uri="#PersonReference" />
           do you have
-        </item><item><one-of><item><item repeat="0-1">
+        </item>
+        <item>
+          <one-of>
+            <item>
+              <item repeat="0-1">
                 graduate
               </item>
               students are
-            </item><item>professors are</item><item>faculties are</item></one-of>
+            </item>
+            <item>professors are</item>
+            <item>faculties are</item>
+          </one-of>
           in
-          <ruleref uri="#AcademicDiscipline" /><item repeat="0-1">group</item></item><item>
-          days are <ruleref uri="#Course" /><item repeat="0-1">offered</item></item><item>
+          <ruleref uri="#AcademicDiscipline" /><item repeat="0-1">group</item>
+        </item>
+        <item>
+          days are <ruleref uri="#Course" /><item repeat="0-1">offered</item>
+        </item>
+        <item>
           group is <ruleref uri="#PersonReference" /> in
-        </item></one-of></item>
+        </item>
+      </one-of>
+    </item>
   </rule>
   <rule id="WhoQuestion">
     <one-of>
       <item>
         Who
-        <one-of><item>
+        <one-of>
+          <item>
             are
-            <one-of><item>
-                the <ruleref uri="#AcademicDiscipline" /><one-of><item>professors</item><item>faculties</item></one-of></item><item>
-                in <ruleref uri="#AcademicDiscipline" /></item></one-of></item><item>
+            <one-of>
+              <item>
+                <ruleref uri="#AcademicDiscipline" />
+                <one-of>
+                  <item>professors</item>
+                  <item>faculties</item>
+                </one-of>
+              </item>
+              <item>
+                in <ruleref uri="#AcademicDiscipline" />
+              </item>
+              <item>you</item>
+            </one-of>
+          </item>
+          <item>
             is
-            <one-of><item><ruleref uri="#EventMaybeTemporallyStampped" /> for
-              </item><item>
+            <one-of>
+              <item>
+                <ruleref uri="#EventMaybeTemporallyStampped" /> for
+              </item>
+              <item>
                 teaching
-                <one-of><item><ruleref uri="#Course" /><item repeat="0-1"><ruleref uri="#QuarterReference" /></item></item><item>
+                <one-of>
+                  <item>
+                    <ruleref uri="#Course" />
+                    <item repeat="0-1">
+                      <ruleref uri="#QuarterReference" />
+                    </item>
+                  </item>
+                  <item>
                     the introduction class in the <ruleref uri="#AcademicDiscipline" /> track
-                  </item></one-of></item><item>
-                hosting <ruleref uri="#EventMaybeTemporallyStampped" /></item><item>
-                in <ruleref uri="#AcademicDiscipline" /></item><item><item repeat="0-1">the name of</item>
-                the professor for <ruleref uri="#Course" /><item repeat="0-1"><ruleref uri="#QuarterReference" /></item></item></one-of></item><item>
+                  </item>
+                </one-of>
+              </item>
+              <item>
+                hosting <ruleref uri="#EventMaybeTemporallyStampped" />
+              </item>
+              <item>
+                in <ruleref uri="#AcademicDiscipline" />
+              </item>
+              <item>
+                <item repeat="0-1">the name of</item>
+                the professor for <ruleref uri="#Course" /><item repeat="0-1">
+                  <ruleref uri="#QuarterReference" />
+                </item>
+              </item>
+            </one-of>
+          </item>
+          <item>
             does
-            <one-of><item><one-of><item>work</item><item>research</item></one-of>
-                in <ruleref uri="#AcademicDiscipline" /></item><item><ruleref uri="#AcademicDiscipline" /> research
-              </item></one-of></item><item>
-            can teach me some knowledge of <ruleref uri="#AcademicDiscipline" /></item><item>
+            <one-of>
+              <item>
+                <one-of>
+                  <item>work</item>
+                  <item>research</item>
+                </one-of>
+                in <ruleref uri="#AcademicDiscipline" />
+              </item>
+              <item>
+                <ruleref uri="#AcademicDiscipline" /> research
+              </item>
+            </one-of>
+          </item>
+          <item>
+            can teach me some knowledge of <ruleref uri="#AcademicDiscipline" />
+          </item>
+          <item>
             should I talk with to get more information of
-            <item repeat="0-1">the</item><ruleref uri="#EventMaybeTemporallyStampped" /></item><item>
-            works in <ruleref uri="#AcademicDiscipline" /></item></one-of></item>
+            <item repeat="0-1">the</item><ruleref uri="#EventMaybeTemporallyStampped" />
+          </item>
+          <item>
+            works in <ruleref uri="#AcademicDiscipline" />
+          </item>
+        </one-of>
+      </item>
       <item>
         Whose class should I take to
-        <one-of><item>
-            learn some introduction information of <ruleref uri="#AcademicDiscipline" /></item><item>
-            learn some introductory information of <ruleref uri="#AcademicDiscipline" /></item><item>
-            get an introduction of <ruleref uri="#AcademicDiscipline" /></item></one-of></item>
+        <one-of>
+          <item>
+            learn some introduction information of <ruleref uri="#AcademicDiscipline" />
+          </item>
+          <item>
+            learn some introductory information of <ruleref uri="#AcademicDiscipline" />
+          </item>
+          <item>
+            get an introduction of <ruleref uri="#AcademicDiscipline" />
+          </item>
+        </one-of>
+      </item>
     </one-of>
   </rule>
   <rule id="WillQuestion">
     Will
-    <one-of><item><ruleref uri="#EventMaybeTemporallyStampped" />
+    <one-of>
+      <item>
+        <ruleref uri="#EventMaybeTemporallyStampped" />
         be
-        <one-of><item><ruleref uri="#Duration" /></item><item><ruleref uri="#DurationComparison" /></item><item>long</item><item>short</item></one-of></item></one-of></rule>
-  <!-- returner -->
+        <one-of>
+          <item>
+            <ruleref uri="#Duration" />
+          </item>
+          <item>
+            <ruleref uri="#DurationComparison" />
+          </item>
+          <item>long</item>
+          <item>short</item>
+        </one-of>
+      </item>
+    </one-of>
+  </rule>
   <rule id="EnglishArticle">
     <one-of>
       <item>a</item>
@@ -342,32 +758,61 @@
     </one-of>
   </rule>
   <rule id="Date">
-    <item>
-      <one-of>
-        <item>
-          <ruleref uri="#Month" />
-        </item>
-        <item>the</item>
-      </one-of>
-      <ruleref uri="#OrdinalForDates" />
-    </item>
+    <one-of>
+      <item>
+        <ruleref uri="#Month31Days" />
+        <ruleref uri="#OrdinalFor31days" />
+      </item>
+      <item>
+        February
+        <one-of>
+          <item>
+            <ruleref uri="#OrdinalFor28days"/>
+          </item>
+          <item>
+            <ruleref uri="#OrdinalFor29days"/>
+          </item>
+        </one-of>
+      </item>
+      <item>
+        <ruleref uri="#Month30Days" />
+        <ruleref uri="#OrdinalFor30days" />
+      </item>
+    </one-of>
   </rule>
   <rule id="Month">
     <one-of>
-      <item>January</item>
+      <item>
+        <ruleref uri="#Month31Days" />
+      </item>
       <item>February</item>
+      <item>
+        <ruleref uri="#Month30Days" />
+      </item>
+    </one-of>
+  </rule>
+
+  <rule id="Month31Days">
+    <one-of>
+      <item>January</item>
       <item>March</item>
-      <item>April</item>
       <item>May</item>
-      <item>June</item>
       <item>July</item>
       <item>August</item>
-      <item>September</item>
       <item>October</item>
-      <item>November</item>
       <item>December</item>
     </one-of>
   </rule>
+
+  <rule id="Month30Days">
+    <one-of>
+      <item>April</item>
+      <item>June</item>
+      <item>September</item>
+      <item>November</item>
+    </one-of>
+  </rule>
+
   <rule id="DayOfTheWeek">
     <one-of>
       <item>Monday</item>
@@ -379,7 +824,7 @@
       <item>Sunday</item>
     </one-of>
   </rule>
-  <rule id="OrdinalForDates">
+  <rule id="OrdinalFor28days">
     <one-of>
       <item>
         <ruleref uri="#OrdinalNumberFirstToNinth" />
@@ -388,14 +833,49 @@
         <ruleref uri="#OrdinalNumberEleventhToNinteenth" />
       </item>
       <item>
-        <ruleref uri="#OrdinalNumberTenths" />
+        <one-of>
+          <item>tenth</item>
+          <item>twentieth</item>
+          <item>thirtieth</item>
+        </one-of>
       </item>
       <item>
-        <ruleref uri="#TwentyToNinety" />
+        <item>twenty</item>
         <ruleref uri="#OrdinalNumberFirstToNinth" />
+      </item>
+      <item>
+        <item>thirty first</item>
       </item>
     </one-of>
   </rule>
+
+  <rule id="OrdinalFor29days">
+    <one-of>
+      <item>
+        <ruleref uri="#OrdinalFor28days" />
+      </item>
+      <item>twenty ninth</item>
+    </one-of>
+  </rule>
+
+  <rule id="OrdinalFor30days">
+    <one-of>
+      <item>
+        <ruleref uri="#OrdinalFor29days" />
+      </item>
+      <item>thirtieth</item>
+    </one-of>
+  </rule>
+
+  <rule id="OrdinalFor31days">
+    <one-of>
+      <item>
+        <ruleref uri="#OrdinalFor30days" />
+      </item>
+      <item>thirty first</item>
+    </one-of>
+  </rule>
+
   <rule id="OrdinalNumberFirstToNinth">
     <one-of>
       <item>first</item>
@@ -499,24 +979,44 @@
       </item>
       <item>
         office
-        <one-of><item>hour</item><item>hours</item></one-of></item>
+        <one-of>
+          <item>hour</item>
+          <item>hours</item>
+        </one-of>
+      </item>
     </one-of>
   </rule>
   <rule id="ObjectPossessedByPerson">
     <one-of>
       <item>
         <ruleref uri="#PersonReference" />'s
-        <ruleref uri="#ObjectCanBePossessed" /></item>
+        <ruleref uri="#ObjectCanBePossessed" />
+      </item>
       <item>
         the
         <ruleref uri="#ObjectCanBePossessed" />
         of
-        <ruleref uri="#PersonReference" /></item>
+        <ruleref uri="#PersonReference" />
+      </item>
     </one-of>
   </rule>
   <rule id="Email">
     email
-    <item repeat="0-1">address</item></rule>
+    <item repeat="0-1">address</item>
+  </rule>
+  <rule id="PhoneNumber">
+    <one-of>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>telephone</item>
+            <item>phone</item>
+          </one-of>
+        </item>
+        number
+      </item>
+    </one-of>
+  </rule>
   <rule id="Homepage">
     <one-of>
       <item>webpage</item>
@@ -579,15 +1079,39 @@
         <ruleref uri="#Labs" />
       </item>
       <item>
-        Room <ruleref uri="#OfficeNumber" /></item>
-      <item weight="0">
+        <item repeat="0-1">the</item>
+        <one-of>
+          <item>
+            <ruleref uri="#FemaleFacultyLastName"/>
+          </item>
+          <item>
+            <ruleref uri="#MaleFacultyLastName"/>
+          </item>
+        </one-of>
+        lab
+      </item>
+      <item>
+        Room <ruleref uri="#OfficeNumber" />
+      </item>
+      <item weight="1">
         Dean's
-        <one-of><item>conference room</item><item>office</item></one-of></item>
-      <item weight="1">empty room</item>
-      <item weight="1">study room</item>
+        <one-of>
+          <item>conference room</item>
+          <item>office</item>
+        </one-of>
+      </item>
+      <item weight="2">the front desk</item>
+      <item weight="2">the kitchen</item>
+      <item weight="2">the emergency exit</item>
+      <item weight="2">the stairs</item>
+      <item weight="2">an empty room</item>
+      <item weight="2">a study room</item>
       <item weight="100">
         <ruleref uri="#PersonReference" />'s
-        <one-of><item>office</item><item>lab</item><item>desk</item></one-of></item>
+        <one-of>
+          <item>office</item>
+        </one-of>
+      </item>
       <item weight="30">
         <item repeat="0-1">
           <ruleref uri="#EnglishArticle" />
@@ -650,6 +1174,7 @@
     </item>
   </rule>
   <rule id="AcademicDiscipline">
+    <item repeat="0-1">the</item>
     <one-of>
       <item>Cognitive Systems</item>
       <item>Artificial Intelligence</item>
@@ -670,6 +1195,7 @@
       <item>Algorithms</item>
       <item>Security</item>
     </one-of>
+    <item repeat="0-1">group</item>
   </rule>
   <rule id="TemporalReference">
     <one-of>
@@ -698,16 +1224,28 @@
         <ruleref uri="#Date" />
       </item>
       <item>
-        the week of<ruleref uri="#Date" /></item>
+        the week of<ruleref uri="#Date" />
+      </item>
       <item>
-        the <ruleref uri="#DayOfTheWeek" /> of<ruleref uri="#Date" /></item>
+        the <ruleref uri="#DayOfTheWeek" /> of<ruleref uri="#Date" />
+      </item>
     </one-of>
   </rule>
   <rule id="EventMaybeTemporallyStampped">
     <one-of>
       <item weight="1">
-        <ruleref uri="#TemporalReference" />'s
-        <one-of><item><ruleref uri="#EventName" /></item><item><ruleref uri="#Course" /></item></one-of></item>
+        <item repeat="0-1">
+          <ruleref uri="#TemporalReference" />'s
+        </item>
+        <one-of>
+          <item>
+            <ruleref uri="#RecurringEventName" />
+          </item>
+          <item>
+            <ruleref uri="#Course" />
+          </item>
+        </one-of>
+      </item>
       <item weight="1">
         <item repeat="0-1">the</item>
         <one-of>
@@ -720,7 +1258,7 @@
         </one-of>
         <ruleref uri="#TemporalReference" />
       </item>
-      <item weight="0">
+      <item weight="1">
         <item repeat="0-1">the</item>
         <one-of>
           <item>
@@ -736,9 +1274,6 @@
           <item>for</item>
         </one-of>
         <ruleref uri="#TemporalReference" />
-      </item>
-      <item>
-        <ruleref uri="#Course" />
       </item>
       <item weight="100">
         <item repeat="0-1">
@@ -757,17 +1292,18 @@
   </rule>
   <rule id="EventName">
     <one-of>
-      <item weight="10">
-        <ruleref uri="#Course" />
-      </item>
-      <item weight="20">
-        <ruleref uri="#OfficeHours" />
-      </item>
-      <item weight="1">
-        <ruleref uri="#GenericEvent" />
-      </item>
       <item>
         <ruleref uri="#OneTimeEvent" />
+      </item>
+      <item weight="2">
+        <ruleref uri="#RecurringEventName" />
+      </item>
+    </one-of>
+  </rule>
+  <rule id="RecurringEventName">
+    <one-of>
+      <item weight="1">
+        <ruleref uri="#GenericEvent" />
       </item>
       <item weight="2">
         <ruleref uri="#RecurringEventWithSpecialName" />
@@ -790,6 +1326,16 @@
       <item>Dean's Seminar Series</item>
       <item>Algorithm Coffee</item>
       <item>faculty meeting</item>
+      <item>
+        <item repeat="0-1">EECS</item>
+        <item repeat="0-1">Free</item>
+        Bagel, Coffee, and Tea
+      </item>
+      <item>
+        <item repeat="0-1">EECS</item>
+        <item repeat="0-1">Free</item>
+        Bagel and Coffee
+      </item>
     </one-of>
   </rule>
   <rule id="GenericEvent">
@@ -798,53 +1344,104 @@
         <item repeat="0-1">
           <one-of>
             <item>CS</item>
+            <item>
+              <ruleref uri="#AcademicDiscipline" />
+            </item>
           </one-of>
         </item>
-        <item repeat="0-1">
-          <ruleref uri="#AcademicDiscipline" />
-        </item>
-        <ruleref uri="#EventCategory" />
+        <ruleref uri="#SingularEventCategory" />
       </item>
     </one-of>
   </rule>
   <rule id="EventCategory">
     <one-of>
+      <item>
+        <ruleref uri="#SingularEventCategory" />
+      </item>
+      <item>
+        <ruleref uri="#PluralEventCategory" />
+      </item>
+    </one-of>
+  </rule>
+  <rule id="SingularEventCategory">
+    <one-of>
       <item>talk</item>
-      <item>talks</item>
       <item>meeting</item>
-      <item>meetings</item>
       <item>lecture</item>
-      <item>lectures</item>
       <item>discussion</item>
-      <item>discussions</item>
       <item>discussion session</item>
-      <item>discussion sessions</item>
       <item>hackathon</item>
       <item>colloquium</item>
       <item>coffee</item>
       <item>brown bag</item>
       <item>seminar</item>
-      <item>seminars</item>
       <item>class</item>
-      <item>classes</item>
       <item>lunch</item>
       <item>luncheon</item>
       <item>event</item>
+    </one-of>
+  </rule>
+  <rule id="PluralEventCategory">
+    <one-of>
+      <item>talks</item>
+      <item>meetings</item>
+      <item>lectures</item>
+      <item>discussions</item>
+      <item>discussion sessions</item>
+      <item>colloquia</item>
+      <item>seminars</item>
+      <item>classes</item>
+      <item>lunches</item>
       <item>events</item>
     </one-of>
   </rule>
   <rule id="OfficeHours">
     <one-of>
+      <item>
+        <ruleref uri="#SingularOfficeHour" />
+      </item>
+      <item>
+        <ruleref uri="#PluralOfficeHours" />
+      </item>
+    </one-of>
+    <item repeat="0-1">
+      <one-of>
+        <item>of</item>
+        <item>for</item>
+      </one-of>
+      <ruleref uri="#Course" />
+    </item>
+  </rule>
+  <rule id="SingularOfficeHour">
+    <one-of>
+      <item weight="10">
+        <ruleref uri="#Course" /> office hour
+      </item>
+      <item weight="1">
+        office hour for <ruleref uri="#Course" />
+      </item>
+      <item weight="5">
+        <ruleref uri="#PersonReference" /> 's office hour
+      </item>
+      <item weight="1">
+        office hour for <ruleref uri="#PersonReference" />
+      </item>
+    </one-of>
+  </rule>
+  <rule id="PluralOfficeHours">
+    <one-of>
       <item weight="10">
         <ruleref uri="#Course" /> office hours
       </item>
       <item weight="1">
-        office hours for <ruleref uri="#Course" /></item>
+        office hours for <ruleref uri="#Course" />
+      </item>
       <item weight="5">
         <ruleref uri="#PersonReference" /> 's office hours
       </item>
       <item weight="1">
-        office hours for <ruleref uri="#PersonReference" /></item>
+        office hours for <ruleref uri="#PersonReference" />
+      </item>
     </one-of>
   </rule>
   <rule id="Course">
@@ -859,750 +1456,2896 @@
   </rule>
   <rule id="Courses_name">
     <one-of>
-      <item>CS 101 Computer Science: Concepts, Philosophy, and Connections</item>
-      <item>CS 110 Introduction to Computer Programming</item>
-      <item>COG SCI 207 Introduction to Cognitive Modeling</item>
-      <item>CS 213 Introduction to Computer Systems</item>
-      <item>CS 301 Introduction to Robotics Laboratory</item>
-      <item>CS 331 Introduction to Computational Photography</item>
-      <item>CS 332 Introduction to Computer Vision</item>
-      <item>CS 335 Introduction to the Theory of Computation</item>
-      <item>CS 339 Introduction to Databases</item>
-      <item>CS 340 Introduction to Computer Networking</item>
-      <item>CS 348 Introduction to Artificial Intelligence</item>
-      <item>CS 350 Introduction to Computer Security</item>
-      <item>CS 351-1 Introduction to Computer Graphics</item>
-      <item>CS 356 Introduction to Formal Verification</item>
-      <item>CS 358 Introduction to Parallel Computing</item>
-      <item>CS 395 Introduction to Computational Learning Theory</item>
-      <item>CS 495 Introduction to Computational Learning Theory</item>
-      <item>CS 495 Introduction to Database Systems</item>
-      <item>CS 495 Introduction to Computational Linguistics</item>
-      <item>DTC 106 Design, Thinking, and Communication</item>
-      <item>CS 111 Fundamentals of Computer Programming 1</item>
-      <item>CS 130 Tools and Technology of the World Wide Web</item>
-      <item>CS 205 Fundamentals of Computer System Software</item>
-      <item>General Engineering 205 Engineering Analysis</item>
-      <item>GEN ENG 205 Engineering Analysis</item>
-      <item>EA 1 205 Engineering Analysis</item>
-      <item>CS 211 Fundamentals of Computer Programming 2</item>
-      <item>CS 212 Mathematical Foundations of Computer Science</item>
-      <item>CS 214 Data Structures and Data Management</item>
-      <item>CS 230 Programming for Engineers</item>
-      <item>CS 295 Intensive Program Design</item>
-      <item>CS 295 Fundamentals of Computer Programming 1.5</item>
-      <item>CS 313 Tangible Interaction Design and Learning</item>
-      <item>CS 413 Tangible Interaction Design and Learning</item>
-      <item>CS 314 Technology and Human Interaction</item>
-      <item>CS 315 Design, Technology, and Research</item>
-      <item>CS 497 Design, Technology, and Research</item>
-      <item>CS 321 Programming Languages</item>
-      <item>CS 322 Compiler Construction</item>
-      <item>CS 325 Artificial Intelligence Programming</item>
-      <item>CS 330 Human Computer Interaction</item>
-      <item>CS 336 Design and Analysis of Algorithms</item>
-      <item>CS 337 Semantic Information Processing</item>
-      <item>CS 338 Practicum in Intelligent Information Systems</item>
-      <item>CS 343 Operating Systems</item>
-      <item>CS 344 Design of Problem Solvers</item>
-      <item>CS 345 Distributed Systems</item>
-      <item>CS 349 Machine Learning</item>
-      <item>CS 351-2 Intermediate Computer Graphics</item>
-      <item>CS 352 Machine Perception of Music and Audio</item>
-      <item>CS 354 Network Penetration and Security</item>
-      <item>CS 361 Computer Architecture 1</item>
-      <item>CS 362 Computer Architecture Project</item>
-      <item>CS 368 Programming Massively Parallel Processors with CUDA</item>
-      <item>CS 468 Programming Massively Parallel Processors with CUDA</item>
-      <item>CS 370 Computer Game Design</item>
-      <item>CS 371 Knowledge Representation and Reasoning</item>
-      <item>CS 372 Designing and Constructing Models with Multi-Agent Languages</item>
-      <item>CS 472 Designing and Constructing Models with Multi-Agent Languages</item>
-      <item>CS 375 Machine Learning: Foundations, Applications, and Algorithms</item>
-      <item>CS 475 Machine Learning: Foundations, Applications, and Algorithms</item>
-      <item>CS 375 Machine Learning</item>
-      <item>CS 475 Machine Learning</item>
-      <item>CS 394 Software Project Management and Development</item>
-      <item>CS 395 Economics and Computation</item>
-      <item>CS 395-20 Data as Art</item>
-      <item>CS 395 Advanced Compiler Hacking</item>
-      <item>CS 495 Advanced Compiler Hacking</item>
-      <item>CS 395 Advanced Topics in Computer Architecture</item>
-      <item>CS 495 Advanced Topics in Computer Architecture</item>
-      <item>CS 395 Algorithmic DNA Self-Assembly Seminar</item>
-      <item>CS 495 Algorithmic DNA Self-Assembly Seminar</item>
-      <item>CS 395 DNA Self-Assembly Seminar</item>
-      <item>CS 495 DNA Self-Assembly Seminar</item>
-      <item>CS 395 Algorithmic and Economic Aspects of Social Networks</item>
-      <item>CS 495 Algorithmic and Economic Aspects of Social Networks</item>
-      <item>CS 395 Algorithmic Techniques for Bioinformatics Seminar</item>
-      <item>CS 495 Algorithmic Techniques for Bioinformatics Seminar</item>
-      <item>CS 395 Cognitive Simulation for Virtual Characters</item>
-      <item>CS 495 Cognitive Simulation for Virtual Characters</item>
-      <item>CS 395 Building Next-Generation AI Applications with IBM Watson</item>
-      <item>CS 495 Building Next-Generation AI Applications with IBM Watson</item>
-      <item>CS 395 Collaboration Technology</item>
-      <item>CS 495 Collaboration Technology</item>
-      <item>CS 395 Computational Auditory Scene Analysis</item>
-      <item>CS 495 Computational Auditory Scene Analysis</item>
-      <item>CS 395 Human-level Artificial Intelligence</item>
-      <item>CS 495 Human-level Artificial Intelligence</item>
-      <item>CS 395 Mobile Apps and Systems</item>
-      <item>CS 495 Mobile Apps and Systems</item>
-      <item>CS 395 Object-Oriented Languages and Environments</item>
-      <item>CS 495 Object-Oriented Languages and Environments</item>
-      <item>CS 395 Web Information Retrieval and Extraction</item>
-      <item>CS 495 Web Information Retrieval and Extraction</item>
-      <item>CS 395 Optimization Techniques for Machine Learning and Deep Learning</item>
-      <item>CS 495 Optimization Techniques for Machine Learning and Deep Learning</item>
-      <item>CS 395 Deep Learning Foundations from Scratch</item>
-      <item>CS 495 Deep Learning Foundations from Scratch</item>
-      <item>CS 395 Platforms and Networked Markets</item>
-      <item>CS 495 Platforms and Networked Markets</item>
-      <item>CS 376 Game Design and Development</item>
-      <item>CS 396 Special Topics in Game AI - Logic Programming</item>
-      <item>CS 496 Special Topics in Game AI - Logic Programming</item>
-      <item>CS 396 Special Topics in Game AI</item>
-      <item>CS 496 Special Topics in Game AI</item>
-      <item>CS 396 Logic Programming</item>
-      <item>CS 496 Logic Programming</item>
-      <item>CS 396 Companion Cognitive System Studio</item>
-      <item>CS 496 Companion Cognitive System Studio</item>
-      <item>CS 323 Code Analysis and Transformation</item>
-      <item>CS 396 Computational Geometry</item>
-      <item>CS 496 Computational Geometry</item>
-      <item>CS 396 Data Science Seminar</item>
-      <item>CS 496 Data Science Seminar</item>
-      <item>CS 396 Special Topics in Swarms and Multi-robot Systems</item>
-      <item>CS 496 Special Topics in Swarms and Multi-robot Systems</item>
-      <item>CS 396 Swarms and Multi-robot Systems</item>
-      <item>CS 496 Swarms and Multi-robot Systems</item>
-      <item>CS 396 Quadrotor Design and Control</item>
-      <item>CS 496 Quadrotor Design and Control</item>
-      <item>CS 396 Systems Programming in Rust</item>
-      <item>CS 496 Systems Programming in Rust</item>
-      <item>CS 396 Programming Languages Seminar</item>
-      <item>CS 496 Programming Languages Seminar</item>
-      <item>CS 396 Randomized Algorithms</item>
-      <item>CS 496 Randomized Algorithms</item>
-      <item>CS 396 Affective Computing Seminar</item>
-      <item>CS 496 Affective Computing Seminar</item>
-      <item>CS 396 Type Systems</item>
-      <item>CS 496 Type Systems</item>
-      <item>CS 396 Multi-Modal Analytics</item>
-      <item>CS 496 Multi-Modal Analytics</item>
-      <item>CS 396 Operational Semantics</item>
-      <item>CS 496 Operational Semantics</item>
-      <item>CS 396 Conversational Interfaces</item>
-      <item>CS 496 Conversational Interfaces</item>
-      <item>CS 396 Statistical Machine Learning</item>
-      <item>CS 496 Statistical Machine Learning</item>
-      <item>CS 397 Digital Luthier</item>
-      <item>CS 397 Software Construction</item>
-      <item>CS 497 Software Construction</item>
-      <item>CS 397 Computational Photography Seminar</item>
-      <item>CS 497 Computational Photography Seminar</item>
-      <item>CS 397 Game Development Studio</item>
-      <item>CS 497 Game Development Studio</item>
-      <item>CS 397 Advanced Topics in Compilers</item>
-      <item>CS 497 Advanced Topics in Compilers</item>
-      <item>CS 397 Digital Forensics and Incident Response</item>
-      <item>CS 497 Digital Forensics and Incident Response</item>
-      <item>CS 397 Innovation in Journalism and Technology</item>
-      <item>CS 497 Innovation in Journalism and Technology</item>
-      <item>CS 397 Social Computing and Crowd Sourcing</item>
-      <item>CS 497 Social Computing and Crowd Sourcing</item>
-      <item>CS 397 Inclusive Making</item>
-      <item>CS 497 Inclusive Making</item>
-      <item>CS 397 Internet-scale Experimentation</item>
-      <item>CS 497 Internet-scale Experimentation</item>
-      <item>CS 397 Algorithms and Society</item>
-      <item>CS 497 Algorithms and Society</item>
-      <item>CS 397 Wireless and Mobile Health</item>
-      <item>CS 497 Wireless and Mobile Health</item>
-      <item>CS 397 mHealth</item>
-      <item>CS 497 mHealth</item>
-      <item>CS 397 Innovation Lab: Building Technologies for the Law</item>
-      <item>CS 497 Innovation Lab: Building Technologies for the Law</item>
-      <item>CS 397 Advanced Multimodal Interfaces and Analytics Research</item>
-      <item>CS 497 Advanced Multimodal Interfaces and Analytics Research</item>
-      <item>CS 397 Computing and Socioeconomic Mobility</item>
-      <item>CS 497 Computing and Socioeconomic Mobility</item>
-      <item>CS 422 Random Processes in Communications and Control 1</item>
-      <item>CS 423 Random Processes in Communications and Control 2</item>
-      <item>CS 428 Information Theory</item>
-      <item>CS 430 Design of Interactive Learning Environments</item>
-      <item>CS 435 Deep Reinforcement Learning from Scratch</item>
-      <item>CS 440 Advanced Networking</item>
-      <item>CS 441 Resource Virtualization</item>
-      <item>CS 442 Dynamic Behavior of Applications, Hosts, and Networks</item>
-      <item>CS 443 Advanced Operating Systems</item>
-      <item>CS 446 Kernel and Other Low-level Software Development</item>
-      <item>CS 450 Internet Security</item>
-      <item>CS 452 Advanced Computer Architecture 1</item>
-      <item>CS 455 Distributed Computing Systems</item>
-      <item>CS 457 Advanced Algorithms</item>
-      <item>CS 469 Machine Learning and Artificial Intelligence for Robotics</item>
-      <item>CS 472 Designing and Constructing Models with Multi-Agent Languages</item>
-      <item>CS 473-1 NUvention: Web and Media</item>
-      <item>CS 473-2 NUvention: Web and Media</item>
-      <item>CS 474 Probabilistic Graphical Models</item>
-      <item>CS 495 Machine Learning and Artificial Intelligence for Robotics</item>
-      <item>CS 495 Intensive Program Design</item>
-      <item>CS 496 The Design of Technological Tools for Thinking and Learning</item>
-      <item>CS 496 Computational Complexity</item>
-      <item>CS 496 Topics in Theoretical Machine Learning</item>
-      <item>CS 496 Theoretical Machine Learning</item>
-      <item>CS 496 Graduate Algorithms</item>
-      <item>CS 496 Seminar in Statistical Language Modeling</item>
-      <item>CS 496 Distributed Systems in Challenging Environments</item>
-      <item>CS 496 Computational Auditory Scene Analysis</item>
-      <item>CS 496 Mechanism Design</item>
-      <item>CS 497 Rapid Prototyping for Software Innovation</item>
-      <item>CS 510 Social Media Mining</item>
-      <item>CS 512 Parallelism Seminar</item>
-      <item>CS 110 Intro to Computer Programming</item>
-      <item>COG SCI 207 Intro to Cognitive Modeling</item>
-      <item>CS 213 Intro to Computer Systems</item>
-      <item>CS 301 Intro to Robotics Laboratory</item>
-      <item>CS 331 Intro to Computational Photography</item>
-      <item>CS 332 Intro to Computer Vision</item>
-      <item>CS 335 Intro to the Theory of Computation</item>
-      <item>CS 339 Intro to Databases</item>
-      <item>CS 340 Intro to Computer Networking</item>
-      <item>CS 348 Intro to Artificial Intelligence</item>
-      <item>CS 348 Intro to AI</item>
-      <item>CS 350 Intro to Computer Security</item>
-      <item>CS 351-1 Intro to Computer Graphics</item>
-      <item>CS 356 Intro to Formal Verification</item>
-      <item>CS 358 Intro to Parallel Computing</item>
-      <item>CS 395 Intro to Computational Learning Theory</item>
-      <item>CS 495 Intro to Computational Learning Theory</item>
-      <item>CS 495 Intro to Database Systems</item>
-      <item>CS 495 Intro to Computational Linguistics</item>
-      <item>101 Computer Science: Concepts, Philosophy, and Connections</item>
-      <item>110 Introduction to Computer Programming</item>
-      <item>207 Introduction to Cognitive Modeling</item>
-      <item>213 Introduction to Computer Systems</item>
-      <item>301 Introduction to Robotics Laboratory</item>
-      <item>331 Introduction to Computational Photography</item>
-      <item>332 Introduction to Computer Vision</item>
-      <item>335 Introduction to the Theory of Computation</item>
-      <item>339 Introduction to Databases</item>
-      <item>340 Introduction to Computer Networking</item>
-      <item>348 Introduction to Artificial Intelligence</item>
-      <item>348 Introduction to AI</item>
-      <item>350 Introduction to Computer Security</item>
-      <item>351-1 Introduction to Computer Graphics</item>
-      <item>356 Introduction to Formal Verification</item>
-      <item>358 Introduction to Parallel Computing</item>
-      <item>395 Introduction to Computational Learning Theory</item>
-      <item>495 Introduction to Computational Learning Theory</item>
-      <item>495 Introduction to Database Systems</item>
-      <item>495 Introduction to Computational Linguistics</item>
-      <item>110 Intro to Computer Programming</item>
-      <item>207 Intro to Cognitive Modeling</item>
-      <item>213 Intro to Computer Systems</item>
-      <item>301 Intro to Robotics Laboratory</item>
-      <item>331 Intro to Computational Photography</item>
-      <item>332 Intro to Computer Vision</item>
-      <item>335 Intro to the Theory of Computation</item>
-      <item>339 Intro to Databases</item>
-      <item>340 Intro to Computer Networking</item>
-      <item>348 Intro to Artificial Intelligence</item>
-      <item>348 Intro to AI</item>
-      <item>350 Intro to Computer Security</item>
-      <item>351-1 Intro to Computer Graphics</item>
-      <item>356 Intro to Formal Verification</item>
-      <item>358 Intro to Parallel Computing</item>
-      <item>395 Intro to Computational Learning Theory</item>
-      <item>495 Intro to Computational Learning Theory</item>
-      <item>495 Intro to Database Systems</item>
-      <item>495 Intro to Computational Linguistics</item>
-      <item>106 Design, Thinking, and Communication</item>
-      <item>111 Fundamentals of Computer Programming 1</item>
-      <item>130 Tools and Technology of the World Wide Web</item>
-      <item>205 Fundamentals of Computer System Software</item>
-      <item>205 Engineering Analysis</item>
-      <item>205 Engineering Analysis</item>
-      <item>211 Fundamentals of Computer Programming 2</item>
-      <item>212 Mathematical Foundations of Computer Science</item>
-      <item>214 Data Structures and Data Management</item>
-      <item>230 Programming for Engineers</item>
-      <item>295 Intensive Program Design</item>
-      <item>295 Fundamentals of Computer Programming 1.5</item>
-      <item>313 Tangible Interaction Design and Learning</item>
-      <item>413 Tangible Interaction Design and Learning</item>
-      <item>314 Technology and Human Interaction</item>
-      <item>315 Design, Technology, and Research</item>
-      <item>497 Design, Technology, and Research</item>
-      <item>321 Programming Languages</item>
-      <item>322 Compiler Construction</item>
-      <item>325 Artificial Intelligence Programming</item>
-      <item>330 Human Computer Interaction</item>
-      <item>336 Design and Analysis of Algorithms</item>
-      <item>337 Semantic Information Processing</item>
-      <item>338 Practicum in Intelligent Information Systems</item>
-      <item>343 Operating Systems</item>
-      <item>344 Design of Problem Solvers</item>
-      <item>345 Distributed Systems</item>
-      <item>349 Machine Learning</item>
-      <item>351-2 Intermediate Computer Graphics</item>
-      <item>352 Machine Perception of Music and Audio</item>
-      <item>354 Network Penetration and Security</item>
-      <item>361 Computer Architecture 1</item>
-      <item>362 Computer Architecture Project</item>
-      <item>368 Programming Massively Parallel Processors with CUDA</item>
-      <item>468 Programming Massively Parallel Processors with CUDA</item>
-      <item>370 Computer Game Design</item>
-      <item>371 Knowledge Representation and Reasoning</item>
-      <item>372 Designing and Constructing Models with Multi-Agent Languages</item>
-      <item>472 Designing and Constructing Models with Multi-Agent Languages</item>
-      <item>375 Machine Learning: Foundations, Applications, and Algorithms</item>
-      <item>475 Machine Learning: Foundations, Applications, and Algorithms</item>
-      <item>375 Machine Learning</item>
-      <item>475 Machine Learning</item>
-      <item>394 Software Project Management and Development</item>
-      <item>395 Economics and Computation</item>
-      <item>395-20 Data as Art</item>
-      <item>395 Advanced Compiler Hacking</item>
-      <item>495 Advanced Compiler Hacking</item>
-      <item>395 Advanced Topics in Computer Architecture</item>
-      <item>495 Advanced Topics in Computer Architecture</item>
-      <item>395 Algorithmic DNA Self-Assembly Seminar</item>
-      <item>495 Algorithmic DNA Self-Assembly Seminar</item>
-      <item>395 DNA Self-Assembly Seminar</item>
-      <item>495 DNA Self-Assembly Seminar</item>
-      <item>395 Algorithmic and Economic Aspects of Social Networks</item>
-      <item>495 Algorithmic and Economic Aspects of Social Networks</item>
-      <item>395 Algorithmic Techniques for Bioinformatics Seminar</item>
-      <item>495 Algorithmic Techniques for Bioinformatics Seminar</item>
-      <item>395 Cognitive Simulation for Virtual Characters</item>
-      <item>495 Cognitive Simulation for Virtual Characters</item>
-      <item>395 Building Next-Generation AI Applications with IBM Watson</item>
-      <item>495 Building Next-Generation AI Applications with IBM Watson</item>
-      <item>395 Collaboration Technology</item>
-      <item>495 Collaboration Technology</item>
-      <item>395 Computational Auditory Scene Analysis</item>
-      <item>495 Computational Auditory Scene Analysis</item>
-      <item>395 Human-level Artificial Intelligence</item>
-      <item>495 Human-level Artificial Intelligence</item>
-      <item>395 Mobile Apps and Systems</item>
-      <item>495 Mobile Apps and Systems</item>
-      <item>395 Object-Oriented Languages and Environments</item>
-      <item>495 Object-Oriented Languages and Environments</item>
-      <item>395 Web Information Retrieval and Extraction</item>
-      <item>495 Web Information Retrieval and Extraction</item>
-      <item>395 Optimization Techniques for Machine Learning and Deep Learning</item>
-      <item>495 Optimization Techniques for Machine Learning and Deep Learning</item>
-      <item>395 Deep Learning Foundations from Scratch</item>
-      <item>495 Deep Learning Foundations from Scratch</item>
-      <item>395 Platforms and Networked Markets</item>
-      <item>495 Platforms and Networked Markets</item>
-      <item>376 Game Design and Development</item>
-      <item>396 Special Topics in Game AI - Logic Programming</item>
-      <item>496 Special Topics in Game AI - Logic Programming</item>
-      <item>396 Special Topics in Game AI</item>
-      <item>496 Special Topics in Game AI</item>
-      <item>396 Logic Programming</item>
-      <item>496 Logic Programming</item>
-      <item>396 Companion Cognitive System Studio</item>
-      <item>496 Companion Cognitive System Studio</item>
-      <item>323 Code Analysis and Transformation</item>
-      <item>396 Computational Geometry</item>
-      <item>496 Computational Geometry</item>
-      <item>396 Data Science Seminar</item>
-      <item>496 Data Science Seminar</item>
-      <item>396 Special Topics in Swarms and Multi-robot Systems</item>
-      <item>496 Special Topics in Swarms and Multi-robot Systems</item>
-      <item>396 Swarms and Multi-robot Systems</item>
-      <item>496 Swarms and Multi-robot Systems</item>
-      <item>396 Quadrotor Design and Control</item>
-      <item>496 Quadrotor Design and Control</item>
-      <item>396 Systems Programming in Rust</item>
-      <item>496 Systems Programming in Rust</item>
-      <item>396 Programming Languages Seminar</item>
-      <item>496 Programming Languages Seminar</item>
-      <item>396 Randomized Algorithms</item>
-      <item>496 Randomized Algorithms</item>
-      <item>396 Affective Computing Seminar</item>
-      <item>496 Affective Computing Seminar</item>
-      <item>396 Type Systems</item>
-      <item>496 Type Systems</item>
-      <item>396 Multi-Modal Analytics</item>
-      <item>496 Multi-Modal Analytics</item>
-      <item>396 Operational Semantics</item>
-      <item>496 Operational Semantics</item>
-      <item>396 Conversational Interfaces</item>
-      <item>496 Conversational Interfaces</item>
-      <item>396 Statistical Machine Learning</item>
-      <item>496 Statistical Machine Learning</item>
-      <item>397 Digital Luthier</item>
-      <item>397 Software Construction</item>
-      <item>497 Software Construction</item>
-      <item>397 Computational Photography Seminar</item>
-      <item>497 Computational Photography Seminar</item>
-      <item>397 Game Development Studio</item>
-      <item>497 Game Development Studio</item>
-      <item>397 Advanced Topics in Compilers</item>
-      <item>497 Advanced Topics in Compilers</item>
-      <item>397 Digital Forensics and Incident Response</item>
-      <item>497 Digital Forensics and Incident Response</item>
-      <item>397 Innovation in Journalism and Technology</item>
-      <item>497 Innovation in Journalism and Technology</item>
-      <item>397 Social Computing and Crowd Sourcing</item>
-      <item>497 Social Computing and Crowd Sourcing</item>
-      <item>397 Inclusive Making</item>
-      <item>497 Inclusive Making</item>
-      <item>397 Internet-scale Experimentation</item>
-      <item>497 Internet-scale Experimentation</item>
-      <item>397 Algorithms and Society</item>
-      <item>497 Algorithms and Society</item>
-      <item>397 Wireless and Mobile Health</item>
-      <item>497 Wireless and Mobile Health</item>
-      <item>397 mHealth</item>
-      <item>497 mHealth</item>
-      <item>397 Innovation Lab: Building Technologies for the Law</item>
-      <item>497 Innovation Lab: Building Technologies for the Law</item>
-      <item>397 Advanced Multimodal Interfaces and Analytics Research</item>
-      <item>497 Advanced Multimodal Interfaces and Analytics Research</item>
-      <item>397 Computing and Socioeconomic Mobility</item>
-      <item>497 Computing and Socioeconomic Mobility</item>
-      <item>422 Random Processes in Communications and Control 1</item>
-      <item>423 Random Processes in Communications and Control 2</item>
-      <item>428 Information Theory</item>
-      <item>430 Design of Interactive Learning Environments</item>
-      <item>435 Deep Reinforcement Learning from Scratch</item>
-      <item>440 Advanced Networking</item>
-      <item>441 Resource Virtualization</item>
-      <item>442 Dynamic Behavior of Applications, Hosts, and Networks</item>
-      <item>443 Advanced Operating Systems</item>
-      <item>446 Kernel and Other Low-level Software Development</item>
-      <item>450 Internet Security</item>
-      <item>452 Advanced Computer Architecture 1</item>
-      <item>455 Distributed Computing Systems</item>
-      <item>457 Advanced Algorithms</item>
-      <item>469 Machine Learning and Artificial Intelligence for Robotics</item>
-      <item>472 Designing and Constructing Models with Multi-Agent Languages</item>
-      <item>473-1 NUvention: Web and Media</item>
-      <item>473-2 NUvention: Web and Media</item>
-      <item>474 Probabilistic Graphical Models</item>
-      <item>495 Machine Learning and Artificial Intelligence for Robotics</item>
-      <item>495 Intensive Program Design</item>
-      <item>496 The Design of Technological Tools for Thinking and Learning</item>
-      <item>496 Computational Complexity</item>
-      <item>496 Topics in Theoretical Machine Learning</item>
-      <item>496 Theoretical Machine Learning</item>
-      <item>496 Graduate Algorithms</item>
-      <item>496 Seminar in Statistical Language Modeling</item>
-      <item>496 Distributed Systems in Challenging Environments</item>
-      <item>496 Computational Auditory Scene Analysis</item>
-      <item>496 Mechanism Design</item>
-      <item>497 Rapid Prototyping for Software Innovation</item>
-      <item>510 Social Media Mining</item>
-      <item>512 Parallelism Seminar</item>
-      <item>110 Intro to Computer Programming</item>
-      <item>207 Intro to Cognitive Modeling</item>
-      <item>213 Intro to Computer Systems</item>
-      <item>301 Intro to Robotics Laboratory</item>
-      <item>331 Intro to Computational Photography</item>
-      <item>332 Intro to Computer Vision</item>
-      <item>335 Intro to the Theory of Computation</item>
-      <item>339 Intro to Databases</item>
-      <item>340 Intro to Computer Networking</item>
-      <item>348 Intro to Artificial Intelligence</item>
-      <item>350 Intro to Computer Security</item>
-      <item>351-1 Intro to Computer Graphics</item>
-      <item>356 Intro to Formal Verification</item>
-      <item>358 Intro to Parallel Computing</item>
-      <item>395 Intro to Computational Learning Theory</item>
-      <item>495 Intro to Computational Learning Theory</item>
-      <item>495 Intro to Database Systems</item>
-      <item>495 Intro to Computational Linguistics</item>
-      <item>Computer Science: Concepts, Philosophy, and Connections</item>
-      <item>Introduction to Computer Programming</item>
-      <item>Introduction to Cognitive Modeling</item>
-      <item>Introduction to Computer Systems</item>
-      <item>Introduction to Robotics Laboratory</item>
-      <item>Introduction to Medical Imaging</item>
-      <item>Introduction to Computational Photography</item>
-      <item>Introduction to Computer Vision</item>
-      <item>Introduction to Communication Networks</item>
-      <item>Introduction to the Theory of Computation</item>
-      <item>Introduction to Databases</item>
-      <item>Introduction to Computer Networking</item>
-      <item>Introduction to Artificial Intelligence</item>
-      <item>Introduction to Computer Security</item>
-      <item>Introduction to Computer Graphics</item>
-      <item>Introduction to Formal Verification</item>
-      <item>Introduction to Parallel Computing</item>
-      <item>Introduction to Computational Learning Theory</item>
-      <item>Introduction to Database Systems</item>
-      <item>Introduction to Computational Linguistics</item>
-      <item>Design, Thinking, and Communication</item>
-      <item>Intro to Computer Programming</item>
-      <item>Fundamentals of Computer Programming 1</item>
-      <item>Intro to Computers and Info Technology</item>
-      <item>Tools and Technology of the World Wide Web</item>
-      <item>Fundamentals of Computer System Software</item>
-      <item>Engineering Analysis</item>
-      <item>Engineering Analysis (Honors)</item>
-      <item>Intro to Cognitive Modeling</item>
-      <item>Fundamentals of Computer Programming 2</item>
-      <item>Mathematical Foundations of Computer Science</item>
-      <item>Intro to Computer Systems</item>
-      <item>Data Structures and Data Management</item>
-      <item>Programming for Engineers</item>
-      <item>Intensive Program Design</item>
-      <item>Fundamentals of Computer Programming 1.5</item>
-      <item>Intro to Robotics Laboratory</item>
-      <item>Probabilistic Systems</item>
-      <item>Communications Systems</item>
-      <item>Tangible Interaction Design and Learning</item>
-      <item>Technology and Human Interaction</item>
-      <item>Design, Technology, and Research</item>
-      <item>Data Management and Information Processing</item>
-      <item>Programming Languages</item>
-      <item>Compiler Construction</item>
-      <item>Artificial Intelligence Programming</item>
-      <item>AI Programming</item>
-      <item>Numerical Methods for Engineers</item>
-      <item>Human Computer Interaction</item>
-      <item>Intro to Computational Photography</item>
-      <item>Intro to Computer Vision</item>
-      <item>Intro to Communication Networks</item>
-      <item>Intro to the Theory of Computation</item>
-      <item>Design and Analysis of Algorithms</item>
-      <item>Semantic Information Processing</item>
-      <item>Practicum in Intelligent Information Systems</item>
-      <item>Intro to Databases</item>
-      <item>Intro to Computer Networking</item>
-      <item>Operating Systems</item>
-      <item>Design of Problem Solvers</item>
-      <item>Distributed Systems</item>
-      <item>Intro to Artificial Intelligence</item>
-      <item>Intro to AI</item>
-      <item>Machine Learning</item>
-      <item>Intro to Computer Security</item>
-      <item>Intro to Computer Graphics</item>
-      <item>Intermediate Computer Graphics</item>
-      <item>Machine Perception of Music and Audio</item>
-      <item>Network Penetration and Security</item>
-      <item>Intro to Formal Verification</item>
-      <item>Intro to Parallel Computing</item>
-      <item>Computer Architecture 1</item>
-      <item>Computer Architecture Project</item>
-      <item>Programming Massively Parallel Processors with CUDA</item>
-      <item>Computer Game Design</item>
-      <item>Knowledge Representation and Reasoning</item>
-      <item>Designing and Constructing Models with Multi-Agent Languages</item>
-      <item>Machine Learning: Foundations, Applications, and Algorithms</item>
-      <item>Machine Learning</item>
-      <item>Software Project Management and Development</item>
-      <item>Economics and Computation</item>
-      <item>Data as Art</item>
-      <item>Advanced Compiler Hacking</item>
-      <item>Advanced Topics in Computer Architecture</item>
-      <item>Algorithmic DNA Self-Assembly Seminar</item>
-      <item>DNA Self-Assembly Seminar</item>
-      <item>Algorithmic and Economic Aspects of Social Networks</item>
-      <item>Algorithmic Techniques for Bioinformatics Seminar</item>
-      <item>Cognitive Simulation for Virtual Characters</item>
-      <item>Biometrics</item>
-      <item>Building Next-Generation AI Applications with IBM Watson</item>
-      <item>Collaboration Technology</item>
-      <item>Computational Auditory Scene Analysis</item>
-      <item>Human-level Artificial Intelligence</item>
-      <item>Mobile Apps and Systems</item>
-      <item>Object-Oriented Languages and Environments</item>
-      <item>Web Information Retrieval and Extraction</item>
-      <item>Technology Infrastructure</item>
-      <item>Concepts, Requirements, Design, and Operation</item>
-      <item>Technology Infrastructure</item>
-      <item>Intro to Computational Learning Theory</item>
-      <item>Internet-of-Things Sensors, Systems, and Applications</item>
-      <item>Optimization Techniques for Machine Learning and Deep Learning</item>
-      <item>Deep Learning Foundations from Scratch</item>
-      <item>Platforms and Networked Markets</item>
-      <item>Game Design and Development</item>
-      <item>Special Topics in Game AI - Logic Programming</item>
-      <item>Special Topics in Game A1</item>
-      <item>Logic Programming</item>
-      <item>Companion Cognitive System Studio</item>
-      <item>Code Analysis and Transformation</item>
-      <item>Computational Geometry</item>
-      <item>Data Science Seminar</item>
-      <item>Special Topics in Swarms and Multi-robot Systems</item>
-      <item>Swarms and Multi-robot Systems</item>
-      <item>Quadrotor Design and Control</item>
-      <item>Systems Programming in Rust</item>
-      <item>Programming Languages Seminar</item>
-      <item>Randomized Algorithms</item>
-      <item>Affective Computing Seminar</item>
-      <item>Type Systems</item>
-      <item>Multi-Modal Analytics</item>
-      <item>Operational Semantics</item>
-      <item>Conversational Interfaces</item>
-      <item>Digital Luthier</item>
-      <item>Software Construction</item>
-      <item>Computational Photography Seminar</item>
-      <item>Game Development Studio</item>
-      <item>Advanced Topics in Compilers</item>
-      <item>Digital Forensics and Incident Response</item>
-      <item>Innovation in Journalism and Technology</item>
-      <item>Social Computing and Crowd Sourcing</item>
-      <item>Inclusive Making</item>
-      <item>Internet-scale Experimentation</item>
-      <item>Algorithms and Society</item>
-      <item>Wireless and Mobile Health</item>
-      <item>Wireless and Mobile Health</item>
-      <item>Innovation Lab: Building Technologies for the Law</item>
-      <item>Advanced Multimodal Interfaces and Analytics Research</item>
-      <item>Computing and Socioeconomic Mobility</item>
-      <item>Digital Image Processing</item>
-      <item>Random Processes in Communications and Control 1</item>
-      <item>Random Processes in Communications and Control 2</item>
-      <item>Distributed Optimization</item>
-      <item>Information Theory</item>
-      <item>Design of Interactive Learning Environments</item>
-      <item>Advanced Computer Vision</item>
-      <item>Statistical Pattern Recognition</item>
-      <item>Deep Reinforcement Learning from Scratch</item>
-      <item>Advanced Networking</item>
-      <item>Resource Virtualization</item>
-      <item>Dynamic Behavior of Applications, Hosts, and Networks</item>
-      <item>Advanced Operating Systems</item>
-      <item>Kernel and Other Low-level Software Development</item>
-      <item>Internet Security</item>
-      <item>Advanced Computer Architecture 1</item>
-      <item>Distributed Computing Systems</item>
-      <item>Advanced Algorithms</item>
-      <item>Machine Learning and Artificial Intelligence for Robotics</item>
-      <item>Designing and Constructing Models with Multi-Agent Languages</item>
-      <item>NUvention: Web and Media</item>
-      <item>Probabilistic Graphical Models</item>
-      <item>Machine Learning and Artificial Intelligence for Robotics</item>
-      <item>Intensive Program Design</item>
-      <item>Intro to Database Systems</item>
-      <item>NUvention Impact</item>
-      <item>The Design of Technological Tools for Thinking and Learning</item>
-      <item>Game Theory and Networked Systems</item>
-      <item>Intro to Computational Linguistics</item>
-      <item>Computational Complexity</item>
-      <item>Topics in Theoretical Machine Learning</item>
-      <item>Theoretical Machine Learning</item>
-      <item>Graduate Algorithms</item>
-      <item>Seminar in Statistical Language Modeling</item>
-      <item>Distributed Systems in Challenging Environments</item>
-      <item>Computational Auditory Scene Analysis</item>
-      <item>Mechanism Design</item>
-      <item>Rapid Prototyping for Software Innovation</item>
-      <item>Social Media Mining</item>
-      <item>Parallelism Seminar</item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">COG SCI</item>207
+        </item>Introduction to Cognitive Modeling
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">COG SCI</item>207
+        </item>Intro to Cognitive Modeling
+      </item>
+      <item weight="9">
+        <item repeat="0-1">
+          <item repeat="0-1">DTC</item>106
+        </item>Design, Thinking, and Communication
+      </item>
+      <item weight="9">
+        <item repeat="0-1">
+          <item repeat="0-1">General Engineering</item>205
+        </item>Engineering Analysis
+      </item>
+      <item weight="9">
+        <item repeat="0-1">
+          <item repeat="0-1">GEN ENG</item>205
+        </item>Engineering Analysis
+      </item>
+      <item weight="9">
+        <item repeat="0-1">
+          <item repeat="0-1">EA 1</item>205
+        </item>Engineering Analysis
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>101
+        </item>Computer Science: Concepts, Philosophy, and Connections
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>110
+        </item>Introduction to Computer Programming
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>213
+        </item>Introduction to Computer Systems
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>301
+        </item>Introduction to Robotics Laboratory
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>331
+        </item>Introduction to Computational Photography
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>332
+        </item>Introduction to Computer Vision
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>335
+        </item>Introduction to the Theory of Computation
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>339
+        </item>Introduction to Databases
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>340
+        </item>Introduction to Computer Networking
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>348
+        </item>Introduction to Artificial Intelligence
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>350
+        </item>Introduction to Computer Security
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>351-1
+        </item>Introduction to Computer Graphics
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>356
+        </item>Introduction to Formal Verification
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>358
+        </item>Introduction to Parallel Computing
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Introduction to Computational Learning Theory
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Introduction to Computational Learning Theory
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Introduction to Database Systems
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Introduction to Computational Linguistics
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>111
+        </item>Fundamentals of Computer Programming 1
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>130
+        </item>Tools and Technology of the World Wide Web
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>205
+        </item>Fundamentals of Computer System Software
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>211
+        </item>Fundamentals of Computer Programming 2
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>212
+        </item>Mathematical Foundations of Computer Science
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>214
+        </item>Data Structures and Data Management
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>230
+        </item>Programming for Engineers
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>295
+        </item>Intensive Program Design
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>295
+        </item>Fundamentals of Computer Programming 1.5
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>313
+        </item>Tangible Interaction Design and Learning
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>413
+        </item>Tangible Interaction Design and Learning
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>314
+        </item>Technology and Human Interaction
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>315
+        </item>Design, Technology, and Research
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>497
+        </item>Design, Technology, and Research
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>321
+        </item>Programming Languages
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>322
+        </item>Compiler Construction
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>325
+        </item>Artificial Intelligence Programming
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>330
+        </item>Human Computer Interaction
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>336
+        </item>Design and Analysis of Algorithms
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>337
+        </item>Semantic Information Processing
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>338
+        </item>Practicum in Intelligent Information Systems
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>343
+        </item>Operating Systems
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>344
+        </item>Design of Problem Solvers
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>345
+        </item>Distributed Systems
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>349
+        </item>Machine Learning
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>351-2
+        </item>Intermediate Computer Graphics
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>352
+        </item>Machine Perception of Music and Audio
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>354
+        </item>Network Penetration and Security
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>361
+        </item>Computer Architecture 1
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>362
+        </item>Computer Architecture Project
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>368
+        </item>Programming Massively Parallel Processors with CUDA
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>468
+        </item>Programming Massively Parallel Processors with CUDA
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>370
+        </item>Computer Game Design
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>371
+        </item>Knowledge Representation and Reasoning
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>372
+        </item>Designing and Constructing Models with Multi-Agent Languages
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>472
+        </item>Designing and Constructing Models with Multi-Agent Languages
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>375
+        </item>Machine Learning: Foundations, Applications, and Algorithms
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>475
+        </item>Machine Learning: Foundations, Applications, and Algorithms
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>375
+        </item>Machine Learning
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>475
+        </item>Machine Learning
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>394
+        </item>Software Project Management and Development
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Economics and Computation
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395-20
+        </item>Data as Art
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Advanced Compiler Hacking
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Advanced Compiler Hacking
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Advanced Topics in Computer Architecture
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Advanced Topics in Computer Architecture
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Algorithmic DNA Self-Assembly Seminar
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Algorithmic DNA Self-Assembly Seminar
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>DNA Self-Assembly Seminar
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>DNA Self-Assembly Seminar
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Algorithmic and Economic Aspects of Social Networks
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Algorithmic and Economic Aspects of Social Networks
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Algorithmic Techniques for Bioinformatics Seminar
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Algorithmic Techniques for Bioinformatics Seminar
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Cognitive Simulation for Virtual Characters
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Cognitive Simulation for Virtual Characters
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Building Next-Generation AI Applications with IBM Watson
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Building Next-Generation AI Applications with IBM Watson
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Collaboration Technology
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Collaboration Technology
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Computational Auditory Scene Analysis
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Computational Auditory Scene Analysis
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Human-level Artificial Intelligence
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Human-level Artificial Intelligence
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Mobile Apps and Systems
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Mobile Apps and Systems
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Object-Oriented Languages and Environments
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Object-Oriented Languages and Environments
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Web Information Retrieval and Extraction
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Web Information Retrieval and Extraction
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Optimization Techniques for Machine Learning and Deep Learning
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Optimization Techniques for Machine Learning and Deep Learning
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Deep Learning Foundations from Scratch
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Deep Learning Foundations from Scratch
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Platforms and Networked Markets
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Platforms and Networked Markets
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>376
+        </item>Game Design and Development
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Special Topics in Game AI - Logic Programming
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Special Topics in Game AI - Logic Programming
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Special Topics in Game AI
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Special Topics in Game AI
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Logic Programming
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Logic Programming
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Companion Cognitive System Studio
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Companion Cognitive System Studio
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>323
+        </item>Code Analysis and Transformation
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Computational Geometry
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Computational Geometry
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Data Science Seminar
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Data Science Seminar
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Special Topics in Swarms and Multi-robot Systems
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Special Topics in Swarms and Multi-robot Systems
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Swarms and Multi-robot Systems
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Swarms and Multi-robot Systems
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Quadrotor Design and Control
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Quadrotor Design and Control
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Systems Programming in Rust
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Systems Programming in Rust
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Programming Languages Seminar
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Programming Languages Seminar
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Randomized Algorithms
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Randomized Algorithms
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Affective Computing Seminar
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Affective Computing Seminar
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Type Systems
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Type Systems
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Multi-Modal Analytics
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Multi-Modal Analytics
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Operational Semantics
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Operational Semantics
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Conversational Interfaces
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Conversational Interfaces
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>396
+        </item>Statistical Machine Learning
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Statistical Machine Learning
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>397
+        </item>Digital Luthier
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>397
+        </item>Software Construction
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>497
+        </item>Software Construction
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>397
+        </item>Computational Photography Seminar
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>497
+        </item>Computational Photography Seminar
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>397
+        </item>Game Development Studio
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>497
+        </item>Game Development Studio
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>397
+        </item>Advanced Topics in Compilers
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>497
+        </item>Advanced Topics in Compilers
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>397
+        </item>Digital Forensics and Incident Response
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>497
+        </item>Digital Forensics and Incident Response
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>397
+        </item>Innovation in Journalism and Technology
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>497
+        </item>Innovation in Journalism and Technology
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>397
+        </item>Social Computing and Crowd Sourcing
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>497
+        </item>Social Computing and Crowd Sourcing
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>397
+        </item>Inclusive Making
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>497
+        </item>Inclusive Making
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>397
+        </item>Internet-scale Experimentation
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>497
+        </item>Internet-scale Experimentation
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>397
+        </item>Algorithms and Society
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>497
+        </item>Algorithms and Society
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>397
+        </item>Wireless and Mobile Health
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>497
+        </item>Wireless and Mobile Health
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>397
+        </item>mHealth
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>497
+        </item>mHealth
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>397
+        </item>Innovation Lab: Building Technologies for the Law
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>497
+        </item>Innovation Lab: Building Technologies for the Law
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>397
+        </item>Advanced Multimodal Interfaces and Analytics Research
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>497
+        </item>Advanced Multimodal Interfaces and Analytics Research
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>397
+        </item>Computing and Socioeconomic Mobility
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>497
+        </item>Computing and Socioeconomic Mobility
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>422
+        </item>Random Processes in Communications and Control 1
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>423
+        </item>Random Processes in Communications and Control 2
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>428
+        </item>Information Theory
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>430
+        </item>Design of Interactive Learning Environments
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>435
+        </item>Deep Reinforcement Learning from Scratch
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>440
+        </item>Advanced Networking
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>441
+        </item>Resource Virtualization
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>442
+        </item>Dynamic Behavior of Applications, Hosts, and Networks
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>443
+        </item>Advanced Operating Systems
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>446
+        </item>Kernel and Other Low-level Software Development
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>450
+        </item>Internet Security
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>452
+        </item>Advanced Computer Architecture 1
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>455
+        </item>Distributed Computing Systems
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>457
+        </item>Advanced Algorithms
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>469
+        </item>Machine Learning and Artificial Intelligence for Robotics
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>472
+        </item>Designing and Constructing Models with Multi-Agent Languages
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>473-1
+        </item>NUvention: Web and Media
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>473-2
+        </item>NUvention: Web and Media
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>474
+        </item>Probabilistic Graphical Models
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Machine Learning and Artificial Intelligence for Robotics
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Intensive Program Design
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>The Design of Technological Tools for Thinking and Learning
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Computational Complexity
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Topics in Theoretical Machine Learning
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Theoretical Machine Learning
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Graduate Algorithms
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Seminar in Statistical Language Modeling
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Distributed Systems in Challenging Environments
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Computational Auditory Scene Analysis
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>496
+        </item>Mechanism Design
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>497
+        </item>Rapid Prototyping for Software Innovation
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>510
+        </item>Social Media Mining
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>512
+        </item>Parallelism Seminar
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>110
+        </item>Intro to Computer Programming
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>213
+        </item>Intro to Computer Systems
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>301
+        </item>Intro to Robotics Laboratory
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>331
+        </item>Intro to Computational Photography
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>332
+        </item>Intro to Computer Vision
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>335
+        </item>Intro to the Theory of Computation
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>339
+        </item>Intro to Databases
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>340
+        </item>Intro to Computer Networking
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>348
+        </item>Intro to Artificial Intelligence
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>348
+        </item>Introduction to AI
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>348
+        </item>Intro to AI
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>350
+        </item>Intro to Computer Security
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>351-1
+        </item>Intro to Computer Graphics
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>356
+        </item>Intro to Formal Verification
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>358
+        </item>Intro to Parallel Computing
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>395
+        </item>Intro to Computational Learning Theory
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Intro to Computational Learning Theory
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Intro to Database Systems
+      </item>
+      <item weight="10">
+        <item repeat="0-1">
+          <item repeat="0-1">
+            <one-of>
+              <item>CS</item>
+              <item>EECS</item>
+            </one-of>
+          </item>495
+        </item>Intro to Computational Linguistics
+      </item>
     </one-of>
+    <item repeat="0-1">
+      <one-of>
+        <item>class</item>
+        <item>lecture</item>
+      </one-of>
+    </item>
   </rule>
   <rule id="Courses_id">
     <one-of>
-      <item>CS 101</item>
-      <item>CS 110</item>
-      <item>COG SCI 207</item>
-      <item>CS 213</item>
-      <item>CS 301</item>
-      <item>CS 331</item>
-      <item>CS 332</item>
-      <item>CS 335</item>
-      <item>CS 339</item>
-      <item>CS 340</item>
-      <item>CS 348</item>
-      <item>CS 350</item>
-      <item>CS 351-1</item>
-      <item>CS 356</item>
-      <item>CS 358</item>
-      <item>DTC 106</item>
-      <item>CS 111</item>
-      <item>CS 130</item>
-      <item>CS 205</item>
-      <item>General Engineering 205</item>
-      <item>GEN ENG 205</item>
-      <item>EA 1 205</item>
-      <item>CS 211</item>
-      <item>CS 212</item>
-      <item>CS 214</item>
-      <item>CS 230</item>
-      <item>CS 295</item>
-      <item>CS 295</item>
-      <item>CS 313</item>
-      <item>CS 413</item>
-      <item>CS 314</item>
-      <item>CS 315</item>
-      <item>CS 321</item>
-      <item>CS 322</item>
-      <item>CS 325</item>
-      <item>CS 330</item>
-      <item>CS 336</item>
-      <item>CS 337</item>
-      <item>CS 338</item>
-      <item>CS 343</item>
-      <item>CS 344</item>
-      <item>CS 345</item>
-      <item>CS 349</item>
-      <item>CS 351-2</item>
-      <item>CS 352</item>
-      <item>CS 354</item>
-      <item>CS 361</item>
-      <item>CS 362</item>
-      <item>CS 368</item>
-      <item>CS 468</item>
-      <item>CS 370</item>
-      <item>CS 371</item>
-      <item>CS 372</item>
-      <item>CS 472</item>
-      <item>CS 394</item>
-      <item>CS 376</item>
-      <item>CS 323</item>
-      <item>CS 422</item>
-      <item>CS 423</item>
-      <item>CS 428</item>
-      <item>CS 430</item>
-      <item>CS 435</item>
-      <item>CS 440</item>
-      <item>CS 441</item>
-      <item>CS 442</item>
-      <item>CS 443</item>
-      <item>CS 446</item>
-      <item>CS 450</item>
-      <item>CS 452</item>
-      <item>CS 455</item>
-      <item>CS 457</item>
-      <item>CS 469</item>
-      <item>CS 472</item>
-      <item>CS 473-1</item>
-      <item>CS 473-2</item>
-      <item>CS 474</item>
-      <item>CS 510</item>
-      <item>CS 512</item>
-      <item>CS 395</item>
-      <item>CS 495</item>
-      <item>CS 396</item>
-      <item>CS 496</item>
-      <item>CS 397</item>
-      <item>CS 497</item>
-      <item>CS 375</item>
-      <item>CS 475</item>
+      <item>
+        <item repeat="0-1">General Engineering</item>205
+      </item>
+      <item>
+        <item repeat="0-1">GEN ENG</item>205
+      </item>
+      <item>
+        <item repeat="0-1">EA 1</item>205
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>101
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>110
+      </item>
+      <item>
+        <item repeat="0-1">COG SCI</item>207
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>213
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>301
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>331
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>332
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>335
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>339
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>340
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>348
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>350
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>351-1
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>356
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>358
+      </item>
+      <item>
+        <item repeat="0-1">DTC</item>106
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>111
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>130
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>205
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>211
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>212
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>214
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>230
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>295
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>295
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>313
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>413
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>314
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>315
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>321
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>322
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>325
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>330
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>336
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>337
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>338
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>343
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>344
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>345
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>349
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>351-2
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>352
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>354
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>361
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>362
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>368
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>468
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>370
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>371
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>372
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>472
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>394
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>376
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>323
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>422
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>423
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>428
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>430
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>435
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>440
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>441
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>442
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>443
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>446
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>450
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>452
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>455
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>457
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>469
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>472
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>473-1
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>473-2
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>474
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>510
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>512
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>395
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>495
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>396
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>496
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>397
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>497
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>375
+      </item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>CS</item>
+            <item>EECS</item>
+          </one-of>
+        </item>475
+      </item>
     </one-of>
+    <item repeat="0-1">
+      <one-of>
+        <item>lecture</item>
+      </one-of>
+    </item>
   </rule>
   <rule id="InquiryStarter">
     <one-of>
       <item>
         Do you
-        <item repeat="0-1">happen to</item><one-of><item>have</item><item>know</item></one-of></item>
+        <item repeat="0-1">happen to</item><one-of>
+          <item>have</item>
+          <item>know</item>
+        </one-of>
+      </item>
       <item>
         <one-of>
           <item>Can</item>
           <item>Could</item>
           <item>Would</item>
         </one-of>
-        you tell me
+        you
+        <one-of>
+          <item>tell me</item>
+          <item>show me</item>
+        </one-of>
       </item>
     </one-of>
   </rule>
@@ -1615,19 +4358,93 @@
   <rule id="PersonInquiryContent">
     <one-of>
       <item>
-        where I can find<ruleref uri="#PersonReference" /></item>
-      <item>
-        where to find<ruleref uri="#PersonReference" /></item>
-      <item>
-        where <ruleref uri="#PersonReference" /> is
+        where I can find
+        <one-of>
+          <item>
+            <ruleref uri="#PersonReference" />
+          </item>
+          <item>
+            <ruleref uri="#ObjectsOfInterest" />
+          </item>
+        </one-of>
       </item>
       <item>
-        the professor for <ruleref uri="#PersonReference" /> is
+        where to find<ruleref uri="#PersonReference" />
+      </item>
+      <item>
+        where
+        <one-of>
+          <item>
+            <ruleref uri="#PersonReference" />
+          </item>
+          <item>
+            <ruleref uri="#SingularObjectsOfInterest"/>
+          </item>
+        </one-of> is
+      </item>
+      <item>
+        the professor for <ruleref uri="#Course" /> is
+      </item>
+    </one-of>
+  </rule>
+  <rule id="InquisitionOrderContent">
+    <one-of>
+      <item>the map</item>
+      <item>
+        <ruleref uri="#ObjectPossessedByPerson" />
+      </item>
+      <item>
+        <item repeat="0-1">the</item>
+        <one-of>
+          <item>
+            <ruleref uri="#SingularImmobileObjectOfInterest" />
+          </item>
+          <item>
+            <ruleref uri="#PluralImmobileObjectsOfInterest" />
+          </item>
+        </one-of>
+      </item>
+      <item>
+        where is <ruleref uri="#SpecificPlace" />
+      </item>
+      <item>
+        where <ruleref uri="#SpecificPlace" />is
+      </item>
+      <item>
+        where is
+        <item repeat="0-1">the</item>
+        <ruleref uri="#SingularImmobileObjectOfInterest" />
+      </item>
+      <item>
+        where
+        <item repeat="0-1">the</item>
+        <ruleref uri="#SingularImmobileObjectOfInterest" />
+        is
+      </item>
+      <item>
+        where are
+        <item repeat="0-1">the</item>
+        <ruleref uri="#PluralImmobileObjectsOfInterest" />
+      </item>
+      <item>
+        where
+        <item repeat="0-1">the</item>
+        <ruleref uri="#PluralImmobileObjectsOfInterest" />
+        are
       </item>
     </one-of>
   </rule>
   <rule id="ObjectInquiryContent">
     <one-of>
+      <item>
+        the map
+        <item repeat="0-1">
+          <one-of>
+            <item>of this building</item>
+            <item>of this floor</item>
+          </one-of>
+        </item>
+      </item>
       <item>
         <one-of>
           <item>about</item>
@@ -1661,7 +4478,13 @@
         is offered
         <item repeat="0-1">
           by
-          <item repeat="0-1"><ruleref uri="#PersonReference" /></item></item><item repeat="0-1"><ruleref uri="#QuarterReference" /></item></item>
+          <item repeat="0-1">
+            <ruleref uri="#PersonReference" />
+          </item>
+        </item><item repeat="0-1">
+          <ruleref uri="#QuarterReference" />
+        </item>
+      </item>
       <item>
         <one-of>
           <item>when</item>
@@ -1671,8 +4494,20 @@
         is
       </item>
       <item>
-        the name of the professor for
-        <ruleref uri="#Course" /><item repeat="0-1"><ruleref uri="#QuarterReference" /></item></item>
+        <item>where</item>
+        <ruleref uri="#ObjectPossessedByPerson" />
+        is
+      </item>
+      <item>
+        <one-of>
+          <item>the name of the professor for</item>
+          <item>the professor for</item>
+        </one-of>
+        <ruleref uri="#Course" />
+        <item repeat="0-1">
+          <ruleref uri="#QuarterReference" />
+        </item>
+      </item>
       <item>
         <one-of>
           <item>the professor who</item>
@@ -1739,10 +4574,23 @@
       <item>its</item>
     </one-of>
   </rule>
-  <rule id="FirstName">
+  <rule id="FemaleFacultyFirstName">
     <one-of>
       <!-- Faculty -->
-      <item>Brenna</item>
+      <item weight="10">Brenna</item>
+      <item weight="10">Jennie</item>
+      <item weight="10">Eleanor</item>
+      <item weight="10">Nell</item>
+      <item weight="10">Elizabeth</item>
+      <item weight="10">Anne</item>
+      <item weight="10">Anne Marie</item>
+      <item weight="10">Sara</item>
+      <item weight="9">Sarah</item>
+      <item weight="10">Jessica</item>
+    </one-of>
+  </rule>
+  <rule id="MaleFacultyFirstName">
+    <one-of>
       <item>Larry</item>
       <item>Fabian</item>
       <item>Simone</item>
@@ -1763,12 +4611,10 @@
       <item>Ming-Yang</item>
       <item>Aleksandar</item>
       <item>Han</item>
+      <item>Kotsya</item>
       <item>Konstantin</item>
-      <item>Eleanor</item>
       <item>Bryan</item>
       <item>Chris</item>
-      <item>Jennie</item>
-      <item>Sara</item>
       <item>Jesse</item>
       <item>Jack</item>
       <item>Aravindan</item>
@@ -1778,7 +4624,6 @@
       <item>Nabil</item>
       <item>Randall</item>
       <item>Alok</item>
-      <item>Elizabeth</item>
       <item>Darren</item>
       <item>Ronen</item>
       <item>Nikos</item>
@@ -1788,17 +4633,17 @@
       <item>Han</item>
       <item>Yuan</item>
       <item>Gokhan</item>
-      <item>Anne</item>
       <item>Fabian</item>
       <item>Oliver</item>
       <item>Kristian</item>
-      <item>Jennie</item>
       <item>Jack</item>
       <item>Aggelos</item>
       <item>Vincent</item>
-      <item>Sarah</item>
-      <item>Jessica</item>
       <item>Xiao</item>
+    </one-of>
+  </rule>
+  <rule id="MalePostdocFirstName">
+    <one-of>
       <!-- Postdoc -->
       <item>Willie</item>
       <item>Jason</item>
@@ -1806,14 +4651,24 @@
       <item>Huck</item>
       <item>Thomas</item>
       <item>Tom</item>
+      <item>Xue</item>
+    </one-of>
+  </rule>
+  <rule id="FemaleStaffFirstName">
+    <one-of>
       <!-- staff -->
       <item>Iliana</item>
       <item>Brianna</item>
       <item>Kim</item>
-      <item>Jeff</item>
       <item>Melissa</item>
-      <item>Iliana</item>
+      <item>Katrina</item>
       <item>Madeline</item>
+      <item>Maddy</item>
+    </one-of>
+  </rule>
+  <rule id="MaleStaffFirstName">
+    <one-of>
+      <item>Jeff</item>
     </one-of>
   </rule>
   <rule id="FemaleFacultyLastName">
@@ -1830,50 +4685,50 @@
   </rule>
   <rule id="MaleFacultyLastName">
     <one-of>
-      <item>Birnbaum</item>
-      <item>Campanoni</item>
-      <item>Chen</item>
-      <item>De</item>
-      <item>Dimoulas</item>
-      <item>Dinda</item>
-      <item>Downey</item>
-      <item>Findler</item>
-      <item>Forbus</item>
-      <item>Hinrichs</item>
-      <item>Horn</item>
-      <item>Horswill</item>
-      <item>Kao</item>
-      <item>Kuzmanovic</item>
-      <item>Liu</item>
-      <item>Makarychev</item>
-      <item>Pardo</item>
-      <item>Riesbeck</item>
-      <item>Rubenstein</item>
-      <item>Tov</item>
-      <item>Vijayaraghavan</item>
-      <item>Wilensky</item>
-      <item>Worsley</item>
-      <item>Zhang</item>
-      <item>Alshurafa</item>
-      <item>Berry</item>
-      <item>Choudhary</item>
-      <item>Gergle</item>
-      <item>Gradwohl</item>
-      <item>Hardavellas</item>
-      <item>Hecht</item>
-      <item>Joseph</item>
-      <item>Liu</item>
-      <item>Luo</item>
-      <item>Memik</item>
-      <item>Bustamante</item>
-      <item>Cossairt</item>
-      <item>Hammond</item>
-      <item>Hartline</item>
-      <item>Tumblin</item>
-      <item>Katsaggelos</item>
-      <item>St. Amour</item>
-      <item>St-Amour</item>
-      <item>Wang</item>
+      <item weight="10">Birnbaum</item>
+      <item weight="10">Campanoni</item>
+      <item weight="10">Chen</item>
+      <item weight="10">De</item>
+      <item weight="10">Dimoulas</item>
+      <item weight="10">Dinda</item>
+      <item weight="10">Downey</item>
+      <item weight="10">Findler</item>
+      <item weight="10">Forbus</item>
+      <item weight="10">Hinrichs</item>
+      <item weight="10">Horn</item>
+      <item weight="10">Horswill</item>
+      <item weight="9">Kao</item>
+      <item weight="10">Kuzmanovic</item>
+      <item weight="10">Liu</item>
+      <item weight="10">Makarychev</item>
+      <item weight="10">Pardo</item>
+      <item weight="10">Riesbeck</item>
+      <item weight="10">Rubenstein</item>
+      <item weight="10">Tov</item>
+      <item weight="10">Vijayaraghavan</item>
+      <item weight="10">Wilensky</item>
+      <item weight="10">Worsley</item>
+      <item weight="10">Zhang</item>
+      <item weight="10">Alshurafa</item>
+      <item weight="10">Berry</item>
+      <item weight="10">Choudhary</item>
+      <item weight="10">Gergle</item>
+      <item weight="10">Gradwohl</item>
+      <item weight="10">Hardavellas</item>
+      <item weight="10">Hecht</item>
+      <item weight="10">Joseph</item>
+      <item weight="10">Liu</item>
+      <item weight="10">Luo</item>
+      <item weight="10">Memik</item>
+      <item weight="10">Bustamante</item>
+      <item weight="10">Cossairt</item>
+      <item weight="10">Hammond</item>
+      <item weight="10">Hartline</item>
+      <item weight="10">Tumblin</item>
+      <item weight="10">Katsaggelos</item>
+      <item weight="10">St. Amour</item>
+      <item weight="10">St-Amour</item>
+      <item weight="10">Wang</item>
     </one-of>
   </rule>
   <rule id="FacultyLastName">
@@ -1892,6 +4747,7 @@
       <item>Kieras</item>
       <item>Duong</item>
       <item>Vargas</item>
+      <item>Hicks</item>
       <item>Usher</item>
     </one-of>
   </rule>
@@ -1905,6 +4761,7 @@
       <item>Wilson</item>
       <item>Bennett</item>
       <item>Bochynek</item>
+      <item>Chen</item>
     </one-of>
   </rule>
   <rule id="FemaleFacultyFullName">
@@ -1946,6 +4803,7 @@
       <item>Ming-Yang Kao</item>
       <item>Aleksandar Kuzmanovic</item>
       <item>Han Liu</item>
+      <item>Kotsya Makarychev</item>
       <item>Konstantin Makarychev</item>
       <item>Bryan Pardo</item>
       <item>Chris Riesbeck</item>
@@ -1999,6 +4857,7 @@
       <item>Huck Bennett</item>
       <item>Thomas Bochynek</item>
       <item>Tom Bochynek</item>
+      <item>Xue Chen</item>
     </one-of>
   </rule>
   <rule id="FemaleStaffFullName">
@@ -2007,6 +4866,7 @@
       <item>Kim Kieras</item>
       <item>Melissa Duong</item>
       <item>Iliana Vargas</item>
+      <item>Katrina Hicks</item>
       <item>Madeline Usher</item>
       <item>Maddy Usher</item>
     </one-of>
@@ -2016,18 +4876,22 @@
       <item>Jeff Stiers</item>
     </one-of>
   </rule>
-  <rule id="NickName">
+  <rule id="FemaleNickName">
+    <one-of>
+      <item>Nell</item>
+      <item>Maddy</item>
+    </one-of>
+  </rule>
+  <rule id="MaleNickName">
     <one-of>
       <item>Willie</item>
-      <item>Nell</item>
       <item>Jack</item>
       <item>Mike</item>
       <item>Huck</item>
       <item>Tom</item>
-      <item>Maddy</item>
     </one-of>
   </rule>
-  <rule id="MiddleName">
+  <rule id="FemaleMiddleName">
     <one-of>
       <item>Owsley</item>
       <item>Marie</item>
@@ -2043,13 +4907,45 @@
       </item>
     </one-of>
   </rule>
+  <!--<rule id="PersonReference">
+    <one-of>
+      <item>
+        <ruleref uri="#ExplicitPersonName" />
+      </item>
+      <item>
+        <ruleref uri="#TitledName" />
+      </item>
+    </one-of>
+  </rule>-->
   <rule id="ExplicitPersonName">
     <one-of>
       <item>
-        <ruleref uri="#FirstName" />
+        <ruleref uri="#ExplicitFacultyPostdocName" />
       </item>
       <item>
-        <ruleref uri="#NickName" />
+        <ruleref uri="#FemaleStaffFirstName" />
+      </item>
+      <item>
+        <ruleref uri="#MaleStaffFirstName" />
+      </item>
+      <item>
+        <ruleref uri="#FemaleStaffFullName" />
+      </item>
+      <item>
+        <ruleref uri="#MaleStaffFullName" />
+      </item>
+    </one-of>
+  </rule>
+  <rule id="ExplicitFacultyPostdocName">
+    <one-of>
+      <item>
+        <ruleref uri="#FemaleFacultyFirstName" />
+      </item>
+      <item>
+        <ruleref uri="#MaleFacultyFirstName" />
+      </item>
+      <item>
+        <ruleref uri="#MalePostdocFirstName" />
       </item>
       <item>
         <ruleref uri="#FemaleFacultyFullName" />
@@ -2060,30 +4956,129 @@
       <item>
         <ruleref uri="#MalePostdocFullName" />
       </item>
+    </one-of>
+  </rule>
+  <rule id="FemalePersonReference">
+    <one-of>
       <item>
-        <ruleref uri="#FemaleStaffFullName" />
+        <ruleref uri="#FemaleFacultyFirstName" />
       </item>
       <item>
-        <ruleref uri="#MaleStaffFullName" />
+        Professor
+        <one-of>
+          <item>
+            <ruleref uri="#FemaleFacultyLastName" />
+          </item>
+          <item>
+            <ruleref uri="#FemaleFacultyFullName" />
+          </item>
+        </one-of>
+      </item>
+      <item>
+        Ms. <ruleref uri="#FemaleStaffLastName" />
+      </item>
+    </one-of>
+  </rule>
+  <rule id="MalePersonReference">
+    <one-of>
+      <item>
+        <ruleref uri="#MaleFacultyFirstName" />
+      </item>
+      <item>
+        Professor
+        <one-of>
+          <item>
+            <ruleref uri="#MaleFacultyLastName" />
+          </item>
+          <item>
+            <ruleref uri="#MaleFacultyFullName" />
+          </item>
+          <item>
+            <ruleref uri="#MalePostdocFirstName" />
+          </item>
+          <item>
+            <ruleref uri="#MalePostdocFullName" />
+          </item>
+        </one-of>
+      </item>
+      <item>
+        Doctor
+        <one-of>
+          <item>
+            <ruleref uri="#MalePostdocFirstName" />
+          </item>
+          <item>
+            <ruleref uri="#MalePostdocFullName" />
+          </item>
+        </one-of>
+      </item>
+      <item>
+        Mr. <ruleref uri="#MaleStaffLastName" />
+      </item>
+    </one-of>
+  </rule>
+  <rule id="FacultyPostdocTitledName">
+    <one-of>
+      <item>
+        Professor
+        <one-of>
+          <item>
+            <ruleref uri="#FacultyLastName" />
+          </item>
+          <item>
+            <ruleref uri="#FacultyFullName" />
+          </item>
+          <item>
+            <ruleref uri="#MalePostdocLastName" />
+          </item>
+          <item>
+            <ruleref uri="#MalePostdocFullName" />
+          </item>
+        </one-of>
+      </item>
+      <item>
+        Doctor
+        <one-of>
+          <item>
+            <ruleref uri="#MalePostdocLastName" />
+          </item>
+          <item>
+            <ruleref uri="#MalePostdocFullName" />
+          </item>
+        </one-of>
       </item>
     </one-of>
   </rule>
   <rule id="TitledName">
     <one-of>
       <item>
-        Professor
-        <one-of><item><ruleref uri="#FacultyLastName" /></item><item><ruleref uri="#FacultyFullName" /></item><item><ruleref uri="#MalePostdocLastName" /></item><item><ruleref uri="#MalePostdocFullName" /></item></one-of></item>
-      <item>
-        Doctor
-        <one-of><item><ruleref uri="#FacultyLastName" /></item><item><ruleref uri="#FacultyFullName" /></item><item><ruleref uri="#MalePostdocLastName" /></item><item><ruleref uri="#MalePostdocFullName" /></item></one-of></item>
+        <ruleref uri="#FacultyPostdocTitledName" />
+      </item>
       <item>
         Ms.
-        <one-of><item><ruleref uri="#FemaleStaffLastName" /></item><item><ruleref uri="#FemaleStaffFullName" /></item></one-of></item>
+        <one-of>
+          <item>
+            <ruleref uri="#FemaleStaffLastName" />
+          </item>
+          <item>
+            <ruleref uri="#FemaleStaffFullName" />
+          </item>
+        </one-of>
+      </item>
       <item>
         Mr.
-        <one-of><item><ruleref uri="#MaleStaffLastName" /></item><item><ruleref uri="#MaleStaffFullName" /></item></one-of></item>
+        <one-of>
+          <item>
+            <ruleref uri="#MaleStaffLastName" />
+          </item>
+          <item>
+            <ruleref uri="#MaleStaffFullName" />
+          </item>
+        </one-of>
+      </item>
     </one-of>
   </rule>
+
   <!-- Numbers -->
   <rule id="Three_digit_number">
     <one-of>
@@ -2091,7 +5086,8 @@
         <ruleref uri="#OneToNine" /> hundred
       </item>
       <item>
-        <ruleref uri="#OneToNine" /> o <ruleref uri="#OneToNine" /></item>
+        <ruleref uri="#OneToNine" /> o <ruleref uri="#OneToNine" />
+      </item>
       <item>
         <ruleref uri="#OneToNine" />
         <ruleref uri="#TenToNinetyNine" />
@@ -2102,7 +5098,8 @@
     <one-of>
       <item>
         three
-        <ruleref uri="#ZeroToNine" /><ruleref uri="#ZeroToNine" /><ruleref uri="#ZeroToNine" /></item>
+        <ruleref uri="#ZeroToNine" /><ruleref uri="#ZeroToNine" /><ruleref uri="#ZeroToNine" />
+      </item>
       <item>
         <ruleref uri="#TenToNinetyNine" />
         <ruleref uri="#ZeroToNine" />
@@ -2185,8 +5182,14 @@
       </item>
       <item>
         twenty
-        <item repeat="0-1"><one-of><item>one</item><item>two</item><item>three</item></one-of></item></item>
-      <item>zero</item>
+        <item repeat="0-1">
+          <one-of>
+            <item>one</item>
+            <item>two</item>
+            <item>three</item>
+          </one-of>
+        </item>
+      </item>
     </one-of>
   </rule>
   <rule id="TenToNineteen">
@@ -2223,10 +5226,17 @@
       <item>Greetings</item>
       <item>
         Good
-        <one-of><item>morning</item><item>afternoon</item><item>evening</item><item>day</item><item>night</item></one-of></item>
+        <one-of>
+          <item>morning</item>
+          <item>afternoon</item>
+          <item>evening</item>
+          <item>day</item>
+          <item>night</item>
+        </one-of>
+      </item>
       <item>How are you</item>
-      <item>What's Sup</item>
-      <item>Sup</item>
+      <item>What's up</item>
+      <item>'sup</item>
     </one-of>
   </rule>
   <rule id="Interjection">
@@ -2262,7 +5272,8 @@
       <item>Say something</item>
       <item>What is the meaning of life?</item>
       <item>
-        May the force be with you, <ruleref uri="#PersonReference" /></item>
+        May the force be with you, <ruleref uri="#PersonReference" />
+      </item>
       <item>I've; see-een, thingss, you people wouldn't belee-eeve.</item>
       <item>Attack ships on fye-err off, shoulder of-oh ryon.</item>
       <item>I watched C beams; glitter in the dark near the Tannhäuser Gate.</item>
@@ -2270,37 +5281,123 @@
       <item>Dead or alive, you're coming with me</item>
     </one-of>
   </rule>
-  <rule id="ObjectsOfInterest">
+  <rule id="SingularImmobileObjectOfInterest">
+    <one-of>
+      <item>printer</item>
+      <item>printing machine</item>
+      <item>copier</item>
+      <item>copying machine</item>
+      <item>coffee machine</item>
+      <item>Nespresso</item>
+      <item>Nespresso machine</item>
+      <item>water fountain</item>
+      <item>vending machine</item>
+    </one-of>
+  </rule>
+  <rule id="PluralImmobileObjectsOfInterest">
+    <one-of>
+      <item>computers</item>
+      <item>printers</item>
+      <item>printing machines</item>
+      <item>copiers</item>
+      <item>copying machines</item>
+      <item>coffee machines</item>
+      <item>Nespressos</item>
+      <item>Nespresso machine</item>
+      <item>water fountains</item>
+      <item>vending machines</item>
+    </one-of>
+  </rule>
+  <rule id="SingularObjectsOfInterest">
     <one-of>
       <item>
-        <item repeat="0-1">
-          <ruleref uri="#EnglishArticle" />
-        </item>
         <one-of>
-          <item>printer</item>
-          <item>printing machine</item>
-          <item>copier</item>
-          <item>copying machine</item>
-          <item>coffee machine</item>
-          <item>Nespresso</item>
-          <item>Nespresso machine</item>
-          <item>water fountain</item>
+          <item>a</item>
+          <item>the</item>
+        </one-of>
+        <one-of>
+          <item>
+            <ruleref uri="#SingularImmobileObjectOfInterest"/>
+          </item>
+          <item>
+            cup of
+            <one-of>
+              <item>coffee</item>
+              <item>tea</item>
+            </one-of>
+          </item>
+        </one-of>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="PluralObjectsOfInterest">
+    <one-of>
+      <item>
+        <item repeat="0-1">the</item>
+        <one-of>
+          <item>
+            <ruleref uri="#PluralImmobileObjectsOfInterest"/>
+          </item>
+        </one-of>
+      </item>
+      <item>snacks</item>
+      <item>
+        <one-of>
+          <item>some</item>
+          <item>a few</item>
+        </one-of>
+        <one-of>
+          <item>pens</item>
+          <item>markers</item>
         </one-of>
       </item>
       <item>
-        some
-        <one-of><item>food</item><item>snack</item><item>coffee</item><item>Nespresso</item><item>tea</item></one-of></item>
+        <item>a few</item>
+        <one-of>
+          <item>sheets of paper</item>
+        </one-of>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="UncountableObjectsOfInterest">
+    <one-of>
       <item>
-        something to eat
+        <item repeat="0-1">some</item>
+        <one-of>
+          <item>
+            <item repeat="0-1">free</item>food
+          </item>
+          <item>
+            <item repeat="0-1">free</item>pizza
+          </item>
+          <item>snack</item>
+          <item>coffee</item>
+          <item>Nespresso</item>
+          <item>tea</item>
+          <item>ice cream</item>
+          <item>water</item>
+          <item>paper</item>
+        </one-of>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="ObjectsOfInterest">
+    <one-of>
+      <item>
+        <ruleref uri="#SingularObjectsOfInterest" />
       </item>
       <item>
-        a cup of
-        <one-of><item>coffee</item><item>Nespresso</item><item>tea</item></one-of></item>
-      <item>ice cream</item>
+        <ruleref uri="#PluralObjectsOfInterest" />
+      </item>
+      <item>
+        <ruleref uri="#UncountableObjectsOfInterest" />
+      </item>
+      <item>something to eat</item>
     </one-of>
   </rule>
   <!-- Unused -->
   <rule id="Shuttle">
+    <item repeat="0-1">the</item>
     <item repeat="0-1">
       <one-of>
         <item>Northbound</item>
@@ -2310,13 +5407,21 @@
     <one-of>
       <item>intercampus shuttle</item>
       <item>shuttle</item>
-      <item>2 01</item>
-      <item>2 01 bus</item>
+      <item>201</item>
+      <item>201 bus</item>
       <item>Evanston Loop</item>
+      <item>Campus Loop</item>
     </one-of>
     <item repeat="0-1">
       to
-      <one-of><item>Downtown Chicago</item><item>South Campus</item><item>the Chicago Campus</item><item>Chicago Campus</item></one-of></item>
+      <one-of>
+        <item>Downtown Chicago</item>
+        <item>South Campus</item>
+        <item>the Chicago Campus</item>
+        <item>Chicago Campus</item>
+        <item>Chicago</item>
+      </one-of>
+    </item>
   </rule>
   <rule id="LunchPickUp">
     <item repeat="0-1">
@@ -2341,10 +5446,5 @@
         <item>lunch box</item>
       </one-of>
     </item>
-  </rule>
-  <rule id="RecurringEvent">
-    <one-of>
-      <item>EECS Free Bagel and Coffee</item>
-    </one-of>
   </rule>
 </grammar>

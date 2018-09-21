@@ -278,7 +278,10 @@
           </one-of>
         </item><one-of>
           <item>
-            <ruleref uri="#Email" />
+            <one-of>
+              <item><ruleref uri="#Email"/></item>
+              <item><ruleref uri="#PhoneNumber"/></item>              
+            </one-of>
             of
             <ruleref uri="#PersonReference" /><item repeat="0-1">available</item>
           </item>
@@ -357,6 +360,12 @@
       <item>
         is
         <one-of>
+          <item>the 
+            <one-of>
+              <item>date</item>
+              <item>day</item>
+            </one-of>today
+          </item>
           <item>your name</item>
           <item>going on today</item>
           <item>
@@ -391,7 +400,16 @@
         <ruleref uri="#TemporalReference" />
       </item>
       <item>
-        do you do
+        <one-of>
+          <item>can</item>
+          <item>do</item>
+        </one-of>
+        you 
+        <one-of>
+          <item>answer</item>
+          <item>do</item>
+          <item>know</item>
+        </one-of>
       </item>
       <item>can you do</item>
       <item>kind of 
@@ -953,6 +971,19 @@
   <rule id="Email">
     email
     <item repeat="0-1">address</item>
+  </rule>
+  <rule id="PhoneNumber">
+    <one-of>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>telephone</item>
+            <item>phone</item>
+          </one-of>
+        </item>
+        number
+      </item>
+    </one-of>
   </rule>
   <rule id="Homepage">
     <one-of>
@@ -1934,16 +1965,16 @@
   <rule id="FemaleFacultyFirstName">
     <one-of>
       <!-- Faculty -->
-      <item>Brenna</item>
-      <item>Jennie</item>      
-      <item>Eleanor</item>
-      <item>Nell</item>      
-      <item>Elizabeth</item>
-      <item>Anne</item>
-      <item>Anne Marie</item>
-      <item>Sara</item>     
-      <item>Sarah</item>
-      <item>Jessica</item> 
+      <item weight="10">Brenna</item>
+      <item weight="10">Jennie</item>
+      <item weight="10">Eleanor</item>
+      <item weight="10">Nell</item>
+      <item weight="10">Elizabeth</item>
+      <item weight="10">Anne</item>
+      <item weight="10">Anne Marie</item>
+      <item weight="10">Sara</item>
+      <item weight="9">Sarah</item>
+      <item weight="10">Jessica</item>
     </one-of>
   </rule>
   <rule id="MaleFacultyFirstName">
@@ -2591,15 +2622,15 @@
   <rule id="PluralImmobileObjectsOfInterest">
     <one-of>
       <item>computers</item>
-        <item>printers</item>
-        <item>printing machines</item>
-        <item>copiers</item>
-        <item>copying machines</item>
-        <item>coffee machines</item>
-        <item>Nespressos</item>
-        <item>Nespresso machine</item>
-        <item>water fountains</item>
-        <item>vending machines</item>
+      <item>printers</item>
+      <item>printing machines</item>
+      <item>copiers</item>
+      <item>copying machines</item>
+      <item>coffee machines</item>
+      <item>Nespressos</item>
+      <item>Nespresso machine</item>
+      <item>water fountains</item>
+      <item>vending machines</item>
     </one-of>  
   </rule>
   <rule id="SingularObjectsOfInterest">
@@ -2627,7 +2658,7 @@
       <item>
         <item repeat="0-1">the</item> 
         <one-of>
-          <item><ruleref uri="#SingularImmobileObjectOfInterest"/></item>
+          <item><ruleref uri="#PluralImmobileObjectsOfInterest"/></item>
         </one-of>
       </item>
       <item>snacks</item>
