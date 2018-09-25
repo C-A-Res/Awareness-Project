@@ -214,7 +214,7 @@
         <ruleref uri="#SingularEventMaybeTemporallyStampped" />in<ruleref uri="#Place" />
       </item>
       <item>
-        <ruleref uri="#PersonReference" />
+        <ruleref uri="#FacultyPostdocReference" />
         <one-of>
           <item>
             <ruleref uri="#EnglishArticle" />
@@ -238,6 +238,11 @@
             of
             <ruleref uri="#School" />
           </item>
+        </one-of>
+      </item>
+      <item>
+        <ruleref uri="#PersonReference" />
+        <one-of>
           <item>
             's office
             <one-of>
