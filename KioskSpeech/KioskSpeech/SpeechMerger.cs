@@ -70,7 +70,7 @@ namespace NU.Kiosk.Speech
             return "test" + c++;
         }
 
-        public void Start(Action onCompleted, ReplayDescriptor descriptor)
+        public void Start(System.Action onCompleted, ReplayDescriptor descriptor)
         {
             Out.Post("System starting. Please stand by.", DateTime.Now);
         }
@@ -131,11 +131,6 @@ namespace NU.Kiosk.Speech
             Console.WriteLine("[Merger: setAccepting] No! Not accepting!");
             isAccepting = false;
             StartTimer();
-        }
-
-        public void Start(System.Action onCompleted, ReplayDescriptor descriptor)
-        {
-            throw new NotImplementedException();
         }
     }
 }

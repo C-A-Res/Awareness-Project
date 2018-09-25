@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NU.Kiosk.Speech
+namespace NU.Kiosk.SharedObject
 {
     public class Action
     {

@@ -287,6 +287,10 @@
       <Project>{e5aad085-bc59-407d-83db-c23cb602de84}</Project>
       <Name>PsiKinectv1</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KioskSharedObjects\KioskSharedObjects.csproj">
+      <Project>{a344ce56-7b02-46cd-8b8d-6febc1e14606}</Project>
+      <Name>KioskSharedObjects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KioskSpeech\KioskSpeech\KioskSpeech.csproj">
       <Project>{c5ab7394-68fb-4641-bdae-8a956edc44a9}</Project>
       <Name>KioskSpeech</Name>
