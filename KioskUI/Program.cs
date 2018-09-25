@@ -105,6 +105,9 @@ namespace KioskUI
         private bool thinking = false;
         private bool speaking = false;
         private string state = "sleeping";
+        private string url = "";
+        private string mapLabel = "";
+        private string mapID = "";
 
         public KioskUI(Pipeline pipeline, bool isDetectingFace = true)
         {
@@ -117,12 +120,16 @@ namespace KioskUI
             this.CompResponse = pipeline.CreateReceiver<string>(this, ReceiveCompResponse, nameof(this.CompResponse));
             this.FaceDetected = pipeline.CreateReceiver<bool>(this, ReceiveFaceDetected, nameof(this.FaceDetected));
             this.DialogStateChanged = pipeline.CreateReceiver<string>(this, ReceiveDialogStateChanged, nameof(this.DialogStateChanged));
+            this.MapCommand = pipeline.CreateReceiver<Action>(this, ReceiveMapCommand, nameof(this.MapCommand));
+            this.UrlCommand = pipeline.CreateReceiver<Action>(this, ReceiveUrlCommand, nameof(this.UrlCommand));
         }
 
         public Receiver<string> UserInput { get; private set; }
         public Receiver<string> CompResponse { get; private set; }
         public Receiver<bool> FaceDetected { get; private set; }
         public Receiver<string> DialogStateChanged { get; private set; }
+        public Receiver<Action> MapCommand { get; private set; }
+        public Receiver<Action> UrlCommand { get; private set; }
 
         /// <summary>
         /// Input from user via the touch screen screen on the UI
@@ -154,6 +161,30 @@ namespace KioskUI
             state = arg1;
         }
 
+        private void ReceiveUrlCommand(Action arg1, Envelope arg2)
+        {
+            if (arg1.Name == "psikiShowUrl")
+            {
+                url = (string)arg1.Args[0];
+            }
+            else
+            {
+                Console.WriteLine("Invalid action received by UrlCommand" + arg1.Name);
+            }
+        }
+
+        private void ReceiveMapCommand(Action arg1, Envelope arg2)
+        {
+            if (arg1.Name == "psikiShowMap")
+            {
+                mapLabel = (string)arg1.Args[0];
+                mapID = (string)arg1.Args[1];
+            } else
+            {
+                Console.WriteLine("Invalid action received by MapCommand" + arg1.Name);
+            }
+        }
+
         public void Start(Action onCompleted, ReplayDescriptor descriptor)
         {
             wssv = new WebSocketServer("ws://127.0.0.1:9791");
@@ -177,6 +208,16 @@ namespace KioskUI
         public string getState()
         {
             return state;
+        }
+
+        public string getUrl()
+        {
+            return url;
+        }
+
+        public (string,string) getMapData()
+        {
+            return (mapLabel, mapID);
         }
 
         public string getDebug()

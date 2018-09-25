@@ -263,6 +263,7 @@
                     // Create the AudioSource component to capture audio from the default device in 16 kHz 1-channel
                     // PCM format as required by both the voice activity detector and speech recognition components.
 
+                    // mimic face detected signal
                     intervalboolean = new Speech.IntervalBooleanProducer(pipeline, new int[]{ 1000 }, 50);
 
                     var mouthOpenAsFloat = intervalboolean.Out.Select((bool x) =>
