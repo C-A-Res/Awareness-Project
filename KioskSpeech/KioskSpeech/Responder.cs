@@ -27,11 +27,17 @@ namespace NU.Kiosk.Speech
             // KQML connections
             this.KQMLResponse = pipeline.CreateReceiver<string>(this, ReceiveKQMLResponse, nameof(this.KQMLResponse));
             this.KQMLRequest = pipeline.CreateEmitter<string>(this, nameof(this.KQMLRequest));
+
+            // UI connection
+            this.ActionResponse = pipeline.CreateEmitter<Action>(this, nameof(this.ActionResponse));
         }
 
         // Dialog
         public Receiver<Utterance> UserInput { get; private set; }
         public Emitter<string> CompResponse { get; private set; }
+
+        // UI
+        public Emitter<Action> ActionResponse { get; private set; } 
 
         // KQML
         public Receiver<string> KQMLResponse { get; private set; }
@@ -122,12 +128,11 @@ namespace NU.Kiosk.Speech
             {
                 case "psikiSayText":
                     CompResponse.Post(a.Args[0].ToString(), dt);
+                    ActionResponse.Post(a, dt);
                     break;
                 case "psikiDisplayMap":
-                    CompResponse.Post(a.Args[0].ToString(), dt);
-                    break;
                 case "psikiDisplayUrl":
-                    CompResponse.Post(a.Args[0].ToString(), dt);
+                    ActionResponse.Post(a, dt);
                     break;
                 default:
                     Console.WriteLine("Unrecognized action: " + a.Name);

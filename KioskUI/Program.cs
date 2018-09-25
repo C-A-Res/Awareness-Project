@@ -117,11 +117,9 @@ namespace KioskUI
             this.Wake = pipeline.CreateEmitter<bool>(this, nameof(this.Wake));
 
             this.UserInput = pipeline.CreateReceiver<string>(this, ReceiveUserInput, nameof(this.UserInput));
-            this.CompResponse = pipeline.CreateReceiver<string>(this, ReceiveCompResponse, nameof(this.CompResponse));
             this.FaceDetected = pipeline.CreateReceiver<bool>(this, ReceiveFaceDetected, nameof(this.FaceDetected));
             this.DialogStateChanged = pipeline.CreateReceiver<string>(this, ReceiveDialogStateChanged, nameof(this.DialogStateChanged));
-            this.MapCommand = pipeline.CreateReceiver<Action>(this, ReceiveMapCommand, nameof(this.MapCommand));
-            this.UrlCommand = pipeline.CreateReceiver<Action>(this, ReceiveUrlCommand, nameof(this.UrlCommand));
+            this.ActionCommand = pipeline.CreateReceiver<Action>(this, ReceiveActionCommand, nameof(this.ActionCommand));
         }
 
         public Receiver<string> UserInput { get; private set; }
@@ -144,13 +142,6 @@ namespace KioskUI
             thinking = true;
         }
 
-        private void ReceiveCompResponse(string message, Envelope e)
-        {
-            this.utterances.Add(("kiosk", message));
-            thinking = false;
-            speaking = true;
-        }
-
         private void ReceiveFaceDetected(bool message, Envelope e)
         {
             this.faceDetected = message;
@@ -161,28 +152,31 @@ namespace KioskUI
             state = arg1;
         }
 
-        private void ReceiveUrlCommand(Action arg1, Envelope arg2)
+        private void ReceiveCompResponse(string message, Envelope e)
         {
-            if (arg1.Name == "psikiShowUrl")
-            {
-                url = (string)arg1.Args[0];
-            }
-            else
-            {
-                Console.WriteLine("Invalid action received by UrlCommand" + arg1.Name);
-            }
+            this.utterances.Add(("kiosk", message));
+            thinking = false;
+            speaking = true;
         }
 
-        private void ReceiveMapCommand(Action arg1, Envelope arg2)
+        private void ReceiveActionCommand(Action arg1, Envelope arg2)
         {
-            if (arg1.Name == "psikiShowMap")
+            switch (arg1.Name)
             {
-                mapLabel = (string)arg1.Args[0];
-                mapID = (string)arg1.Args[1];
-            } else
-            {
-                Console.WriteLine("Invalid action received by MapCommand" + arg1.Name);
+                case "psikiSayText":
+                    dafs;
+                    break;
+                case "psiShowMap":
+                    mapLabel = (string)arg1.Args[0];
+                    mapID = (string)arg1.Args[1];
+                    break;
+                case "psikiShowUrl":
+                    url = (string)arg1.Args[0];
+                    break;
+                default:
+                    Console.WriteLine("Invalid action received by UrlCommand" + arg1.Name);
             }
+            
         }
 
         public void Start(Action onCompleted, ReplayDescriptor descriptor)
