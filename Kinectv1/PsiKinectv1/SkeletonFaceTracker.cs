@@ -70,6 +70,7 @@
 
         protected override void Receive((Shared<Image>, Shared<Image>, List<Skeleton>) frames, Envelope envelope)
         {
+            Console.Write('-');
             var faceDetectedNow = false;
             try
             {
@@ -79,33 +80,40 @@
                     if (skeleton.TrackingState == SkeletonTrackingState.Tracked
                         || skeleton.TrackingState == SkeletonTrackingState.PositionOnly)
                     {
+                        Console.Write('a');
                         // We want keep a record of any skeleton, tracked or untracked.
                         if (!this.trackedSkeletons.ContainsKey(skeleton.TrackingId))
                         {
                             this.trackedSkeletons.Add(skeleton.TrackingId, this);
                         }
 
+                        Console.Write('b');
                         // Give each tracker the upated frame.
                         SkeletonFaceTracker skeletonFaceTracker;
                         if (this.trackedSkeletons.TryGetValue(skeleton.TrackingId, out skeletonFaceTracker))
                         {
+                            Console.Write('c');
                             byte[] colorImage = new byte[frames.Item1.Resource.Height * frames.Item1.Resource.Width * PixelFormatHelper.GetBytesPerPixel(frames.Item1.Resource.PixelFormat)];
                             frames.Item1.Resource.CopyTo(colorImage);
-
+                            Console.Write('d');
                             short[] depthImage = new short[frames.Item2.Resource.Height * frames.Item2.Resource.Width * PixelFormatHelper.GetBytesPerPixel(frames.Item2.Resource.PixelFormat) / 2];
                             byte[] depthImageB = new byte[frames.Item2.Resource.Height * frames.Item2.Resource.Width * PixelFormatHelper.GetBytesPerPixel(frames.Item2.Resource.PixelFormat)];
                             frames.Item2.Resource.CopyTo(depthImageB);
+                            Console.Write('e');
                             // gotta be a better way to do this
                             for (int i = 0; i < depthImageB.Length; i += 2)
                             {
                                 depthImage[i / 2] = BitConverter.ToInt16(depthImageB, i);
                             }
+                            Console.Write('f');
 
                             skeletonFaceTracker.OnFrameReady(kinectSensor.ColorStream.Format, colorImage, kinectSensor.DepthStream.Format, depthImage, skeleton);
+                            Console.Write('g');
                             // this isn't exactly LastTrackedFrame, will need to change this or get rid of it
                             skeletonFaceTracker.LastTrackedFrame = envelope.SequenceId; // skeletonFrame.FrameNumber;
                             if (skeletonFaceTracker.lastFaceTrackSucceeded)
                             {
+                                Console.Write('h');
                                 //if (skeletonFaceTracker.LastTrackedFrame % 10 == 0)
                                 //Console.WriteLine(true);
                                 this.FaceDetected.Post(true, envelope.OriginatingTime);
@@ -113,9 +121,11 @@
                             }
                             else
                             {
+                                Console.Write('i');
                                 //Console.WriteLine(false);
                                 //this.FaceDetected.Post(false, envelope.OriginatingTime);
                             }
+                            Console.Write('j');
                         }
                     }
                 }

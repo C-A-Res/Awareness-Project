@@ -80,6 +80,8 @@
 
             this.Audio = pipeline.CreateEmitter<AudioBuffer>(this, nameof(this.Audio));
 
+            Microsoft.Kinect.KinectSensor.KinectSensors.StatusChanged += this.KinectsStatusChanged;
+
             this.StartKinect();
         }
 
@@ -132,7 +134,6 @@
 
                     kinectSensor.Start();
 
-
                     // Start streaming audio!
                     //this.audioStream = this.kinectSensor.AudioSource.Start();
 
@@ -181,6 +182,14 @@
             }
         }
 
+        private void KinectsStatusChanged(object sender, StatusChangedEventArgs e)
+        {
+            Console.WriteLine(e.Sensor + ": " + e.Status + " - " + e.ToString());
+            if (e.Status == KinectStatus.Connected)
+            {
+                StartKinect();
+            }
+        }
 
         private void Kinect_AllFramesReady(object sender, AllFramesReadyEventArgs allFramesReadyEventArgs)
         {
