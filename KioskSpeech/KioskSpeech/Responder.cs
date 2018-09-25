@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using Microsoft.Psi;
 using Microsoft.Psi.Components;
+using NU.Kiosk.SharedObject;
 
 namespace NU.Kiosk.Speech
 {
@@ -25,7 +26,7 @@ namespace NU.Kiosk.Speech
             this.CompResponse = pipeline.CreateEmitter<string>(this, nameof(this.CompResponse));
 
             // KQML connections
-            this.KQMLResponse = pipeline.CreateReceiver<string>(this, ReceiveKQMLResponse, nameof(this.KQMLResponse));
+            this.KQMLResponse = pipeline.CreateReceiver<NU.Kiosk.SharedObject.Action>(this, ReceiveKQMLResponse, nameof(this.KQMLResponse));
             this.KQMLRequest = pipeline.CreateEmitter<string>(this, nameof(this.KQMLRequest));
         }
 
@@ -34,7 +35,7 @@ namespace NU.Kiosk.Speech
         public Emitter<string> CompResponse { get; private set; }
 
         // KQML
-        public Receiver<string> KQMLResponse { get; private set; }
+        public Receiver<NU.Kiosk.SharedObject.Action> KQMLResponse { get; private set; }
         public Emitter<string> KQMLRequest { get; private set; }
 
         private void ReceiveUserInput(Utterance arg1, Envelope arg2)
@@ -45,9 +46,9 @@ namespace NU.Kiosk.Speech
             }
         }
 
-        private void ReceiveKQMLResponse(string arg1, Envelope arg2)
+        private void ReceiveKQMLResponse(NU.Kiosk.SharedObject.Action arg1, Envelope arg2)
         {
-            CompResponse.Post(arg1, DateTime.Now);
+            CompResponse.Post((string)arg1.Args[0], DateTime.Now);
         }
 
         private bool generateAutoResponse(Utterance arg1, Envelope arg2)
@@ -116,7 +117,7 @@ namespace NU.Kiosk.Speech
             CompResponse.Post("I can answer questions about where someone's office is and how to contact a professor.", arg2.OriginatingTime);
         }
 
-        private void actionInterpreter(Action a, DateTime dt)
+        private void actionInterpreter(NU.Kiosk.SharedObject.Action a, DateTime dt)
         {
             switch (a.Name)
             {

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using Microsoft.Psi;
 using Microsoft.Psi.Components;
+using NU.Kiosk.SharedObject;
 
 namespace NU.Kiosk.Speech
 {

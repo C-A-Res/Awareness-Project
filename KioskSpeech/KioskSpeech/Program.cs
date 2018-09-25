@@ -117,8 +117,8 @@ namespace NU.Kiosk.Speech
                 {
                     python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
                     preproc.Out.Select(x => x.Text).PipeTo(ui.UserInput);
-                    python.Out.PipeTo(ui.CompResponse);
-                    python.Out.PipeTo(speechSynth);
+                    python.Out.Select(x => (string)x.Args[0]).PipeTo(ui.CompResponse);
+                    python.Out.Select(x => (string)x.Args[0]).PipeTo(speechSynth);
                 }
                 else
                 {

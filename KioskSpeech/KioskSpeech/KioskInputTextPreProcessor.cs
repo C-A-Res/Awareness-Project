@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using NU.Kiosk.SharedObject;
 
 namespace NU.Kqml
 {
@@ -18,6 +19,7 @@ namespace NU.Kqml
         private SystemSpeechRecognizer recognizer;
         private int ReloadMessageIDCurrent = 0;
         private static Regex quote_s = new Regex("[ ][']s");
+        private static Regex space_qmark = new Regex("[ ][?]");
         private static Regex course_num1 = new Regex(@"(\d)\s+(\d)0\s+(\d)");
         private static Regex course_num2 = new Regex(@"(\d)\s+(\d+)");
 
@@ -39,6 +41,16 @@ namespace NU.Kqml
         protected override void Receive(IStreamingSpeechRecognitionResult result, Envelope e)
         {
             string message = quote_s.Replace(result.Text, "'s");
+            var lower = message.ToLower();
+            if (lower.StartsWith("where") || lower.StartsWith("what") || lower.StartsWith("how") 
+                || lower.StartsWith("who") || lower.StartsWith("is") || lower.StartsWith("are")
+                || lower.StartsWith("when") || lower.StartsWith("will"))
+            {
+                message += "?";
+            } else if (lower.StartsWith("show") || lower.StartsWith("tell"))
+            {
+                message += ".";
+            }
             double confidence = result.Confidence.Value;
             handleInput(message, confidence, StringResultSource.speech, e);
         }
@@ -62,7 +74,8 @@ namespace NU.Kqml
                     Console.WriteLine($"[KioskInputTextPreProcessor] Discarding message: {message}");
                     break;
                 case "Reload grammars":
-                    reloadGrammars();
+                    //reloadGrammars();
+                    Console.WriteLine($"[KioskInputTextPreProcessor] Grammar reload is disabled");
                     break;
                 default:
                     // fix course numbers

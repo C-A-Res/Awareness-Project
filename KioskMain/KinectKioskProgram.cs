@@ -19,6 +19,8 @@
     using System.Threading.Tasks;
     using System.Timers;
 
+    using NU.Kiosk.SharedObject;
+
     public static class KinectKioskProgram
     {
         static string AppName = "Kiosk";
@@ -31,12 +33,12 @@
         public static void Main(string[] args)
         {
             bool usingDragon = false;
-            bool usingKqml = false;
+            bool usingKqml = true;
             bool usingKinect = true;
 
-            string facilitatorIP = "";
-            int facilitatorPort = 0;
-            int localPort = 0;
+            string facilitatorIP = "localhost";
+            int facilitatorPort = 9000;
+            int localPort = 8800;
 
             int i = 0;
             while (i < args.Length)
@@ -167,7 +169,7 @@
                 else
                 {
                     // echo
-                    responder.KQMLRequest.PipeTo(responder.KQMLResponse);
+                    responder.KQMLRequest.Select(x => new NU.Kiosk.SharedObject.Action("psikbSayText", x)).PipeTo(responder.KQMLResponse);
                 }
 
                 #endregion
@@ -338,7 +340,7 @@
                 else
                 {
                     // echo
-                    responder.KQMLRequest.PipeTo(responder.KQMLResponse);
+                    responder.KQMLRequest.Select(x => new NU.Kiosk.SharedObject.Action("psikbSayText", x)).PipeTo(responder.KQMLResponse);
                 }
 
                 #endregion
