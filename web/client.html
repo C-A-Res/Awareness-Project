@@ -5,6 +5,7 @@
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
+  <script src="mapData.js"></script>
   <script src="agent.js"></script>
 
   <script type="text/javascript">
@@ -57,13 +58,14 @@
       <div id="showmap" class="touchButton">Show Map</div>
       <div id="other" class="touchButton">Other</div>
       <div id="titles">
-        <div id="Professor" class="touchButton2" style="width: 125px">Professor</div>
-        <div id="Mr" class="touchButton2">Mr.</div>
-        <div id="Ms" class="touchButton2">Ms.</div>
-        <div id="Dr" class="touchButton2">Dr.</div>
-        <div id="Room" class="touchButton2">Room</div>
-        <div id="Lab" class="touchButton2">Lab</div>
-        <div id="Office" class="touchButton2">Office</div>
+        <div id="Professor" class="touchButton2" style="width: 125px" data-value="Professor">Professor</div>
+        <div id="Mr" class="touchButton2" data-value="Mr.">Mr.</div>
+        <div id="Ms" class="touchButton2" data-value="Ms.">Ms.</div>
+        <div id="Dr" class="touchButton2" data-value="Dr.">Dr.</div>
+        <div id="Room" class="touchButton2" data-value="Room">Room</div>
+        <div id="Lab" class="touchButton2" data-value="Lab">Lab</div>
+        <div id="Office" class="touchButton2" data-value="Office">Office</div>
+        <div id="Bathroom" class="touchButton2" data-value="the Bathroom">Bathroom</div>
       </div>
       <div id="keys">
         <div id="keyboard">
@@ -81,7 +83,7 @@
           </div>
           <div style="display: flex">
             <div style="width:20px"></div>
-            <div class="keyButton"">A</div>
+            <div class="keyButton">A</div>
             <div class="keyButton">S</div>
             <div class="keyButton">D</div>
             <div class="keyButton">F</div>

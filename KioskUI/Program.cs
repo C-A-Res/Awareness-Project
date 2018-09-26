@@ -49,7 +49,7 @@ namespace KioskUI
                 utts.Add(("other", "Where does Prof Forbus work?"));
                 utts.Add(("kiosk", "His office is somewehre"));
                 string state = "listening";
-                msg = buildJsonResponse2(utts, state, "false");
+                msg = buildJsonResponse2(utts, state,  ("",""), "", "false");
             }
 
             Send(msg);
@@ -68,7 +68,7 @@ namespace KioskUI
             return JsonConvert.SerializeObject(forJson);
         }
 
-        private string buildJsonResponse2(List<(string, string)> utts, string state, string debug)
+        private string buildJsonResponse2(List<(string, string)> utts, string state, (string, string) mapdata, string url, string debug)
         {
             var forJson = new List<Dictionary<string, object>>();
 
@@ -81,6 +81,19 @@ namespace KioskUI
 
             var command = new Dictionary<string, object> { { "command", "setAvatarState" }, { "args", state } };
             forJson.Add(command);
+
+            if (url != "")
+            {
+                Dictionary<string, object> urlForJson = new Dictionary<string, object> { { "command", "displayUrl" }, {"args", url } };
+                forJson.Add(urlForJson);
+            }
+
+            if (mapdata.Item1 != "")
+            {
+                var mapargs = new Dictionary<string, string> { { "name", mapdata.Item1 }, { "id", mapdata.Item2 } };
+                var command_map = new Dictionary<string, object> { { "command", "displayMap" }, { "args", mapargs } };
+                forJson.Add(command_map);
+            }
 
             if (debug.Length > 0)
             {
@@ -166,7 +179,7 @@ namespace KioskUI
                 case "psikiSayText":
                     utterances.Add(("kiosk", (string)arg1.Args[0]));
                     break;
-                case "psiShowMap":
+                case "psikiShowMap":
                     mapLabel = (string)arg1.Args[0];
                     mapID = (string)arg1.Args[1];
                     break;

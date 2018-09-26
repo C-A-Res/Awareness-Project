@@ -105,9 +105,10 @@ namespace NU.Kiosk.Speech
                         var time = DateTime.Now.ToString("h:mm tt");
                         sendResponse($"It is {time}");
                         return true;
+                    case "Where is the Bathroom?":
                     case "Where is the bathroom?":
                         sendResponse("The bathroom is in the southeast corner of the floor.");
-                        ActionResponse.Post(new SharedObject.Action("psikiShowMap", "bathroom", "bathroom"), DateTime.Now);
+                        ActionResponse.Post(new SharedObject.Action("psikiShowMap", "Bathroom", "bathroom"), DateTime.Now);
                         return true;
                     case "":
                     case "okay":

@@ -298,7 +298,7 @@ header{
 }
 
 .touchButton2 {
-  width: 80px;
+  min-width: 80px;
   height: 50px;
   padding: 5px;
   background-color: lightgray;
@@ -319,6 +319,7 @@ header{
   font-size: 20px;
   text-align: center;
   line-height: 45px;
+  // border-radius: 5px;
 }
 
 .toggleDebug {

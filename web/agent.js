@@ -108,14 +108,15 @@ function init() {
     }
     textContainer.appendChild(newTextNode);
     document.getElementById('chatSpace').appendChild(textContainer);    
-    updateScroll()  
+    updateScroll();
   }
 
-  function displayMap(name, x, y) {
+  function displayMap(name, id) {
     mapSpace.style.display = "block";
     touchInput.style.display = "none";
-    dest.style.left = x;
-    dest.style.top = y;
+    dest.innerHTML = name;
+    dest.style.left = mapData[id].x;
+    dest.style.top = mapData[id].y;
   }
 
   function displayKeyboard() {
@@ -208,9 +209,9 @@ function init() {
     element.onclick = function() {
       text = input.value;
       if (text.endsWith('?')) {
-        text = text.substring(0,text.length-1) + this.innerHTML + ' ?';  
+        text = text.substring(0,text.length-1) + this.getAttribute("data-value") + ' ?';
       } else {
-        text = text + this.innerHTML + " ";
+        text = text + this.getAttribute("data-value") + " ";
       }
       input.value = text;
     }
@@ -232,12 +233,13 @@ function init() {
   }
 
   showmap.onclick = function() {
-    displayMap("", 0, 2000);
+    displayMap("Willie", 3217);
   }
 
   // Connect to Web Socket
   var isConnected = false;
   var connector = setInterval(connectToServer,3000);
+
 
   var poller;
 
@@ -280,7 +282,7 @@ function init() {
             output(args);
             break;
           case "displayMap":
-            displayMap(args.name, args.x, args.y);
+            displayMap(args.name, args.id);
             break;
           default:
             output("Unrecognized command: " + command);

@@ -87,11 +87,21 @@ namespace NU.Kiosk.Speech
                 if (action.Name == "psikiSayText")
                 {
                     TextOutput.Post((string)action.Args[0], origTime);
+                    // pass it through (even sayText)
+                    ActionOutput.Post(action, origTime);
+                    // update state
+                    updateState(DialogState.Speaking, origTime);
                 }
-                // pass it through (even sayText)
-                ActionOutput.Post(action, origTime);
-                // update state
-                updateState(DialogState.Speaking, origTime);
+            }
+            else
+            {
+                if (action.Name != "psikiSayText")
+                {
+                    ActionOutput.Post(action, origTime);
+                } else
+                {
+                    Console.WriteLine("Ignoring action " + action.Name);
+                }
             }
             StopResponseTimer();
         }
