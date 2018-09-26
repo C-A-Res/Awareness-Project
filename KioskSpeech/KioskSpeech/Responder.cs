@@ -23,22 +23,22 @@ namespace NU.Kiosk.Speech
 
             // Dialog connections
             this.UserInput = pipeline.CreateReceiver<Utterance>(this, ReceiveUserInput, nameof(this.UserInput));
-            this.CompResponse = pipeline.CreateEmitter<string>(this, nameof(this.CompResponse));
+            this.TextResponse = pipeline.CreateEmitter<string>(this, nameof(this.TextResponse));
 
             // KQML connections
             this.KQMLResponse = pipeline.CreateReceiver<NU.Kiosk.SharedObject.Action>(this, ReceiveKQMLResponse, nameof(this.KQMLResponse));
             this.KQMLRequest = pipeline.CreateEmitter<string>(this, nameof(this.KQMLRequest));
 
             // UI connection
-            this.ActionResponse = pipeline.CreateEmitter<Action>(this, nameof(this.ActionResponse));
+            this.ActionResponse = pipeline.CreateEmitter<NU.Kiosk.SharedObject.Action>(this, nameof(this.ActionResponse));
         }
 
         // Dialog
         public Receiver<Utterance> UserInput { get; private set; }
-        public Emitter<string> CompResponse { get; private set; }
+        public Emitter<string> TextResponse { get; private set; }
 
         // UI
-        public Emitter<Action> ActionResponse { get; private set; } 
+        public Emitter<NU.Kiosk.SharedObject.Action> ActionResponse { get; private set; } 
 
         // KQML
         public Receiver<NU.Kiosk.SharedObject.Action> KQMLResponse { get; private set; }
@@ -54,7 +54,12 @@ namespace NU.Kiosk.Speech
 
         private void ReceiveKQMLResponse(NU.Kiosk.SharedObject.Action arg1, Envelope arg2)
         {
-            CompResponse.Post((string)arg1.Args[0], DateTime.Now);
+            // just forward it
+            ActionResponse.Post(arg1, DateTime.Now);
+            if (arg1.Name == "psikiSayText")
+            {
+                //TextResponse.Post((string)arg1.Args[0], DateTime.Now);
+            }
         }
 
         private bool generateAutoResponse(Utterance arg1, Envelope arg2)
@@ -65,15 +70,15 @@ namespace NU.Kiosk.Speech
             {
                 if (repeatCount <= 1)
                 {
-                    CompResponse.Post("Could you please repeat that?", DateTime.Now);
+                    sendResponse("Could you please repeat that?");
                 }
                 else if (repeatCount <= 3)
                 {
-                    CompResponse.Post("Please try to rephrase.", DateTime.Now);
+                    sendResponse("Please try to rephrase.");
                 }
                 else
                 {
-                    CompResponse.Post("Please try again.", DateTime.Now);
+                    sendResponse("Please try again.");
                 }
                 repeatCount++;
                 return true;
@@ -88,7 +93,7 @@ namespace NU.Kiosk.Speech
                     case "Greetings":
                     case "Good morning":
                     case "Sup":
-                        CompResponse.Post("Hello", DateTime.Now);
+                        sendResponse("Hello");
                         return true;
                     case "What can you do?":
                     case "What do you do?":
@@ -98,7 +103,11 @@ namespace NU.Kiosk.Speech
                     case "What time is it?":
                     case "What's the time?":
                         var time = DateTime.Now.ToString("h:mm tt");
-                        CompResponse.Post($"It is {time}", DateTime.Now);
+                        sendResponse($"It is {time}");
+                        return true;
+                    case "Where is the bathroom?":
+                        sendResponse("The bathroom is in the southeast corner of the floor.");
+                        ActionResponse.Post(new SharedObject.Action("psikiShowMap", "bathroom", "bathroom"), DateTime.Now);
                         return true;
                     case "":
                     case "okay":
@@ -120,25 +129,14 @@ namespace NU.Kiosk.Speech
 
         private void generateHelpResponse(Envelope arg2)
         {
-            CompResponse.Post("I can answer questions about where someone's office is and how to contact a professor.", arg2.OriginatingTime);
+            sendResponse("I can answer questions about where someone's office is and how to contact a professor.");
         }
 
-        private void actionInterpreter(NU.Kiosk.SharedObject.Action a, DateTime dt)
+        private void sendResponse(string response)
         {
-            switch (a.Name)
-            {
-                case "psikiSayText":
-                    CompResponse.Post(a.Args[0].ToString(), dt);
-                    ActionResponse.Post(a, dt);
-                    break;
-                case "psikiDisplayMap":
-                case "psikiDisplayUrl":
-                    ActionResponse.Post(a, dt);
-                    break;
-                default:
-                    Console.WriteLine("Unrecognized action: " + a.Name);
-                    break;
-            }
+            //TextResponse.Post(response, DateTime.Now);
+            ActionResponse.Post(new SharedObject.Action("psikiSayText", response), DateTime.Now);
         }
+        
     }
 }

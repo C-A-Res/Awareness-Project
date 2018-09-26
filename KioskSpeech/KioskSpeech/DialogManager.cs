@@ -30,13 +30,14 @@ namespace NU.Kiosk.Speech
         public DialogManager(Pipeline pipeline) : base(pipeline)
         {
             this.UserInput = pipeline.CreateReceiver<Utterance>(this, ReceiveUserInput, nameof(this.UserInput));
-            this.CompInput = pipeline.CreateReceiver<string>(this, ReceiveCompInput, nameof(this.CompInput));
+            this.CompInput = pipeline.CreateReceiver<SharedObject.Action>(this, ReceiveCompInput, nameof(this.CompInput));
             this.SpeechSynthesizerState = pipeline.CreateReceiver<SynthesizerState>(this, ReceiveSynthesizerState, nameof(this.SpeechSynthesizerState));
             this.FaceDetected = pipeline.CreateReceiver<bool>(this, ReceiveFaceDetected, nameof(this.FaceDetected));
             this.WakeUp = pipeline.CreateReceiver<bool>(this, ReceiveWakeUp, nameof(this.WakeUp));
             
             this.UserOutput = pipeline.CreateEmitter<Utterance>(this, nameof(this.UserOutput));
-            this.CompOutput = pipeline.CreateEmitter<string>(this, nameof(this.CompOutput));
+            this.TextOutput = pipeline.CreateEmitter<string>(this, nameof(this.TextOutput));
+            this.ActionOutput = pipeline.CreateEmitter<SharedObject.Action>(this, nameof(this.ActionOutput));
             this.StateChanged = pipeline.CreateEmitter<string>(this, nameof(this.StateChanged));
 
             InitResponseTimer();
@@ -44,13 +45,14 @@ namespace NU.Kiosk.Speech
         }
 
         public Receiver<Utterance> UserInput { get; private set; }
-        public Receiver<string> CompInput { get; private set; }
+        public Receiver<SharedObject.Action> CompInput { get; private set; }
         public Receiver<SynthesizerState> SpeechSynthesizerState { get; private set; }
         public Receiver<bool> FaceDetected { get; private set; }
         public Receiver<bool> WakeUp { get; private set; }
 
         public Emitter<Utterance> UserOutput { get; private set; }
-        public Emitter<string> CompOutput { get; private set; }
+        public Emitter<string> TextOutput { get; private set; }
+        public Emitter<SharedObject.Action> ActionOutput { get; private set; }
         public Emitter<string> StateChanged { get; private set; }
 
 
@@ -72,16 +74,23 @@ namespace NU.Kiosk.Speech
             }
         }
 
-        private void ReceiveCompInput(string arg1, Envelope arg2)
+        private void ReceiveCompInput(SharedObject.Action arg1, Envelope arg2)
         {
             handleCompInput(arg1, arg2.OriginatingTime);
         }
 
-        private void handleCompInput(string text, DateTime origTime)
+        private void handleCompInput(SharedObject.Action action, DateTime origTime)
         {
             if (state == DialogState.Thinking)
             {
-                CompOutput.Post(text, origTime);
+                // sayText action handled specially
+                if (action.Name == "psikiSayText")
+                {
+                    TextOutput.Post((string)action.Args[0], origTime);
+                }
+                // pass it through (even sayText)
+                ActionOutput.Post(action, origTime);
+                // update state
                 updateState(DialogState.Speaking, origTime);
             }
             StopResponseTimer();
@@ -169,7 +178,7 @@ namespace NU.Kiosk.Speech
         {
             StopResponseTimer();
             Console.WriteLine("Time's up");
-            handleCompInput("Sorry, does not compute.", DateTime.Now);
+            handleCompInput(new SharedObject.Action("psikiSayText", "Sorry, does not compute."), DateTime.Now);
         }
 
         private void InitResponseTimer()

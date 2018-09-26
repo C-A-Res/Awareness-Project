@@ -8,6 +8,7 @@ using Microsoft.Psi.Components;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 using Newtonsoft.Json;
+using NU.Kiosk.SharedObject;
 
 namespace KioskUI
 {
@@ -119,15 +120,14 @@ namespace KioskUI
             this.UserInput = pipeline.CreateReceiver<string>(this, ReceiveUserInput, nameof(this.UserInput));
             this.FaceDetected = pipeline.CreateReceiver<bool>(this, ReceiveFaceDetected, nameof(this.FaceDetected));
             this.DialogStateChanged = pipeline.CreateReceiver<string>(this, ReceiveDialogStateChanged, nameof(this.DialogStateChanged));
-            this.ActionCommand = pipeline.CreateReceiver<Action>(this, ReceiveActionCommand, nameof(this.ActionCommand));
+            this.ActionCommand = pipeline.CreateReceiver<NU.Kiosk.SharedObject.Action>(this, ReceiveActionCommand, nameof(this.ActionCommand));
         }
 
         public Receiver<string> UserInput { get; private set; }
         public Receiver<string> CompResponse { get; private set; }
         public Receiver<bool> FaceDetected { get; private set; }
         public Receiver<string> DialogStateChanged { get; private set; }
-        public Receiver<Action> MapCommand { get; private set; }
-        public Receiver<Action> UrlCommand { get; private set; }
+        public Receiver<NU.Kiosk.SharedObject.Action> ActionCommand { get; private set; }
 
         /// <summary>
         /// Input from user via the touch screen screen on the UI
@@ -159,12 +159,12 @@ namespace KioskUI
             speaking = true;
         }
 
-        private void ReceiveActionCommand(Action arg1, Envelope arg2)
+        private void ReceiveActionCommand(NU.Kiosk.SharedObject.Action arg1, Envelope arg2)
         {
             switch (arg1.Name)
             {
                 case "psikiSayText":
-                    dafs;
+                    utterances.Add(("kiosk", (string)arg1.Args[0]));
                     break;
                 case "psiShowMap":
                     mapLabel = (string)arg1.Args[0];
@@ -175,11 +175,12 @@ namespace KioskUI
                     break;
                 default:
                     Console.WriteLine("Invalid action received by UrlCommand" + arg1.Name);
+                    break;
             }
             
         }
 
-        public void Start(Action onCompleted, ReplayDescriptor descriptor)
+        public void Start(System.Action onCompleted, ReplayDescriptor descriptor)
         {
             wssv = new WebSocketServer("ws://127.0.0.1:9791");
             wssv.AddWebSocketService<KioskUIServer>("/dialog", () => new KioskUIServer(this));

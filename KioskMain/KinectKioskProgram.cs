@@ -32,13 +32,15 @@
 
         public static void Main(string[] args)
         {
+            // Do not change these values if you want to run under a different config
+            // Use command line arguments, that's why they are there!
             bool usingDragon = false;
-            bool usingKqml = true;
+            bool usingKqml = false;
             bool usingKinect = true;
 
-            string facilitatorIP = "localhost";
-            int facilitatorPort = 9000;
-            int localPort = 8800;
+            string facilitatorIP = "";
+            int facilitatorPort = 0;
+            int localPort = 0;
 
             int i = 0;
             while (i < args.Length)
@@ -146,7 +148,8 @@
                 //dialog.CompOutput.PipeTo(synthesizer);
 
                 dialog.UserOutput.PipeTo(responder.UserInput);
-                responder.CompResponse.PipeTo(dialog.CompInput);
+                // TODO update following line of code
+                //responder.CompResponse.PipeTo(dialog.CompInput);
 
                 //synthesizer.UpdatedState.PipeTo(dialog.SpeechSynthesizerState);
                 Console.Out.WriteLine("Synthisizer select");
@@ -266,9 +269,19 @@
                     // PCM format as required by both the voice activity detector and speech recognition components.
 
                     // mimic face detected signal
-                    intervalboolean = new Speech.IntervalBooleanProducer(pipeline, new int[]{ 1000 }, 50);
+                    //intervalboolean = new Speech.IntervalBooleanProducer(pipeline, new int[]{ 1000 }, 50);
 
-                    var mouthOpenAsFloat = intervalboolean.Out.Select((bool x) =>
+                    var keys = Generators.Sequence(pipeline, Keys(), TimeSpan.FromMilliseconds(10));
+                    var pushToTalk = keys.Select(k =>
+                    {
+                        if (k == ConsoleKey.Spacebar)
+                        {
+                            return true;
+                        }
+                        return false;
+                    }).Repeat(Generators.Timer(pipeline, TimeSpan.FromMilliseconds(100)));
+                    
+                    var mouthOpenAsFloat = pushToTalk.Out.Select((bool x) =>
                     {
                         if (!detected)
                         {
@@ -310,11 +323,11 @@
                 dialog.UserOutput.Select(u => { return u.Text; }).PipeTo(ui.UserInput);
 
                 // Get response from Companion and forward to UI and synthesizer
-                dialog.CompOutput.PipeTo(ui.CompResponse);
-                dialog.CompOutput.PipeTo(synthesizer);
+                dialog.ActionOutput.PipeTo(ui.ActionCommand);
+                dialog.TextOutput.PipeTo(synthesizer);
 
                 dialog.UserOutput.PipeTo(responder.UserInput);
-                responder.CompResponse.PipeTo(dialog.CompInput);
+                responder.ActionResponse.PipeTo(dialog.CompInput);
 
                 synthesizer.StateChanged.Select(x =>
                 {
@@ -341,7 +354,7 @@
                 else
                 {
                     // echo
-                    responder.KQMLRequest.Select(x => new NU.Kiosk.SharedObject.Action("psikbSayText", x)).PipeTo(responder.KQMLResponse);
+                    responder.KQMLRequest.Select(x => new NU.Kiosk.SharedObject.Action("psikiSayText", x)).PipeTo(responder.KQMLResponse);
                 }
 
                 #endregion
@@ -353,11 +366,20 @@
                 pipeline.PipelineCompletionEvent += PipelineCompletionEvent;
 
                 // Run the pipeline
-                pipeline.RunAsync();
+                pipeline.Run();
 
-                Console.WriteLine("Press any key to exit...");
-                Console.ReadKey(true);
+                //Console.WriteLine("Press any key to exit...");
+                //Console.ReadKey(true);
 
+            }
+        }
+
+        static IEnumerable<ConsoleKey> Keys()
+        {
+            while (true)
+            {
+                var key = Console.ReadKey(true).Key;
+                yield return key;
             }
         }
 
