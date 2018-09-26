@@ -43,7 +43,7 @@ namespace KioskUI
 
             if (this.kioskUI != null)
             {
-                msg = buildJsonResponse2(kioskUI.getUtterances(), kioskUI.getState(), kioskUI.getDebug());
+                msg = buildJsonResponse2(kioskUI.getUtterances(), kioskUI.getState(), kioskUI.getMapData(), kioskUI.getUrl(), kioskUI.getDebug());
             } else { 
                 List<(string, string)> utts = new List<(string,string)>();
                 utts.Add(("other", "Where does Prof Forbus work?"));
@@ -207,12 +207,17 @@ namespace KioskUI
 
         public string getUrl()
         {
-            return url;
+            var retval = url;
+            url = "";
+            return retval;
         }
 
         public (string,string) getMapData()
         {
-            return (mapLabel, mapID);
+            var retval = (mapLabel, mapID);
+            mapLabel = "";
+            mapID = "";
+            return retval;
         }
 
         public string getDebug()
