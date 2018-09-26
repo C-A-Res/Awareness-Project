@@ -195,6 +195,7 @@
         private static void not_dragon(string facilitatorIP, int facilitatorPort, int localPort, bool usingKqml, bool usingKinect)
         {
             bool detected = false;
+            bool quit = false;
             using (Pipeline pipeline = Pipeline.Create())
             {
                 Console.WriteLine("[KinectKiostkProgram] Not using Dragon.");
@@ -265,18 +266,18 @@
                 }
                 else
                 {
-                    // Create the AudioSource component to capture audio from the default device in 16 kHz 1-channel
-                    // PCM format as required by both the voice activity detector and speech recognition components.
-
-                    // mimic face detected signal
-                    //intervalboolean = new Speech.IntervalBooleanProducer(pipeline, new int[]{ 1000 }, 50);
-
+                    Console.WriteLine("Using push-to-talk: Press the spacebar to open the mic, and any key to close the mic, and q to quit");   
                     var keys = Generators.Sequence(pipeline, Keys(), TimeSpan.FromMilliseconds(10));
                     var pushToTalk = keys.Select(k =>
                     {
                         if (k == ConsoleKey.Spacebar)
                         {
                             return true;
+                        }
+                        if (k == ConsoleKey.Q)
+                        {
+                            quit = true;
+                            return false;
                         }
                         return false;
                     }).Repeat(Generators.Timer(pipeline, TimeSpan.FromMilliseconds(100)));
@@ -295,9 +296,9 @@
                     var faceDetected = mouthOpenAsFloat.Hold(0.1, 0.01);
                     faceDetected.PipeTo(dialog.FaceDetected);
                     faceDetected.PipeTo(ui.FaceDetected);
-                    faceDetected.Do(x => { if (x) { Console.Write(1); } else { Console.Write(0); } });
-
-
+                    
+                    // Create the AudioSource component to capture audio from the default device in 16 kHz 1-channel
+                    // PCM format as required by both the voice activity detector and speech recognition components.
                     var audioInput = new AudioSource(pipeline, new AudioSourceConfiguration() { OutputFormat = WaveFormat.Create16kHz1Channel16BitPcm() });
                     audioInput.PipeTo(recognizer);
                 }
@@ -366,8 +367,12 @@
                 pipeline.PipelineCompletionEvent += PipelineCompletionEvent;
 
                 // Run the pipeline
-                pipeline.Run();
+                pipeline.RunAsync();
 
+                while (!quit)
+                {
+                    Thread.Sleep(100);
+                }
                 //Console.WriteLine("Press any key to exit...");
                 //Console.ReadKey(true);
 
@@ -380,6 +385,10 @@
             {
                 var key = Console.ReadKey(true).Key;
                 yield return key;
+                if (key == ConsoleKey.Q)
+                {
+                    yield break;
+                }
             }
         }
 
