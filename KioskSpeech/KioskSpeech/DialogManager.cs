@@ -8,12 +8,14 @@ using System.Timers;
 using Microsoft.Psi;
 using Microsoft.Psi.Components;
 using NU.Kiosk.SharedObject;
+using log4net;
+using System.Reflection;
 
 namespace NU.Kiosk.Speech
 {
     public class DialogManager : ConsumerProducer<string, string>
     {
-        private readonly Pipeline pipeline;
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private DialogState state;
         public enum DialogState
@@ -59,10 +61,9 @@ namespace NU.Kiosk.Speech
 
         private void ReceiveUserInput(Utterance arg1, Envelope arg2)
         {
-            Console.Write(arg1.Text);
             if (state == DialogState.Listening)
             {
-                Console.Write("-processing");
+                _log.Info($"[D] Processing user input: {arg1.Text}");
                 UserOutput.Post(arg1, arg2.OriginatingTime);
                 updateState(DialogState.Thinking, arg2.OriginatingTime);
                 continueSession();
@@ -70,7 +71,7 @@ namespace NU.Kiosk.Speech
             } else
             {
                 // log it, then ignore it
-                Console.Write("-ignoring");
+                _log.Info($"[D] Ignoring user input: {arg1.Text}. DialogState is not Listening ({state}).");
             }
         }
 
@@ -86,6 +87,7 @@ namespace NU.Kiosk.Speech
                 // sayText action handled specially
                 if (action.Name == "psikiSayText")
                 {
+                    _log.Info($"[D] Handling response: {action}");
                     TextOutput.Post((string)action.Args[0], origTime);
                     // pass it through (even sayText)
                     ActionOutput.Post(action, origTime);
@@ -97,10 +99,11 @@ namespace NU.Kiosk.Speech
             {
                 if (action.Name != "psikiSayText")
                 {
+                    _log.Info($"[D] Handling response: {action}");
                     ActionOutput.Post(action, origTime);
                 } else
                 {
-                    Console.WriteLine("Ignoring action " + action.Name);
+                    _log.Info($"[D] Ignoring response: {action}. DialogState is not Thinking ({state}).");
                 }
             }
             StopResponseTimer();
@@ -110,7 +113,16 @@ namespace NU.Kiosk.Speech
         {
             if (state == DialogState.Speaking && arg1 == SynthesizerState.Ready)
             {
-                if (sessionActive) updateState(DialogState.Listening, arg2.OriginatingTime); else updateState(DialogState.Sleeping, arg2.OriginatingTime);
+                if (sessionActive)
+                {
+                    _log.Info($"[D] Done speaking. Updating DialogState to Listening");
+                    updateState(DialogState.Listening, arg2.OriginatingTime);
+                }
+                else
+                {
+                    _log.Info($"[D] Done speaking. Updating DialogState to Sleeping");
+                    updateState(DialogState.Sleeping, arg2.OriginatingTime);
+                }
             }
         }
 
@@ -119,6 +131,7 @@ namespace NU.Kiosk.Speech
             face = arg1;
             if (face)
             {
+                _log.Info($"[D] Face detected. Starting session.");
                 startSession();
                 if (state == DialogState.Sleeping)
                 {
@@ -126,6 +139,7 @@ namespace NU.Kiosk.Speech
                 }
             } else
             {
+                _log.Info($"[D] Face gone. Ending session.");
                 endSession();
             }
 
@@ -133,6 +147,7 @@ namespace NU.Kiosk.Speech
 
         private void ReceiveWakeUp(bool arg1, Envelope arg2)
         {
+            _log.Info($"[D] Received wake. Starting session.");
             startSession();
             if (state == DialogState.Sleeping)
             {
@@ -187,7 +202,7 @@ namespace NU.Kiosk.Speech
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             StopResponseTimer();
-            Console.WriteLine("Time's up");
+            _log.Info($"[D] Response timout. Generating automated response.");
             handleCompInput(new SharedObject.Action("psikiSayText", "Sorry, does not compute."), DateTime.Now);
         }
 
@@ -201,14 +216,14 @@ namespace NU.Kiosk.Speech
         {
             //timer.Enabled = true;
             timer.Start();
-            Console.WriteLine("[Merger: StartTimer] Timer Enabled.");
+            _log.Debug("[DialogManager: StartResponseTimer] Timer Enabled.");
         }
 
         private void StopResponseTimer()
         {
             //timer.Enabled = false;
             timer.Stop();
-            Console.WriteLine("[Merger: StopTimer] Timer Disabled");
+            _log.Debug("[DialogManager: StopResponseTimer] Timer Disabled");
         }
 
 
@@ -231,18 +246,22 @@ namespace NU.Kiosk.Speech
         {
             s_timer.Stop();
             s_timer.Start();
+            _log.Debug("[DialogManager: RestartSessionTimer] Timer Restarted.");
+
         }
 
         private void StartSessionTimer()
         {
             //timer.Enabled = true;
             s_timer.Start();
+            _log.Debug("[DialogManager: StartSessionTimer] Timer Enabled.");
         }
 
         private void StopSessionTimer()
         {
             //timer.Enabled = false;
             s_timer.Stop();
+            _log.Debug("[DialogManager: StopSessionTimer] Timer Disabled.");
         }
 
 

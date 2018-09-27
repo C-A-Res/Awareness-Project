@@ -18,8 +18,10 @@
     using WebSocketSharp.Server;
     using System.Threading.Tasks;
     using System.Timers;
+    using log4net;
 
     using NU.Kiosk.SharedObject;
+    using log4net.Config;
 
     public static class KinectKioskProgram
     {
@@ -58,6 +60,9 @@
                 }
                 i++;
             }
+
+
+            XmlConfigurator.Configure();
 
             if (usingDragon)
             {
