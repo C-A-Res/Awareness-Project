@@ -129,7 +129,8 @@ namespace NU.Kqml
             facilitator.OnMessage = this.ProcessMessageFromUpstream;
             facilitator.Connect();
 
-            var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://127.0.0.1:{this.localPort}\" nil nil {this.localPort}))";
+            var registermsg = $"(register :sender {this.name} :receiver facilitator :content (\"socket://{this.facilitatorIp}:{this.localPort}\" nil nil {this.localPort}))";
+            //Console.WriteLine($"IP and port: '{this.facilitatorIp}, {facilitatorPort}, {this.localPort}'; Register Message: '{registermsg}'");
             facilitator.Send(registermsg);
             facilitator.Close(); 
 
@@ -159,7 +160,7 @@ namespace NU.Kqml
         private void ProcessMessageFromUpstream(string data, AbstractSimpleSocket socket)
         {
             // push this into Out
-            Console.WriteLine($"[SocketStringConsumer] Facilitator says: {data} - length {data.Length}");
+            Console.WriteLine($"[SocketStringConsumer] Facilitator says: '{data}' - length {data.Length}");
             if (data.Length > 3)
             {
                 KQMLMessage kqml = (new KQMLMessageParser()).parse(data);
@@ -202,7 +203,6 @@ namespace NU.Kqml
 
         private void handlePing(KQMLMessage msg, AbstractSimpleSocket socket)
         {
-            Console.WriteLine("[SocketStringConsumer] pinged");
             socket.Send($"(update :sender {this.name} :receiver facilitator :in-reply-to {msg.reply_with} :content (:agent psi :uptime 12h :state guess))");
         }
 
@@ -219,25 +219,37 @@ namespace NU.Kqml
             Console.WriteLine($"[SocketStringConsumer] handleAchieve picked up a message: {msg.ToString()}");
 
             receivedMsgs.Add(msg); // is this really necessary? --> change to logging in the future
-            List<object> object_list = ((KQMLMessage)msg.content).unaffiliated_obj_and_strings;
-            if (object_list.Count <= 1)
+
+            if (msg.content is string || msg.content is KQMLMessage)
             {
-                Console.WriteLine($"[SocketStringConsumer] handleAchieve picked up a malformed message: {msg.ToString()}");
-            }
-            else
-            {
-                List<string> string_list = new List<string>();
-                for (int i = 1, size = object_list.Count; i < size; i++)
+                KQMLMessage msg_content;
+                if (msg.content is string)
                 {
-                    var str = object_list[i].ToString().Trim('"');
-                    string_list.Add(str);
+                    msg_content = (new KQMLMessageParser()).parse((string)msg.content);
+                }
+                else {
+                    msg_content = (KQMLMessage)msg.content;
                 }
 
-                var a = new NU.Kiosk.SharedObject.Action((string)object_list[0], string_list);
-                this.Out.Post(a, DateTime.Now);
+                // msg_content should be in the form of "(TheSet (psikiShowMap ...) (psikiSayText "...") ...)"
+                foreach (object o in msg_content.unaffiliated_obj_and_strings)
+                {
+                    KQMLMessage individual_message = (KQMLMessage)o;
+                    List<object> object_list = individual_message.unaffiliated_obj_and_strings;
+                    List<string> string_list = new List<string>();
+                    for (int j = 0, size = object_list.Count; j < size; j++)
+                    {
+                        var strr = object_list[j].ToString().Trim('"');
+                        string_list.Add(strr);
+                    }
 
-                //this.Out.Post(msg.content.ToString().Trim('"'), DateTime.Now);
-                socket.Send(KQMLMessage.createTell(this.name, msg.sender, this.nextMsgId(), msg.reply_with, ":ok").ToString());
+                    var a = new NU.Kiosk.SharedObject.Action(individual_message.performative, string_list.ToArray<string>());
+                    this.Out.Post(a, DateTime.Now);
+                    socket.Send(KQMLMessage.createTell(this.name, msg.sender, this.nextMsgId(), msg.reply_with, ":ok").ToString());
+                }
+            }
+            else {
+                Console.WriteLine($"[SocketStringConsumer] Cannot handleAchieve: {msg.content} is of type {msg.content.GetType()}");
             }
         }
     }
