@@ -1,3 +1,5 @@
+// TODO 1080 x 1920
+
 function init() {
 
   var ws;
@@ -127,6 +129,7 @@ function init() {
     showmap.style.display = "none";
     keys.style.display = "flex";
     titles.style.display = "flex";
+    inputSpace.style.visibility = "visible";
   }
 
   function displayInputStarters() {
@@ -138,6 +141,7 @@ function init() {
     keys.style.display = "none";
     titles.style.display = "none";
     mapSpace.style.display = "none";
+    inputSpace.style.visibility = "hidden";
   }
 
   function resetScreen() {
@@ -209,7 +213,7 @@ function init() {
     element.onclick = function() {
       text = input.value;
       if (text.endsWith('?')) {
-        text = text.substring(0,text.length-1) + this.getAttribute("data-value") + ' ?';
+        text = text.substring(0,text.length-1) + this.getAttribute("data-value") + '?';
       } else {
         text = text + this.getAttribute("data-value") + " ";
       }
@@ -233,8 +237,13 @@ function init() {
   }
 
   showmap.onclick = function() {
-    displayMap("Willie", 3217);
+    displayMap("", 0);
   }
+
+  $("#cancel").click(function () {
+    input.value = "";
+    displayInputStarters();
+  });
 
   // Connect to Web Socket
   var isConnected = false;
