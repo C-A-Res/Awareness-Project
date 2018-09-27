@@ -121,12 +121,18 @@ function init() {
     dest.style.top = mapData[id].y;
   }
 
+  function displayCalendar() {
+    calendarSpace.style.display = "block";
+    touchInput.style.display = "none";
+  }
+
   function displayKeyboard() {
     btnwhere.style.display = "none";
     when.style.display = "none";
     what.style.display = "none";
     other.style.display = "none";
     showmap.style.display = "none";
+    showCalendar.style.display = "none";
     keys.style.display = "flex";
     titles.style.display = "flex";
     inputSpace.style.visibility = "visible";
@@ -138,6 +144,7 @@ function init() {
     what.style.display = "block";
     other.style.display = "block";
     showmap.style.display = "block";
+    showCalendar.style.display = "block";
     keys.style.display = "none";
     titles.style.display = "none";
     mapSpace.style.display = "none";
@@ -239,6 +246,15 @@ function init() {
   showmap.onclick = function() {
     displayMap("", 0);
   }
+
+  $("#calendarBack").click(function () {
+    calendarSpace.style.display = "none";
+    touchInput.style.display = "block"; 
+  })
+
+  $("#showCalendar").click(function () {
+    displayCalendar();
+  });
 
   $("#cancel").click(function () {
     input.value = "";
