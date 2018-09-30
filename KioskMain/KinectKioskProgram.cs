@@ -108,7 +108,7 @@
                     {
                         if (!detected)
                         {
-                            Console.WriteLine("Face found");
+                            Console.WriteLine("Started looking for a face...");
                             detected = true;
                         }
                         return x ? 1.0 : 0.0;
@@ -129,7 +129,7 @@
                     {
                         if (!detected)
                         {
-                            Console.WriteLine("Face found");
+                            Console.WriteLine("Started looking for a face...");
                             detected = true;
                         }
                         return x ? 1.0 : 0.0;
@@ -206,7 +206,7 @@
                 Console.WriteLine("[KinectKiostkProgram] Not using Dragon.");
 
                 #region Component declarations
-                var recognizer = Speech.Program.CreateSpeechRecognizer(pipeline);
+                NU.Kiosk.Speech.GrammarRecognizerWrapper recognizer = new NU.Kiosk.Speech.GrammarRecognizerWrapper(pipeline);
 
                 var synthesizer = Speech.Program.CreateSpeechSynthesizer(pipeline);
 
@@ -214,7 +214,7 @@
 
                 SocketStringConsumer kqml = null;
 
-                KioskInputTextPreProcessor preproc = new KioskInputTextPreProcessor(pipeline, (SystemSpeechRecognizer)recognizer);
+                KioskInputTextPreProcessor preproc = new KioskInputTextPreProcessor(pipeline, recognizer);
 
                 var responder = new Speech.Responder(pipeline);
 
@@ -232,6 +232,9 @@
 
                 // update UI with dialog state
                 dialog.StateChanged.PipeTo(ui.DialogStateChanged);
+
+                // update Recognizer with dialog state
+                dialog.StateChanged.Select(state => state == "listening").PipeTo(recognizer.isAcceptingData);
 
                 // Combine all the kinect image outputs
                 // This might be doable in a single join
@@ -252,7 +255,7 @@
                     {
                         if (!detected)
                         {
-                            Console.WriteLine("Face found");
+                            Console.WriteLine("Started looking for a face...");
                             detected = true;
                         }
                         return x ? 1.0 : 0.0;
@@ -340,7 +343,6 @@
                     SystemSpeechSynthesizer.StateChangedEventData data = x;
                     return data.State;
                 }).PipeTo(dialog.SpeechSynthesizerState);
-                Console.Out.WriteLine("Synthisizer select");
 
                 if (usingKqml)
                 {

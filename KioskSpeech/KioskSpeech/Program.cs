@@ -96,7 +96,7 @@ namespace NU.Kiosk.Speech
                 }
 
                 // Create System.Speecsh recognizer component
-                var recognizer = CreateSpeechRecognizer(pipeline);
+                GrammarRecognizerWrapper recognizer = new GrammarRecognizerWrapper(pipeline);
 
                 // Subscribe the recognizer to the input audio
                 audioInput.PipeTo(recognizer);
@@ -107,7 +107,7 @@ namespace NU.Kiosk.Speech
                 finalResults.Do(x => Console.WriteLine(x));
                 KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
                 SystemSpeechSynthesizer speechSynth = CreateSpeechSynthesizer(pipeline);
-                KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline, (SystemSpeechRecognizer)recognizer);
+                KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline, recognizer);
 
                 finalResults.PipeTo(preproc.In);
                 preproc.Out.Do(x => Console.WriteLine($"Processed: {x}"));
