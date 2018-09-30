@@ -116,13 +116,46 @@ function init() {
   function displayMap(name, id) {
     mapSpace.style.display = "block";
     touchInput.style.display = "none";
+    ok.style.display = "block";
     dest.innerHTML = name;
-    dest.style.left = mapData[id].x;
-    dest.style.top = mapData[id].y;
+    dest.style.left = calculateX(id);
+    dest.style.top = calculateY(id);
+    // console.log("x: " + dest.style.left + " y: " + dest.style.top);
+  }
+
+  // used to transform from mapData x coordinates to this map coordinates
+  function calculateX (id) {
+    // sample from data map 3005: 246, 56
+    // sample from this map 3005: 150, 95
+    // sample from data map 3011: 341, 56
+    // sample from this map 3011: 255, 95
+    var xDataSampleDelta = 95.;
+    var xThisSampleDelta = 105.;
+    var xDataToThisScale = xThisSampleDelta / xDataSampleDelta;
+
+    var xDataOffset = 137.;
+    var xThisOffset = 30.;
+    return (mapData[id].x - xDataOffset) * xDataToThisScale + xThisOffset;
+  }
+
+  // used to transform from mapData y coordinates to this map coordinates
+  function calculateY (id) {
+    // sample from data map 3107: 186, 226
+    // sample from this map 3107: 70, 300
+    // sample from data map 3111: 186, 287
+    // sample from this map 3111: 70, 370
+    var yDataSampleDelta = 61.;
+    var yThisSampleDelta = 70.;
+    var yDataToThisScale = yThisSampleDelta / yDataSampleDelta;
+
+    var yDataOffset = 4.;
+    var yThisOffset = 45.;
+    return (mapData[id].y - yDataOffset) * yDataToThisScale + yThisOffset;
   }
 
   function displayCalendar() {
     calendarSpace.style.display = "block";
+    calendarBack.style.display = "block";
     touchInput.style.display = "none";
   }
 
@@ -232,24 +265,32 @@ function init() {
     text = input.value;
     if (text.endsWith('?')) {
         input.value = text.substring(0,text.length-2) + '?';
-      } else {
-        input.value = text.substring(0,text.length-1);
-      }
-    
+    } else {
+      input.value = text.substring(0,text.length-1);
+    }
   }
 
   ok.onclick = function() {
     mapSpace.style.display = "none";
     touchInput.style.display = "block";
+    ok.style.display = "none";
   }
 
   showmap.onclick = function() {
-    displayMap("", 0);
+    displayMap("", "0");
   }
+
+  // FOR TESTING
+  // $("#mapDestinationSubmit").click(function () {
+  //   console.log("room: " + mapDestination.value);
+  //   dest.style.left = calculateX(mapDestination.value);
+  //   dest.style.top = calculateY(mapDestination.value);
+  // });
 
   $("#calendarBack").click(function () {
     calendarSpace.style.display = "none";
     touchInput.style.display = "block"; 
+    calendarBack.style.display = "none";
   })
 
   $("#showCalendar").click(function () {
@@ -264,7 +305,6 @@ function init() {
   // Connect to Web Socket
   var isConnected = false;
   var connector = setInterval(connectToServer,3000);
-
 
   var poller;
 

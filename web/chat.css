@@ -16,7 +16,7 @@ body {
   width: 20px;
   border-radius: 50%;
   margin: 5px;
-  position: relative;
+  display: inline-block;
 }
 
 #connected {
@@ -67,8 +67,8 @@ body {
   display: block;
   background: radial-gradient(circle at 130px 70px, #330099, #000);
   border-radius: 50%;
-  height: 200px;
-  width: 200px;
+  height: 300px;
+  width: 300px;
   margin: 0;
   animation-name: thinking;
   animation-duration: 2s;
@@ -76,7 +76,7 @@ body {
   animation-timing-function: ease-out;
   position: absolute;
   top: 157px;
-  left: 70px;
+  left: 80px;
   transition: transform 1s;
 }
 
@@ -108,14 +108,13 @@ body {
 
 .shadow {
   position: relative;
-  width: 175px;
+  width: 260px;
   height: 16px;
   background: #999;
   opacity: .5;
   border-radius: 100%;
-  margin: 0% 20% 0% 20%;
-  top: 330px;
-  left: -22px;
+  margin: 0 auto;
+  top: 430px;
   animation-name: shadow-bounce;
   animation-duration: 2s;
   animation-iteration-count: 2;
@@ -123,14 +122,14 @@ body {
 }
 
 #eye1 {
-  left: -30px;
+  left: -45px;
   top: -20px;
   transform: skewX(-5deg) skewY(-2deg);
   
 }
 
 #eye2 {
-  left: 50px;
+  left: 75px;
   top: -20px;
   transform: skewX(5deg) skewY(2deg);
 }
@@ -226,6 +225,7 @@ body {
   display: flex;
   border: 2px solid gray;
   border-bottom: 1px solid gray;
+  border-top: none;
   margin: 0 35px;
 }
 
@@ -233,9 +233,7 @@ body {
   overflow: auto;
   width: 500px;
   height: 650px;
-  border-left: 1px solid gray;
   padding: 20px;
-  margin: 0 10px;
   background-color: #ece9f3;
 }
 
@@ -245,7 +243,6 @@ body {
   height: 650px;
   /*border: 5px solid purple;*/
   padding: 20px;
-  margin: 0 10px;
   position: relative;
   /*flex: 1;*/
   perspective: 1200px;
@@ -253,7 +250,6 @@ body {
 }
 
 #bottomSpace {
-  display: flex;
   overflow: hidden;
   height: 1080px;
   border: 2px solid gray;
@@ -291,12 +287,19 @@ body {
 #titles {
   position: relative;
   display: none;
+  border-radius: 10px 10px 0 0;
+  background-color: slategray;
+  margin-bottom: 20px;
 }
 
 #keyboard {
   position: relative;
   display: block;
+  background-color: #f1f1f1;
+  border-radius: 10px;
   margin: auto;
+  box-shadow: 0 0 10px 1px lightgrey;
+  -webkit-box-shadow: 0 0 10px 1px lightgrey;
 }
 
 #touchInput .fa-angle-right {
@@ -309,8 +312,8 @@ body {
   border: 1px solid lightgray;
   border-radius: 5px;
   padding: 0 0 0 15px;
-  box-shadow: inset 0 1px 1px lightgray;
-  -webkit-box-shadow: inset 0 1px 1px lightgray;
+  box-shadow: inset 0 1px 5px lightgrey;
+  -webkit-box-shadow: inset 0 1px 5px lightgrey;
 }
 
 #showmap, #showCalendar {
@@ -343,22 +346,22 @@ body {
 }
 
 .touchButton2 {
-  min-width: 70px;
+  min-width: 65px;
   height: 50px;
-  padding: 5px;
-  background-color: lightgray;
-  margin: 10px;
-  border: 2px solid black;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border-right: 5px solid white;
   font-size: 30px;
   text-align: center;
   line-height: 55px;
+  color: white;
 }
 
 .keyButton {
   min-width: 60px;
   height: 60px;
   padding: 5px;
-  background-color: lightgray;
+  background-color: #3d3d3d;
   margin: 7px 5px;
   font-size: 35px;
   text-align: center;
@@ -366,6 +369,7 @@ body {
   border-radius: 10px;
   box-shadow: 1px 1px 5px grey;
   -webkit-box-shadow: 1px 1px 5px grey;
+  color: white;
 }
 
 .toggleDebug {
@@ -397,15 +401,19 @@ body {
 #mapSpace {
   display: none;
   width: 100%;
+  overflow: hidden;
+  height: 930px;
+  margin-top: 30px;
 }
 
 #map {
-  width: 1530px;
-  margin: -75px 0 0 -255px;
+  width: 1500px;
+  margin: -80px 0 0 -240px
 }
 
 #ok {
-  margin: -90px auto auto auto;
+  display: none;
+  margin: 15px auto;
   width: 200px;
   border-radius: 10px;
   background-color: lightgray;
@@ -430,8 +438,8 @@ body {
 }
 
 #youarehere {
-  left: 270px;
-  top: 208px;
+  left: 170px;
+  top: 280px;
   position: absolute;
   width: 10px;
   height: 10px;
@@ -440,7 +448,7 @@ body {
 
 #calendarSpace {
   display: none;
-  margin: 30px auto;
+  margin-top: 30px;
 }
 
 #scrolltimedevents1 {
@@ -450,15 +458,46 @@ body {
 #calendarSpace iframe {
   width: 900px;
   height: 930px;
+  display: block;
+  margin: 0 auto;
 }
 
 #calendarBack {
+  display: none;
   width: 200px;
   border-radius: 10px;
   background-color: lightgray;
   text-align: center;
-  margin: 20px auto;
+  margin: 15px auto;
 }
+
+#lights{
+  float: right;
+  margin: 10px 35px 0 0;
+}
+
+/*FOR TESTING*/
+/*#mapDestination {
+  width: 200px;
+  display: inline-block;
+  float: left;
+  height: 85px;
+  margin-left: 50px;
+  font-size: 30px;
+  line-height: 30px;
+  border: 2px solid black;
+}*/
+
+/*FOR TESTING*/
+/*#mapDestinationSubmit {
+  width: 100px;
+  display: inline-block;
+  float: left;
+  height: 85px;
+  font-size: 30px;
+  line-height: 30px;
+  border: 2px solid black;
+}*/
 
 @keyframes bounce {
   0% { transform: scale(1); }
