@@ -44,9 +44,8 @@ body {
   border-radius: 15px 15px 5px 15px;
   border: 2px solid skyblue;
   padding: 5px;
-  float: right;
   text-align: right;
-  /*width: 70%;*/
+  width: fit-content;
   margin: 5px 5px 5px auto;
   background-color: white;
 }
@@ -55,9 +54,8 @@ body {
   border-radius: 15px 15px 15px 5px;
   border: 2px solid purple;
   padding: 5px;
-  float: left;
   text-align: left;
-  /*width: 70%;*/
+  width: fit-content;
   margin: 5px auto 5px 5px;
   white-space: pre-wrap;
   background-color: white;
@@ -65,7 +63,7 @@ body {
 
 .ball {
   display: block;
-  background: radial-gradient(circle at 130px 70px, #330099, #000);
+  background: radial-gradient(circle at 195px 105px, #330099, #000);
   border-radius: 50%;
   height: 300px;
   width: 300px;
@@ -83,13 +81,13 @@ body {
 .ball:before {
   content: "";
   position: absolute;
-  background: radial-gradient(circle at 50% 120%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 70%);
+  background: radial-gradient(circle at 50% 120%, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.4) 70%);
   border-radius: 50%;
-  bottom: 2.5%;
-  left: 7.5%;
+  bottom: 3.5%;
+  left: 4.5%;
   opacity: 0.4;
   height: 100%;
-  width: 90%;
+  width: 95%;
   filter: blur(5px);
   z-index: 2;
 }
@@ -98,8 +96,8 @@ body {
   width: 100%;
   height: 100%;
   position: absolute;
-  top: 5%;
-  left: 10%;
+  top: -1%;
+  left: 15%;
   border-radius: 50%;
   background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8) 14%, rgba(255, 255, 255, 0) 24%);
   transform: translateX(80px) translateY(-90px) skewX(-20deg);
@@ -115,6 +113,7 @@ body {
   border-radius: 100%;
   margin: 0 auto;
   top: 430px;
+  left: -20px;
   animation-name: shadow-bounce;
   animation-duration: 2s;
   animation-iteration-count: 2;
@@ -407,8 +406,8 @@ body {
 }
 
 #map {
-  width: 1500px;
-  margin: -80px 0 0 -240px
+  width: 1075px;
+  margin: -15px 0 0 -25px;
 }
 
 #ok {
@@ -477,27 +476,27 @@ body {
 }
 
 /*FOR TESTING*/
-/*#mapDestination {
+#mapDestination {
   width: 200px;
   display: inline-block;
   float: left;
-  height: 85px;
+  height: 50px;
   margin-left: 50px;
   font-size: 30px;
   line-height: 30px;
   border: 2px solid black;
-}*/
+}
 
 /*FOR TESTING*/
-/*#mapDestinationSubmit {
+#mapDestinationSubmit {
   width: 100px;
   display: inline-block;
   float: left;
-  height: 85px;
+  height: 50px;
   font-size: 30px;
   line-height: 30px;
   border: 2px solid black;
-}*/
+}
 
 @keyframes bounce {
   0% { transform: scale(1); }
