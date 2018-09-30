@@ -10,11 +10,15 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NU.Kiosk.SharedObject;
+using log4net;
+using System.Reflection;
 
 namespace NU.Kqml
 {
     public class KioskInputTextPreProcessor : ConsumerProducer<IStreamingSpeechRecognitionResult, Utterance>
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public static bool isUsingIsAccepting = false;
         private SystemSpeechRecognizer recognizer;
         private int ReloadMessageIDCurrent = 0;
@@ -56,7 +60,7 @@ namespace NU.Kqml
         }
 
         private void handleInput(string message, double confidence, StringResultSource source, Envelope e) {
-            Console.WriteLine($"[KioskInputTextPreProcessor] Received \"{message}\" with confidence {confidence}; ");// isAccepting {isAccepting}.");
+            _log.Info($"[KioskInputTextPreProcessor] Received \"{message}\" with confidence {confidence}; ");
             switch (message)
             {
                 case "":
@@ -71,11 +75,12 @@ namespace NU.Kqml
                 case "bye":
                 case "bye bye":
                     // Filter out a few things
-                    Console.WriteLine($"[KioskInputTextPreProcessor] Discarding message: {message}");
+                    _log.Info($"[KioskInputTextPreProcessor] Discarding message: {message}");
                     break;
                 case "Reload grammars":
                     //reloadGrammars();
                     Console.WriteLine($"[KioskInputTextPreProcessor] Grammar reload is disabled");
+                    _log.Info($"[KioskInputTextPreProcessor] Grammar reload is disabled");
                     break;
                 default:
                     // fix course numbers
@@ -89,7 +94,7 @@ namespace NU.Kqml
 
         private void reloadGrammars()
         {
-            Console.WriteLine($"[KioskInputTextPreProcessor] Reloading grammar.");
+            _log.Info($"[KioskInputTextPreProcessor] Reloading grammar.");
             var gw = new Kiosk.AllXMLGrammarWriter(@"Resources\BaseGrammar.grxml");
             gw.ReadFileAndConvert();
             string updatedGrammar = gw.GetResultString();

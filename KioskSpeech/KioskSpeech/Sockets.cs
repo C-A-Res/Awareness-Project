@@ -1,8 +1,10 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,17 +13,19 @@ namespace NU.Kqml
 {
     static class SocketUtil
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public static IPEndPoint getInterNetworkEndPoint(string hostNameOrAddress, int port)
         {
-            Console.WriteLine($"[SocketUtil] getInterNetworkEndPoint, hostNameOrAddress: '{hostNameOrAddress}'");
+            _log.Info($"[SocketUtil] getInterNetworkEndPoint, hostNameOrAddress: '{hostNameOrAddress}'");
             IPHostEntry ipHostInfo = Dns.GetHostEntry(hostNameOrAddress);
             IPAddress ipAddress = null;
             IPEndPoint localEndPoint = null;
 
             foreach (IPAddress ipa in ipHostInfo.AddressList)
             {
-                Console.WriteLine($"[SocketUtil] getInterNetworkEndPoint, ipa: '{ipa.ToString()}'");
-                Console.WriteLine($"[SocketUtil] getInterNetworkEndPoint, ipa.AddressFamily: '{ipa.AddressFamily}'");
+                _log.Info($"[SocketUtil] getInterNetworkEndPoint, ipa: '{ipa.ToString()}'");
+                _log.Info($"[SocketUtil] getInterNetworkEndPoint, ipa.AddressFamily: '{ipa.AddressFamily}'");
                 if (ipa.AddressFamily == AddressFamily.InterNetwork)
                 {
                     ipAddress = ipa;
@@ -31,14 +35,14 @@ namespace NU.Kqml
 
             }
             IPEndPoint end = new IPEndPoint(IPAddress.Parse(hostNameOrAddress), port);
-            Console.WriteLine($"[SocketUtil] getInterNetworkEndPoint, end: '{end}'");
+            _log.Info($"[SocketUtil] getInterNetworkEndPoint, end: '{end}'");
             //IPEndPoint localEndPoint = new IPEndPoint(ipAddress, port);
 
-            //Console.WriteLine("IPHostEntry:" + ipHostInfo.ToString());
-            //Console.WriteLine("IPAddress:" + ipAddress.ToString());
-            //Console.WriteLine("AddressFamily:" + ipAddress.AddressFamily);
-            //Console.WriteLine("IsLoopback:" + IPAddress.IsLoopback(ipAddress));
-            //Console.WriteLine("IPEndPoint:" + localEndPoint.ToString());
+            //_log.Info("IPHostEntry:" + ipHostInfo.ToString());
+            //_log.Info("IPAddress:" + ipAddress.ToString());
+            //_log.Info("AddressFamily:" + ipAddress.AddressFamily);
+            //_log.Info("IsLoopback:" + IPAddress.IsLoopback(ipAddress));
+            //_log.Info("IPEndPoint:" + localEndPoint.ToString());
 
             return end;
         }
@@ -60,6 +64,8 @@ namespace NU.Kqml
     // see https://docs.microsoft.com/en-us/dotnet/framework/network-programming/synchronous-client-socket-example
     class SimpleSocket : AbstractSimpleSocket
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private Socket sender;
         private IPEndPoint remoteEP;
 
@@ -87,27 +93,27 @@ namespace NU.Kqml
                     sender.Connect(remoteEP);
                 }
 
-                //Console.WriteLine("Socket connected to {0}",
+                //_log.Info("Socket connected to {0}",
                 //    sender.RemoteEndPoint.ToString());
 
             }
             catch (ArgumentNullException ane)
             {
-                Console.WriteLine("[SimpleSocket] Connect: ArgumentNullException : {0}", ane.ToString());
+                _log.Error($"[SimpleSocket] Connect: ArgumentNullException : {ane.ToString()}");
             }
             catch (SocketException se)
             {
-                Console.WriteLine("[SimpleSocket] Connect: SocketException : {0}", se.ToString());
+                _log.Error($"[SimpleSocket] Connect: SocketException : {se.ToString()}");
             }
             catch (Exception e)
             {
-                Console.WriteLine("[SimpleSocket] Connect: Unexpected exception : {0}", e.ToString());
+                _log.Error($"[SimpleSocket] Connect: Unexpected exception : {e.ToString()}");
             }
         }
 
         public override void Send(string data)
         {
-            //Console.WriteLine("Sending " + data);
+            //_log.Info("Sending " + data);
 
             // Data buffer for incoming data.  
             byte[] bytes = new byte[1024];
@@ -121,39 +127,39 @@ namespace NU.Kqml
                 int bytesSent = sender.Send(msg);
                 if (bytesSent == msg.Length)
                 {
-                    //Console.WriteLine($"All {bytesSent} bytes sent");
+                    //_log.Info($"All {bytesSent} bytes sent");
                 }
                 else
                 {
-                    Console.WriteLine("[SimpleSocket] Send: WARNING: Message not completely sent");
+                    _log.Warn("[SimpleSocket] Send: WARNING: Message not completely sent");
                 }
 
                 // Receive the response from the remote device.  
                 int bytesRec = sender.Receive(bytes);
                 string resp = Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                Console.WriteLine("[SimpleSocket] Send: in response, facilitator said {0}", resp);
+                _log.Info($"[SimpleSocket] Send: in response, facilitator said {resp}");
                 OnMessage(resp, this);
             }
             catch (ArgumentNullException ane)
             {
-                Console.WriteLine("[SimpleSocket] Send: ArgumentNullException : {0}", ane.ToString());
+                _log.Info($"[SimpleSocket] Send: ArgumentNullException : {ane.ToString()}");
             }
             catch (SocketException se)
             {
                 if (se.SocketErrorCode == SocketError.ConnectionAborted)
                 {
-                    Console.WriteLine("[SimpleSocket] Send: Socket closed by Facilitator");
+                    _log.Error("[SimpleSocket] Send: Socket closed by Facilitator");
                 }
                 else
                 {
-                    Console.WriteLine("[SimpleSocket] Send: SocketException : {0}", se.ToString());
-                    Console.WriteLine("[SimpleSocket] Send: SocketError : {0}", se.SocketErrorCode);
+                    _log.Error($"[SimpleSocket] Send: SocketException : {se.ToString()}");
+                    _log.Error($"[SimpleSocket] Send: SocketError : {se.SocketErrorCode}");
                 }
                 
             }
             catch (Exception e)
             {
-                Console.WriteLine("[SimpleSocket] Send: Unexpected exception : {0}", e.ToString());
+                _log.Error($"[SimpleSocket] Send: Unexpected exception : {e.ToString()}");
             }
             Close();
         }
@@ -172,11 +178,11 @@ namespace NU.Kqml
             }
             catch (SocketException se)
             {
-                Console.WriteLine("[SimpleSocket] Close: SocketException : {0}", se.ToString());
+                _log.Error($"[SimpleSocket] Close: SocketException : {se.ToString()}");
             }
             catch (Exception e)
             {
-                Console.WriteLine("[SimpleSocket] Close: Unexpected exception : {0}", e.ToString());
+                _log.Error($"[SimpleSocket] Close: Unexpected exception : {e.ToString()}");
             }
         }
     }
@@ -196,6 +202,8 @@ namespace NU.Kqml
     // see https://docs.microsoft.com/en-us/dotnet/framework/network-programming/synchronous-server-socket-example
     class SimpleSocketServer : AbstractSimpleSocket
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         // Incoming data from the client.  
         public static string data = null;
 
@@ -246,7 +254,7 @@ namespace NU.Kqml
                     // Set the event to nonsignaled state.
                     allDone.Reset();
 
-                    //Console.WriteLine("Waiting for a connection on " + localEndPoint.ToString() + ":" + this.port);
+                    //_log.Info("Waiting for a connection on " + localEndPoint.ToString() + ":" + this.port);
                     listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
                     
                     allDone.WaitOne();
@@ -255,10 +263,10 @@ namespace NU.Kqml
             }
             catch (Exception e)
             {
-                Console.WriteLine($"[SimpleSocketServer] StartListening_thread: {e.ToString()}");
+                _log.Error($"[SimpleSocketServer] StartListening_thread: {e.ToString()}");
             }
 
-            //Console.WriteLine("\nPress ENTER to continue...");
+            //_log.Info("\nPress ENTER to continue...");
             //Console.Read();
 
         }
@@ -281,7 +289,7 @@ namespace NU.Kqml
 
             } catch (ObjectDisposedException e)
             {
-                Console.WriteLine($"[SimpleSocketServer] Listening socket disposed");
+                _log.Error($"[SimpleSocketServer] Listening socket disposed");
             }
         }
 
@@ -306,7 +314,7 @@ namespace NU.Kqml
                         state.buffer, 0, bytesRead));
 
                     content = state.sb.ToString();
-                    //Console.WriteLine("Read {0} bytes from socket. \n Data : {1}",
+                    //_log.Info("Read {0} bytes from socket. \n Data : {1}",
                     //    content.Length, content);
 
                     
@@ -333,7 +341,7 @@ namespace NU.Kqml
             //{
             //    Console.Write($"-{byteData[i]}- ");
             //}
-            //Console.WriteLine();
+            //_log.Info();
 
             if (handler != null)
             {
@@ -342,7 +350,7 @@ namespace NU.Kqml
                     new AsyncCallback(SendCallback), handler);
             } else
             {
-                Console.WriteLine($"[SimpleSocketServer] Send: ERROR: Not able to reply with {data}");
+                _log.Error($"[SimpleSocketServer] Send: ERROR: Not able to reply with {data}");
             }
         }
 
@@ -355,7 +363,7 @@ namespace NU.Kqml
 
                 // Complete sending the data to the remote device.  
                 int bytesSent = handler.EndSend(ar);
-                //Console.WriteLine("Sent {0} bytes to client.", bytesSent);
+                //_log.Info("Sent {0} bytes to client.", bytesSent);
 
                 handler.Shutdown(SocketShutdown.Both);
                 handler.Close();
@@ -363,7 +371,7 @@ namespace NU.Kqml
             }
             catch (Exception e)
             {
-                Console.WriteLine($"[SimpleSocketServer] SendCallback: {e.ToString()}");
+                _log.Error($"[SimpleSocketServer] SendCallback: {e.ToString()}");
             }
         }
 

@@ -291,7 +291,7 @@
                     {
                         if (!detected)
                         {
-                            Console.WriteLine("Face found");
+                            Console.WriteLine("Started looking for a face...");
                             detected = true;
                         }
                         return x ? 1.0 : 0.0;

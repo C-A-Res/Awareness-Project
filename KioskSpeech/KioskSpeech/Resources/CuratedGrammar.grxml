@@ -5670,7 +5670,7 @@
       <item>Beam me up, Scotty!</item>
       <item>Huck you</item>
       <item>Say something</item>
-      <item>What is the meaning of life?</item>
+      <item>What is the meaning of life</item>
       <item>
         May the force be with you, <ruleref uri="#PersonReference" />
       </item>
