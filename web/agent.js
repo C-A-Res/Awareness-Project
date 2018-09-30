@@ -349,6 +349,9 @@ function init() {
           case "displayMap":
             displayMap(args.name, args.id);
             break;
+          case "displayCalendar":
+            displayCalendar();
+            break;
           default:
             output("Unrecognized command: " + command);
         }
