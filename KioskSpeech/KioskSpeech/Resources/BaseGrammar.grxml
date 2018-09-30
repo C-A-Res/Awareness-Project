@@ -1146,13 +1146,6 @@
       <item>
         Room <ruleref uri="#OfficeNumber" />
       </item>
-      <item weight="1">
-        Dean's
-        <one-of>
-          <item>conference room</item>
-          <item>office</item>
-        </one-of>
-      </item>
       <item weight="2">the front desk</item>
       <item weight="2">the kitchen</item>
       <item weight="2">the emergency exit</item>

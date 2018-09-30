@@ -20,14 +20,14 @@ namespace NU.Kqml
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public static bool isUsingIsAccepting = false;
-        private SystemSpeechRecognizer recognizer;
+        private GrammarRecognizerWrapper recognizer;
         private int ReloadMessageIDCurrent = 0;
         private static Regex quote_s = new Regex("[ ][']s");
         private static Regex space_qmark = new Regex("[ ][?]");
         private static Regex course_num1 = new Regex(@"(\d)\s+(\d)0\s+(\d)");
         private static Regex course_num2 = new Regex(@"(\d)\s+(\d+)");
 
-        public KioskInputTextPreProcessor(Pipeline pipeline, SystemSpeechRecognizer rec)
+        public KioskInputTextPreProcessor(Pipeline pipeline, GrammarRecognizerWrapper rec)
             : base(pipeline)
         {
             this.recognizer = rec;
@@ -60,7 +60,7 @@ namespace NU.Kqml
         }
 
         private void handleInput(string message, double confidence, StringResultSource source, Envelope e) {
-            _log.Info($"[KioskInputTextPreProcessor] Received \"{message}\" with confidence {confidence}; ");
+            _log.Info($"Received \"{message}\" with confidence {confidence}; ");
             switch (message)
             {
                 case "":
@@ -75,12 +75,10 @@ namespace NU.Kqml
                 case "bye":
                 case "bye bye":
                     // Filter out a few things
-                    _log.Info($"[KioskInputTextPreProcessor] Discarding message: {message}");
+                    _log.Info($"Discarding message: {message}");
                     break;
                 case "Reload grammars":
-                    //reloadGrammars();
-                    Console.WriteLine($"[KioskInputTextPreProcessor] Grammar reload is disabled");
-                    _log.Info($"[KioskInputTextPreProcessor] Grammar reload is disabled");
+                    recognizer.ReloadGrammar();
                     break;
                 default:
                     // fix course numbers
@@ -90,24 +88,6 @@ namespace NU.Kqml
                     this.Out.Post(new Utterance(updated_text, confidence, source), e.Time);
                     break;
             }
-        }
-
-        private void reloadGrammars()
-        {
-            _log.Info($"[KioskInputTextPreProcessor] Reloading grammar.");
-            var gw = new Kiosk.AllXMLGrammarWriter(@"Resources\BaseGrammar.grxml");
-            gw.ReadFileAndConvert();
-            string updatedGrammar = gw.GetResultString();
-
-            DateTime post_time = new DateTime();
-
-            Message<System.Collections.Generic.IEnumerable<String>> updateRequest =
-                new Message<System.Collections.Generic.IEnumerable<String>>(
-                    new String[] {
-                        updatedGrammar
-                    }, post_time, post_time, 9876, ReloadMessageIDCurrent++);
-            recognizer.SetGrammars(updateRequest);
-            gw.WriteToFile();
         }
     }
 }
