@@ -49,7 +49,7 @@ namespace KioskUI
                 utts.Add(("other", "Where does Prof Forbus work?"));
                 utts.Add(("kiosk", "His office is somewehre"));
                 string state = "listening";
-                msg = buildJsonResponse(utts, state,  ("",""), "", "false");
+                msg = buildJsonResponse(utts, state,  ("",""), "", "", "false");
             }
 
             Send(msg);

@@ -19,8 +19,8 @@ namespace NU.Kiosk.SharedObject
 
         public string toKQML()
         {
-            var sb = new System.Text.StringBuilder('(');
-            sb.Append(Name);
+            var sb = new System.Text.StringBuilder();
+            sb.Append('(').Append(Name);
             foreach (var x in Args)
             {
                 sb.Append(' ').Append(x.ToString());

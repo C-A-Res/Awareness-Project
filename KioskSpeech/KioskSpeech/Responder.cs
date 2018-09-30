@@ -134,10 +134,15 @@ namespace NU.Kiosk.Speech
                             sendResponse("The bathroom is in the southeast corner of the floor.");
                             ActionResponse.Post(new SharedObject.Action("psikiShowMap", "Bathroom", "bathroom"), DateTime.Now);
                             return true;
-                        } else if (lower.Contains("office hours"))
+                        } else if (lower.Contains("office hour"))
                         {
                             sendResponse("Office hours are displayed below.");
                             ActionResponse.Post(new SharedObject.Action("psikiShowCalendar", "today"), DateTime.Now);
+                            return true;
+                        } else if (lower.Contains("kitchen"))
+                        {
+                            sendResponse("The kitchen is just around the corner.");
+                            ActionResponse.Post(new SharedObject.Action("psikiShowMap", "Kitchen", "kitchen"), DateTime.Now);
                             return true;
                         }
                         break;
