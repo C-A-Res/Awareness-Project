@@ -35,25 +35,25 @@
        <!-- <div class="newUserDiv">Where is Willie Wilson's office?</div>
       <div class="newBotDiv">Willie Wilson's office is at Ford 3-330.</div> -->
     </div> 
-    <div id="lights" style="margin-right: 10px">    
-      <div id="connected" class="indicators"></div>
-      <div id="listening" class="indicators"></div>
-      <div id="thinking" class="indicators"></div>
-    </div>
   </div>
   <div id="bottomSpace">
     <div id="calendarSpace">
       <iframe src="https://calendar.google.com/calendar/embed?title=CS%20Office%20Hours&amp;showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=WEEK&amp;height=1200&amp;wkst=1&amp;bgcolor=%23ccccff&amp;src=865g6lvlk1jo3vrjno67rc6gj0%40group.calendar.google.com&amp;color=%23B1440E&amp;src=pdc7qse564pnc1qb3jeiv0runc%40group.calendar.google.com&amp;color=%232952A3&amp;ctz=America%2FChicago" style="border-width:0" width="1000" height="1200" frameborder="0" scrolling="yes">
         <link type="text/css" rel="Stylesheet" href="chat.css"/>
       </iframe>
-      <div id="calendarBack" class="touchbutton">BACK</div>
     </div>
+    <div id="calendarBack" class="touchbutton">BACK</div>
     <div id="mapSpace">
       <img src="mudd_plan_clean.svg" id="map">
-      <div id="ok" class="touchbutton">BACK</div>
       <div id="youarehere" class="mapMarker">You</div>
       <div id="dest" class="mapMarker">Destination</div>
     </div>
+    <!-- FOR TESTING -->
+    <!-- <div id="mapCalculate">
+      <input type="text" id="mapDestination">
+      <div id="mapDestinationSubmit">SUBMIT</div>
+    </div> -->
+    <div id="ok" class="touchbutton">BACK</div>
     <div id="touchInput">
       <div id="inputSpace">
         <input type="text" id="input">
@@ -67,87 +67,94 @@
       <div id="when" class="touchButton">
         <i class="fas fa-angle-right" style="color: darkorange"></i> &nbsp; When is ____ ?</div>
       <div id="what" class="touchButton">
-        <i class="fas fa-angle-right" style="color: lightseagreen"></i>&nbsp; What is ____ ?</div>
+        <i class="fas fa-angle-right" style="color: lightseagreen"></i> &nbsp; What is ____ ?</div>
       <div id="other" class="touchButton" style="border-radius: 0 0 10px 10px">
-        <i class="fas fa-angle-right"></i>&nbsp; Other</div>
+        <i class="fas fa-angle-right"></i> &nbsp; Other</div>
       <div id="showmap" class="touchButton">Show Map</div>
       <div id="showCalendar" class="touchButton">Show Calendar</div>
-      <div id="titles">
-        <div id="Professor" class="touchButton2" data-value="Professor ">Professor</div>
-        <div id="Mr" class="touchButton2" data-value="Mr. ">Mr.</div>
-        <div id="Ms" class="touchButton2" data-value="Ms. ">Ms.</div>
-        <div id="Dr" class="touchButton2" data-value="Dr. ">Dr.</div>
-        <div id="Room" class="touchButton2" data-value="Room ">Room</div>
-        <div id="Lab" class="touchButton2" data-value="Lab">Lab</div>
-        <div id="Office" class="touchButton2" data-value="Office">Office</div>
-        <div id="Bathroom" class="touchButton2" data-value="the Bathroom">Bathroom</div>
-      </div>
       <div id="keys">
         <div id="keyboard">
-          <div style="display: flex">
-            <div class="keyButton">1</div>
-            <div class="keyButton">2</div>
-            <div class="keyButton">3</div>
-            <div class="keyButton">4</div>
-            <div class="keyButton">5</div>
-            <div class="keyButton">6</div>
-            <div class="keyButton">7</div>
-            <div class="keyButton">8</div>
-            <div class="keyButton">9</div>
-            <div class="keyButton">0</div>
-            <div id="backspace" class="keyButton">
-              <i class="fas fa-backspace" style="margin-top: 10px"></i></div>
+          <div id="titles">
+            <div id="Professor" class="touchButton2" data-value="Professor ">Professor</div>
+            <div id="Mr" class="touchButton2" data-value="Mr. ">Mr.</div>
+            <div id="Ms" class="touchButton2" data-value="Ms. ">Ms.</div>
+            <div id="Dr" class="touchButton2" data-value="Dr. ">Dr.</div>
+            <div id="Room" class="touchButton2" data-value="Room ">Room</div>
+            <div id="Lab" class="touchButton2" data-value="Lab">Lab</div>
+            <div id="Office" class="touchButton2" data-value="Office">Office</div>
+            <div id="Bathroom" class="touchButton2" data-value="the Bathroom" style="border-right: none">Bathroom</div>
           </div>
-          <div style="display: flex">        
-            <div style="width:20px"></div>
-            <div class="keyButton">Q</div>
-            <div class="keyButton">W</div>
-            <div class="keyButton">E</div>
-            <div class="keyButton">R</div>
-            <div class="keyButton">T</div>
-            <div class="keyButton">Y</div>
-            <div class="keyButton">U</div>
-            <div class="keyButton">I</div>
-            <div class="keyButton">O</div>
-            <div class="keyButton">P</div>
+          <div style="padding: 0 20px 20px 20px">
+            <div style="display: flex">
+              <div class="keyButton">1</div>
+              <div class="keyButton">2</div>
+              <div class="keyButton">3</div>
+              <div class="keyButton">4</div>
+              <div class="keyButton">5</div>
+              <div class="keyButton">6</div>
+              <div class="keyButton">7</div>
+              <div class="keyButton">8</div>
+              <div class="keyButton">9</div>
+              <div class="keyButton">0</div>
+              <div id="backspace" class="keyButton">
+                <i class="fas fa-backspace" style="margin-top: 10px"></i></div>
+            </div>
+            <div style="display: flex">        
+              <div style="width:20px"></div>
+              <div class="keyButton">Q</div>
+              <div class="keyButton">W</div>
+              <div class="keyButton">E</div>
+              <div class="keyButton">R</div>
+              <div class="keyButton">T</div>
+              <div class="keyButton">Y</div>
+              <div class="keyButton">U</div>
+              <div class="keyButton">I</div>
+              <div class="keyButton">O</div>
+              <div class="keyButton">P</div>
+            </div>
+            <div style="display: flex">
+              <div style="width:50px"></div>
+              <div class="keyButton">A</div>
+              <div class="keyButton">S</div>
+              <div class="keyButton">D</div>
+              <div class="keyButton">F</div>
+              <div class="keyButton">G</div>
+              <div class="keyButton">H</div>
+              <div class="keyButton">J</div>
+              <div class="keyButton">K</div>
+              <div class="keyButton">L</div>
+              <div class="keyButton">'</div>
+            </div>
+            <div style="display: flex">        
+              <div style="width:100px"></div>
+              <div class="keyButton">Z</div>
+              <div class="keyButton">X</div>
+              <div class="keyButton">C</div>
+              <div class="keyButton">V</div>
+              <div class="keyButton">B</div>
+              <div class="keyButton">N</div>
+              <div class="keyButton">M</div>
+              <div class="keyButton">?</div>
+            </div>
+            <div id="spaceKey" class="keyButton"> </div>
           </div>
-          <div style="display: flex">
-            <div style="width:50px"></div>
-            <div class="keyButton">A</div>
-            <div class="keyButton">S</div>
-            <div class="keyButton">D</div>
-            <div class="keyButton">F</div>
-            <div class="keyButton">G</div>
-            <div class="keyButton">H</div>
-            <div class="keyButton">J</div>
-            <div class="keyButton">K</div>
-            <div class="keyButton">L</div>
-            <div class="keyButton">'</div>
-          </div>
-          <div style="display: flex">        
-            <div style="width:100px"></div>
-            <div class="keyButton">Z</div>
-            <div class="keyButton">X</div>
-            <div class="keyButton">C</div>
-            <div class="keyButton">V</div>
-            <div class="keyButton">B</div>
-            <div class="keyButton">N</div>
-            <div class="keyButton">M</div>
-          </div>
-          <div id="spaceKey" class="keyButton"> </div>
         </div>
       </div>
       <!-- <div id="goback" class="touchButton">Go Back</div> -->
     </div>
   </div>
-  <button class="toggleDebug"></button>
+  <button class="toggleDebug" style="margin: 10px 0 0 35px"></button>
+   <div id="lights">    
+      <div id="connected" class="indicators"></div>
+      <div id="listening" class="indicators"></div>
+      <div id="thinking" class="indicators"></div>
+  </div>
   <div id="debug" style="display: none">
     <button id="btnClose">close</button>
     <button id="btnSleeping">sleeping</button>
     <button id="btnThinking">thinking</button>
     <button id="btnListening">listening</button>
     <button id="btnSpeaking">speaking</button>
-
     <div id="log" style="height:150px; overflow: auto;"></div>
   </div>  
 </body>
