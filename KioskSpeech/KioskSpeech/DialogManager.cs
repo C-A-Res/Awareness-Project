@@ -27,6 +27,7 @@ namespace NU.Kiosk.Speech
         }
 
         private bool face = false;
+        private bool faceWas = false;
         private bool sessionActive = false;
 
         public DialogManager(Pipeline pipeline) : base(pipeline)
@@ -63,7 +64,7 @@ namespace NU.Kiosk.Speech
         {
             if (state == DialogState.Listening)
             {
-                _log.Info($"[D] Processing user input: {arg1.Text}");
+                _log.Info($"Processing user input: {arg1.Text}");
                 UserOutput.Post(arg1, arg2.OriginatingTime);
                 updateState(DialogState.Thinking, arg2.OriginatingTime);
                 continueSession();
@@ -71,7 +72,7 @@ namespace NU.Kiosk.Speech
             } else
             {
                 // log it, then ignore it
-                _log.Info($"[D] Ignoring user input: {arg1.Text}. DialogState is not Listening ({state}).");
+                _log.Info($"Ignoring user input: {arg1.Text}. DialogState is not Listening ({state}).");
             }
         }
 
@@ -87,7 +88,7 @@ namespace NU.Kiosk.Speech
                 // sayText action handled specially
                 if (action.Name == "psikiSayText")
                 {
-                    _log.Info($"[D] Handling response: {action}");
+                    _log.Info($"Handling response: {action}");
                     TextOutput.Post((string)action.Args[0], origTime);
                     // pass it through (even sayText)
                     ActionOutput.Post(action, origTime);
@@ -99,11 +100,11 @@ namespace NU.Kiosk.Speech
             {
                 if (action.Name != "psikiSayText")
                 {
-                    _log.Info($"[D] Handling response: {action}");
+                    _log.Info($"Handling response: {action}");
                     ActionOutput.Post(action, origTime);
                 } else
                 {
-                    _log.Info($"[D] Ignoring response: {action}. DialogState is not Thinking ({state}).");
+                    _log.Info($"Ignoring response: {action}. DialogState is not Thinking ({state}).");
                 }
             }
             StopResponseTimer();
@@ -115,12 +116,12 @@ namespace NU.Kiosk.Speech
             {
                 if (sessionActive)
                 {
-                    _log.Info($"[D] Done speaking. Updating DialogState to Listening");
+                    _log.Info($"Done speaking. Updating DialogState to Listening");
                     updateState(DialogState.Listening, arg2.OriginatingTime);
                 }
                 else
                 {
-                    _log.Info($"[D] Done speaking. Updating DialogState to Sleeping");
+                    _log.Info($"Done speaking. Updating DialogState to Sleeping");
                     updateState(DialogState.Sleeping, arg2.OriginatingTime);
                 }
             }
@@ -128,10 +129,22 @@ namespace NU.Kiosk.Speech
 
         private void ReceiveFaceDetected(bool arg1, Envelope arg2)
         {
+            faceWas = face;
             face = arg1;
+
+            if (face != faceWas)
+            {
+                if (face)
+                {
+                    _log.Info($"Face detected. Starting session.");
+                } else
+                {
+                    _log.Info($"Face gone. Ending session."); 
+                }
+            }
+
             if (face)
             {
-                _log.Info($"[D] Face detected. Starting session.");
                 startSession();
                 if (state == DialogState.Sleeping)
                 {
@@ -139,7 +152,6 @@ namespace NU.Kiosk.Speech
                 }
             } else
             {
-                _log.Info($"[D] Face gone. Ending session.");
                 endSession();
             }
 
@@ -147,7 +159,7 @@ namespace NU.Kiosk.Speech
 
         private void ReceiveWakeUp(bool arg1, Envelope arg2)
         {
-            _log.Info($"[D] Received wake. Starting session.");
+            _log.Info($"Received wake. Starting session.");
             startSession();
             if (state == DialogState.Sleeping)
             {
@@ -202,7 +214,7 @@ namespace NU.Kiosk.Speech
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             StopResponseTimer();
-            _log.Info($"[D] Response timout. Generating automated response.");
+            _log.Info($"Response timout. Generating automated response.");
             handleCompInput(new SharedObject.Action("psikiSayText", "Sorry, does not compute."), DateTime.Now);
         }
 

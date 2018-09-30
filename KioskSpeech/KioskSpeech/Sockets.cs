@@ -17,15 +17,14 @@ namespace NU.Kqml
 
         public static IPEndPoint getInterNetworkEndPoint(string hostNameOrAddress, int port)
         {
-            _log.Info($"[SocketUtil] getInterNetworkEndPoint, hostNameOrAddress: '{hostNameOrAddress}'");
+            _log.Info($"getInterNetworkEndPoint, hostNameOrAddress: '{hostNameOrAddress}'");
             IPHostEntry ipHostInfo = Dns.GetHostEntry(hostNameOrAddress);
             IPAddress ipAddress = null;
             IPEndPoint localEndPoint = null;
 
             foreach (IPAddress ipa in ipHostInfo.AddressList)
             {
-                _log.Info($"[SocketUtil] getInterNetworkEndPoint, ipa: '{ipa.ToString()}'");
-                _log.Info($"[SocketUtil] getInterNetworkEndPoint, ipa.AddressFamily: '{ipa.AddressFamily}'");
+                _log.Info($"getInterNetworkEndPoint, ipa: '{ipa.ToString()}'; ipa.AddressFamily: '{ipa.AddressFamily}'");
                 if (ipa.AddressFamily == AddressFamily.InterNetwork)
                 {
                     ipAddress = ipa;
@@ -35,7 +34,7 @@ namespace NU.Kqml
 
             }
             IPEndPoint end = new IPEndPoint(IPAddress.Parse(hostNameOrAddress), port);
-            _log.Info($"[SocketUtil] getInterNetworkEndPoint, end: '{end}'");
+            _log.Info($"getInterNetworkEndPoint, end: '{end}'");
             //IPEndPoint localEndPoint = new IPEndPoint(ipAddress, port);
 
             //_log.Info("IPHostEntry:" + ipHostInfo.ToString());
@@ -99,15 +98,15 @@ namespace NU.Kqml
             }
             catch (ArgumentNullException ane)
             {
-                _log.Error($"[SimpleSocket] Connect: ArgumentNullException : {ane.ToString()}");
+                _log.Error($"Connect: ArgumentNullException : {ane.ToString()}");
             }
             catch (SocketException se)
             {
-                _log.Error($"[SimpleSocket] Connect: SocketException : {se.ToString()}");
+                _log.Error($"Connect: SocketException : {se.ToString()}");
             }
             catch (Exception e)
             {
-                _log.Error($"[SimpleSocket] Connect: Unexpected exception : {e.ToString()}");
+                _log.Error($"Connect: Unexpected exception : {e.ToString()}");
             }
         }
 
@@ -131,35 +130,35 @@ namespace NU.Kqml
                 }
                 else
                 {
-                    _log.Warn("[SimpleSocket] Send: WARNING: Message not completely sent");
+                    _log.Warn("Send: WARNING: Message not completely sent");
                 }
 
                 // Receive the response from the remote device.  
                 int bytesRec = sender.Receive(bytes);
                 string resp = Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                _log.Info($"[SimpleSocket] Send: in response, facilitator said {resp}");
+                _log.Info($"Send: in response, facilitator said {resp}");
                 OnMessage(resp, this);
             }
             catch (ArgumentNullException ane)
             {
-                _log.Info($"[SimpleSocket] Send: ArgumentNullException : {ane.ToString()}");
+                _log.Info($"Send: ArgumentNullException : {ane.ToString()}");
             }
             catch (SocketException se)
             {
                 if (se.SocketErrorCode == SocketError.ConnectionAborted)
                 {
-                    _log.Error("[SimpleSocket] Send: Socket closed by Facilitator");
+                    _log.Error("Send: Socket closed by Facilitator");
                 }
                 else
                 {
-                    _log.Error($"[SimpleSocket] Send: SocketException : {se.ToString()}");
-                    _log.Error($"[SimpleSocket] Send: SocketError : {se.SocketErrorCode}");
+                    _log.Error($"Send: SocketException : {se.ToString()}");
+                    _log.Error($"Send: SocketError : {se.SocketErrorCode}");
                 }
                 
             }
             catch (Exception e)
             {
-                _log.Error($"[SimpleSocket] Send: Unexpected exception : {e.ToString()}");
+                _log.Error($"Send: Unexpected exception : {e.ToString()}");
             }
             Close();
         }
@@ -178,11 +177,11 @@ namespace NU.Kqml
             }
             catch (SocketException se)
             {
-                _log.Error($"[SimpleSocket] Close: SocketException : {se.ToString()}");
+                _log.Error($"Close: SocketException : {se.ToString()}");
             }
             catch (Exception e)
             {
-                _log.Error($"[SimpleSocket] Close: Unexpected exception : {e.ToString()}");
+                _log.Error($"Close: Unexpected exception : {e.ToString()}");
             }
         }
     }
@@ -263,7 +262,7 @@ namespace NU.Kqml
             }
             catch (Exception e)
             {
-                _log.Error($"[SimpleSocketServer] StartListening_thread: {e.ToString()}");
+                _log.Error($"StartListening_thread: {e.ToString()}");
             }
 
             //_log.Info("\nPress ENTER to continue...");
@@ -289,7 +288,7 @@ namespace NU.Kqml
 
             } catch (ObjectDisposedException e)
             {
-                _log.Error($"[SimpleSocketServer] Listening socket disposed");
+                _log.Error($"Listening socket disposed");
             }
         }
 
@@ -350,7 +349,7 @@ namespace NU.Kqml
                     new AsyncCallback(SendCallback), handler);
             } else
             {
-                _log.Error($"[SimpleSocketServer] Send: ERROR: Not able to reply with {data}");
+                _log.Error($"Send: ERROR: Not able to reply with {data}");
             }
         }
 
@@ -371,7 +370,7 @@ namespace NU.Kqml
             }
             catch (Exception e)
             {
-                _log.Error($"[SimpleSocketServer] SendCallback: {e.ToString()}");
+                _log.Error($"SendCallback: {e.ToString()}");
             }
         }
 

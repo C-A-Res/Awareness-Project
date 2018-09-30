@@ -60,7 +60,7 @@ namespace NU.Kqml
         }
 
         private void handleInput(string message, double confidence, StringResultSource source, Envelope e) {
-            _log.Info($"[KioskInputTextPreProcessor] Received \"{message}\" with confidence {confidence}; ");
+            _log.Info($"Received \"{message}\" with confidence {confidence}; ");
             switch (message)
             {
                 case "":
@@ -75,7 +75,7 @@ namespace NU.Kqml
                 case "bye":
                 case "bye bye":
                     // Filter out a few things
-                    _log.Info($"[KioskInputTextPreProcessor] Discarding message: {message}");
+                    _log.Info($"Discarding message: {message}");
                     break;
                 case "Reload grammars":
                     recognizer.ReloadGrammar();

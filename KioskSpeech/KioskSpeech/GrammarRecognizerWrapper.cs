@@ -1,10 +1,12 @@
-﻿using Microsoft.Psi;
+﻿using log4net;
+using Microsoft.Psi;
 using Microsoft.Psi.Audio;
 using Microsoft.Psi.Components;
 using Microsoft.Psi.Speech;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +14,19 @@ namespace NU.Kiosk.Speech
 {
     public class GrammarRecognizerWrapper : ConsumerProducer<AudioBuffer, IStreamingSpeechRecognitionResult>
     {
+        /**
+         * This class wraps around the SystemSpeechRecognizer, so that we can prevent it from
+         * listening to itself while the speech synthesizer is delivering its output. 
+         * 
+         * Without this class, "Hello" and other short utterance will be captured and send 
+         * to the downstream for processing. The result typically arrives right after DialogManager 
+         * changes its state to listen, causing a self-feeding loop. 
+         * 
+         * A more elegant solution would involve manipulating the Timestamp of different components,
+         * which is yet to be developed.
+         */
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         SystemSpeechRecognizer recognizer;
 
         private const string AppName = "PsiSpeechSample__new";
@@ -94,7 +109,7 @@ namespace NU.Kiosk.Speech
             }
             else
             {
-                Console.WriteLine($"[GrammarRecognizerWrapper] Grammar reload is disabled");
+                _log.Info($"Grammar is called but feature is disabled");
             }            
         }
     }

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NU.Kiosk.SharedObject;
+using log4net;
+using System.Reflection;
 
 namespace NU.Kqml
 {
@@ -77,6 +79,8 @@ namespace NU.Kqml
 
     public class SocketStringConsumer : ConsumerProducer<string, NU.Kiosk.SharedObject.Action>, Microsoft.Psi.Components.IStartable
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly int localPort;
         private readonly string facilitatorIp;
         private readonly int facilitatorPort;
@@ -111,7 +115,7 @@ namespace NU.Kqml
                 //facilitator = new SimpleSocket(this.facilitatorIp, facilitatorPort);
                 //facilitator.OnMessage = this.ProcessMessageFromUpstream;
                 facilitator.Connect();
-                Console.WriteLine($"[SocketStringConsumer] Sending: {kqml.ToString()}");
+                _log.Debug($"Sending: {kqml.ToString()}");
                 facilitator.Send(kqml.ToString());
                 //facilitator.Close();
             }
@@ -144,7 +148,7 @@ namespace NU.Kqml
             //facilitator.Close();
 
             this.ready = true;
-            Console.WriteLine("[SocketStringConsumer] ***Ready***\n");
+            _log.Info($"***Ready***\n");
         }
 
         public void Stop()
@@ -160,7 +164,7 @@ namespace NU.Kqml
         private void ProcessMessageFromUpstream(string data, AbstractSimpleSocket socket)
         {
             // push this into Out
-            Console.WriteLine($"[SocketStringConsumer] Facilitator says: '{data}' - length {data.Length}");
+            _log.Info($"Facilitator says: '{data}' - length {data.Length}");
             if (data.Length > 3)
             {
                 KQMLMessage kqml = (new KQMLMessageParser()).parse(data);
@@ -181,7 +185,7 @@ namespace NU.Kqml
                             handleTell(kqml, socket);
                             break;
                         case "error":
-                            Console.WriteLine($"[SocketStringConsumer] Error: {kqml.ToString()}");
+                            _log.Error($"Error: {kqml.ToString()}");
                             break;
                         case "ask_all":
                         case "ask_one":
@@ -189,13 +193,13 @@ namespace NU.Kqml
                         case "untell":
                         case "subscribe":
                         default:
-                            Console.WriteLine($"[SocketStringConsumer] Unknown KQML Performative: {kqml.performative}");
+                            _log.Error($"Unknown KQML Performative: {kqml.performative}");
                             break;
                     }
                 }
             } else
             {
-                Console.WriteLine($"[SocketStringConsumer] Facilitator message ignored: {data}");
+                _log.Info($"Facilitator message ignored: {data}");
             }            
         }
 
@@ -209,14 +213,14 @@ namespace NU.Kqml
         private void handleTell(KQMLMessage msg, AbstractSimpleSocket socket)
         {
             receivedMsgs.Add(msg); // is this really necessary?
-            Console.WriteLine($"[SocketStringConsumer] Received tell message: {msg.ToString()}");
+            _log.Debug($"Received tell message: {msg.ToString()}");
             //socket.Send(KQMLMessage.createTell(this.name, msg.sender, this.nextMsgId(), msg.reply_with, ":ok").ToString()); 
             //this.Out.Post(msg.content.ToString(), DateTime.Now); // utilize... later
         }
 
         private void handleAchieve(KQMLMessage msg, AbstractSimpleSocket socket)
         {
-            Console.WriteLine($"[SocketStringConsumer] handleAchieve picked up a message: {msg.ToString()}");
+            _log.Debug($"handleAchieve picked up a message: {msg.ToString()}");
 
             receivedMsgs.Add(msg); // is this really necessary? --> change to logging in the future
 
@@ -249,7 +253,7 @@ namespace NU.Kqml
                 }
             }
             else {
-                Console.WriteLine($"[SocketStringConsumer] Cannot handleAchieve: {msg.content} is of type {msg.content.GetType()}");
+                _log.Error($"Cannot handleAchieve: {msg.content} is of type {msg.content.GetType()}");
             }
         }
     }

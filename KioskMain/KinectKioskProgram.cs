@@ -21,10 +21,14 @@
     using log4net;
 
     using NU.Kiosk.SharedObject;
+    using log4net;
     using log4net.Config;
+    using System.Reflection;
 
     public static class KinectKioskProgram
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         static string AppName = "Kiosk";
 
         static TimeSpan _100ms = TimeSpan.FromSeconds(0.1);
@@ -78,7 +82,7 @@
             bool detected = false;
             using (Pipeline pipeline = Pipeline.Create())
             {
-                Console.WriteLine("[KinectKiostkProgram] Using Dragon.");
+                _log.Info("Using Dragon.");
 
                 #region Component declarations
                 var dialog = new Speech.DragonDialogManager(pipeline);
@@ -99,7 +103,7 @@
                 // This might be doable in a single join
                 if (usingKinect)
                 {
-                    Console.WriteLine("Starting Kinect-based Kiosk.  Verify that Kinect is setup before continuing");
+                    _log.Info("Starting Kinect-based Kiosk.  Verify that Kinect is setup before continuing");
                     kinectSensor = new Microsoft.Psi.Kinect.v1.KinectSensor(pipeline);
                     faceTracker = new Microsoft.Psi.Kinect.v1.SkeletonFaceTracker(pipeline, kinectSensor.kinectSensor);
                     var joinedFrames = kinectSensor.ColorImage.Join(kinectSensor.DepthImage).Join(kinectSensor.Skeletons);
@@ -108,7 +112,7 @@
                     {
                         if (!detected)
                         {
-                            Console.WriteLine("Started looking for a face...");
+                            _log.Info("Started looking for a face...");
                             detected = true;
                         }
                         return x ? 1.0 : 0.0;
@@ -129,7 +133,7 @@
                     {
                         if (!detected)
                         {
-                            Console.WriteLine("Started looking for a face...");
+                            _log.Info("Started looking for a face...");
                             detected = true;
                         }
                         return x ? 1.0 : 0.0;
@@ -157,16 +161,16 @@
                 //responder.CompResponse.PipeTo(dialog.CompInput);
 
                 //synthesizer.UpdatedState.PipeTo(dialog.SpeechSynthesizerState);
-                Console.Out.WriteLine("Synthisizer select");
+                //Console.Out.WriteLine("Synthisizer select");
 
                 if (usingKqml)
                 {
-                    Console.WriteLine("Setting up connection to Companion");
+                    _log.Info("Setting up connection to Companion");
                     int facilitatorPort_num = Convert.ToInt32(facilitatorPort);
                     int localPort_num = Convert.ToInt32(localPort);
-                    Console.WriteLine("Your Companion IP address is: " + facilitatorIP);
-                    Console.WriteLine("Your Companion port is: " + facilitatorPort);
-                    Console.WriteLine("Your local port is: " + localPort);
+                    _log.Info("Your Companion IP address is: " + facilitatorIP);
+                    _log.Info("Your Companion port is: " + facilitatorPort);
+                    _log.Info("Your local port is: " + localPort);
 
                     // setup interface to Companion
                     kqml = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort_num, localPort_num);
@@ -191,7 +195,7 @@
                 // Run the pipeline
                 pipeline.RunAsync();
 
-                Console.WriteLine("Press any key to exit...");
+                _log.Info($"Press any key to exit...");
                 Console.ReadKey(true);
 
             }
@@ -203,7 +207,7 @@
             bool quit = false;
             using (Pipeline pipeline = Pipeline.Create())
             {
-                Console.WriteLine("[KinectKiostkProgram] Not using Dragon.");
+                _log.Info("Not using Dragon.");
 
                 #region Component declarations
                 NU.Kiosk.Speech.GrammarRecognizerWrapper recognizer = new NU.Kiosk.Speech.GrammarRecognizerWrapper(pipeline);
@@ -240,7 +244,7 @@
                 // This might be doable in a single join
                 if (usingKinect)
                 {
-                    Console.WriteLine("Starting Kinect-based Kiosk.  Verify that Kinect is setup before continuing");
+                    _log.Info("Starting Kinect-based Kiosk.  Verify that Kinect is setup before continuing");
 
                     Microsoft.Psi.Kinect.v1.KinectSensor kinectSensor = new Microsoft.Psi.Kinect.v1.KinectSensor(pipeline);
 
@@ -255,7 +259,7 @@
                     {
                         if (!detected)
                         {
-                            Console.WriteLine("Started looking for a face...");
+                            _log.Info("Started looking for a face...");
                             detected = true;
                         }
                         return x ? 1.0 : 0.0;
@@ -274,7 +278,7 @@
                 }
                 else
                 {
-                    Console.WriteLine("Using push-to-talk: Press the spacebar to open the mic, and any key to close the mic, and q to quit");   
+                    _log.Info("Using push-to-talk: Press the spacebar to open the mic, and any key to close the mic, and q to quit");   
                     var keys = Generators.Sequence(pipeline, Keys(), TimeSpan.FromMilliseconds(10));
                     var pushToTalk = keys.Select(k =>
                     {
@@ -294,7 +298,7 @@
                     {
                         if (!detected)
                         {
-                            Console.WriteLine("Started looking for a face...");
+                            _log.Info("Started looking for a face...");
                             detected = true;
                         }
                         return x ? 1.0 : 0.0;
@@ -318,7 +322,7 @@
                 var recognitionResult = finalResults.Select(r =>  // Need to add a Where Item2, but skipping for now
                 {
                     var ssrResult = r as IStreamingSpeechRecognitionResult;
-                    Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
+                    _log.Info($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
                     return ssrResult;
                 });
 
@@ -346,12 +350,12 @@
 
                 if (usingKqml)
                 {
-                    Console.WriteLine("Setting up connection to Companion");
+                    _log.Info("Setting up connection to Companion");
                     int facilitatorPort_num = Convert.ToInt32(facilitatorPort);
                     int localPort_num = Convert.ToInt32(localPort);
-                    Console.WriteLine("Your Companion IP address is: " + facilitatorIP);
-                    Console.WriteLine("Your Companion port is: " + facilitatorPort);
-                    Console.WriteLine("Your local port is: " + localPort);
+                    _log.Info("Your Companion IP address is: " + facilitatorIP);
+                    _log.Info("Your Companion port is: " + facilitatorPort);
+                    _log.Info("Your local port is: " + localPort);
 
                     // setup interface to Companion
                     kqml = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort_num, localPort_num);
@@ -406,14 +410,14 @@
         /// <param name="e">The pipeline completion event arguments.</param>
         private static void PipelineCompletionEvent(object sender, PipelineCompletionEventArgs e)
         {
-            Console.WriteLine("Pipeline execution completed with {0} errors", e.Errors.Count);
+            _log.Info($"Pipeline execution completed with {e.Errors.Count} errors");
 
             // Prints all exceptions that were thrown by the pipeline
             if (e.Errors.Count > 0)
             {
                 foreach (var error in e.Errors)
                 {
-                    Console.WriteLine(error);
+                    _log.Info($"error: {error}");
                 }
             }
         }
@@ -449,7 +453,7 @@
             Console.WriteLine(outputLogPath == null);
             var dataStore = CreateDataStore(pipeline, outputLogPath, showLive);
             Console.WriteLine(dataStore == null);
-            Console.WriteLine("dataStore is empty");
+            _log.Info($"dataStore is empty");
             // For disk logging or live visualization only
             if (dataStore != null)
             {
@@ -459,7 +463,7 @@
                 //faceTracker.Write("Kiosk.FaceTracker", dataStore);
                 speechRecog.Write($"Kiosk.FinalRecognitionResults", dataStore);
 
-                Console.WriteLine("Stored the data here! ");
+                _log.Info($"Stored the data here! ");
             }
 
             // Ignore this block if live visualization is not enabled
