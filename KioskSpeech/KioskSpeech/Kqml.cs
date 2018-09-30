@@ -148,7 +148,7 @@ namespace NU.Kqml
             //facilitator.Close();
 
             this.ready = true;
-            _log.Info($"***Ready***\n");
+            _log.Debug($"***Ready***\n");
         }
 
         public void Stop()
@@ -164,7 +164,7 @@ namespace NU.Kqml
         private void ProcessMessageFromUpstream(string data, AbstractSimpleSocket socket)
         {
             // push this into Out
-            _log.Info($"Facilitator says: '{data}' - length {data.Length}");
+            _log.Debug($"Facilitator says: '{data}' - length {data.Length}");
             if (data.Length > 3)
             {
                 KQMLMessage kqml = (new KQMLMessageParser()).parse(data);
@@ -199,7 +199,7 @@ namespace NU.Kqml
                 }
             } else
             {
-                _log.Info($"Facilitator message ignored: {data}");
+                _log.Warn($"Facilitator message ignored: {data}");
             }            
         }
 
