@@ -17,14 +17,14 @@ namespace NU.Kqml
 
         public static IPEndPoint getInterNetworkEndPoint(string hostNameOrAddress, int port)
         {
-            _log.Info($"getInterNetworkEndPoint, hostNameOrAddress: '{hostNameOrAddress}'");
+            _log.Debug($"getInterNetworkEndPoint, hostNameOrAddress: '{hostNameOrAddress}'");
             IPHostEntry ipHostInfo = Dns.GetHostEntry(hostNameOrAddress);
             IPAddress ipAddress = null;
             IPEndPoint localEndPoint = null;
 
             foreach (IPAddress ipa in ipHostInfo.AddressList)
             {
-                _log.Info($"getInterNetworkEndPoint, ipa: '{ipa.ToString()}'; ipa.AddressFamily: '{ipa.AddressFamily}'");
+                _log.Debug($"getInterNetworkEndPoint, ipa: '{ipa.ToString()}'; ipa.AddressFamily: '{ipa.AddressFamily}'");
                 if (ipa.AddressFamily == AddressFamily.InterNetwork)
                 {
                     ipAddress = ipa;
@@ -34,7 +34,7 @@ namespace NU.Kqml
 
             }
             IPEndPoint end = new IPEndPoint(IPAddress.Parse(hostNameOrAddress), port);
-            _log.Info($"getInterNetworkEndPoint, end: '{end}'");
+            _log.Debug($"getInterNetworkEndPoint, end: '{end}'");
             //IPEndPoint localEndPoint = new IPEndPoint(ipAddress, port);
 
             //_log.Info("IPHostEntry:" + ipHostInfo.ToString());
@@ -136,7 +136,7 @@ namespace NU.Kqml
                 // Receive the response from the remote device.  
                 int bytesRec = sender.Receive(bytes);
                 string resp = Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                _log.Info($"Send: in response, facilitator said {resp}");
+                _log.Debug($"Send: in response, facilitator said {resp}");
                 OnMessage(resp, this);
             }
             catch (ArgumentNullException ane)
