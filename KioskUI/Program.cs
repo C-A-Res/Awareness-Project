@@ -43,32 +43,19 @@ namespace KioskUI
 
             if (this.kioskUI != null)
             {
-                msg = buildJsonResponse2(kioskUI.getUtterances(), kioskUI.getState(), kioskUI.getMapData(), kioskUI.getUrl(), kioskUI.getDebug());
+                msg = buildJsonResponse(kioskUI.getUtterances(), kioskUI.getState(), kioskUI.getMapData(), kioskUI.getUrl(), kioskUI.getCalendar(), kioskUI.getDebug());
             } else { 
                 List<(string, string)> utts = new List<(string,string)>();
                 utts.Add(("other", "Where does Prof Forbus work?"));
                 utts.Add(("kiosk", "His office is somewehre"));
                 string state = "listening";
-                msg = buildJsonResponse2(utts, state,  ("",""), "", "false");
+                msg = buildJsonResponse(utts, state,  ("",""), "", "false");
             }
 
             Send(msg);
         }
 
-        private string buildJsonResponse(List<(string,string)> utts, string state, string debug)
-        {
-            List<Dictionary<string, string>> speechForJson = new List<Dictionary<string, string>>();
-            foreach (var n in utts)
-            {
-                Dictionary<string, string> dict = new Dictionary<string, string> { { "user", n.Item1 }, { "content", n.Item2 } };
-                speechForJson.Add(dict);
-            }
-            Dictionary<string, string> avatarForJson = new Dictionary<string, string> { { "state", state } };
-            Dictionary<string, object> forJson = new Dictionary<string, object> { { "avatar", avatarForJson }, { "speech", speechForJson }, { "debug", debug } };
-            return JsonConvert.SerializeObject(forJson);
-        }
-
-        private string buildJsonResponse2(List<(string, string)> utts, string state, (string, string) mapdata, string url, string debug)
+        private string buildJsonResponse(List<(string, string)> utts, string state, (string, string) mapdata, string url, string calendar, string debug)
         {
             var forJson = new List<Dictionary<string, object>>();
 
@@ -93,6 +80,12 @@ namespace KioskUI
                 var mapargs = new Dictionary<string, string> { { "name", mapdata.Item1 }, { "id", mapdata.Item2 } };
                 var command_map = new Dictionary<string, object> { { "command", "displayMap" }, { "args", mapargs } };
                 forJson.Add(command_map);
+            }
+
+            if (calendar != "")
+            {
+                Dictionary<string, object> calForJson = new Dictionary<string, object> { { "command", "displayCalendar" }, { "args", calendar } };
+                forJson.Add(calForJson);
             }
 
             if (debug.Length > 0)
@@ -122,6 +115,7 @@ namespace KioskUI
         private string url = "";
         private string mapLabel = "";
         private string mapID = "";
+        private string calendar = "";
 
         public KioskUI(Pipeline pipeline, bool isDetectingFace = true)
         {
@@ -186,6 +180,9 @@ namespace KioskUI
                 case "psikiShowUrl":
                     url = (string)arg1.Args[0];
                     break;
+                case "psikiShowCalendar":
+                    calendar = (string)arg1.Args[0];
+                    break;
                 default:
                     Console.WriteLine("Invalid action received by UrlCommand" + arg1.Name);
                     break;
@@ -230,6 +227,13 @@ namespace KioskUI
             var retval = (mapLabel, mapID);
             mapLabel = "";
             mapID = "";
+            return retval;
+        }
+
+        public string getCalendar()
+        {
+            var retval = calendar;
+            calendar = "";
             return retval;
         }
 

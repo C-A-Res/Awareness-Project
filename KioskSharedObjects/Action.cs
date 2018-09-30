@@ -23,7 +23,7 @@ namespace NU.Kiosk.SharedObject
             sb.Append(Name);
             foreach (var x in Args)
             {
-                sb.Append(x.ToString());
+                sb.Append(' ').Append(x.ToString());
             }
             sb.Append(')');
             return sb.ToString();

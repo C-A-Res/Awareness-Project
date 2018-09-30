@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Speech.Synthesis;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using log4net;
 using Microsoft.Psi;
 using Microsoft.Psi.Components;
 using NU.Kiosk.SharedObject;
@@ -13,6 +15,8 @@ namespace NU.Kiosk.Speech
 {
     public class Responder
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly Pipeline pipeline;
 
         private int repeatCount = 0;
@@ -46,6 +50,7 @@ namespace NU.Kiosk.Speech
 
         private void ReceiveUserInput(Utterance arg1, Envelope arg2)
         {
+            _log.Debug($"[ReceiverUserInput] Utterance received: {arg1.Text}");
             if (!generateAutoResponse(arg1, arg2))
             {
                 KQMLRequest.Post(arg1.Text, arg2.OriginatingTime);
@@ -55,6 +60,7 @@ namespace NU.Kiosk.Speech
         private void ReceiveKQMLResponse(NU.Kiosk.SharedObject.Action arg1, Envelope arg2)
         {
             // just forward it
+            _log.Debug($"[ReceiveKQMLResponse] Forwarding KQML Response with action {arg1}");
             ActionResponse.Post(arg1, DateTime.Now);
             if (arg1.Name == "psikiSayText")
             {
@@ -66,6 +72,7 @@ namespace NU.Kiosk.Speech
         {
             var text = arg1.Text;
             var confidence = arg1.Confidence;
+            _log.Debug($"[generateAutoResponse] Received utterance ({text}) has confidence {confidence}");
             if (confidence < 0.3)
             {
                 if (repeatCount <= 1)
@@ -86,29 +93,27 @@ namespace NU.Kiosk.Speech
             else
             {
                 repeatCount = 0;
-                switch (text)
+                var lower = text.ToLower();
+                switch (lower)
                 {
-                    case "Hi":
-                    case "Hello":
-                    case "Greetings":
-                    case "Good morning":
-                    case "Sup":
+                    case "hi":
+                    case "hello":
+                    case "greetings":
+                    case "good morning":
+                    case "sup":
                         sendResponse("Hello");
                         return true;
-                    case "What can you do?":
-                    case "What do you do?":
-                    case "How can you help?":
+                    case "what can you do?":
+                    case "what do you do?":
+                    case "how can you help?":
+                    case "help":
+                    case "help me":
                         generateHelpResponse(arg2);
                         return true;
-                    case "What time is it?":
-                    case "What's the time?":
+                    case "what time is it?":
+                    case "what's the time?":
                         var time = DateTime.Now.ToString("h:mm tt");
                         sendResponse($"It is {time}");
-                        return true;
-                    case "Where is the Bathroom?":
-                    case "Where is the bathroom?":
-                        sendResponse("The bathroom is in the southeast corner of the floor.");
-                        ActionResponse.Post(new SharedObject.Action("psikiShowMap", "Bathroom", "bathroom"), DateTime.Now);
                         return true;
                     case "":
                     case "okay":
@@ -118,12 +123,26 @@ namespace NU.Kiosk.Speech
                     case "cool":
                     case "huh?":
                     case "wow!":
-                    case "Huck you":
+                    case "huck you":
                     case "bye":
                     case "bye bye":
-                        Console.WriteLine($"[KioskInputTextPreProcessor] Discarding message: {text}");
+                        _log.Debug($"[generateAutoResponse] Discarding message: {text}");
                         return true;
+                    default:
+                        if (lower.Contains("bathroom") || lower.Contains("restroom") || lower.Contains("men's room") || lower.Contains("women's room"))
+                        {
+                            sendResponse("The bathroom is in the southeast corner of the floor.");
+                            ActionResponse.Post(new SharedObject.Action("psikiShowMap", "Bathroom", "bathroom"), DateTime.Now);
+                            return true;
+                        } else if (lower.Contains("office hours"))
+                        {
+                            sendResponse("Office hours are displayed below.");
+                            ActionResponse.Post(new SharedObject.Action("psikiShowCalendar", "today"), DateTime.Now);
+                            return true;
+                        }
+                        break;
                 }
+            
             }
             return false;
         }
@@ -135,7 +154,7 @@ namespace NU.Kiosk.Speech
 
         private void sendResponse(string response)
         {
-            //TextResponse.Post(response, DateTime.Now);
+            _log.Debug($"[sendResponse] Responding with {response}");
             ActionResponse.Post(new SharedObject.Action("psikiSayText", response), DateTime.Now);
         }
         
