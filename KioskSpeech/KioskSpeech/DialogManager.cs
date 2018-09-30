@@ -132,19 +132,12 @@ namespace NU.Kiosk.Speech
             faceWas = face;
             face = arg1;
 
-            if (face != faceWas)
-            {
-                if (face)
-                {
-                    _log.Info($"Face detected. Starting session.");
-                } else
-                {
-                    _log.Info($"Face gone. Ending session."); 
-                }
-            }
-
             if (face)
             {
+                if (!faceWas)
+                {
+                    _log.Info($"Face detected. Starting session.");
+                }
                 startSession();
                 if (state == DialogState.Sleeping)
                 {
@@ -152,18 +145,23 @@ namespace NU.Kiosk.Speech
                 }
             } else
             {
-                endSession();
+                if (faceWas)
+                {
+                    _log.Info($"Face gone. Ending session.");
+                    endSession();
+                }
             }
-
         }
 
         private void ReceiveWakeUp(bool arg1, Envelope arg2)
         {
             _log.Info($"Received wake. Starting session.");
             startSession();
+            Console.WriteLine($"DialogState: {state}");
             if (state == DialogState.Sleeping)
             {
                 updateState(DialogState.Listening, arg2.OriginatingTime);
+                Console.WriteLine($"Now DialogState: {state}");
             }
         }
 
@@ -179,6 +177,7 @@ namespace NU.Kiosk.Speech
                     StateChanged.Post("sleeping", dt);
                     break;
                 case DialogState.Listening:
+                    Console.WriteLine("Dialog Listening, state change sending");
                     StateChanged.Post("listening", dt);
                     break;
                 case DialogState.Thinking:

@@ -101,6 +101,7 @@ namespace NU.Kiosk.Speech
                     case "greetings":
                     case "good morning":
                     case "sup":
+                    case "'sup":
                         sendResponse("Hello");
                         return true;
                     case "what can you do?":
@@ -127,6 +128,10 @@ namespace NU.Kiosk.Speech
                     case "bye":
                     case "bye bye":
                         _log.Debug($"[generateAutoResponse] Discarding message: {text}");
+                        return true;
+                    case "what is the meaning of life?":
+                    case "what is the meaning of life":
+                        sendResponse("101010");
                         return true;
                     default:
                         if (lower.Contains("bathroom") || lower.Contains("restroom") || lower.Contains("men's room") || lower.Contains("women's room"))

@@ -156,6 +156,7 @@ namespace KioskUI
 
         private void ReceiveDialogStateChanged(string arg1, Envelope arg2)
         {
+            Console.WriteLine($"Received state change: {arg1}");
             state = arg1;
         }
 
