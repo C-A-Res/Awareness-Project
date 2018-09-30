@@ -796,10 +796,10 @@
   </rule>
   <rule id="LocationOrPerson">
     <one-of>
-      <item>
+      <item weight="1">
         <ruleref uri="#PersonReference" />
       </item>
-      <item>
+      <item weight="10">
         <item repeat="0-1">the</item>
         <ruleref uri="#SingularSpecificPlace" />
       </item>
@@ -1155,6 +1155,7 @@
         <ruleref uri="#PersonReference" />'s
         <one-of>
           <item>office</item>
+          <item>desk</item>
         </one-of>
       </item>
       <item weight="30">
@@ -2893,7 +2894,7 @@
       <item>Beam me up, Scotty!</item>
       <item>Huck you</item>
       <item>Say something</item>
-      <item>What is the meaning of life</item>
+      <item>What is the meaning of life?</item>
       <item>
         May the force be with you, <ruleref uri="#PersonReference" />
       </item>
@@ -2902,6 +2903,7 @@
       <item>I watched C beams; glitter in the dark near the Tannhäuser Gate.</item>
       <item>All those, moments; will be lost; in time; like; tears; in rain</item>
       <item>Dead or alive, you're coming with me</item>
+      <item>Aravindan Chris Kris Ian</item>
     </one-of>
   </rule>
   <rule id="SingularImmobileObjectOfInterest">

@@ -157,11 +157,9 @@ namespace NU.Kiosk.Speech
         {
             _log.Info($"Received wake. Starting session.");
             startSession();
-            Console.WriteLine($"DialogState: {state}");
             if (state == DialogState.Sleeping)
             {
                 updateState(DialogState.Listening, arg2.OriginatingTime);
-                Console.WriteLine($"Now DialogState: {state}");
             }
         }
 
@@ -177,7 +175,6 @@ namespace NU.Kiosk.Speech
                     StateChanged.Post("sleeping", dt);
                     break;
                 case DialogState.Listening:
-                    Console.WriteLine("Dialog Listening, state change sending");
                     StateChanged.Post("listening", dt);
                     break;
                 case DialogState.Thinking:

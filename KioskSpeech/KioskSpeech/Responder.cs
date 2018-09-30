@@ -133,6 +133,9 @@ namespace NU.Kiosk.Speech
                     case "what is the meaning of life":
                         sendResponse("101010");
                         return true;
+                    case "aravindan chris kris ian":
+                        sendResponse("Wrong care court near");
+                        return true;
                     default:
                         if (lower.Contains("bathroom") || lower.Contains("restroom") || lower.Contains("men's room") || lower.Contains("women's room"))
                         {
