@@ -344,9 +344,15 @@ namespace NU.Kqml
 
             if (handler != null)
             {
-                // Begin sending the data to the remote device.  
-                handler.BeginSend(byteData, 0, byteData.Length, 0,
-                    new AsyncCallback(SendCallback), handler);
+                try
+                {
+                    // Begin sending the data to the remote device.  
+                    handler.BeginSend(byteData, 0, byteData.Length, 0,
+                        new AsyncCallback(SendCallback), handler);
+                } catch (Exception e)
+                {
+                    _log.Error($"Send: error during send '{data}'; trace: {e.StackTrace}");
+                }
             } else
             {
                 _log.Error($"Send: ERROR: Not able to reply with {data}");
