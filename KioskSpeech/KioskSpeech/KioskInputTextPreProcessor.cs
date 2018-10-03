@@ -39,6 +39,7 @@ namespace NU.Kqml
 
         private void ReceiveUiInput(string arg1, Envelope arg2)
         {
+            _log.Info($"Received UI Text input: \"{arg1}\"");
             handleInput(arg1, 1.0, StringResultSource.ui, arg2);
         }
 
@@ -56,11 +57,11 @@ namespace NU.Kqml
                 message += ".";
             }
             double confidence = result.Confidence.Value;
+            _log.Info($"Received Speech Input \"{message}\" with confidence {confidence}; ");
             handleInput(message, confidence, StringResultSource.speech, e);
         }
 
         private void handleInput(string message, double confidence, StringResultSource source, Envelope e) {
-            _log.Info($"Received \"{message}\" with confidence {confidence}; ");
             switch (message)
             {
                 case "":

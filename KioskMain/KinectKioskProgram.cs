@@ -65,6 +65,9 @@
                 i++;
             }
 
+            //// uncomment these to debug speech recognition
+            //usingKqml = false;
+            //usingKinect = false;
 
             XmlConfigurator.Configure();
 
