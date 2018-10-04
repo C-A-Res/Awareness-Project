@@ -21,7 +21,15 @@ namespace NU.Kiosk.SharedObject
         {
             this.stk = new Stack<State>();
             this.reader = new StringReader(input.Trim());
-            Console.WriteLine($"[KQMLMessageParser] Parsing input: {input}");
+            if (input.StartsWith("(tell"))
+            {
+                Console.WriteLine($"[KQMLMessageParser] Tell message suppressed.");
+            } else if (input.StartsWith("(ping")) {
+                Console.WriteLine($"[KQMLMessageParser] Ping message suppressed.");
+            } else
+            {
+                Console.WriteLine($"[KQMLMessageParser] Parsing input: {input}");
+            }            
             stk.Push(State.init);
             return parse(new Dictionary<string, object>());
         }

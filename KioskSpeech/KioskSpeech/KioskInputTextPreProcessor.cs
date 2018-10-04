@@ -39,6 +39,7 @@ namespace NU.Kqml
 
         private void ReceiveUiInput(string arg1, Envelope arg2)
         {
+            _log.Info($"Received UI Text input: \"{arg1}\"");
             handleInput(arg1, 1.0, StringResultSource.ui, arg2);
         }
 
@@ -48,7 +49,8 @@ namespace NU.Kqml
             var lower = message.ToLower();
             if (lower.StartsWith("where") || lower.StartsWith("what") || lower.StartsWith("how") 
                 || lower.StartsWith("who") || lower.StartsWith("is") || lower.StartsWith("are")
-                || lower.StartsWith("when") || lower.StartsWith("will"))
+                || lower.StartsWith("when") || lower.StartsWith("will") || lower.StartsWith("can ")
+                || lower.StartsWith("could "))
             {
                 message += "?";
             } else if (lower.StartsWith("show") || lower.StartsWith("tell"))
@@ -56,14 +58,22 @@ namespace NU.Kqml
                 message += ".";
             }
             double confidence = result.Confidence.Value;
+
+            if (confidence < 0.3)
+            {
+                _log.Info($"Received Speech Input \"{message}\" with confidence {confidence}; discarding...");
+                message = "(Unintelligible)";
+            } else
+            {
+                _log.Info($"Received Speech Input \"{message}\" with confidence {confidence}; ");
+            }
+            
             handleInput(message, confidence, StringResultSource.speech, e);
         }
 
         private void handleInput(string message, double confidence, StringResultSource source, Envelope e) {
-            _log.Info($"Received \"{message}\" with confidence {confidence}; ");
             switch (message)
             {
-                case "":
                 case "okay":
                 case "hm":
                 case "um":
@@ -80,6 +90,9 @@ namespace NU.Kqml
                 case "Reload grammars":
                     recognizer.ReloadGrammar();
                     break;
+                case "":
+                    message = "(Unintelligible)";
+                    goto default;
                 default:
                     // fix course numbers
                     var x = course_num1.Replace(message, m => string.Format("{0}{1}{2}", m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value));

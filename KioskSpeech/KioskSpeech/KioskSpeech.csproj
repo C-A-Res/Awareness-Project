@@ -270,6 +270,7 @@
     <Compile Include="DragonDialogManager.cs" />
     <Compile Include="DialogManager.cs" />
     <Compile Include="GrammarRecognizerWrapper.cs" />
+    <Compile Include="InternetQueryHandler.cs" />
     <Compile Include="IntervalBooleanProducer.cs" />
     <Compile Include="DragonInputTextProcessor.cs" />
     <Compile Include="GrammarUtils\AllXMLGrammarWriter.cs" />
@@ -297,6 +298,7 @@
     </None>
     <None Include="Resources\BaseGrammar.grxml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <Content Include="Resources\primitive_grammar.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

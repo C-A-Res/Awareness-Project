@@ -24,6 +24,7 @@
     using log4net;
     using log4net.Config;
     using System.Reflection;
+    using Newtonsoft.Json;
 
     public static class KinectKioskProgram
     {
@@ -65,6 +66,9 @@
                 i++;
             }
 
+            //// uncomment these to debug speech recognition
+            //usingKqml = false;
+            //usingKinect = false;
 
             XmlConfigurator.Configure();
 

@@ -11,6 +11,7 @@ using Microsoft.Psi;
 using Microsoft.Psi.Components;
 using NU.Kiosk.SharedObject;
 
+
 namespace NU.Kiosk.Speech
 {
     public class Responder
@@ -20,6 +21,8 @@ namespace NU.Kiosk.Speech
         private readonly Pipeline pipeline;
 
         private int repeatCount = 0;
+
+        private InternetQueryHandler internetHandler;
 
         public Responder(Pipeline pipeline)
         {
@@ -35,6 +38,9 @@ namespace NU.Kiosk.Speech
 
             // UI connection
             this.ActionResponse = pipeline.CreateEmitter<NU.Kiosk.SharedObject.Action>(this, nameof(this.ActionResponse));
+
+            // Internet Query Handler
+            internetHandler = new NU.Kiosk.Speech.InternetQueryHandler();
         }
 
         // Dialog
@@ -72,9 +78,10 @@ namespace NU.Kiosk.Speech
         {
             var text = arg1.Text;
             var confidence = arg1.Confidence;
-            _log.Debug($"[generateAutoResponse] Received utterance ({text}) has confidence {confidence}");
+            
             if (confidence < 0.3)
             {
+                _log.Debug($"[generateAutoResponse] Received unintelligible utterance with confidence {confidence}");
                 if (repeatCount <= 1)
                 {
                     sendResponse("Could you please repeat that?");
@@ -92,10 +99,15 @@ namespace NU.Kiosk.Speech
             }
             else
             {
+                _log.Debug($"[generateAutoResponse] Received utterance ({text}) has confidence {confidence}");
                 repeatCount = 0;
                 var lower = text.ToLower();
                 switch (lower)
                 {
+                    case "(Unintelligible)":
+                        _log.Debug($"[generateAutoResponse] Unintelligible voice input");
+                        sendResponse("Sorry! Could you repeat that?");
+                        break;
                     case "hi":
                     case "hello":
                     case "greetings":
@@ -142,6 +154,11 @@ namespace NU.Kiosk.Speech
                             sendResponse("The bathroom is in the southeast corner of the floor.");
                             ActionResponse.Post(new SharedObject.Action("psikiShowMap", "Bathroom", "bathroom"), DateTime.Now);
                             return true;
+                        } else if (lower.Contains("seminar room"))
+                        {
+                            sendResponse("The Seminar Room is toward the east side of the floor.");
+                            ActionResponse.Post(new SharedObject.Action("psikiShowMap", "Seminar", "seminar"), DateTime.Now);
+                            return true;                            
                         } else if (lower.Contains("office hour"))
                         {
                             sendResponse("Office hours are displayed below.");
@@ -151,6 +168,16 @@ namespace NU.Kiosk.Speech
                         {
                             sendResponse("The kitchen is just around the corner.");
                             ActionResponse.Post(new SharedObject.Action("psikiShowMap", "Kitchen", "kitchen"), DateTime.Now);
+                            return true;
+                        } else if (lower.Contains("intercampus") && !lower.Contains("northbound"))
+                        {
+                            var nextArrival = internetHandler.getNextIntercampusShuttleTime();
+                            respondWithShuttleTime(nextArrival);
+                            return true;
+                        } else if (lower.Contains("201") && !lower.Contains("northbound") && !lower.Contains("westbound"))
+                        {
+                            var nextArrival = internetHandler.getNextCTA201BusTime();
+                            respondWithShuttleTime(nextArrival);
                             return true;
                         }
                         break;
@@ -171,5 +198,33 @@ namespace NU.Kiosk.Speech
             ActionResponse.Post(new SharedObject.Action("psikiSayText", response), DateTime.Now);
         }
         
+        private void respondWithShuttleTime(DateTime nextArrival)
+        {
+            var mins = (nextArrival - DateTime.Now).Minutes;
+            if (nextArrival == DateTime.MaxValue)
+            {
+                sendResponse("Sorry, I'm having trouble accessing the real-time data.");
+            }
+            else if (nextArrival == DateTime.MinValue)
+            {
+                sendResponse("There isn't one coming any time soon.");
+            }
+            else if (mins < 1)
+            {
+                sendResponse($"It is arriving in a minute.");
+            }
+            else if (mins < 3)
+            {
+                sendResponse($"It is arriving in {mins} minutes. However, it usually takes 5 minutes to walk over.");
+            }
+            else if (mins < 5)
+            {
+                sendResponse($"Arriving in {(nextArrival - DateTime.Now).Minutes} minutes, at {nextArrival.ToShortTimeString()}. You should hurry.");
+            }
+            else
+            {
+                sendResponse($"Arriving in {(nextArrival - DateTime.Now).Minutes} minutes, at {nextArrival.ToShortTimeString()}.");
+            }
+        }
     }
 }
