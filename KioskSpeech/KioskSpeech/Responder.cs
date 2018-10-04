@@ -174,6 +174,11 @@ namespace NU.Kiosk.Speech
                             var nextArrival = internetHandler.getNextIntercampusShuttleTime();
                             respondWithShuttleTime(nextArrival);
                             return true;
+                        } else if (lower.Contains("201") && !lower.Contains("northbound") && !lower.Contains("westbound"))
+                        {
+                            var nextArrival = internetHandler.getNextCTA201BusTime();
+                            respondWithShuttleTime(nextArrival);
+                            return true;
                         }
                         break;
                 }
@@ -206,11 +211,11 @@ namespace NU.Kiosk.Speech
             }
             else if (mins < 1)
             {
-                sendResponse($"Last one I know of is arriving in a minute.");
+                sendResponse($"It is arriving in a minute.");
             }
             else if (mins < 3)
             {
-                sendResponse($"Last one I know of is arriving in {mins} minutes.");
+                sendResponse($"It is arriving in {mins} minutes. However, it usually takes 5 minutes to walk over.");
             }
             else if (mins < 5)
             {
