@@ -114,78 +114,75 @@ function init() {
   }
 
   function displayMap(name, id) {
-    mapSpace.style.display = "block";
-    touchInput.style.display = "none";
-    ok.style.display = "block";
+    mapView.style.display = "block";
+    buttonView.style.display = "none";
+    calendarView.style.display = "none";
+    inputView.style.display = "none";
+
+    youarehere.style.left = calculateX("kiosk");
+    youarehere.style.top = calculateY("kiosk");
     dest.innerHTML = name;
     dest.style.left = calculateX(id);
     dest.style.top = calculateY(id);
-    // console.log("x: " + dest.style.left + " y: " + dest.style.top);
   }
 
   // used to transform from mapData x coordinates to this map coordinates
   function calculateX (id) {
     // sample from data map 3005: 246, 56
-    // sample from this map 3005: 150, 95
-    // sample from data map 3011: 341, 56
-    // sample from this map 3011: 255, 95
-    var xDataSampleDelta = 95.;
-    var xThisSampleDelta = 105.;
+    // sample from this map 3005: 155, 122
+    // sample from data map 3017: 458, 56
+    // sample from this map 3017: 392, 122
+    var xDataSampleDelta = 212.;
+    var xThisSampleDelta = 237.;
     var xDataToThisScale = xThisSampleDelta / xDataSampleDelta;
 
-    var xDataOffset = 137.;
-    var xThisOffset = 30.;
+    var xDataOffset = 139.;
+    var xThisOffset = 35.;
+    // var xDataEnd = 959;
+    // var xThisEnd = 952;
     return (mapData[id].x - xDataOffset) * xDataToThisScale + xThisOffset;
   }
 
   // used to transform from mapData y coordinates to this map coordinates
   function calculateY (id) {
-    // sample from data map 3107: 186, 226
-    // sample from this map 3107: 70, 300
-    // sample from data map 3111: 186, 287
-    // sample from this map 3111: 70, 370
-    var yDataSampleDelta = 61.;
-    var yThisSampleDelta = 70.;
+    // sample from data map 3107: 180, 226
+    // sample from this map 3107: 83, 317
+    // sample from data map 3123: 180, 571
+    // sample from this map 3123: 83, 317
+    var yDataSampleDelta = 345.;
+    var yThisSampleDelta = 396.;
     var yDataToThisScale = yThisSampleDelta / yDataSampleDelta;
 
-    var yDataOffset = 4.;
-    var yThisOffset = 45.;
+    var yDataOffset = 5.;
+    var yThisOffset = 63.;
+    // var yDataEnd = 747;
+    // var yThisEnd = 915;
     return (mapData[id].y - yDataOffset) * yDataToThisScale + yThisOffset;
   }
 
   function displayCalendar() {
-    calendarSpace.style.display = "block";
-    calendarBack.style.display = "block";
-    touchInput.style.display = "none";
+    calendarView.style.display = "block";
+    buttonView.style.display = "none";
+    mapView.style.display = "none";
+    inputView.style.display = "none";
   }
 
   function displayKeyboard() {
-    btnwhere.style.display = "none";
-    when.style.display = "none";
-    what.style.display = "none";
-    other.style.display = "none";
-    showmap.style.display = "none";
-    showCalendar.style.display = "none";
-    keys.style.display = "flex";
-    titles.style.display = "flex";
-    inputSpace.style.visibility = "visible";
+    buttonView.style.display = "none";
+    mapView.style.display = "none";
+    calendarView.style.display = "none";
+    inputView.style.display = "block";
   }
 
-  function displayInputStarters() {
-    where.style.display = "block";
-    when.style.display = "block";
-    what.style.display = "block";
-    other.style.display = "block";
-    showmap.style.display = "block";
-    showCalendar.style.display = "block";
-    keys.style.display = "none";
-    titles.style.display = "none";
-    mapSpace.style.display = "none";
-    inputSpace.style.visibility = "hidden";
+  function displayStarterButtons() {
+    buttonView.style.display = "block";
+    inputView.style.display = "none";
+    mapView.style.display = "none";
+    calendarView.style.display = "none";
   }
 
   function resetScreen() {
-    displayInputStarters()
+    displayStarterButtons();
     var cloned = chatSpace.cloneNode(false);
     chatSpace.parentNode.replaceChild(cloned, chatSpace);
     input.value = "";
@@ -270,36 +267,24 @@ function init() {
     }
   }
 
-  ok.onclick = function() {
-    mapSpace.style.display = "none";
-    touchInput.style.display = "block";
-    ok.style.display = "none";
-  }
-
   showmap.onclick = function() {
     displayMap("", "0");
   }
-
-  // FOR TESTING
-  // $("#mapDestinationSubmit").click(function () {
-  //   console.log("room: " + mapDestination.value);
-  //   dest.style.left = calculateX(mapDestination.value);
-  //   dest.style.top = calculateY(mapDestination.value);
-  // });
-
-  $("#calendarBack").click(function () {
-    calendarSpace.style.display = "none";
-    touchInput.style.display = "block"; 
-    calendarBack.style.display = "none";
-  })
+  
+  $(".backButton").click(function () {
+    input.value = "";
+    displayStarterButtons();
+  });
 
   $("#showCalendar").click(function () {
     displayCalendar();
   });
 
-  $("#cancel").click(function () {
-    input.value = "";
-    displayInputStarters();
+  // FOR TESTING
+  $("#mapDestinationSubmit").click(function () {
+    console.log("room: " + mapDestination.value);
+    dest.style.left = calculateX(mapDestination.value);
+    dest.style.top = calculateY(mapDestination.value);
   });
 
   // Connect to Web Socket
@@ -384,7 +369,7 @@ function init() {
       //displayText("user", text);
       wsx.send(text);
       input.value = "";
-      displayInputStarters();
+      displayStarterButtons();
       return false;
     });
 
