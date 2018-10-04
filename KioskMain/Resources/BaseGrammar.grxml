@@ -343,7 +343,7 @@
     </one-of>
   </rule>
   <rule id="WhatQuestion">
-    what
+    What
     <one-of>
       <item>time <ruleref uri="#TimeQueryContent"/></item>
       <item>day is it today</item>
@@ -652,6 +652,7 @@
       <item>
         Who
         <one-of>
+          <item>teaches <ruleref uri="#Course" /></item>
           <item>
             are
             <one-of>
@@ -790,7 +791,6 @@
         <ruleref uri="#PersonReference" />
       </item>
       <item weight="10">
-        <item repeat="0-1">the</item>
         <ruleref uri="#SingularSpecificPlace" />
       </item>
     </one-of>
@@ -1136,6 +1136,7 @@
       <item>
         Room <ruleref uri="#OfficeNumber" />
       </item>
+      <item weight="2">the seminar room</item>
       <item weight="2">the front desk</item>
       <item weight="2">the kitchen</item>
       <item weight="2">the emergency exit</item>
@@ -2175,10 +2176,14 @@
       </item>
       <item>
         <one-of>
-          <item>the professor for</item>
-          <item>the professor who is teaching</item>
-          <item>the professor who teaches</item>
-          <item>the professor teaching</item>
+          <item>the professor</item>
+          <item>the instructor</item>
+        </one-of>
+        <one-of>
+          <item>for</item>
+          <item>who is teaching</item>
+          <item>who teaches</item>
+          <item>teaching</item>
         </one-of>
         <ruleref uri="#Course" />
         <item repeat="0-1">
