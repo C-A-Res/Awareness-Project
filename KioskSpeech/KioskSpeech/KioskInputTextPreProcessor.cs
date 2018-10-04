@@ -50,7 +50,8 @@ namespace NU.Kqml
             if (lower.StartsWith("where") || lower.StartsWith("what") || lower.StartsWith("how") 
                 || lower.StartsWith("who") || lower.StartsWith("is") || lower.StartsWith("are")
                 || lower.StartsWith("when") || lower.StartsWith("will") || lower.StartsWith("can ")
-                || lower.StartsWith("could "))
+                || lower.StartsWith("could ") || lower.StartsWith("does ") || lower.StartsWith("do ")
+                || lower.StartsWith("would ")) 
             {
                 message += "?";
             } else if (lower.StartsWith("show") || lower.StartsWith("tell"))

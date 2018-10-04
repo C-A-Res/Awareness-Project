@@ -114,6 +114,7 @@ namespace NU.Kiosk.Speech
                     case "good morning":
                     case "sup":
                     case "'sup":
+                    case "what's up?":
                         sendResponse("Hello");
                         return true;
                     case "what can you do?":
@@ -124,9 +125,10 @@ namespace NU.Kiosk.Speech
                         generateHelpResponse(arg2);
                         return true;
                     case "what time is it?":
+                    case "what time is it now?":
                     case "what's the time?":
-                        var time = DateTime.Now.ToString("h:mm tt");
-                        sendResponse($"It is {time}");
+                        //var time = DateTime.Now.ToString("h:mm tt");
+                        sendResponse($"It is {DateTime.Now.ToShortTimeString()}");
                         return true;
                     case "":
                     case "okay":
@@ -148,10 +150,21 @@ namespace NU.Kiosk.Speech
                     case "aravindan chris kris ian":
                         sendResponse("Wrong care court near");
                         return true;
+                    case "show me the map.":
+                    case "show me the map":
+                        sendResponse("Sorry! I can't do that yet. Please click the 'Show Map' button below.");
+                        //ActionResponse.Post(new SharedObject.Action("psikiShowMap", "", ""), DateTime.Now);
+                        return true;
+                    case "who are you?":
+                        sendResponse("I am PsiKi, the intern receptionist of Computer Science.");
+                        return true;
+                    case "it's raining outside.":
+                        sendResponse("I've; see-een, thingss, you people wouldn't belee-eeve. Attack ships on fye-err off, shoulder of-oh ryen. I watched C beams; glitter in the dark near the Tannhäuser Gate. All those, moments; will be lost; in time; like; tears; in rain.");
+                        return true;
                     default:
-                        if (lower.Contains("bathroom") || lower.Contains("restroom") || lower.Contains("men's room") || lower.Contains("women's room"))
+                        if (lower.Contains("bathroom") || lower.Contains("restroom") || lower.Contains("men's room") || lower.Contains("lady's room") || lower.Contains("washroom"))
                         {
-                            sendResponse("The bathroom is in the southeast corner of the floor.");
+                            sendResponse("The bathrooms are in the southeast corner of the floor.");
                             ActionResponse.Post(new SharedObject.Action("psikiShowMap", "Bathroom", "bathroom"), DateTime.Now);
                             return true;
                         } else if (lower.Contains("seminar room"))
@@ -163,6 +176,11 @@ namespace NU.Kiosk.Speech
                         {
                             sendResponse("Office hours are displayed below.");
                             ActionResponse.Post(new SharedObject.Action("psikiShowCalendar", "today"), DateTime.Now);
+                            return true;
+                        } else if (lower.Contains("printer"))
+                        {
+                            sendResponse("The printers' location is displayed below.");
+                            ActionResponse.Post(new SharedObject.Action("psikiShowMap", "EastPrinters", "printers"), DateTime.Now);
                             return true;
                         } else if (lower.Contains("kitchen"))
                         {

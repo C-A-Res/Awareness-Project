@@ -364,7 +364,7 @@ var mapData = {
     "y": 630
   },
   "seminar": {
-    "x": 704,
+    "x": 694,
     "y": 460
   },
   "kitchen": {

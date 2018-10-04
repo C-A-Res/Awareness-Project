@@ -26,7 +26,7 @@
   <rule id="Question">
     <one-of>
       <item weight="10"><ruleref uri="#AreQuestion" /></item>
-      <item weight="9"><ruleref uri="#DidQuestion" /></item>
+      <!--<item weight="9"><ruleref uri="#DidQuestion" /></item>-->
       <item weight="9"><ruleref uri="#DoesQuestion" /></item>
       <item weight="10"><ruleref uri="#HasQuestion" /></item>
       <item weight="10"><ruleref uri="#IsQuestion" /></item>
@@ -201,12 +201,12 @@
             teaching
             <item repeat="0-1">the</item><ruleref uri="#Course" /><ruleref uri="#QuarterReference" />
           </item>
-          <item>
+          <!--<item>
             an
             <ruleref uri="#Alumn" />
             of
             <ruleref uri="#School" />
-          </item>
+          </item>-->
         </one-of>
       </item>
       <item>
@@ -270,19 +270,19 @@
             of
             <ruleref uri="#PersonReference" /><item repeat="0-1">available</item>
           </item>
-          <item>
+          <!--<item>
             <one-of>
               <item>an invited talk</item>
               <item>a talk</item>
               <item>any <ruleref uri="#SingularFreeToAttendEventCategory" /></item>
             </one-of>
             <ruleref uri="#PresentOrFutureTemporalReference"/>
-          </item>
+          </item>-->
           <item>
             <item repeat="0-1">a</item>
             <one-of>
               <item>discussion session</item>
-              <item>recital</item>
+              <!--<item>recital</item>-->
               <item>TA office hour</item>
             </one-of>
             for
@@ -346,7 +346,12 @@
   <rule id="WhatQuestion">
     What
     <one-of>
-      <item>time <ruleref uri="#TimeQueryContent"/></item>
+      <item>time 
+        <one-of>
+          <item>is it <item repeat="0-1">now</item></item>
+          <item><ruleref uri="#TimeQueryContent"/></item>
+        </one-of>
+      </item>
       <item>day is it today</item>
       <item>
         is
@@ -357,6 +362,7 @@
               <item>day</item>
             </one-of>today
           </item>
+          <item>the time <item repeat="0-1">now</item></item>
           <item>
             the weather like 
             <item repeat="0-1">
@@ -495,16 +501,7 @@
           <item weight="1">
             the next <ruleref uri="#PluralFreeToAttendEventCategory" />
           </item>
-          <item>
-            <one-of>
-              <item>
-                the <ruleref uri="#PluralOfficeHours" />
-              </item>
-              <item>
-                <ruleref uri="#Course" />'s office hours
-              </item>
-            </one-of>
-          </item>
+          <item><ruleref uri="#PluralOfficeHours" /></item>
         </one-of>
       </item>
     </one-of>
@@ -532,15 +529,9 @@
           <item>
             find
             <one-of>
-              <item>
-                <ruleref uri="#ObjectPossessedByPerson" />
-              </item>
-              <item>
-                <ruleref uri="#LocationOrPerson" />
-              </item>
-              <item>
-                <ruleref uri="#ObjectsOfInterest" />
-              </item>
+              <item><ruleref uri="#ObjectPossessedByPerson" /></item>
+              <item><ruleref uri="#LocationOrPerson" /></item>
+              <item><ruleref uri="#ObjectsOfInterest" /></item>
             </one-of>
           </item>
           <item>
@@ -549,6 +540,17 @@
               <item>buy</item>
             </one-of>
             <ruleref uri="#ObjectsOfInterest" />
+          </item>
+          <item>
+            print
+            <item repeat="0-1">
+              <one-of>
+                <item>something</item>
+                <item>a paper</item>
+                <item>my homework</item>
+                <item>a document</item>
+              </one-of>
+            </item>
           </item>
         </one-of>
       </item>
@@ -580,12 +582,12 @@
           <item weight="10">
             <ruleref uri="#SingularEventMaybeTemporallyStampped" />
           </item>
-          <item>
+          <!--<item>
             <one-of>
               <item>everyone</item>
               <item>everybody</item>
             </one-of>
-          </item>
+          </item>-->
         </one-of>
       </item>
       <item>
@@ -611,6 +613,12 @@
           <item>
             <ruleref uri="#PersonReference" /> work
           </item>
+        </one-of>
+      </item>
+      <item>
+        do I
+        <one-of>
+          <item>print</item>
         </one-of>
       </item>
     </one-of>
@@ -1012,7 +1020,7 @@
   <rule id="ObjectCanBePossessed">
     <one-of>
       <item>office</item>
-      <item>desk</item>
+      <!--<item>desk</item>-->
       <item>
         <ruleref uri="#Email" />
       </item>
@@ -1079,8 +1087,8 @@
   </rule>
   <rule id="LocationReference">
     <one-of>
-      <item>here</item>
-      <item>there</item>
+      <!--<item>here</item>
+      <item>there</item>-->
       <item>this building</item>
       <item>this floor</item>
     </one-of>
@@ -1115,6 +1123,9 @@
     <one-of>
       <item>the stairs</item>
       <item>the emergency exits</item>
+      <item>the bathrooms</item>
+      <item>the washrooms</item>
+      <item>the restrooms</item>
     </one-of>
   </rule>
   <rule id="SingularSpecificPlace">
@@ -1134,9 +1145,8 @@
         </one-of>
         lab
       </item>
-      <item>
-        Room <ruleref uri="#OfficeNumber" />
-      </item>
+      <item><ruleref uri="#OfficeNumber" /></item>
+      <item>Room <ruleref uri="#OfficeNumber" /></item>
       <item weight="2">the seminar room</item>
       <item weight="2">the front desk</item>
       <item weight="2">the kitchen</item>
@@ -1152,19 +1162,29 @@
       </item>
       <item weight="30">
         <item repeat="0-1">
-          <ruleref uri="#EnglishArticle" />
-        </item>
-        <item repeat="0-1">
           <one-of>
-            <item>men's</item>
-            <item>women's</item>
+            <item>the</item>
+            <item>a</item>
           </one-of>
         </item>
         <one-of>
-          <item>bathroom</item>
-          <item>restroom</item>
-          <item>toilet</item>
-        </one-of>
+          <item>lady's room</item>
+          <item>men's room</item>
+          <item>
+            <item repeat="0-1">
+              <one-of>
+                <item>men's</item>
+                <item>women's</item>
+              </one-of>
+            </item>
+            <one-of>
+              <item>bathroom</item>
+              <item>restroom</item>
+              <item>washroom</item>
+              <item>toilet</item>
+            </one-of>
+          </item>
+        </one-of>        
       </item>
     </one-of>
   </rule>
@@ -1391,9 +1411,9 @@
   </rule>
   <rule id="RecurringEventName">
     <one-of>
-      <item weight="1">
+      <!--<item weight="1">
         <ruleref uri="#SingularGenericEvent" />
-      </item>
+      </item>-->
       <item weight="2">
         <ruleref uri="#RecurringEventWithSpecialName" />
       </item>
@@ -1410,8 +1430,7 @@
   </rule>
   <rule id="RecurringEventWithSpecialName">
     <one-of>
-      <item>QRG Lunch</item>
-      <item>CS+X Seminar</item>
+      <item>AI Journal Club</item>
       <item>Dean's Seminar Series</item>
       <item>Algorithm Coffee</item>
       <item>faculty meeting</item>
@@ -1528,36 +1547,28 @@
   </rule>
   <rule id="SingularOfficeHour">
     <one-of>
-      <item weight="10">
-        <ruleref uri="#Course" /> office hour
-      </item>
-      <item weight="1">
+      <item weight="10"><ruleref uri="#Course" />'s office hour</item>
+      <item weight="10"><ruleref uri="#Course" /> office hour</item>
+      <item weight="1"><item repeat="0-1">the</item>
         office hour 
         <one-of><item>for</item><item>of</item></one-of>
         <ruleref uri="#Course" />
       </item>
       <item weight="5">
-        <ruleref uri="#FacultyPostdocReference" /> 's office hour
+        <ruleref uri="#FacultyPostdocReference" />'s office hour
       </item>
-      <item weight="1">
+      <item weight="1"><item repeat="0-1">the</item>
         office hour<one-of><item>for</item><item>of</item></one-of><ruleref uri="#FacultyPostdocReference" />
       </item>
     </one-of>
   </rule>
   <rule id="PluralOfficeHours">
     <one-of>
-      <item weight="10">
-        <ruleref uri="#Course" /> office hours
-      </item>
-      <item weight="1">
-        office hours<one-of><item>for</item><item>of</item></one-of><ruleref uri="#Course" />
-      </item>
-      <item weight="5">
-        <ruleref uri="#FacultyPostdocReference" /> 's office hours
-      </item>
-      <item weight="1">
-        office hours<one-of><item>for</item><item>of</item></one-of><ruleref uri="#FacultyPostdocReference" />
-      </item>
+      <item weight="10"><ruleref uri="#Course" />'s office hours</item>
+      <item weight="10"><ruleref uri="#Course" /> office hours</item>
+      <item weight="1"><item repeat="0-1">the</item>office hours<one-of><item>for</item><item>of</item></one-of><ruleref uri="#Course" /></item>
+      <item weight="5"><ruleref uri="#FacultyPostdocReference" />'s office hours</item>
+      <item weight="1"><item repeat="0-1">the</item>office hours<one-of><item>for</item><item>of</item></one-of><ruleref uri="#FacultyPostdocReference" /></item>
     </one-of>
   </rule>
   <rule id="Course">
@@ -1613,6 +1624,7 @@
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>321</item>Programming Languages</item>
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>322</item>Compiler Construction</item>
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>325</item>Artificial Intelligence Programming</item>
+      <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>325</item>AI Programming</item>
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>330</item>Human Computer Interaction</item>
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>336</item>Design and Analysis of Algorithms</item>
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>337</item>Semantic Information Processing</item>
@@ -2660,25 +2672,7 @@
   </rule>
   <rule id="OfficeNumber">
     <one-of>
-      <item>
-        <ruleref uri="#OneToFive" />
-        <ruleref uri="#ZeroToNine" /><ruleref uri="#ZeroToNine" /><ruleref uri="#ZeroToNine" />
-      </item>
-      <item>
-        <ruleref uri="#TenToFiftyNine" />
-        <ruleref uri="#ZeroToNine" />
-        <ruleref uri="#ZeroToNine" />
-      </item>
-      <item>
-        <ruleref uri="#TenToFiftyNine" />
-        <ruleref uri="#TenToNinetyNine" />
-      </item>
-      <item>
-        three thousand 
-        <item repeat="0-1">
-          and <ruleref uri="#OneToNine" />
-        </item>
-      </item>
+	    <item>3001</item><item>3002</item><item>3005</item><item>3006</item><item>3007</item><item>3009</item><item>3010</item><item>3011</item><item>3012</item><item>3013</item><item>3014</item><item>3015</item><item>3016</item><item>3017</item><item>3018</item><item>3020</item><item>3101</item><item>3103</item><item>3104</item><item>3106</item><item>3107</item><item>3108</item><item>3109</item><item>3111</item><item>3112</item><item>3113</item><item>3114</item><item>3115</item><item>3117</item><item>3119</item><item>3120</item><item>3121</item><item>3123</item><item>3124</item><item>3194</item><item>3201</item><item>3202</item><item>3203</item><item>3205</item><item>3206</item><item>3207</item><item>3209</item><item>3210</item><item>3212</item><item>3213</item><item>3214</item><item>3215</item><item>3217</item><item>3218</item><item>3219</item><item>3221</item><item>3223</item><item>3225</item><item>3229</item><item>3230</item><item>3232</item><item>3234</item><item>3240</item><item>3242</item><item>3244</item><item>3250</item><item>3254</item><item>3301</item><item>3302</item><item>3303</item><item>3304</item><item>3305</item><item>3308</item><item>3312</item><item>3402</item><item>3406</item><item>3410</item><item>3414</item><item>3416</item><item>3418</item><item>3420</item><item>3422</item><item>3426</item><item>3501</item><item>3502</item><item>3504</item><item>3506</item><item>3507</item><item>3509</item><item>3510</item><item>3511</item><item>3512</item><item>3513</item><item>3514</item><item>3515</item><item>3517</item><item>3519</item><item>3521</item><item>3523</item><item>3525</item><item>3527</item><item>3531</item><item>3532</item><item>3534</item><item>3535</item><item>3536</item><item>3537</item><item>3538</item><item>3539</item><item>3540</item><item>3542</item><item>3544</item><item>3546</item>
     </one-of>
   </rule>
   <rule id="Zero">
@@ -2822,9 +2816,9 @@
         <one-of>
           <item>morning</item>
           <item>afternoon</item>
-          <item>evening</item>
+          <!--<item>evening</item>-->
           <item>day</item>
-          <item>night</item>
+          <!--<item>night</item>-->
         </one-of>
       </item>
       <item>How are you</item>
@@ -2847,9 +2841,9 @@
   <rule id="WrapUp">
     <one-of>
       <item>Thank you</item>
-      <item>Good bye</item>
+      <!--<item>Good bye</item>
       <item>bye bye</item>
-      <item>bye</item>
+      <item>bye</item>-->
       <item>talk to you later</item>
     </one-of>
   </rule>
@@ -2863,7 +2857,8 @@
       <item>Beam me up, Scotty!</item>
       <item>Huck you</item>
       <item>Say something</item>
-      <item>What is the meaning of life?</item>
+      <item>What is the meaning of life</item>
+      <item>It's raining outside.</item>
       <item>
         May the force be with you, <ruleref uri="#PersonReference" />
       </item>
@@ -2988,22 +2983,32 @@
           </one-of>
         </item>
         <one-of>
-          <item>intercampus</item>
           <item>intercampus shuttle</item>
+          <item>intercampus bus</item>
+          <item>intercampus</item>          
           <item>shuttle</item>
-          <item>201</item>
+          <item>201 shuttle</item>
           <item>201 bus</item>
+          <item>201</item>          
+          <item>CTA 201 bus</item>
+          <item>CTA 201 shuttle</item>
+          <item>CTA 201</item>          
           <item>Evanston Loop</item>
           <item>Campus Loop</item>
         </one-of>
       </item>
       <item>
         <one-of>
-          <item>intercampus</item>
           <item>intercampus shuttle</item>
+          <item>intercampus bus</item>
+          <item>intercampus</item>          
           <item>shuttle</item>
-          <item>201</item>
+          <item>201 shuttle</item>
           <item>201 bus</item>
+          <item>201</item>          
+          <item>CTA 201 bus</item>
+          <item>CTA 201 shuttle</item>
+          <item>CTA 201</item>          
           <item>Evanston Loop</item>
           <item>Campus Loop</item>
         </one-of>
