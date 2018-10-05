@@ -120,7 +120,7 @@ function init() {
     inputView.style.display = "none";
 
     youarehere.style.left = calculateX("kiosk");
-    youarehere.style.top = calculateY("kiosk") - 4;
+    youarehere.style.top = calculateY("kiosk");
     dest.innerHTML = name;
     dest.style.left = calculateX(id);
     dest.style.top = calculateY(id);
