@@ -120,10 +120,13 @@ function init() {
     inputView.style.display = "none";
 
     youarehere.style.left = calculateX("kiosk");
-    youarehere.style.top = calculateY("kiosk");
-    dest.innerHTML = name;
+    youarehere.style.top = calculateY("kiosk") - 4;
+    dest_m.innerHTML = name;
+    dest_m.style.left = calculateX(id);
+    dest_m.style.top = calculateY(id);
+
     dest.style.left = calculateX(id);
-    dest.style.top = calculateY(id);
+    dest.style.top = calculateY(id) + 4;
   }
 
   // used to transform from mapData x coordinates to this map coordinates

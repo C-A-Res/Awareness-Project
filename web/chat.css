@@ -437,6 +437,18 @@ body {
   background-color: purple;
   text-indent: 12px;
   line-height: 10px;
+  white-space: nowrap;
+}
+
+.destMarker {
+  position: absolute;
+  background-color: white;
+  text-indent: 12px;
+  line-height: 14px;
+  white-space: nowrap;
+  padding: 2px;
+  opacity: 0.9;
+  filter: alpha(opacity=90);
 }
 
 #youarehere {

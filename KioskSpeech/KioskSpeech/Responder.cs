@@ -158,9 +158,9 @@ namespace NU.Kiosk.Speech
                     case "who are you?":
                         sendResponse("I am PsiKi, the intern receptionist of Computer Science.");
                         return true;
-                    case "it's raining outside.":
-                        sendResponse("I've; see-een, thingss, you people wouldn't belee-eeve. Attack ships on fye-err off, shoulder of-oh ryen. I watched C beams; glitter in the dark near the Tannhäuser Gate. All those, moments; will be lost; in time; like; tears; in rain. Time to watch Blade Runner again.");
-                        return true;
+                    //case "it's raining outside.":
+                    //    sendResponse("I've; see-een, thingss, you people wouldn't belee-eeve. Attack ships on fye-err off, shoulder of-oh ryen. I watched C beams; glitter in the dark near the Tannhäuser Gate. All those, moments; will be lost; in time; like; tears; in rain. Time to watch Blade Runner again.");
+                    //    return true;
                     default:
                         if (lower.Contains("bathroom") || lower.Contains("restroom") || lower.Contains("men's room") || lower.Contains("lady's room") || lower.Contains("washroom"))
                         {

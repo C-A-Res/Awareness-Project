@@ -2857,7 +2857,7 @@
       <item>Huck you</item>
       <item>Say something</item>
       <item>What is the meaning of life</item>
-      <item>It's raining outside.</item>
+      <!--<item>It's raining outside.</item>-->
       <item>
         May the force be with you, <ruleref uri="#PersonReference" />
       </item>
