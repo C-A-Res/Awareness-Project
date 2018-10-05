@@ -121,12 +121,24 @@ function init() {
 
     youarehere.style.left = calculateX("kiosk");
     youarehere.style.top = calculateY("kiosk") - 4;
-    dest_m.innerHTML = name;
-    dest_m.style.left = calculateX(id);
-    dest_m.style.top = calculateY(id);
 
-    dest.style.left = calculateX(id);
-    dest.style.top = calculateY(id) + 4;
+    dest_m.innerHTML = name;
+
+    if (name == "You") {
+      dest_m.style.left = calculateX("kiosk") - 2;
+      dest_m.style.top = calculateY("kiosk") - 8;
+
+      dest.style.left = calculateX("kiosk");
+      dest.style.top = calculateY("kiosk") - 4;
+    } else {
+      
+      dest_m.style.left = calculateX(id);
+      dest_m.style.top = calculateY(id);
+
+      dest.style.left = calculateX(id);
+      dest.style.top = calculateY(id) + 4;
+    }
+    
   }
 
   // used to transform from mapData x coordinates to this map coordinates

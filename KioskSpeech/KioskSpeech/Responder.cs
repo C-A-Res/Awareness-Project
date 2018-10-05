@@ -150,10 +150,11 @@ namespace NU.Kiosk.Speech
                     case "aravindan chris kris ian":
                         sendResponse("Wrong care court near");
                         return true;
+                    case "where am i?":
                     case "show me the map.":
                     case "show me the map":
-                        sendResponse("Sorry! I can't do that yet. Please click the 'Show Map' button below.");
-                        //ActionResponse.Post(new SharedObject.Action("psikiShowMap", "", ""), DateTime.Now);
+                        sendResponse("The map is displayed below.");
+                        ActionResponse.Post(new SharedObject.Action("psikiShowMap", "You", "You"), DateTime.Now);
                         return true;
                     case "who are you?":
                         sendResponse("I am PsiKi, the intern receptionist of Computer Science.");
@@ -180,7 +181,7 @@ namespace NU.Kiosk.Speech
                         } else if (lower.Contains("printer"))
                         {
                             sendResponse("The printers' location is displayed below.");
-                            ActionResponse.Post(new SharedObject.Action("psikiShowMap", "EastPrinters", "printers"), DateTime.Now);
+                            ActionResponse.Post(new SharedObject.Action("psikiShowMap", "Printers", "printers"), DateTime.Now);
                             return true;
                         } else if (lower.Contains("kitchen"))
                         {

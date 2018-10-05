@@ -510,6 +510,7 @@
   <rule id="WhereQuestion">
     Where
     <one-of>
+      <item>am I</item>
       <item>
         <one-of>
           <item>would</item>
