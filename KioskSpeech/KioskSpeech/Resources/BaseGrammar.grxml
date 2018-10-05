@@ -214,18 +214,16 @@
         <one-of>
           <item>
             's office
-            <one-of>
-              <item>
-                <one-of>
-                  <item>in</item>
-                  <item>on</item>
-                </one-of>
-                <ruleref uri="#SingularSpecificPlace" />
-              </item>
-              <item>
-                <ruleref uri="#LocationReference" />
-              </item>
-            </one-of>
+            <item repeat="0-1">
+              <one-of>
+                <item>in</item>
+                <item>on</item>
+              </one-of>
+            </item>
+            <item>
+              <item repeat="0-1">Mudd</item>
+              <ruleref uri="#OfficeNumber" />
+            </item>
           </item>
         </one-of>
       </item>
@@ -1146,7 +1144,8 @@
         lab
       </item>
       <item><ruleref uri="#OfficeNumber" /></item>
-      <item>Room <ruleref uri="#OfficeNumber" /></item>
+      <item>Mudd <ruleref uri="#OfficeNumber" /></item>
+      <item>room <ruleref uri="#OfficeNumber" /></item>
       <item weight="2">the seminar room</item>
       <item weight="2">the front desk</item>
       <item weight="2">the kitchen</item>

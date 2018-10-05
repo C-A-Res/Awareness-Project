@@ -10,6 +10,7 @@ using Microsoft.Psi.Components;
 using NU.Kiosk.SharedObject;
 using log4net;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace NU.Kiosk.Speech
 {
@@ -81,6 +82,28 @@ namespace NU.Kiosk.Speech
             handleCompInput(arg1, arg2.OriginatingTime);
         }
 
+        private static Regex roomNumber = new Regex(" [0-9][0-9][0-9][1-9][ .]");
+        private static Regex courseNumber = new Regex(" [0-9][0-9][0-9][ .]");
+
+        private string hack_postProcessSpokenText(string input)
+        {
+            string textTemp = null;
+            var res = roomNumber.Match(input);
+            if (res.Length > 0)
+            {
+                textTemp = input.Insert(res.Index + 3, " ");
+            } else{
+                textTemp = input;
+            }
+
+            var res2 = courseNumber.Match(textTemp);
+            if (res2.Length > 0)
+            {
+                textTemp = textTemp.Insert(res2.Index + 2, " ");
+            }
+            return textTemp;
+        }
+
         private void handleCompInput(SharedObject.Action action, DateTime origTime)
         {
             if (state == DialogState.Thinking)
@@ -89,7 +112,8 @@ namespace NU.Kiosk.Speech
                 if (action.Name == "psikiSayText")
                 {
                     _log.Info($"Handling response: {action}");
-                    TextOutput.Post((string)action.Args[0], origTime);
+                    var spokenText = hack_postProcessSpokenText((string)action.Args[0]);
+                    TextOutput.Post(spokenText, origTime);
                     // pass it through (even sayText)
                     ActionOutput.Post(action, origTime);
                     // update state
