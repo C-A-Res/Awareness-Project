@@ -94,6 +94,9 @@ namespace NU.Kiosk.Speech
                     ActionOutput.Post(action, origTime);
                     // update state
                     updateState(DialogState.Speaking, origTime);
+                } else
+                {
+                    ActionOutput.Post(action, origTime);
                 }
             }
             else
