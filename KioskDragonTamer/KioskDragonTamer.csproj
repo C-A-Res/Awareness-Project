@@ -278,6 +278,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Audio\text_audio_list.txt" />
+    <Content Include="Resources\words_to_train.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>

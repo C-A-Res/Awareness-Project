@@ -33,16 +33,14 @@ namespace NU.Kiosk.Speech
         private NormalsConfig m_NormalConfig;
 
         private bool initial_listen_state = true;  // start as not listening, until face is detected.
-        private string audio_training_directory;
-        private string audio_training_list;
+        private string properNounList;
 
-        public DragonRecognizer(string audio_training_directory = @"Resources\Audio", string audio_training_list = @"text_audio_list.txt")
+        public DragonRecognizer(string properNounList = @"Resources\curated_proper_nouns_for_dragon.txt")
         {
             listener_pipe_name = NU.Kiosk.Speech.Program.isDebug ? "dragon_synthesizer_pipe" : "dragon_start_stop_pipe";
             destination_pipe_name = NU.Kiosk.Speech.Program.isDebug ? "dragon_processed_text_pipe" : "dragon_processed_text_pipe";
 
-            this.audio_training_directory = audio_training_directory;
-            this.audio_training_list = audio_training_list;
+            this.properNounList = properNounList;
 
             txtEdit = new TextBox();
             txtEdit.Text = "";
@@ -105,12 +103,12 @@ namespace NU.Kiosk.Speech
 
 
         #region DragonRecognizer Dragon Utilities
-        public void train(string directory_path, string dictionary_file_name)
+        public void trainPhraseAudio(string directory_path, string dictionary_file_name)
         {
             if (DgnEngine.SpeakerModified)
             {
                 DgnEngine.SpeakerSave();
-            }            
+            }    
 
             var dir_path = directory_path.EndsWith("\\") || directory_path.EndsWith("/") ? directory_path.Substring(0, directory_path.Length - 1) : directory_path;
             dir_path += "\\";
@@ -129,6 +127,32 @@ namespace NU.Kiosk.Speech
 
             DgnAdapt1.EyesFreeEnroll.Run(strings, false, 0, false);
             Console.WriteLine($"[DragonRecognizer] Training done. {pairs.Count} Pairs trained.");
+        }
+
+        public void trainWordsFromWordList(string word_list_file_path)
+        {
+            IDgnVocabularyBuilder builder = VocTools.VocabularyBuilder;
+            IDgnWordAnalyzer analyzer = VocTools.WordAnalyzer;
+            IDgnWords newWords = VocTools.WordAnalyzer.CreateWordList();
+
+            Console.WriteLine($"[DRAGON] Training word sequence from {word_list_file_path}... ");
+
+            List<string[]> pairs = GetAllStringPairs(word_list_file_path);
+            foreach (string[] pair in pairs)
+            {
+                var trim = pair[0].Trim();
+                newWords.Add(analyzer.AnalyzeWord(trim, trim));
+            }
+
+            if (newWords.Count > 0)
+            {
+                var trained = builder.TrainWords(newWords);
+                Console.WriteLine(trained ? "[DRAGON] Training starting." : "[DRAGON] Training dialog failed to start.");
+            }
+            else
+            {
+                Console.WriteLine($"[DRAGON] No word list is provided.");
+            }
         }
 
         private void initialize()
@@ -243,7 +267,7 @@ namespace NU.Kiosk.Speech
                 VocTools = new DgnVocTools.DgnVocTools();
                 VocTools.Initialize("", "");
 
-                AddProperNouns();
+                AddProperNouns(properNounList);
 
                 // Load normals for current speaker if this option is allowed
                 //// UNUSED
@@ -254,10 +278,20 @@ namespace NU.Kiosk.Speech
             }
         }
 
-        private List<string[]> GetAllStringPairs(string inputPath = @"Resources\curated_proper_nouns_for_dragon.txt")
+        private List<string[]> GetAllStringPairs(string inputPath)
         {
+
             List<string[]> output = new List<string[]>();
-            string[] lines = System.IO.File.ReadAllLines(inputPath);
+            string[] lines;
+            try
+            {
+                lines = System.IO.File.ReadAllLines(inputPath);
+            } catch (Exception e)
+            {
+                Console.WriteLine($"[DRAGON] Cannot open file on path: \"{inputPath}\"; Message: {e.Message}");                
+                return new List<string[]>();
+            }
+            
             foreach (string line in lines)
             {
                 string trimmed = line.Trim();
@@ -274,21 +308,22 @@ namespace NU.Kiosk.Speech
                 else
                 {
                     string[] split = trimmed.Split('|');
-                    if (split.Length != 2)
+                    if (split.Length == 2 || split.Length == 1)
                     {
-                        Console.WriteLine($"[DRAGON] cannot parse proper name input: \"{trimmed}\"");
-                        continue;
+                        output.Add(split);
+
                     }
                     else
                     {
-                        output.Add(split);
+                        Console.WriteLine($"[DRAGON] cannot parse proper name input: \"{trimmed}\"");
+                        continue;
                     }
                 }
             }
             return output;
         }
 
-        private void AddProperNouns(string inputPath = @"Resources\curated_proper_nouns_for_dragon.txt")
+        private void AddProperNouns(string inputPath)
         {
             // Add proper names?
             IDgnVocabularyBuilder builder = VocTools.VocabularyBuilder;
@@ -351,7 +386,7 @@ namespace NU.Kiosk.Speech
             {
                 DgnDictCust.Reset();
             }
-            txtEdit.Text = "";
+            txtEdit.Clear();
         }
 
         static void reportError(Exception exc, bool printStackTrace)
@@ -613,14 +648,20 @@ namespace NU.Kiosk.Speech
         #region DragonRecognizer accept
         public void setAccepting()
         {
-            ((IDgnMicBtn)DgnMicControl).MicState = DgnMicStateConstants.dgnmicResume;
-            DgnDictCust.Active = true;
+            if (!NU.Kiosk.Speech.Program.isTraining)
+            {
+                ((IDgnMicBtn)DgnMicControl).MicState = DgnMicStateConstants.dgnmicResume;
+                DgnDictCust.Active = true;
+            }
         }
 
         public void setNotAccepting()
         {
-            ((IDgnMicBtn)DgnMicControl).MicState = DgnMicStateConstants.dgnmicPause;
-            DgnDictCust.Active = false;
+            if (!NU.Kiosk.Speech.Program.isTraining)
+            {
+                ((IDgnMicBtn)DgnMicControl).MicState = DgnMicStateConstants.dgnmicPause;
+                DgnDictCust.Active = false;
+            }            
         }
         #endregion
     }

@@ -22,30 +22,58 @@ namespace NU.Kiosk.Speech
     public static class Program
     {
         public static bool isDebug = false;
+        public static bool isTraining = false;
+
+        public enum ExecutionMode
+        {
+            Production_Run, Debug_Run, Train_Pairs, Train_Word_List
+        }
 
         public static void Main(string[] args)
         {
-            string training_file_directory_path = @"Resources\Audio";
-            string training_file_list = @"text_audio_list.txt";
-            bool train_phrases = false;
+            string phrase_audio_file_directory_path = @"Resources\Audio";
+            string phrase_audio_file_list = @"text_audio_list.txt";
+            string training_word_list_path = @"Resources\words_to_train.txt";
+            ExecutionMode mode = ExecutionMode.Production_Run;
 
             var p = new OptionSet() {
                 { "d|debug", "Stand-alone debug mode. All speeches are consumed locally; recognized speech will be echoed back.",
-                   v => isDebug = true
-                },
-                { "t|train", "Train Dragon with Phrase-Audio pairs. ",
-                   v => train_phrases = v != null
-                },
-                { "train_dir=", "Train Dragon with Phrase-Audio pairs from the following directory. ",
                    v => {
-                        training_file_directory_path = v;
-                        train_phrases = true;
+                        isDebug = true;
+                        mode = ExecutionMode.Debug_Run;
                    }
                 },
-                { "train_file_list=", "Train Dragon with Phrase-Audio pairs mentioned in this file.",
+                { "p|train_phrase_audio", "Train Dragon with Phrase-Audio pairs. ",
                    v => {
-                        training_file_list = v;
-                        train_phrases = true;
+                       mode = v != null ? ExecutionMode.Train_Pairs : mode;
+                       isTraining = true;
+                   }
+                },
+                { "w|train_words_from_list", "Train words with Dragon. ",
+                   v => {
+                       mode = v != null ? ExecutionMode.Train_Word_List : mode;
+                       isTraining = true;
+                   }
+                },
+                { "phrase_audio_data_dir=", "Train Dragon with Phrase-Audio pairs from the following directory. ",
+                   v => {
+                       phrase_audio_file_directory_path = v;
+                       mode = ExecutionMode.Train_Pairs;
+                       isTraining = true;
+                   }
+                },
+                { "phrase_audio_file_list=", "Train Dragon with Phrase-Audio pairs mentioned in this file.",
+                   v => {
+                        phrase_audio_file_list = v;
+                        mode = ExecutionMode.Train_Pairs;
+                        isTraining = true;
+                   }
+                },
+                { "word_list_path=", "Provide a path to a list of word and interactively train Dragon.",
+                   v => {
+                        training_word_list_path = v;
+                        mode = ExecutionMode.Train_Word_List;
+                        isTraining = true;
                    }
                 },
             };
@@ -61,13 +89,22 @@ namespace NU.Kiosk.Speech
                 return;
             }
 
-            if (train_phrases)
+            switch (mode)
             {
-                Train(training_file_directory_path, training_file_list);
-            } else
-            {
-                Run();
-            }            
+                case ExecutionMode.Production_Run:
+                    goto case ExecutionMode.Debug_Run;
+                case ExecutionMode.Debug_Run:
+                    Run();
+                    break;
+                case ExecutionMode.Train_Pairs:
+                    TrainPhraseAudio(phrase_audio_file_directory_path, phrase_audio_file_list);
+                    break;
+                case ExecutionMode.Train_Word_List:
+                    TrainWordList(training_word_list_path);
+                    break;
+                default:
+                    break;
+            }           
         }
 
         public static void Run()
@@ -87,11 +124,21 @@ namespace NU.Kiosk.Speech
             recognizer.Dispose();
         }
 
-        public static void Train(string training_file_directory_path, string training_file_list)
+        public static void TrainPhraseAudio(string training_file_directory_path, string training_file_list)
         {
-            var recognizer = new DragonRecognizer(training_file_directory_path, training_file_list);
+            var recognizer = new DragonRecognizer();
             recognizer.Initialize();
-            recognizer.train(training_file_directory_path, training_file_list);
+            recognizer.trainPhraseAudio(training_file_directory_path, training_file_list);
+            Console.WriteLine("[KioskDragonTamer.Run] Press any key to exit...");
+            Console.ReadKey(true);
+            recognizer.Dispose();
+        }
+
+        public static void TrainWordList(string training_file_path)
+        {
+            var recognizer = new DragonRecognizer();
+            recognizer.Initialize();
+            recognizer.trainWordsFromWordList(training_file_path);
             Console.WriteLine("[KioskDragonTamer.Run] Press any key to exit...");
             Console.ReadKey(true);
             recognizer.Dispose();
