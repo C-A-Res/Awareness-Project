@@ -16,16 +16,12 @@ namespace NU.Kiosk.Speech
 {
     public class DragonRecognizer : IDisposable
     {
-        // debug purpose
-        //private const string listener_pipe_name = "dragon_synthesizer_pipe";
-        //private const string destination_pipe_name = "dragon_processed_text_pipe";
-
         // start stop listener
-        private const string listener_pipe_name = "dragon_start_stop_pipe";
+        private string listener_pipe_name;
         private PipeListener listener;
 
         // text processing sender
-        private const string destination_pipe_name = "dragon_processed_text_pipe";
+        private string destination_pipe_name;
         private PipeSender sender;
 
         private DgnEngineControl DgnEngine;
@@ -37,14 +33,21 @@ namespace NU.Kiosk.Speech
         private NormalsConfig m_NormalConfig;
 
         private bool initial_listen_state = true;  // start as not listening, until face is detected.
+        private string audio_training_directory;
+        private string audio_training_list;
 
-        public DragonRecognizer()
+        public DragonRecognizer(string audio_training_directory = @"Resources\Audio", string audio_training_list = @"text_audio_list.txt")
         {
+            listener_pipe_name = NU.Kiosk.Speech.Program.isDebug ? "dragon_synthesizer_pipe" : "dragon_start_stop_pipe";
+            destination_pipe_name = NU.Kiosk.Speech.Program.isDebug ? "dragon_processed_text_pipe" : "dragon_processed_text_pipe";
+
+            this.audio_training_directory = audio_training_directory;
+            this.audio_training_list = audio_training_list;
+
             txtEdit = new TextBox();
             txtEdit.Text = "";
             txtEdit.Enabled = true;
             txtEdit.Focus();
-            //text_proc = new DragonInputTextProcessor();
 
             listener = new PipeListener(ChangeState, listener_pipe_name);
             sender = new PipeSender(destination_pipe_name);
@@ -53,7 +56,6 @@ namespace NU.Kiosk.Speech
         public void Dispose()
         {
             Console.WriteLine("[DragonSpeechSynthesizer] Dispose");
-            //text_proc.Dispose();
 
             listener.Dispose();
             sender.Dispose();
@@ -100,9 +102,35 @@ namespace NU.Kiosk.Speech
         {
             // do nothing
         }
-        
+
 
         #region DragonRecognizer Dragon Utilities
+        public void train(string directory_path, string dictionary_file_name)
+        {
+            if (DgnEngine.SpeakerModified)
+            {
+                DgnEngine.SpeakerSave();
+            }            
+
+            var dir_path = directory_path.EndsWith("\\") || directory_path.EndsWith("/") ? directory_path.Substring(0, directory_path.Length - 1) : directory_path;
+            dir_path += "\\";
+            Console.WriteLine($"[DragonRecognizer] training phrase-audio inputs from {dir_path}{dictionary_file_name}...");
+            List<string[]> pairs = GetAllStringPairs(dir_path + dictionary_file_name);
+
+            var DgnAdapt1 = new DNSTools.DgnAdapt();
+            var strings = new DNSTools.DgnStrings();
+
+            foreach (string[] pair in pairs)
+            {
+                Console.WriteLine($"[DragonRecognizer] queuing {pair[0]} - {pair[1]}...");
+                strings.Add(dir_path + pair[0]); // text 
+                strings.Add(dir_path + pair[1]); // audio
+            }
+
+            DgnAdapt1.EyesFreeEnroll.Run(strings, false, 0, false);
+            Console.WriteLine($"[DragonRecognizer] Training done. {pairs.Count} Pairs trained.");
+        }
+
         private void initialize()
         {
             initializeDictation();
@@ -226,22 +254,15 @@ namespace NU.Kiosk.Speech
             }
         }
 
-        private void AddProperNouns(string inputPath = @"Resources\curated_proper_nouns_for_dragon.txt")
+        private List<string[]> GetAllStringPairs(string inputPath = @"Resources\curated_proper_nouns_for_dragon.txt")
         {
-            // Add proper names?
-            IDgnVocabularyBuilder builder = VocTools.VocabularyBuilder;
-            IDgnWordAnalyzer analyzer = VocTools.WordAnalyzer;
-            IDgnWords newWords = VocTools.WordAnalyzer.CreateWordList();
-
-            //builder.RemoveWords(newWords); // USE WITH CAUTION; once a word is removed, it must be re-added with "DiscernWords", instead of "AddWords"
-
+            List<string[]> output = new List<string[]>();
             string[] lines = System.IO.File.ReadAllLines(inputPath);
             foreach (string line in lines)
             {
                 string trimmed = line.Trim();
                 if (trimmed.Length <= 1 || trimmed.StartsWith("#"))
                 {
-
                     continue;
                 }
                 else if (trimmed.StartsWith("-"))
@@ -260,9 +281,26 @@ namespace NU.Kiosk.Speech
                     }
                     else
                     {
-                        newWords.Add(analyzer.AnalyzeWord(split[0].Trim(), split[1].Trim()));
+                        output.Add(split);
                     }
                 }
+            }
+            return output;
+        }
+
+        private void AddProperNouns(string inputPath = @"Resources\curated_proper_nouns_for_dragon.txt")
+        {
+            // Add proper names?
+            IDgnVocabularyBuilder builder = VocTools.VocabularyBuilder;
+            IDgnWordAnalyzer analyzer = VocTools.WordAnalyzer;
+            IDgnWords newWords = VocTools.WordAnalyzer.CreateWordList();
+
+            //builder.RemoveWords(newWords); // USE WITH CAUTION; once a word is removed, it must be re-added with "DiscernWords", instead of "AddWords"
+
+            List<string[]> pairs = GetAllStringPairs(inputPath);
+            foreach (string[] pair in pairs)
+            {
+                newWords.Add(analyzer.AnalyzeWord(pair[0].Trim(), pair[1].Trim()));
             }
 
             if (newWords.Count > 0)

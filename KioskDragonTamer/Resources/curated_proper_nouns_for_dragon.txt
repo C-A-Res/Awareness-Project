@@ -296,8 +296,8 @@ Aleks|Aleks
 # Postdocs
 
 # two words full name
-Willie Wilson|Jason Wilson
-Willie Wilson|Jason R Wilson
+Jason Wilson|Jason Wilson
+Jason R. Wilson|Jason R. Wilson
 Huxley Bennett|Huxley Bennett
 Thomas Bochynek|Thomas Bochynek
 
@@ -322,6 +322,7 @@ Kim Kieras|Kim Kieras
 Jeff Stiers|Jeff Stiers
 Melissa Duong|Melissa Duong
 Iliana Vargas|Iliana Vargas
+Madeline Usher|Madeline Usher
 
 # last names 
 Mello|Mello
@@ -329,6 +330,7 @@ Kieras|Kieras
 Stiers|Stiers
 Duong|Duong
 Vargas|Vargas
+Usher|Usher
 
 # titled last names 
 Ms. Mello|Ms. Mello
@@ -336,6 +338,7 @@ Ms. Kieras|Ms. Kieras
 Mr. Stiers|Mr. Stiers
 Ms. Duong|Ms. Duong
 Ms. Vargas|Ms. Vargas
+Ms. Usher|Ms. Usher
 
 # first names
 Brianna|Brianna
@@ -343,6 +346,8 @@ Kim|Kim
 Jeff|Jeff
 Melissa|Melissa
 Iliana|Iliana
+Madeline|Madeline
+Maddy|Maddy
 
 # titled two words full name
 Ms. Brianna Mello|Ms. Brianna Mello
@@ -350,15 +355,13 @@ Ms. Kim Kieras|Ms. Kim Kieras
 Mr. Jeff Stiers|Mr. Jeff Stiers
 Ms. Melissa Duong|Ms. Melissa Duong
 Ms. Iliana Vargas|Ms. Iliana Vargas
+Ms. Madeline Usher|Ms. Madeline Usher
+Ms. Maddy Usher|Ms. Maddy Usher
 
 ###################################################
 ### Places
 
-Mudd Library|mod library
-Mudd Library|monta library
-Mudd Library|monte library
-Mudd Library|month library
-Mudd Library|mud library
+Mudd Library|Mudd Library
 Seeley G.|Seeley G.
 Seeley G. Mudd|Seeley G. Mudd
 Seeley G. Mudd Library|Seeley G. Mudd Library
@@ -699,78 +702,87 @@ EA1|EA one
 ###################################################
 ### Corrections
 
-Simone|Simon it
-Simone|Simona
-Simone|Simoni
-Prof. De|Prof. Day 
-Prof. Dinda|Prof. Linda
-Prof. Dinda|Prof. addenda
-Prof. Dinda|provides agenda
-Prof. Dinda|provides addenda
-Prof. Riesbeck|Prof. respect
-Prof. Kuzmanovic|Prof. Chrisman Novick
-Prof. Findler|Prof. Finkler
-Prof. Findler|Prof. fingers
-Prof. Findler|Prof. fiedler
-Prof. Findler|Prof. Findlay
-Prof. Horswill|Prof. horse will
-Prof. Kao|Prof. call
-Prof. Kao|Prof. Cowell
-Prof. Choudhary|Prof. coloring
-Prof. Choudhary|Prof. Chaudhry
-Prof. Choudhary|Prof. Calgary
-Kieras|Karas
-Katsaggelos|Kasai jewels
-Katsaggelos|the sagittal's
-Horswill|horse will
-Aravindan|Irvington
-Aravindan|Arrington
-Aravindan|Errington
-Aravindan|Arminda
-Aravindan|are Vinton
-Aravindan|our Ravinder
-Anindya|an India
-Anindya|in India
-Nell|Neil
-Nikos|Nicohls
-Nikos|Nicholas
-Haoqi|how T
-Haoqi|how key
-St-Amour|St. Amore
-Cog Sci|cocci
-Cog Sci|Cocci
-Cog Sci|cog psy
-Cog Sci 207|cocci 207
-Cog Sci 207|call Katsaggelos seven
-office hour|office hour
-office hour|office our
-EECS|EECS
-EECS|ekes
-G. Memik|G Memik
-G. Memik|Jean mimic
-G. Memik|Gmail make
-Prof. G. Memik|Prof. G Memik
-Prof. G. Memik|Prof. Jean mimic
-Prof. G. Memik|Prof. Gmail make
-Prof. De|Prof. D
-Prof. Zhang|Prof. John
-Prof. Cossairt|Prof. Kao start
-Prof. Cossairt|Prof. Cozart
-Prof. Hecht|Prof. Hatch
-Prof. Hecht|Prof. Hatched
-CS 101|CS 101
-AI Programming|EI Programming
-AI Programming|AI Programming
-Prof. Zhang | Prof. John
-Prof. Cossairt|Prof. croissant
-Prof. De|Prof. D
-Prof. Hecht|Prof. Hatched
-Prof. Hecht|Prof. Hatch
-Prescience Lab|pre-science lab
-Prescience Lab|per science lab
-Campanoni|Can Benoni
-Campanoni|Kemp annuity
-Forbus Lab|former slab
-Prof. De||Prof. Dare
-Prof. Katsaggelos|Prof. consecutive
-Prof. Katsaggelos|Prof. Consiglio
+#~ Willie Wilson|Jason Wilson
+#~ Willie Wilson|Jason R Wilson
+
+#~ Mudd Library|mod library
+#~ Mudd Library|monta library
+#~ Mudd Library|monte library
+#~ Mudd Library|month library
+#~ Mudd Library|mud library
+
+#~ Simone|Simon it
+#~ Simone|Simona
+#~ Simone|Simoni
+#~ Prof. De|Prof. Day 
+#~ Prof. Dinda|Prof. Linda
+#~ Prof. Dinda|Prof. addenda
+#~ Prof. Dinda|provides agenda
+#~ Prof. Dinda|provides addenda
+#~ Prof. Riesbeck|Prof. respect
+#~ Prof. Kuzmanovic|Prof. Chrisman Novick
+#~ Prof. Findler|Prof. Finkler
+#~ Prof. Findler|Prof. fingers
+#~ Prof. Findler|Prof. fiedler
+#~ Prof. Findler|Prof. Findlay
+#~ Prof. Horswill|Prof. horse will
+#~ Prof. Kao|Prof. call
+#~ Prof. Kao|Prof. Cowell
+#~ Prof. Choudhary|Prof. coloring
+#~ Prof. Choudhary|Prof. Chaudhry
+#~ Prof. Choudhary|Prof. Calgary
+#~ Kieras|Karas
+#~ Katsaggelos|Kasai jewels
+#~ Katsaggelos|the sagittal's
+#~ Horswill|horse will
+#~ Aravindan|Irvington
+#~ Aravindan|Arrington
+#~ Aravindan|Errington
+#~ Aravindan|Arminda
+#~ Aravindan|are Vinton
+#~ Aravindan|our Ravinder
+#~ Anindya|an India
+#~ Anindya|in India
+#~ Nell|Neil
+#~ Nikos|Nicohls
+#~ Nikos|Nicholas
+#~ Haoqi|how T
+#~ Haoqi|how key
+#~ St-Amour|St. Amore
+#~ Cog Sci|cocci
+#~ Cog Sci|Cocci
+#~ Cog Sci|cog psy
+#~ Cog Sci 207|cocci 207
+#~ Cog Sci 207|call Katsaggelos seven
+#~ office hour|office hour
+#~ office hour|office our
+#~ EECS|EECS
+#~ EECS|ekes
+#~ G. Memik|G Memik
+#~ G. Memik|Jean mimic
+#~ G. Memik|Gmail make
+#~ Prof. G. Memik|Prof. G Memik
+#~ Prof. G. Memik|Prof. Jean mimic
+#~ Prof. G. Memik|Prof. Gmail make
+#~ Prof. De|Prof. D
+#~ Prof. Zhang|Prof. John
+#~ Prof. Cossairt|Prof. Kao start
+#~ Prof. Cossairt|Prof. Cozart
+#~ Prof. Hecht|Prof. Hatch
+#~ Prof. Hecht|Prof. Hatched
+#~ CS 101|CS 101
+#~ AI Programming|EI Programming
+#~ AI Programming|AI Programming
+#~ Prof. Zhang | Prof. John
+#~ Prof. Cossairt|Prof. croissant
+#~ Prof. De|Prof. D
+#~ Prof. Hecht|Prof. Hatched
+#~ Prof. Hecht|Prof. Hatch
+#~ Prescience Lab|pre-science lab
+#~ Prescience Lab|per science lab
+#~ Campanoni|Can Benoni
+#~ Campanoni|Kemp annuity
+#~ Forbus Lab|former slab
+#~ Prof. De||Prof. Dare
+#~ Prof. Katsaggelos|Prof. consecutive
+#~ Prof. Katsaggelos|Prof. Consiglio

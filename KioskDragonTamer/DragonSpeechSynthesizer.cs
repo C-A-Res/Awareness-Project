@@ -15,14 +15,10 @@ namespace NU.Kiosk.Speech
 {
     public class DragonSpeechSynthesizer : IDisposable
     {
-        // debug purpose
-        //private const string listener_pipe_name = "dragon_processed_text_pipe";
-        //private const string destination_pipe_name = "dragon_synthesizer_pipe";
-
-        private const string listener_pipe_name = "dragon_synthesizer_pipe";
+        private string listener_pipe_name;
         private PipeListener listener;
 
-        private const string destination_pipe_name = "dragon_synthesizer_state_pipe";
+        private string destination_pipe_name;
         private PipeSender sender;
 
         private DragonRecognizer recognizer;        
@@ -32,6 +28,9 @@ namespace NU.Kiosk.Speech
 
         public DragonSpeechSynthesizer(DragonRecognizer rec)
         {
+            listener_pipe_name = NU.Kiosk.Speech.Program.isDebug ? "dragon_processed_text_pipe" : "dragon_synthesizer_pipe";
+            destination_pipe_name = NU.Kiosk.Speech.Program.isDebug ? "dragon_synthesizer_pipe" : "dragon_synthesizer_state_pipe";
+
             this.recognizer = rec;
             postFixIdentifier = DateTime.Now.ToLongTimeString();
             listener = new PipeListener(Speak, listener_pipe_name);

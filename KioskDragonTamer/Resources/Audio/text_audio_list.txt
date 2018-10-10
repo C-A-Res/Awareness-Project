@@ -1,0 +1,5 @@
+﻿###################################################
+### This file contains phrase-path name pairs that 
+
+## Default input directory is @"Resources\Audio". Example entry below:
+# Anindya-1.txt|Anindya-1.wav
