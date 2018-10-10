@@ -96,7 +96,7 @@ namespace NU.Kiosk.Speech
                 }
 
                 // Create System.Speecsh recognizer component
-                var recognizer = CreateSpeechRecognizer(pipeline);
+                GrammarRecognizerWrapper recognizer = new GrammarRecognizerWrapper(pipeline);
 
                 // Subscribe the recognizer to the input audio
                 audioInput.PipeTo(recognizer);
@@ -107,7 +107,7 @@ namespace NU.Kiosk.Speech
                 finalResults.Do(x => Console.WriteLine(x));
                 KioskUI.KioskUI ui = new KioskUI.KioskUI(pipeline);
                 SystemSpeechSynthesizer speechSynth = CreateSpeechSynthesizer(pipeline);
-                KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline, (SystemSpeechRecognizer)recognizer);
+                KioskInputTextPreProcessor preproc = new NU.Kqml.KioskInputTextPreProcessor(pipeline, recognizer);
 
                 finalResults.PipeTo(preproc.In);
                 preproc.Out.Do(x => Console.WriteLine($"Processed: {x}"));
@@ -117,8 +117,8 @@ namespace NU.Kiosk.Speech
                 {
                     python = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort, localPort);
                     preproc.Out.Select(x => x.Text).PipeTo(ui.UserInput);
-                    python.Out.PipeTo(ui.CompResponse);
-                    python.Out.PipeTo(speechSynth);
+                    python.Out.Select(x => (string)x.Args[0]).PipeTo(ui.CompResponse);
+                    python.Out.Select(x => (string)x.Args[0]).PipeTo(speechSynth);
                 }
                 else
                 {

@@ -15,9 +15,6 @@
         <ruleref uri="#Interjection" />
       </item>
       <item>
-        <ruleref uri="#Question" />
-      </item>
-      <item>
         <ruleref uri="#Command" />
       </item>
       <item>
@@ -28,48 +25,20 @@
   <!-- mark -->
   <rule id="Question">
     <one-of>
-      <item>
-        <ruleref uri="#AreQuestion" />
-      </item>
-      <item>
-        <ruleref uri="#DidQuestion" />
-      </item>
-      <item>
-        <ruleref uri="#DoesQuestion" />
-      </item>
-      <item>
-        <ruleref uri="#HasQuestion" />
-      </item>
-      <item>
-        <ruleref uri="#IsQuestion" />
-      </item>
-      <item>
-        <ruleref uri="#Inquisition" />
-      </item>
-      <item>
-        <ruleref uri="#InquisitionOrder" />
-      </item>
-      <item>
-        <ruleref uri="#HowQuestion" />
-      </item>
-      <item>
-        <ruleref uri="#WhatQuestion" />
-      </item>
-      <item>
-        <ruleref uri="#WhenQuestion" />
-      </item>
-      <item>
-        <ruleref uri="#WhereQuestion" />
-      </item>
-      <item>
-        <ruleref uri="#WhichQuestion" />
-      </item>
-      <item>
-        <ruleref uri="#WhoQuestion" />
-      </item>
-      <item>
-        <ruleref uri="#WillQuestion" />
-      </item>
+      <item weight="10"><ruleref uri="#AreQuestion" /></item>
+      <!--<item weight="9"><ruleref uri="#DidQuestion" /></item>-->
+      <item weight="9"><ruleref uri="#DoesQuestion" /></item>
+      <item weight="10"><ruleref uri="#HasQuestion" /></item>
+      <item weight="10"><ruleref uri="#IsQuestion" /></item>
+      <item weight="10"><ruleref uri="#Inquisition" /></item>
+      <item weight="10"><ruleref uri="#InquisitionOrder" /></item>
+      <item weight="10"><ruleref uri="#HowQuestion" /></item>
+      <item weight="10"><ruleref uri="#WhatQuestion" /></item>
+      <item weight="10"><ruleref uri="#WhenQuestion" /></item>
+      <item weight="10"><ruleref uri="#WhereQuestion" /></item>
+      <item weight="10"><ruleref uri="#WhichQuestion" /></item>
+      <item weight="10"><ruleref uri="#WhoQuestion" /></item>
+      <item weight="10"><ruleref uri="#WillQuestion" /></item>
     </one-of>
   </rule>
   <!-- mark -->
@@ -214,7 +183,7 @@
         <ruleref uri="#SingularEventMaybeTemporallyStampped" />in<ruleref uri="#Place" />
       </item>
       <item>
-        <ruleref uri="#PersonReference" />
+        <ruleref uri="#FacultyPostdocReference" />
         <one-of>
           <item>
             <ruleref uri="#EnglishArticle" />
@@ -232,26 +201,29 @@
             teaching
             <item repeat="0-1">the</item><ruleref uri="#Course" /><ruleref uri="#QuarterReference" />
           </item>
-          <item>
+          <!--<item>
             an
             <ruleref uri="#Alumn" />
             of
             <ruleref uri="#School" />
-          </item>
+          </item>-->
+        </one-of>
+      </item>
+      <item>
+        <ruleref uri="#PersonReference" />
+        <one-of>
           <item>
             's office
-            <one-of>
-              <item>
-                <one-of>
-                  <item>in</item>
-                  <item>on</item>
-                </one-of>
-                <ruleref uri="#SingularSpecificPlace" />
-              </item>
-              <item>
-                <ruleref uri="#LocationReference" />
-              </item>
-            </one-of>
+            <item repeat="0-1">
+              <one-of>
+                <item>in</item>
+                <item>on</item>
+              </one-of>
+            </item>
+            <item>
+              <item repeat="0-1">Mudd</item>
+              <ruleref uri="#OfficeNumber" />
+            </item>
           </item>
         </one-of>
       </item>
@@ -296,19 +268,19 @@
             of
             <ruleref uri="#PersonReference" /><item repeat="0-1">available</item>
           </item>
-          <item>
+          <!--<item>
             <one-of>
               <item>an invited talk</item>
               <item>a talk</item>
               <item>any <ruleref uri="#SingularFreeToAttendEventCategory" /></item>
             </one-of>
             <ruleref uri="#PresentOrFutureTemporalReference"/>
-          </item>
+          </item>-->
           <item>
             <item repeat="0-1">a</item>
             <one-of>
               <item>discussion session</item>
-              <item>recital</item>
+              <!--<item>recital</item>-->
               <item>TA office hour</item>
             </one-of>
             for
@@ -370,8 +342,14 @@
     </one-of>
   </rule>
   <rule id="WhatQuestion">
-    what
+    What
     <one-of>
+      <item>time 
+        <one-of>
+          <item>is it <item repeat="0-1">now</item></item>
+          <item><ruleref uri="#TimeQueryContent"/></item>
+        </one-of>
+      </item>
       <item>day is it today</item>
       <item>
         is
@@ -382,6 +360,7 @@
               <item>day</item>
             </one-of>today
           </item>
+          <item>the time <item repeat="0-1">now</item></item>
           <item>
             the weather like 
             <item repeat="0-1">
@@ -460,9 +439,43 @@
       </item>      
     </one-of>
   </rule>
-  <rule id="WhenQuestion">
-    When
+  <rule id="TimeQueryContent">
     <one-of>
+      <item weight="10">
+        is
+        <one-of>
+          <item weight="20">
+            <ruleref uri="#Courses_id" />
+          </item>
+          <item weight="10">
+            <ruleref uri="#SingularEventMaybeTemporallyStampped" />
+          </item>
+          <item weight="9">
+            <item repeat="0-1">the next</item>
+            <one-of>
+              <item>
+                <ruleref uri="#Shuttle" />
+              </item>
+              <item>
+                <ruleref uri="#RecurringEventName" />
+              </item>
+            </one-of>
+          </item>
+          <item>
+            <one-of>
+              <item>
+                the <ruleref uri="#SingularOfficeHour" />
+              </item>
+              <item>
+                <ruleref uri="#Course" />'s office hour
+              </item>
+            </one-of>
+            <item repeat="0-1">
+              <ruleref uri="#PresentOrFutureTemporalReference" />
+            </item>
+          </item>
+        </one-of>
+      </item>
       <item weight="2">
         does <ruleref uri="#Course" /> meet
       </item>
@@ -476,27 +489,7 @@
           <item>end</item>
         </one-of>
       </item>
-      <item weight="100">
-        is
-        <one-of>
-          <item weight="10">
-            <ruleref uri="#SingularEventMaybeTemporallyStampped" />
-          </item>
-          <item weight="1">
-            the next <ruleref uri="#RecurringEventName" />
-          </item>
-          <item>
-            <one-of>
-              <item>the <ruleref uri="#SingularOfficeHour" /></item>
-              <item><ruleref uri="#Course" />'s office hour</item>
-            </one-of>
-            <item repeat="0-1">
-              <ruleref uri="#PresentOrFutureTemporalReference" />              
-            </item>
-          </item>
-        </one-of>
-      </item>
-      <item weight="100">
+      <item weight="10">
         are
         <one-of>
           <item weight="10">
@@ -506,19 +499,18 @@
           <item weight="1">
             the next <ruleref uri="#PluralFreeToAttendEventCategory" />
           </item>
-          <item>
-            <one-of>
-              <item>the <ruleref uri="#PluralOfficeHours" /></item>
-              <item><ruleref uri="#Course" />'s office hours</item>
-            </one-of>
-          </item>
+          <item><ruleref uri="#PluralOfficeHours" /></item>
         </one-of>
       </item>
     </one-of>
   </rule>
+  <rule id="WhenQuestion">
+    When <ruleref uri="#TimeQueryContent"></ruleref>
+  </rule>
   <rule id="WhereQuestion">
     Where
     <one-of>
+      <item>am I</item>
       <item>
         <one-of>
           <item>would</item>
@@ -536,15 +528,9 @@
           <item>
             find
             <one-of>
-              <item>
-                <ruleref uri="#ObjectPossessedByPerson" />
-              </item>
-              <item>
-                <ruleref uri="#LocationOrPerson" />
-              </item>
-              <item>
-                <ruleref uri="#ObjectsOfInterest" />
-              </item>
+              <item><ruleref uri="#ObjectPossessedByPerson" /></item>
+              <item><ruleref uri="#LocationOrPerson" /></item>
+              <item><ruleref uri="#ObjectsOfInterest" /></item>
             </one-of>
           </item>
           <item>
@@ -553,6 +539,17 @@
               <item>buy</item>
             </one-of>
             <ruleref uri="#ObjectsOfInterest" />
+          </item>
+          <item>
+            print
+            <item repeat="0-1">
+              <one-of>
+                <item>something</item>
+                <item>a paper</item>
+                <item>my homework</item>
+                <item>a document</item>
+              </one-of>
+            </item>
           </item>
         </one-of>
       </item>
@@ -584,12 +581,12 @@
           <item weight="10">
             <ruleref uri="#SingularEventMaybeTemporallyStampped" />
           </item>
-          <item>
+          <!--<item>
             <one-of>
               <item>everyone</item>
               <item>everybody</item>
             </one-of>
-          </item>
+          </item>-->
         </one-of>
       </item>
       <item>
@@ -615,6 +612,12 @@
           <item>
             <ruleref uri="#PersonReference" /> work
           </item>
+        </one-of>
+      </item>
+      <item>
+        do I
+        <one-of>
+          <item>print</item>
         </one-of>
       </item>
     </one-of>
@@ -657,6 +660,7 @@
       <item>
         Who
         <one-of>
+          <item>teaches <ruleref uri="#Course" /></item>
           <item>
             are
             <one-of>
@@ -676,7 +680,7 @@
           <item>
             is
             <one-of>
-              
+              <item><ruleref uri="#PersonReference" /></item>
               <item><ruleref uri="#SingularEventMaybeTemporallyStampped" /> for</item>
               <item>
                 teaching
@@ -791,11 +795,10 @@
   </rule>
   <rule id="LocationOrPerson">
     <one-of>
-      <item>
+      <item weight="1">
         <ruleref uri="#PersonReference" />
       </item>
-      <item>
-        <item repeat="0-1">the</item>
+      <item weight="10">
         <ruleref uri="#SingularSpecificPlace" />
       </item>
     </one-of>
@@ -1016,7 +1019,7 @@
   <rule id="ObjectCanBePossessed">
     <one-of>
       <item>office</item>
-      <item>desk</item>
+      <!--<item>desk</item>-->
       <item>
         <ruleref uri="#Email" />
       </item>
@@ -1083,8 +1086,8 @@
   </rule>
   <rule id="LocationReference">
     <one-of>
-      <item>here</item>
-      <item>there</item>
+      <!--<item>here</item>
+      <item>there</item>-->
       <item>this building</item>
       <item>this floor</item>
     </one-of>
@@ -1119,6 +1122,9 @@
     <one-of>
       <item>the stairs</item>
       <item>the emergency exits</item>
+      <item>the bathrooms</item>
+      <item>the washrooms</item>
+      <item>the restrooms</item>
     </one-of>
   </rule>
   <rule id="SingularSpecificPlace">
@@ -1138,16 +1144,10 @@
         </one-of>
         lab
       </item>
-      <item>
-        Room <ruleref uri="#OfficeNumber" />
-      </item>
-      <item weight="1">
-        Dean's
-        <one-of>
-          <item>conference room</item>
-          <item>office</item>
-        </one-of>
-      </item>
+      <item><ruleref uri="#OfficeNumber" /></item>
+      <item>Mudd <ruleref uri="#OfficeNumber" /></item>
+      <item>room <ruleref uri="#OfficeNumber" /></item>
+      <item weight="2">the seminar room</item>
       <item weight="2">the front desk</item>
       <item weight="2">the kitchen</item>
       <item weight="2">the emergency exit</item>
@@ -1157,23 +1157,34 @@
         <ruleref uri="#PersonReference" />'s
         <one-of>
           <item>office</item>
+          <item>desk</item>
         </one-of>
       </item>
       <item weight="30">
         <item repeat="0-1">
-          <ruleref uri="#EnglishArticle" />
-        </item>
-        <item repeat="0-1">
           <one-of>
-            <item>men's</item>
-            <item>women's</item>
+            <item>the</item>
+            <item>a</item>
           </one-of>
         </item>
         <one-of>
-          <item>bathroom</item>
-          <item>restroom</item>
-          <item>toilet</item>
-        </one-of>
+          <item>lady's room</item>
+          <item>men's room</item>
+          <item>
+            <item repeat="0-1">
+              <one-of>
+                <item>men's</item>
+                <item>women's</item>
+              </one-of>
+            </item>
+            <one-of>
+              <item>bathroom</item>
+              <item>restroom</item>
+              <item>washroom</item>
+              <item>toilet</item>
+            </one-of>
+          </item>
+        </one-of>        
       </item>
     </one-of>
   </rule>
@@ -1297,6 +1308,7 @@
     </one-of>
   </rule>
   <rule id="IntraDayTemporalReference">
+    <!-- Currently unused -->
     <one-of>
       <item>
         this 
@@ -1322,55 +1334,30 @@
       <item><ruleref uri="#PastTemporalReference" /></item>
       <item><ruleref uri="#FutureTemporalReference" /></item>
       <item><ruleref uri="#CenteredAroundDateTemporalReference" /></item>
-      <item><ruleref uri="#IntraDayTemporalReference" /></item>
     </one-of>
   </rule>
   <rule id="SingularEventMaybeTemporallyStampped">
     <one-of>
-      <item weight="1">
+      <item weight="5">
         <item repeat="0-1"><ruleref uri="#TemporalReference" />'s</item>
         <one-of>
-          <item>
-            <ruleref uri="#RecurringEventName" />
-          </item>
-          <item>
-            <ruleref uri="#Course" />
-          </item>
+          <item><ruleref uri="#Course" /></item>
+          <item><ruleref uri="#RecurringEventName" /></item>
         </one-of>
       </item>
-      <item weight="1">
+      <item weight="15">
         <item repeat="0-1">the</item>
         <one-of>
-          <item>
-            <ruleref uri="#EventName" />
-          </item>
-          <item>
+          <item weight="20">
             <ruleref uri="#Course" />
           </item>
-        </one-of>
-        <ruleref uri="#TemporalReference" />
-      </item>
-      <item weight="1">
-        <item repeat="0-1">the</item>
-        <one-of>
-          <item>
+          <item weight="10">
             <ruleref uri="#EventName" />
           </item>
-          <item>
-            <ruleref uri="#Course" />
-          </item>
         </one-of>
-        <one-of>
-          <item>on</item>
-          <item>of</item>
-          <item>for</item>
-        </one-of>
-        <ruleref uri="#TemporalReference" />
+        <item repeat="0-1"><ruleref uri="#TemporalReference" /></item>
       </item>
-      <item weight="100">
-        <item repeat="0-1">
-          <ruleref uri="#EnglishArticle" />
-        </item>
+      <item weight="10">
         <one-of>
           <item>
             <ruleref uri="#EventName" />
@@ -1386,7 +1373,7 @@
     <one-of>
       <item weight="1">
         <item repeat="0-1">
-          <ruleref uri="#PresentOrFutureTemporalReference"/>
+          <ruleref uri="#PresentOrFutureTemporalReference"/>'s
         </item>
         <ruleref uri="#Course" />
       </item>
@@ -1424,9 +1411,9 @@
   </rule>
   <rule id="RecurringEventName">
     <one-of>
-      <item weight="1">
+      <!--<item weight="1">
         <ruleref uri="#SingularGenericEvent" />
-      </item>
+      </item>-->
       <item weight="2">
         <ruleref uri="#RecurringEventWithSpecialName" />
       </item>
@@ -1443,8 +1430,7 @@
   </rule>
   <rule id="RecurringEventWithSpecialName">
     <one-of>
-      <item>QRG Lunch</item>
-      <item>CS+X Seminar</item>
+      <item>AI Journal Club</item>
       <item>Dean's Seminar Series</item>
       <item>Algorithm Coffee</item>
       <item>faculty meeting</item>
@@ -1463,13 +1449,11 @@
   <rule id="SingularGenericEvent">
     <one-of>
       <item>
-        <item repeat="0-1">
-          the  
-          <one-of>
-            <item>CS</item>
-            <item><ruleref uri="#AcademicDiscipline" /></item>
-          </one-of>
-        </item>
+        the  
+        <one-of>
+          <item>CS</item>
+          <item><ruleref uri="#AcademicDiscipline" /></item>
+        </one-of>
         <ruleref uri="#SingularEventCategory" />
       </item>
     </one-of>
@@ -1477,14 +1461,13 @@
   <rule id="PluralGenericEvents">
     <one-of>
       <item>
-        <item repeat="0-1">
-          <one-of>
-            <item>CS</item>
-            <item>
-              <ruleref uri="#AcademicDiscipline" />
-            </item>
-          </one-of>
-        </item>
+        the
+        <one-of>
+          <item>CS</item>
+          <item>
+            <ruleref uri="#AcademicDiscipline" />
+          </item>
+        </one-of>
         <ruleref uri="#PluralEventCategory" />
       </item>
     </one-of>
@@ -1564,41 +1547,33 @@
   </rule>
   <rule id="SingularOfficeHour">
     <one-of>
-      <item weight="10">
-        <ruleref uri="#Course" /> office hour
-      </item>
-      <item weight="1">
+      <item weight="10"><ruleref uri="#Course" />'s office hour</item>
+      <item weight="10"><ruleref uri="#Course" /> office hour</item>
+      <item weight="1"><item repeat="0-1">the</item>
         office hour 
         <one-of><item>for</item><item>of</item></one-of>
         <ruleref uri="#Course" />
       </item>
       <item weight="5">
-        <ruleref uri="#FacultyPostdocReference" /> 's office hour
+        <ruleref uri="#FacultyPostdocReference" />'s office hour
       </item>
-      <item weight="1">
+      <item weight="1"><item repeat="0-1">the</item>
         office hour<one-of><item>for</item><item>of</item></one-of><ruleref uri="#FacultyPostdocReference" />
       </item>
     </one-of>
   </rule>
   <rule id="PluralOfficeHours">
     <one-of>
-      <item weight="10">
-        <ruleref uri="#Course" /> office hours
-      </item>
-      <item weight="1">
-        office hours<one-of><item>for</item><item>of</item></one-of><ruleref uri="#Course" />
-      </item>
-      <item weight="5">
-        <ruleref uri="#FacultyPostdocReference" /> 's office hours
-      </item>
-      <item weight="1">
-        office hours<one-of><item>for</item><item>of</item></one-of><ruleref uri="#FacultyPostdocReference" />
-      </item>
+      <item weight="10"><ruleref uri="#Course" />'s office hours</item>
+      <item weight="10"><ruleref uri="#Course" /> office hours</item>
+      <item weight="1"><item repeat="0-1">the</item>office hours<one-of><item>for</item><item>of</item></one-of><ruleref uri="#Course" /></item>
+      <item weight="5"><ruleref uri="#FacultyPostdocReference" />'s office hours</item>
+      <item weight="1"><item repeat="0-1">the</item>office hours<one-of><item>for</item><item>of</item></one-of><ruleref uri="#FacultyPostdocReference" /></item>
     </one-of>
   </rule>
   <rule id="Course">
     <one-of>
-      <item>
+      <item weight="5">
         <ruleref uri="#Courses_name" />
       </item>
       <item weight="20">
@@ -1649,6 +1624,7 @@
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>321</item>Programming Languages</item>
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>322</item>Compiler Construction</item>
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>325</item>Artificial Intelligence Programming</item>
+      <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>325</item>AI Programming</item>
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>330</item>Human Computer Interaction</item>
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>336</item>Design and Analysis of Algorithms</item>
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>337</item>Semantic Information Processing</item>
@@ -1818,7 +1794,7 @@
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>332</item>Intro to Computer Vision</item>
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>335</item>Intro to the Theory of Computation</item>
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>339</item>Intro to Databases</item>
-      <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>340</item>Intro to Computer Networking</item>
+      <item weight="9"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>340</item>Intro to Computer Networking</item>
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>348</item>Intro to Artificial Intelligence</item>
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>348</item>Introduction to AI</item>
       <item weight="10"><item repeat="0-1"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>348</item>Intro to AI</item>
@@ -1840,92 +1816,92 @@
   </rule>
   <rule id="Courses_id">
     <one-of>
-      <item><item repeat="0-1">General Engineering</item>205</item>
-      <item><item repeat="0-1">GEN ENG</item>205</item>
-      <item><item repeat="0-1">EA 1</item>205</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>101</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>110</item>
-      <item><item repeat="0-1">COG SCI</item>207</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>213</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>301</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>331</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>332</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>335</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>339</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>340</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>348</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>350</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>351-1</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>356</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>358</item>
-      <item><item repeat="0-1">DTC</item>106</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>111</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>130</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>205</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>211</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>212</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>214</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>230</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>295</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>295</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>313</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>413</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>314</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>315</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>321</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>322</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>325</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>330</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>336</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>337</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>338</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>343</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>344</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>345</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>349</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>351-2</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>352</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>354</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>361</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>362</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>368</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>468</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>370</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>371</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>372</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>472</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>394</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>376</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>323</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>422</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>423</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>428</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>430</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>435</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>440</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>441</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>442</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>443</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>446</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>450</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>452</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>455</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>457</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>469</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>472</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>473-1</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>473-2</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>474</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>510</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>512</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>395</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>495</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>396</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>496</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>397</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>497</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>375</item>
-      <item><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>475</item>
+      <item weight="10"><item repeat="0-1">General Engineering</item>205</item>
+      <item weight="10"><item repeat="0-1">GEN ENG</item>205</item>
+      <item weight="10"><item repeat="0-1">EA 1</item>205</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>101</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>110</item>
+      <item weight="10"><item repeat="0-1">COG SCI</item>207</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>213</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>301</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>331</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>332</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>335</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>339</item>
+      <item weight="9"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>340</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>348</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>350</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>351-1</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>356</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>358</item>
+      <item weight="10"><item repeat="0-1">DTC</item>106</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>111</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>130</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>205</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>211</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>212</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>214</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>230</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>295</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>295</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>313</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>413</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>314</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>315</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>321</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>322</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>325</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>330</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>336</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>337</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>338</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>343</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>344</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>345</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>349</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>351-2</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>352</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>354</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>361</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>362</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>368</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>468</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>370</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>371</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>372</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>472</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>394</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>376</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>323</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>422</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>423</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>428</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>430</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>435</item>
+      <item weight="9"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>440</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>441</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>442</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>443</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>446</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>450</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>452</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>455</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>457</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>469</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>472</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>473-1</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>473-2</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>474</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>510</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>512</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>395</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>495</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>396</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>496</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>397</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>497</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>375</item>
+      <item weight="10"><item repeat="0-1"><one-of><item>CS</item><item>EECS</item></one-of></item>475</item>
     </one-of>
     <item repeat="0-1">
       <one-of>
@@ -2213,10 +2189,14 @@
       </item>
       <item>
         <one-of>
-          <item>the professor for</item>
-          <item>the professor who is teaching</item>
-          <item>the professor who teaches</item>
-          <item>the professor teaching</item>
+          <item>the professor</item>
+          <item>the instructor</item>
+        </one-of>
+        <one-of>
+          <item>for</item>
+          <item>who is teaching</item>
+          <item>who teaches</item>
+          <item>teaching</item>
         </one-of>
         <ruleref uri="#Course" />
         <item repeat="0-1">
@@ -2692,25 +2672,7 @@
   </rule>
   <rule id="OfficeNumber">
     <one-of>
-      <item>
-        <ruleref uri="#OneToFive" />
-        <ruleref uri="#ZeroToNine" /><ruleref uri="#ZeroToNine" /><ruleref uri="#ZeroToNine" />
-      </item>
-      <item>
-        <ruleref uri="#TenToFiftyNine" />
-        <ruleref uri="#ZeroToNine" />
-        <ruleref uri="#ZeroToNine" />
-      </item>
-      <item>
-        <ruleref uri="#TenToFiftyNine" />
-        <ruleref uri="#TenToNinetyNine" />
-      </item>
-      <item>
-        three thousand 
-        <item repeat="0-1">
-          and <ruleref uri="#OneToNine" />
-        </item>
-      </item>
+	    <item>3001</item><item>3002</item><item>3005</item><item>3006</item><item>3007</item><item>3009</item><item>3010</item><item>3011</item><item>3012</item><item>3013</item><item>3014</item><item>3015</item><item>3016</item><item>3017</item><item>3018</item><item>3020</item><item>3101</item><item>3103</item><item>3104</item><item>3106</item><item>3107</item><item>3108</item><item>3109</item><item>3111</item><item>3112</item><item>3113</item><item>3114</item><item>3115</item><item>3117</item><item>3119</item><item>3120</item><item>3121</item><item>3123</item><item>3124</item><item>3194</item><item>3201</item><item>3202</item><item>3203</item><item>3205</item><item>3206</item><item>3207</item><item>3209</item><item>3210</item><item>3212</item><item>3213</item><item>3214</item><item>3215</item><item>3217</item><item>3218</item><item>3219</item><item>3221</item><item>3223</item><item>3225</item><item>3229</item><item>3230</item><item>3232</item><item>3234</item><item>3240</item><item>3242</item><item>3244</item><item>3250</item><item>3254</item><item>3301</item><item>3302</item><item>3303</item><item>3304</item><item>3305</item><item>3308</item><item>3312</item><item>3402</item><item>3406</item><item>3410</item><item>3414</item><item>3416</item><item>3418</item><item>3420</item><item>3422</item><item>3426</item><item>3501</item><item>3502</item><item>3504</item><item>3506</item><item>3507</item><item>3509</item><item>3510</item><item>3511</item><item>3512</item><item>3513</item><item>3514</item><item>3515</item><item>3517</item><item>3519</item><item>3521</item><item>3523</item><item>3525</item><item>3527</item><item>3531</item><item>3532</item><item>3534</item><item>3535</item><item>3536</item><item>3537</item><item>3538</item><item>3539</item><item>3540</item><item>3542</item><item>3544</item><item>3546</item>
     </one-of>
   </rule>
   <rule id="Zero">
@@ -2854,9 +2816,9 @@
         <one-of>
           <item>morning</item>
           <item>afternoon</item>
-          <item>evening</item>
+          <!--<item>evening</item>-->
           <item>day</item>
-          <item>night</item>
+          <!--<item>night</item>-->
         </one-of>
       </item>
       <item>How are you</item>
@@ -2879,9 +2841,9 @@
   <rule id="WrapUp">
     <one-of>
       <item>Thank you</item>
-      <item>Good bye</item>
+      <!--<item>Good bye</item>
       <item>bye bye</item>
-      <item>bye</item>
+      <item>bye</item>-->
       <item>talk to you later</item>
     </one-of>
   </rule>
@@ -2895,7 +2857,8 @@
       <item>Beam me up, Scotty!</item>
       <item>Huck you</item>
       <item>Say something</item>
-      <item>What is the meaning of life?</item>
+      <item>What is the meaning of life</item>
+      <!--<item>It's raining outside.</item>-->
       <item>
         May the force be with you, <ruleref uri="#PersonReference" />
       </item>
@@ -2904,6 +2867,7 @@
       <item>I watched C beams; glitter in the dark near the Tannhäuser Gate.</item>
       <item>All those, moments; will be lost; in time; like; tears; in rain</item>
       <item>Dead or alive, you're coming with me</item>
+      <item>Aravindan Chris Kris Ian</item>
     </one-of>
   </rule>
   <rule id="SingularImmobileObjectOfInterest">
@@ -3009,34 +2973,62 @@
       <item>something to eat</item>
     </one-of>
   </rule>
-  <!-- Unused -->
   <rule id="Shuttle">
-    <item repeat="0-1">the</item>
-    <item repeat="0-1">
-      <one-of>
-        <item>Northbound</item>
-        <item>Southbound</item>
-      </one-of>
-    </item>
     <one-of>
-      <item>intercampus shuttle</item>
-      <item>shuttle</item>
-      <item>201</item>
-      <item>201 bus</item>
-      <item>Evanston Loop</item>
-      <item>Campus Loop</item>
+      <item>
+        <item repeat="0-1">
+          <one-of>
+            <item>Northbound</item>
+            <item>Southbound</item>
+          </one-of>
+        </item>
+        <one-of>
+          <item>intercampus shuttle</item>
+          <item>intercampus bus</item>
+          <item>intercampus</item>          
+          <item>shuttle</item>
+          <item>201 shuttle</item>
+          <item>201 bus</item>
+          <item>201</item>          
+          <item>CTA 201 bus</item>
+          <item>CTA 201 shuttle</item>
+          <item>CTA 201</item>          
+          <item>Evanston Loop</item>
+          <item>Campus Loop</item>
+        </one-of>
+      </item>
+      <item>
+        <one-of>
+          <item>intercampus shuttle</item>
+          <item>intercampus bus</item>
+          <item>intercampus</item>          
+          <item>shuttle</item>
+          <item>201 shuttle</item>
+          <item>201 bus</item>
+          <item>201</item>          
+          <item>CTA 201 bus</item>
+          <item>CTA 201 shuttle</item>
+          <item>CTA 201</item>          
+          <item>Evanston Loop</item>
+          <item>Campus Loop</item>
+        </one-of>
+        <one-of>
+          <item>going <one-of><item>north</item><item>south</item></one-of></item>
+          <item>
+            to
+            <one-of>
+              <item>Downtown Chicago</item>
+              <item>South Campus</item>
+              <item>the Chicago Campus</item>
+              <item>Chicago Campus</item>
+              <item>Chicago</item>
+            </one-of>
+          </item>
+        </one-of>        
+      </item>
     </one-of>
-    <item repeat="0-1">
-      to
-      <one-of>
-        <item>Downtown Chicago</item>
-        <item>South Campus</item>
-        <item>the Chicago Campus</item>
-        <item>Chicago Campus</item>
-        <item>Chicago</item>
-      </one-of>
-    </item>
   </rule>
+  <!-- Unused -->
   <rule id="LunchPickUp">
     <item repeat="0-1">
       <one-of>

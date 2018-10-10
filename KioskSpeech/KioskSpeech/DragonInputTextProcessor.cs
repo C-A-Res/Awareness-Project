@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using NU.Kiosk.SharedObject;
 
 namespace NU.Kiosk.Speech
 {

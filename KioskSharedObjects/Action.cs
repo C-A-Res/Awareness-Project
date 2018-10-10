@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NU.Kiosk.Speech
+namespace NU.Kiosk.SharedObject
 {
     public class Action
     {
@@ -19,11 +19,11 @@ namespace NU.Kiosk.Speech
 
         public string toKQML()
         {
-            var sb = new System.Text.StringBuilder('(');
-            sb.Append(Name);
+            var sb = new System.Text.StringBuilder();
+            sb.Append('(').Append(Name);
             foreach (var x in Args)
             {
-                sb.Append(x.ToString());
+                sb.Append(' ').Append(x.ToString());
             }
             sb.Append(')');
             return sb.ToString();

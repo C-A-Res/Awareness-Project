@@ -1,8 +1,10 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,16 +13,18 @@ namespace NU.Kqml
 {
     static class SocketUtil
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public static IPEndPoint getInterNetworkEndPoint(string hostNameOrAddress, int port)
         {
+            _log.Debug($"getInterNetworkEndPoint, hostNameOrAddress: '{hostNameOrAddress}'");
             IPHostEntry ipHostInfo = Dns.GetHostEntry(hostNameOrAddress);
             IPAddress ipAddress = null;
             IPEndPoint localEndPoint = null;
 
             foreach (IPAddress ipa in ipHostInfo.AddressList)
             {
-                Console.WriteLine(ipa.ToString());
-                Console.WriteLine(ipa.AddressFamily);
+                _log.Debug($"getInterNetworkEndPoint, ipa: '{ipa.ToString()}'; ipa.AddressFamily: '{ipa.AddressFamily}'");
                 if (ipa.AddressFamily == AddressFamily.InterNetwork)
                 {
                     ipAddress = ipa;
@@ -30,14 +34,14 @@ namespace NU.Kqml
 
             }
             IPEndPoint end = new IPEndPoint(IPAddress.Parse(hostNameOrAddress), port);
-            Console.WriteLine(end);
+            _log.Debug($"getInterNetworkEndPoint, end: '{end}'");
             //IPEndPoint localEndPoint = new IPEndPoint(ipAddress, port);
 
-            //Console.WriteLine("IPHostEntry:" + ipHostInfo.ToString());
-            //Console.WriteLine("IPAddress:" + ipAddress.ToString());
-            //Console.WriteLine("AddressFamily:" + ipAddress.AddressFamily);
-            //Console.WriteLine("IsLoopback:" + IPAddress.IsLoopback(ipAddress));
-            //Console.WriteLine("IPEndPoint:" + localEndPoint.ToString());
+            //_log.Info("IPHostEntry:" + ipHostInfo.ToString());
+            //_log.Info("IPAddress:" + ipAddress.ToString());
+            //_log.Info("AddressFamily:" + ipAddress.AddressFamily);
+            //_log.Info("IsLoopback:" + IPAddress.IsLoopback(ipAddress));
+            //_log.Info("IPEndPoint:" + localEndPoint.ToString());
 
             return end;
         }
@@ -59,6 +63,8 @@ namespace NU.Kqml
     // see https://docs.microsoft.com/en-us/dotnet/framework/network-programming/synchronous-client-socket-example
     class SimpleSocket : AbstractSimpleSocket
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private Socket sender;
         private IPEndPoint remoteEP;
 
@@ -86,27 +92,27 @@ namespace NU.Kqml
                     sender.Connect(remoteEP);
                 }
 
-                //Console.WriteLine("Socket connected to {0}",
+                //_log.Info("Socket connected to {0}",
                 //    sender.RemoteEndPoint.ToString());
 
             }
             catch (ArgumentNullException ane)
             {
-                Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
+                _log.Error($"Connect: ArgumentNullException : {ane.ToString()}");
             }
             catch (SocketException se)
             {
-                Console.WriteLine("SocketException : {0}", se.ToString());
+                _log.Error($"Connect: SocketException : {se.ToString()}");
             }
             catch (Exception e)
             {
-                Console.WriteLine("Unexpected exception : {0}", e.ToString());
+                _log.Error($"Connect: Unexpected exception : {e.ToString()}");
             }
         }
 
         public override void Send(string data)
         {
-            //Console.WriteLine("Sending " + data);
+            //_log.Info("Sending " + data);
 
             // Data buffer for incoming data.  
             byte[] bytes = new byte[1024];
@@ -120,39 +126,39 @@ namespace NU.Kqml
                 int bytesSent = sender.Send(msg);
                 if (bytesSent == msg.Length)
                 {
-                    //Console.WriteLine($"All {bytesSent} bytes sent");
+                    //_log.Info($"All {bytesSent} bytes sent");
                 }
                 else
                 {
-                    Console.WriteLine("WARNING: Message not completely sent");
+                    _log.Warn("Send: WARNING: Message not completely sent");
                 }
 
                 // Receive the response from the remote device.  
                 int bytesRec = sender.Receive(bytes);
                 string resp = Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                Console.WriteLine("[SimpleSocket] Send... in response, facilitator said {0}", resp);
+                _log.Debug($"Send: in response, facilitator said {resp}");
                 OnMessage(resp, this);
             }
             catch (ArgumentNullException ane)
             {
-                Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
+                _log.Info($"Send: ArgumentNullException : {ane.ToString()}");
             }
             catch (SocketException se)
             {
                 if (se.SocketErrorCode == SocketError.ConnectionAborted)
                 {
-                    Console.WriteLine("Socket closed by Facilitator");
+                    _log.Error("Send: Socket closed by Facilitator");
                 }
                 else
                 {
-                    Console.WriteLine("SocketException : {0}", se.ToString());
-                    Console.WriteLine("SocketError : {0}", se.SocketErrorCode);
+                    _log.Error($"Send: SocketException : {se.ToString()}");
+                    _log.Error($"Send: SocketError : {se.SocketErrorCode}");
                 }
                 
             }
             catch (Exception e)
             {
-                Console.WriteLine("Unexpected exception : {0}", e.ToString());
+                _log.Error($"Send: Unexpected exception : {e.ToString()}");
             }
             Close();
         }
@@ -171,11 +177,11 @@ namespace NU.Kqml
             }
             catch (SocketException se)
             {
-                Console.WriteLine("SocketException : {0}", se.ToString());
+                _log.Error($"Close: SocketException : {se.ToString()}");
             }
             catch (Exception e)
             {
-                Console.WriteLine("Unexpected exception : {0}", e.ToString());
+                _log.Error($"Close: Unexpected exception : {e.ToString()}");
             }
         }
     }
@@ -195,6 +201,8 @@ namespace NU.Kqml
     // see https://docs.microsoft.com/en-us/dotnet/framework/network-programming/synchronous-server-socket-example
     class SimpleSocketServer : AbstractSimpleSocket
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         // Incoming data from the client.  
         public static string data = null;
 
@@ -245,7 +253,7 @@ namespace NU.Kqml
                     // Set the event to nonsignaled state.
                     allDone.Reset();
 
-                    //Console.WriteLine("Waiting for a connection on " + localEndPoint.ToString() + ":" + this.port);
+                    //_log.Info("Waiting for a connection on " + localEndPoint.ToString() + ":" + this.port);
                     listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
                     
                     allDone.WaitOne();
@@ -254,10 +262,10 @@ namespace NU.Kqml
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                _log.Error($"StartListening_thread: {e.ToString()}");
             }
 
-            //Console.WriteLine("\nPress ENTER to continue...");
+            //_log.Info("\nPress ENTER to continue...");
             //Console.Read();
 
         }
@@ -280,7 +288,7 @@ namespace NU.Kqml
 
             } catch (ObjectDisposedException e)
             {
-                Console.WriteLine("Listening socket disposed.");
+                _log.Error($"Listening socket disposed");
             }
         }
 
@@ -305,7 +313,7 @@ namespace NU.Kqml
                         state.buffer, 0, bytesRead));
 
                     content = state.sb.ToString();
-                    //Console.WriteLine("Read {0} bytes from socket. \n Data : {1}",
+                    //_log.Info("Read {0} bytes from socket. \n Data : {1}",
                     //    content.Length, content);
 
                     
@@ -332,16 +340,22 @@ namespace NU.Kqml
             //{
             //    Console.Write($"-{byteData[i]}- ");
             //}
-            //Console.WriteLine();
+            //_log.Info();
 
             if (handler != null)
             {
-                // Begin sending the data to the remote device.  
-                handler.BeginSend(byteData, 0, byteData.Length, 0,
-                    new AsyncCallback(SendCallback), handler);
+                try
+                {
+                    // Begin sending the data to the remote device.  
+                    handler.BeginSend(byteData, 0, byteData.Length, 0,
+                        new AsyncCallback(SendCallback), handler);
+                } catch (Exception e)
+                {
+                    _log.Error($"Send: error during send '{data}'; trace: {e.StackTrace}");
+                }
             } else
             {
-                Console.WriteLine("ERROR: Not able to reply with {0}", data);
+                _log.Error($"Send: ERROR: Not able to reply with {data}");
             }
         }
 
@@ -354,7 +368,7 @@ namespace NU.Kqml
 
                 // Complete sending the data to the remote device.  
                 int bytesSent = handler.EndSend(ar);
-                //Console.WriteLine("Sent {0} bytes to client.", bytesSent);
+                //_log.Info("Sent {0} bytes to client.", bytesSent);
 
                 handler.Shutdown(SocketShutdown.Both);
                 handler.Close();
@@ -362,7 +376,7 @@ namespace NU.Kqml
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                _log.Error($"SendCallback: {e.ToString()}");
             }
         }
 

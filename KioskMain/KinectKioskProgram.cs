@@ -18,9 +18,18 @@
     using WebSocketSharp.Server;
     using System.Threading.Tasks;
     using System.Timers;
+    using log4net;
+
+    using NU.Kiosk.SharedObject;
+    using log4net;
+    using log4net.Config;
+    using System.Reflection;
+    using Newtonsoft.Json;
 
     public static class KinectKioskProgram
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         static string AppName = "Kiosk";
 
         static TimeSpan _100ms = TimeSpan.FromSeconds(0.1);
@@ -30,6 +39,8 @@
 
         public static void Main(string[] args)
         {
+            // Do not change these values if you want to run under a different config
+            // Use command line arguments, that's why they are there!
             bool usingDragon = false;
             bool usingKqml = false;
             bool usingKinect = true;
@@ -55,6 +66,12 @@
                 i++;
             }
 
+            //// uncomment these to debug speech recognition
+            //usingKqml = false;
+            //usingKinect = false;
+
+            XmlConfigurator.Configure();
+
             if (usingDragon)
             {
                 dragon(facilitatorIP, facilitatorPort, localPort, usingKqml, usingKinect); 
@@ -69,7 +86,7 @@
             bool detected = false;
             using (Pipeline pipeline = Pipeline.Create())
             {
-                Console.WriteLine("[KinectKiostkProgram] Using Dragon.");
+                _log.Info("Using Dragon.");
 
                 #region Component declarations
                 var dialog = new Speech.DragonDialogManager(pipeline);
@@ -90,7 +107,7 @@
                 // This might be doable in a single join
                 if (usingKinect)
                 {
-                    Console.WriteLine("Starting Kinect-based Kiosk.  Verify that Kinect is setup before continuing");
+                    _log.Info("Starting Kinect-based Kiosk.  Verify that Kinect is setup before continuing");
                     kinectSensor = new Microsoft.Psi.Kinect.v1.KinectSensor(pipeline);
                     faceTracker = new Microsoft.Psi.Kinect.v1.SkeletonFaceTracker(pipeline, kinectSensor.kinectSensor);
                     var joinedFrames = kinectSensor.ColorImage.Join(kinectSensor.DepthImage).Join(kinectSensor.Skeletons);
@@ -99,7 +116,7 @@
                     {
                         if (!detected)
                         {
-                            Console.WriteLine("Face found");
+                            _log.Info("Started looking for a face...");
                             detected = true;
                         }
                         return x ? 1.0 : 0.0;
@@ -120,7 +137,7 @@
                     {
                         if (!detected)
                         {
-                            Console.WriteLine("Face found");
+                            _log.Info("Started looking for a face...");
                             detected = true;
                         }
                         return x ? 1.0 : 0.0;
@@ -144,19 +161,20 @@
                 //dialog.CompOutput.PipeTo(synthesizer);
 
                 dialog.UserOutput.PipeTo(responder.UserInput);
-                responder.CompResponse.PipeTo(dialog.CompInput);
+                // TODO update following line of code
+                //responder.CompResponse.PipeTo(dialog.CompInput);
 
                 //synthesizer.UpdatedState.PipeTo(dialog.SpeechSynthesizerState);
-                Console.Out.WriteLine("Synthisizer select");
+                //Console.Out.WriteLine("Synthisizer select");
 
                 if (usingKqml)
                 {
-                    Console.WriteLine("Setting up connection to Companion");
+                    _log.Info("Setting up connection to Companion");
                     int facilitatorPort_num = Convert.ToInt32(facilitatorPort);
                     int localPort_num = Convert.ToInt32(localPort);
-                    Console.WriteLine("Your Companion IP address is: " + facilitatorIP);
-                    Console.WriteLine("Your Companion port is: " + facilitatorPort);
-                    Console.WriteLine("Your local port is: " + localPort);
+                    _log.Info("Your Companion IP address is: " + facilitatorIP);
+                    _log.Info("Your Companion port is: " + facilitatorPort);
+                    _log.Info("Your local port is: " + localPort);
 
                     // setup interface to Companion
                     kqml = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort_num, localPort_num);
@@ -167,7 +185,7 @@
                 else
                 {
                     // echo
-                    responder.KQMLRequest.PipeTo(responder.KQMLResponse);
+                    responder.KQMLRequest.Select(x => new NU.Kiosk.SharedObject.Action("psikbSayText", x)).PipeTo(responder.KQMLResponse);
                 }
 
                 #endregion
@@ -181,7 +199,7 @@
                 // Run the pipeline
                 pipeline.RunAsync();
 
-                Console.WriteLine("Press any key to exit...");
+                _log.Info($"Press any key to exit...");
                 Console.ReadKey(true);
 
             }
@@ -190,12 +208,13 @@
         private static void not_dragon(string facilitatorIP, int facilitatorPort, int localPort, bool usingKqml, bool usingKinect)
         {
             bool detected = false;
+            bool quit = false;
             using (Pipeline pipeline = Pipeline.Create())
             {
-                Console.WriteLine("[KinectKiostkProgram] Not using Dragon.");
+                _log.Info("Not using Dragon.");
 
                 #region Component declarations
-                var recognizer = Speech.Program.CreateSpeechRecognizer(pipeline);
+                NU.Kiosk.Speech.GrammarRecognizerWrapper recognizer = new NU.Kiosk.Speech.GrammarRecognizerWrapper(pipeline);
 
                 var synthesizer = Speech.Program.CreateSpeechSynthesizer(pipeline);
 
@@ -203,7 +222,7 @@
 
                 SocketStringConsumer kqml = null;
 
-                KioskInputTextPreProcessor preproc = new KioskInputTextPreProcessor(pipeline, (SystemSpeechRecognizer)recognizer);
+                KioskInputTextPreProcessor preproc = new KioskInputTextPreProcessor(pipeline, recognizer);
 
                 var responder = new Speech.Responder(pipeline);
 
@@ -222,11 +241,14 @@
                 // update UI with dialog state
                 dialog.StateChanged.PipeTo(ui.DialogStateChanged);
 
+                // update Recognizer with dialog state
+                dialog.StateChanged.Select(state => state == "listening").PipeTo(recognizer.isAcceptingData);
+
                 // Combine all the kinect image outputs
                 // This might be doable in a single join
                 if (usingKinect)
                 {
-                    Console.WriteLine("Starting Kinect-based Kiosk.  Verify that Kinect is setup before continuing");
+                    _log.Info("Starting Kinect-based Kiosk.  Verify that Kinect is setup before continuing");
 
                     Microsoft.Psi.Kinect.v1.KinectSensor kinectSensor = new Microsoft.Psi.Kinect.v1.KinectSensor(pipeline);
 
@@ -235,13 +257,13 @@
                     var joinedFrames = kinectSensor.ColorImage.Join(kinectSensor.DepthImage).Join(kinectSensor.Skeletons);
 
                     joinedFrames.PipeTo(faceTracker);
-                    joinedFrames.Do(x => Console.Write('.'));
+                    //joinedFrames.Do(x => Console.Write('.'));
 
                     var mouthOpenAsFloat = faceTracker.FaceDetected.Select((bool x) =>
                     {
                         if (!detected)
                         {
-                            Console.WriteLine("Face found");
+                            _log.Info("Started looking for a face...");
                             detected = true;
                         }
                         return x ? 1.0 : 0.0;
@@ -251,7 +273,7 @@
                     var faceDetected = mouthOpenAsFloat.Hold(0.1, 0.01);
                     faceDetected.PipeTo(dialog.FaceDetected);
                     faceDetected.PipeTo(ui.FaceDetected);
-                    faceDetected.Do(x => { if (x) { Console.Write(1); } else { Console.Write(0); } });
+                    //faceDetected.Do(x => { if (x) { Console.Write(1); } else { Console.Write(0); } });
 
                     // Send audio to recognizer if face is detected and ready to accept more input    
                     kinectSensor.Audio.Join(faceDetected, _300ms).Where(result => result.Item2).Select(pair => {
@@ -260,16 +282,27 @@
                 }
                 else
                 {
-                    // Create the AudioSource component to capture audio from the default device in 16 kHz 1-channel
-                    // PCM format as required by both the voice activity detector and speech recognition components.
-
-                    intervalboolean = new Speech.IntervalBooleanProducer(pipeline, new int[]{ 1000 }, 50);
-
-                    var mouthOpenAsFloat = intervalboolean.Out.Select((bool x) =>
+                    _log.Info("Using push-to-talk: Press the spacebar to open the mic, and any key to close the mic, and q to quit");   
+                    var keys = Generators.Sequence(pipeline, Keys(), TimeSpan.FromMilliseconds(10));
+                    var pushToTalk = keys.Select(k =>
+                    {
+                        if (k == ConsoleKey.Spacebar)
+                        {
+                            return true;
+                        }
+                        if (k == ConsoleKey.Q)
+                        {
+                            quit = true;
+                            return false;
+                        }
+                        return false;
+                    }).Repeat(Generators.Timer(pipeline, TimeSpan.FromMilliseconds(100)));
+                    
+                    var mouthOpenAsFloat = pushToTalk.Out.Select((bool x) =>
                     {
                         if (!detected)
                         {
-                            Console.WriteLine("Face found");
+                            _log.Info("Started looking for a face...");
                             detected = true;
                         }
                         return x ? 1.0 : 0.0;
@@ -279,9 +312,9 @@
                     var faceDetected = mouthOpenAsFloat.Hold(0.1, 0.01);
                     faceDetected.PipeTo(dialog.FaceDetected);
                     faceDetected.PipeTo(ui.FaceDetected);
-                    faceDetected.Do(x => { if (x) { Console.Write(1); } else { Console.Write(0); } });
-
-
+                    
+                    // Create the AudioSource component to capture audio from the default device in 16 kHz 1-channel
+                    // PCM format as required by both the voice activity detector and speech recognition components.
                     var audioInput = new AudioSource(pipeline, new AudioSourceConfiguration() { OutputFormat = WaveFormat.Create16kHz1Channel16BitPcm() });
                     audioInput.PipeTo(recognizer);
                 }
@@ -293,7 +326,7 @@
                 var recognitionResult = finalResults.Select(r =>  // Need to add a Where Item2, but skipping for now
                 {
                     var ssrResult = r as IStreamingSpeechRecognitionResult;
-                    Console.WriteLine($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
+                    _log.Info($"{ssrResult.Text} (confidence: {ssrResult.Confidence})");
                     return ssrResult;
                 });
 
@@ -307,27 +340,26 @@
                 dialog.UserOutput.Select(u => { return u.Text; }).PipeTo(ui.UserInput);
 
                 // Get response from Companion and forward to UI and synthesizer
-                dialog.CompOutput.PipeTo(ui.CompResponse);
-                dialog.CompOutput.PipeTo(synthesizer);
+                dialog.ActionOutput.PipeTo(ui.ActionCommand);
+                dialog.TextOutput.PipeTo(synthesizer);
 
                 dialog.UserOutput.PipeTo(responder.UserInput);
-                responder.CompResponse.PipeTo(dialog.CompInput);
+                responder.ActionResponse.PipeTo(dialog.CompInput);
 
                 synthesizer.StateChanged.Select(x =>
                 {
                     SystemSpeechSynthesizer.StateChangedEventData data = x;
                     return data.State;
                 }).PipeTo(dialog.SpeechSynthesizerState);
-                Console.Out.WriteLine("Synthisizer select");
 
                 if (usingKqml)
                 {
-                    Console.WriteLine("Setting up connection to Companion");
+                    _log.Info("Setting up connection to Companion");
                     int facilitatorPort_num = Convert.ToInt32(facilitatorPort);
                     int localPort_num = Convert.ToInt32(localPort);
-                    Console.WriteLine("Your Companion IP address is: " + facilitatorIP);
-                    Console.WriteLine("Your Companion port is: " + facilitatorPort);
-                    Console.WriteLine("Your local port is: " + localPort);
+                    _log.Info("Your Companion IP address is: " + facilitatorIP);
+                    _log.Info("Your Companion port is: " + facilitatorPort);
+                    _log.Info("Your local port is: " + localPort);
 
                     // setup interface to Companion
                     kqml = new SocketStringConsumer(pipeline, facilitatorIP, facilitatorPort_num, localPort_num);
@@ -338,7 +370,7 @@
                 else
                 {
                     // echo
-                    responder.KQMLRequest.PipeTo(responder.KQMLResponse);
+                    responder.KQMLRequest.Select(x => new NU.Kiosk.SharedObject.Action("psikiSayText", x)).PipeTo(responder.KQMLResponse);
                 }
 
                 #endregion
@@ -352,9 +384,26 @@
                 // Run the pipeline
                 pipeline.RunAsync();
 
-                Console.WriteLine("Press any key to exit...");
-                Console.ReadKey(true);
+                while (!quit)
+                {
+                    Thread.Sleep(100);
+                }
+                //Console.WriteLine("Press any key to exit...");
+                //Console.ReadKey(true);
 
+            }
+        }
+
+        static IEnumerable<ConsoleKey> Keys()
+        {
+            while (true)
+            {
+                var key = Console.ReadKey(true).Key;
+                yield return key;
+                if (key == ConsoleKey.Q)
+                {
+                    yield break;
+                }
             }
         }
 
@@ -365,14 +414,14 @@
         /// <param name="e">The pipeline completion event arguments.</param>
         private static void PipelineCompletionEvent(object sender, PipelineCompletionEventArgs e)
         {
-            Console.WriteLine("Pipeline execution completed with {0} errors", e.Errors.Count);
+            _log.Info($"Pipeline execution completed with {e.Errors.Count} errors");
 
             // Prints all exceptions that were thrown by the pipeline
             if (e.Errors.Count > 0)
             {
                 foreach (var error in e.Errors)
                 {
-                    Console.WriteLine(error);
+                    _log.Info($"error: {error}");
                 }
             }
         }
@@ -408,7 +457,7 @@
             Console.WriteLine(outputLogPath == null);
             var dataStore = CreateDataStore(pipeline, outputLogPath, showLive);
             Console.WriteLine(dataStore == null);
-            Console.WriteLine("dataStore is empty");
+            _log.Info($"dataStore is empty");
             // For disk logging or live visualization only
             if (dataStore != null)
             {
@@ -418,7 +467,7 @@
                 //faceTracker.Write("Kiosk.FaceTracker", dataStore);
                 speechRecog.Write($"Kiosk.FinalRecognitionResults", dataStore);
 
-                Console.WriteLine("Stored the data here! ");
+                _log.Info($"Stored the data here! ");
             }
 
             // Ignore this block if live visualization is not enabled

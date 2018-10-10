@@ -55,6 +55,9 @@
     <StartupObject>NU.Kiosk.Speech.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="MathNet.Numerics, Version=4.5.0.0, Culture=neutral, PublicKeyToken=cd8b63ad3d691a37, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MathNet.Numerics.Signed.4.5.0\lib\net461\MathNet.Numerics.dll</HintPath>
     </Reference>
@@ -264,9 +267,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Action.cs" />
     <Compile Include="DragonDialogManager.cs" />
     <Compile Include="DialogManager.cs" />
+    <Compile Include="GrammarRecognizerWrapper.cs" />
+    <Compile Include="InternetQueryHandler.cs" />
     <Compile Include="IntervalBooleanProducer.cs" />
     <Compile Include="DragonInputTextProcessor.cs" />
     <Compile Include="GrammarUtils\AllXMLGrammarWriter.cs" />
@@ -284,7 +288,6 @@
     <Compile Include="Sockets.cs" />
     <Compile Include="SpeechMerger.cs" />
     <Compile Include="StreamString.cs" />
-    <Compile Include="Utterance.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -295,6 +298,7 @@
     </None>
     <None Include="Resources\BaseGrammar.grxml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <Content Include="Resources\primitive_grammar.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -327,6 +331,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\KioskSharedObjects\KioskSharedObjects.csproj">
+      <Project>{a344ce56-7b02-46cd-8b8d-6febc1e14606}</Project>
+      <Name>KioskSharedObjects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\KioskUI\KioskUI.csproj">
       <Project>{cea3bc67-5dae-44b5-bec7-5596ee29629f}</Project>
       <Name>KioskUI</Name>

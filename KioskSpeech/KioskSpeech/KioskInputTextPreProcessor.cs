@@ -9,19 +9,25 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using NU.Kiosk.SharedObject;
+using log4net;
+using System.Reflection;
 
 namespace NU.Kqml
 {
     public class KioskInputTextPreProcessor : ConsumerProducer<IStreamingSpeechRecognitionResult, Utterance>
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public static bool isUsingIsAccepting = false;
-        private SystemSpeechRecognizer recognizer;
+        private GrammarRecognizerWrapper recognizer;
         private int ReloadMessageIDCurrent = 0;
         private static Regex quote_s = new Regex("[ ][']s");
+        private static Regex space_qmark = new Regex("[ ][?]");
         private static Regex course_num1 = new Regex(@"(\d)\s+(\d)0\s+(\d)");
         private static Regex course_num2 = new Regex(@"(\d)\s+(\d+)");
 
-        public KioskInputTextPreProcessor(Pipeline pipeline, SystemSpeechRecognizer rec)
+        public KioskInputTextPreProcessor(Pipeline pipeline, GrammarRecognizerWrapper rec)
             : base(pipeline)
         {
             this.recognizer = rec;
@@ -33,21 +39,42 @@ namespace NU.Kqml
 
         private void ReceiveUiInput(string arg1, Envelope arg2)
         {
+            _log.Info($"Received UI Text input: \"{arg1}\"");
             handleInput(arg1, 1.0, StringResultSource.ui, arg2);
         }
 
         protected override void Receive(IStreamingSpeechRecognitionResult result, Envelope e)
         {
             string message = quote_s.Replace(result.Text, "'s");
+            var lower = message.ToLower();
+            if (lower.StartsWith("where") || lower.StartsWith("what") || lower.StartsWith("how") 
+                || lower.StartsWith("who") || lower.StartsWith("is") || lower.StartsWith("are")
+                || lower.StartsWith("when") || lower.StartsWith("will") || lower.StartsWith("can ")
+                || lower.StartsWith("could ") || lower.StartsWith("does ") || lower.StartsWith("do ")
+                || lower.StartsWith("would ")) 
+            {
+                message += "?";
+            } else if (lower.StartsWith("show") || lower.StartsWith("tell"))
+            {
+                message += ".";
+            }
             double confidence = result.Confidence.Value;
+
+            if (confidence < 0.3)
+            {
+                _log.Info($"Received Speech Input \"{message}\" with confidence {confidence}; discarding...");
+                message = "(Unintelligible)";
+            } else
+            {
+                _log.Info($"Received Speech Input \"{message}\" with confidence {confidence}; ");
+            }
+            
             handleInput(message, confidence, StringResultSource.speech, e);
         }
 
         private void handleInput(string message, double confidence, StringResultSource source, Envelope e) {
-            Console.WriteLine($"[KioskInputTextPreProcessor] Received \"{message}\" with confidence {confidence}; ");// isAccepting {isAccepting}.");
             switch (message)
             {
-                case "":
                 case "okay":
                 case "hm":
                 case "um":
@@ -59,11 +86,14 @@ namespace NU.Kqml
                 case "bye":
                 case "bye bye":
                     // Filter out a few things
-                    Console.WriteLine($"[KioskInputTextPreProcessor] Discarding message: {message}");
+                    _log.Info($"Discarding message: {message}");
                     break;
                 case "Reload grammars":
-                    reloadGrammars();
+                    recognizer.ReloadGrammar();
                     break;
+                case "":
+                    message = "(Unintelligible)";
+                    goto default;
                 default:
                     // fix course numbers
                     var x = course_num1.Replace(message, m => string.Format("{0}{1}{2}", m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value));
@@ -72,24 +102,6 @@ namespace NU.Kqml
                     this.Out.Post(new Utterance(updated_text, confidence, source), e.Time);
                     break;
             }
-        }
-
-        private void reloadGrammars()
-        {
-            Console.WriteLine($"[KioskInputTextPreProcessor] Reloading grammar.");
-            var gw = new Kiosk.AllXMLGrammarWriter(@"Resources\BaseGrammar.grxml");
-            gw.ReadFileAndConvert();
-            string updatedGrammar = gw.GetResultString();
-
-            DateTime post_time = new DateTime();
-
-            Message<System.Collections.Generic.IEnumerable<String>> updateRequest =
-                new Message<System.Collections.Generic.IEnumerable<String>>(
-                    new String[] {
-                        updatedGrammar
-                    }, post_time, post_time, 9876, ReloadMessageIDCurrent++);
-            recognizer.SetGrammars(updateRequest);
-            gw.WriteToFile();
         }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.Psi.Components;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 using Newtonsoft.Json;
+using NU.Kiosk.SharedObject;
 
 namespace KioskUI
 {
@@ -42,32 +43,19 @@ namespace KioskUI
 
             if (this.kioskUI != null)
             {
-                msg = buildJsonResponse2(kioskUI.getUtterances(), kioskUI.getState(), kioskUI.getDebug());
+                msg = buildJsonResponse(kioskUI.getUtterances(), kioskUI.getState(), kioskUI.getMapData(), kioskUI.getUrl(), kioskUI.getCalendar(), kioskUI.getDebug());
             } else { 
                 List<(string, string)> utts = new List<(string,string)>();
                 utts.Add(("other", "Where does Prof Forbus work?"));
                 utts.Add(("kiosk", "His office is somewehre"));
                 string state = "listening";
-                msg = buildJsonResponse2(utts, state, "false");
+                msg = buildJsonResponse(utts, state,  ("",""), "", "", "false");
             }
 
             Send(msg);
         }
 
-        private string buildJsonResponse(List<(string,string)> utts, string state, string debug)
-        {
-            List<Dictionary<string, string>> speechForJson = new List<Dictionary<string, string>>();
-            foreach (var n in utts)
-            {
-                Dictionary<string, string> dict = new Dictionary<string, string> { { "user", n.Item1 }, { "content", n.Item2 } };
-                speechForJson.Add(dict);
-            }
-            Dictionary<string, string> avatarForJson = new Dictionary<string, string> { { "state", state } };
-            Dictionary<string, object> forJson = new Dictionary<string, object> { { "avatar", avatarForJson }, { "speech", speechForJson }, { "debug", debug } };
-            return JsonConvert.SerializeObject(forJson);
-        }
-
-        private string buildJsonResponse2(List<(string, string)> utts, string state, string debug)
+        private string buildJsonResponse(List<(string, string)> utts, string state, (string, string) mapdata, string url, string calendar, string debug)
         {
             var forJson = new List<Dictionary<string, object>>();
 
@@ -80,6 +68,25 @@ namespace KioskUI
 
             var command = new Dictionary<string, object> { { "command", "setAvatarState" }, { "args", state } };
             forJson.Add(command);
+
+            if (url != "")
+            {
+                Dictionary<string, object> urlForJson = new Dictionary<string, object> { { "command", "displayUrl" }, {"args", url } };
+                forJson.Add(urlForJson);
+            }
+
+            if (mapdata.Item1 != "")
+            {
+                var mapargs = new Dictionary<string, string> { { "name", mapdata.Item1 }, { "id", mapdata.Item2 } };
+                var command_map = new Dictionary<string, object> { { "command", "displayMap" }, { "args", mapargs } };
+                forJson.Add(command_map);
+            }
+
+            if (calendar != "")
+            {
+                Dictionary<string, object> calForJson = new Dictionary<string, object> { { "command", "displayCalendar" }, { "args", calendar } };
+                forJson.Add(calForJson);
+            }
 
             if (debug.Length > 0)
             {
@@ -105,6 +112,10 @@ namespace KioskUI
         private bool thinking = false;
         private bool speaking = false;
         private string state = "sleeping";
+        private string url = "";
+        private string mapLabel = "";
+        private string mapID = "";
+        private string calendar = "";
 
         public KioskUI(Pipeline pipeline, bool isDetectingFace = true)
         {
@@ -114,15 +125,16 @@ namespace KioskUI
             this.Wake = pipeline.CreateEmitter<bool>(this, nameof(this.Wake));
 
             this.UserInput = pipeline.CreateReceiver<string>(this, ReceiveUserInput, nameof(this.UserInput));
-            this.CompResponse = pipeline.CreateReceiver<string>(this, ReceiveCompResponse, nameof(this.CompResponse));
             this.FaceDetected = pipeline.CreateReceiver<bool>(this, ReceiveFaceDetected, nameof(this.FaceDetected));
             this.DialogStateChanged = pipeline.CreateReceiver<string>(this, ReceiveDialogStateChanged, nameof(this.DialogStateChanged));
+            this.ActionCommand = pipeline.CreateReceiver<NU.Kiosk.SharedObject.Action>(this, ReceiveActionCommand, nameof(this.ActionCommand));
         }
 
         public Receiver<string> UserInput { get; private set; }
         public Receiver<string> CompResponse { get; private set; }
         public Receiver<bool> FaceDetected { get; private set; }
         public Receiver<string> DialogStateChanged { get; private set; }
+        public Receiver<NU.Kiosk.SharedObject.Action> ActionCommand { get; private set; }
 
         /// <summary>
         /// Input from user via the touch screen screen on the UI
@@ -137,13 +149,6 @@ namespace KioskUI
             thinking = true;
         }
 
-        private void ReceiveCompResponse(string message, Envelope e)
-        {
-            this.utterances.Add(("kiosk", message));
-            thinking = false;
-            speaking = true;
-        }
-
         private void ReceiveFaceDetected(bool message, Envelope e)
         {
             this.faceDetected = message;
@@ -151,10 +156,42 @@ namespace KioskUI
 
         private void ReceiveDialogStateChanged(string arg1, Envelope arg2)
         {
+            Console.WriteLine($"Received state change: {arg1}");
             state = arg1;
         }
 
-        public void Start(Action onCompleted, ReplayDescriptor descriptor)
+        private void ReceiveCompResponse(string message, Envelope e)
+        {
+            this.utterances.Add(("kiosk", message));
+            thinking = false;
+            speaking = true;
+        }
+
+        private void ReceiveActionCommand(NU.Kiosk.SharedObject.Action arg1, Envelope arg2)
+        {
+            switch (arg1.Name)
+            {
+                case "psikiSayText":
+                    utterances.Add(("kiosk", (string)arg1.Args[0]));
+                    break;
+                case "psikiShowMap":
+                    mapLabel = (string)arg1.Args[0];
+                    mapID = (string)arg1.Args[1];
+                    break;
+                case "psikiShowUrl":
+                    url = (string)arg1.Args[0];
+                    break;
+                case "psikiShowCalendar":
+                    calendar = (string)arg1.Args[0];
+                    break;
+                default:
+                    Console.WriteLine("Invalid action received by UrlCommand" + arg1.Name);
+                    break;
+            }
+            
+        }
+
+        public void Start(System.Action onCompleted, ReplayDescriptor descriptor)
         {
             wssv = new WebSocketServer("ws://127.0.0.1:9791");
             wssv.AddWebSocketService<KioskUIServer>("/dialog", () => new KioskUIServer(this));
@@ -177,6 +214,28 @@ namespace KioskUI
         public string getState()
         {
             return state;
+        }
+
+        public string getUrl()
+        {
+            var retval = url;
+            url = "";
+            return retval;
+        }
+
+        public (string,string) getMapData()
+        {
+            var retval = (mapLabel, mapID);
+            mapLabel = "";
+            mapID = "";
+            return retval;
+        }
+
+        public string getCalendar()
+        {
+            var retval = calendar;
+            calendar = "";
+            return retval;
         }
 
         public string getDebug()

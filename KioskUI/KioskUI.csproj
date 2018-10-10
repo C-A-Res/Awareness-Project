@@ -74,5 +74,11 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KioskSharedObjects\KioskSharedObjects.csproj">
+      <Project>{a344ce56-7b02-46cd-8b8d-6febc1e14606}</Project>
+      <Name>KioskSharedObjects</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

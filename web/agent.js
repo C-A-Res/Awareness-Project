@@ -1,3 +1,5 @@
+// TODO 1080 x 1920
+
 function init() {
 
   var ws;
@@ -108,39 +110,94 @@ function init() {
     }
     textContainer.appendChild(newTextNode);
     document.getElementById('chatSpace').appendChild(textContainer);    
-    updateScroll()  
+    updateScroll();
   }
 
-  function displayMap(name, x, y) {
-    mapSpace.style.display = "block";
-    touchInput.style.display = "none";
-    dest.style.left = x;
-    dest.style.top = y;
+  function displayMap(name, id) {
+    mapView.style.display = "block";
+    buttonView.style.display = "none";
+    calendarView.style.display = "none";
+    inputView.style.display = "none";
+
+    youarehere.style.left = calculateX("kiosk");
+    youarehere.style.top = calculateY("kiosk") - 4;
+
+    dest_m.innerHTML = name;
+
+    if (name == "You") {
+      dest_m.style.left = calculateX("kiosk") - 2;
+      dest_m.style.top = calculateY("kiosk") - 8;
+
+      dest.style.left = calculateX("kiosk");
+      dest.style.top = calculateY("kiosk") - 4;
+    } else {
+      
+      dest_m.style.left = calculateX(id);
+      dest_m.style.top = calculateY(id);
+
+      dest.style.left = calculateX(id);
+      dest.style.top = calculateY(id) + 4;
+    }
+    
+  }
+
+  // used to transform from mapData x coordinates to this map coordinates
+  function calculateX (id) {
+    // sample from data map 3005: 246, 56
+    // sample from this map 3005: 155, 122
+    // sample from data map 3017: 458, 56
+    // sample from this map 3017: 392, 122
+    var xDataSampleDelta = 212.;
+    var xThisSampleDelta = 237.;
+    var xDataToThisScale = xThisSampleDelta / xDataSampleDelta;
+
+    var xDataOffset = 139.;
+    var xThisOffset = 35.;
+    // var xDataEnd = 959;
+    // var xThisEnd = 952;
+    return (mapData[id].x - xDataOffset) * xDataToThisScale + xThisOffset;
+  }
+
+  // used to transform from mapData y coordinates to this map coordinates
+  function calculateY (id) {
+    // sample from data map 3107: 180, 226
+    // sample from this map 3107: 83, 317
+    // sample from data map 3123: 180, 571
+    // sample from this map 3123: 83, 317
+    var yDataSampleDelta = 345.;
+    var yThisSampleDelta = 396.;
+    var yDataToThisScale = yThisSampleDelta / yDataSampleDelta;
+
+    var yDataOffset = 5.;
+    var yThisOffset = 63.;
+    // var yDataEnd = 747;
+    // var yThisEnd = 915;
+    return (mapData[id].y - yDataOffset) * yDataToThisScale + yThisOffset;
+  }
+
+  function displayCalendar() {
+    calendarView.style.display = "block";
+    buttonView.style.display = "none";
+    mapView.style.display = "none";
+    inputView.style.display = "none";
   }
 
   function displayKeyboard() {
-    btnwhere.style.display = "none";
-    when.style.display = "none";
-    what.style.display = "none";
-    other.style.display = "none";
-    showmap.style.display = "none";
-    keys.style.display = "flex";
-    titles.style.display = "flex";
+    buttonView.style.display = "none";
+    mapView.style.display = "none";
+    calendarView.style.display = "none";
+    inputView.style.display = "block";
   }
 
-  function displayInputStarters() {
-    where.style.display = "block";
-    when.style.display = "block";
-    what.style.display = "block";
-    other.style.display = "block";
-    showmap.style.display = "block";
-    keys.style.display = "none";
-    titles.style.display = "none";
-    mapSpace.style.display = "none";
+  function displayStarterButtons() {
+    buttonView.style.display = "block";
+    inputView.style.display = "none";
+    mapView.style.display = "none";
+    calendarView.style.display = "none";
   }
 
   function resetScreen() {
-    displayInputStarters()
+    displayStarterButtons();
     var cloned = chatSpace.cloneNode(false);
     chatSpace.parentNode.replaceChild(cloned, chatSpace);
     input.value = "";
@@ -208,9 +265,9 @@ function init() {
     element.onclick = function() {
       text = input.value;
       if (text.endsWith('?')) {
-        text = text.substring(0,text.length-1) + this.innerHTML + ' ?';  
+        text = text.substring(0,text.length-1) + this.getAttribute("data-value") + '?';
       } else {
-        text = text + this.innerHTML + " ";
+        text = text + this.getAttribute("data-value") + " ";
       }
       input.value = text;
     }
@@ -220,20 +277,30 @@ function init() {
     text = input.value;
     if (text.endsWith('?')) {
         input.value = text.substring(0,text.length-2) + '?';
-      } else {
-        input.value = text.substring(0,text.length-1);
-      }
-    
-  }
-
-  ok.onclick = function() {
-    mapSpace.style.display = "none";
-    touchInput.style.display = "block";
+    } else {
+      input.value = text.substring(0,text.length-1);
+    }
   }
 
   showmap.onclick = function() {
-    displayMap("", 0, 2000);
+    displayMap("", "0");
   }
+  
+  $(".backButton").click(function () {
+    input.value = "";
+    displayStarterButtons();
+  });
+
+  $("#showCalendar").click(function () {
+    displayCalendar();
+  });
+
+  // FOR TESTING
+  $("#mapDestinationSubmit").click(function () {
+    console.log("room: " + mapDestination.value);
+    dest.style.left = calculateX(mapDestination.value);
+    dest.style.top = calculateY(mapDestination.value);
+  });
 
   // Connect to Web Socket
   var isConnected = false;
@@ -280,7 +347,10 @@ function init() {
             output(args);
             break;
           case "displayMap":
-            displayMap(args.name, args.x, args.y);
+            displayMap(args.name, args.id);
+            break;
+          case "displayCalendar":
+            displayCalendar();
             break;
           default:
             output("Unrecognized command: " + command);
@@ -314,7 +384,7 @@ function init() {
       //displayText("user", text);
       wsx.send(text);
       input.value = "";
-      displayInputStarters();
+      displayStarterButtons();
       return false;
     });
 

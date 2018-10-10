@@ -36,6 +36,9 @@
     <StartupObject>NU.Kiosk.KinectKioskProgram</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="MathNet.Numerics, Version=3.20.2.0, Culture=neutral, PublicKeyToken=cd8b63ad3d691a37, processorArchitecture=MSIL">
       <HintPath>..\packages\MathNet.Numerics.Signed.3.20.2\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
@@ -286,6 +289,10 @@
     <ProjectReference Include="..\Kinectv1\PsiKinectv1\PsiKinectv1.csproj">
       <Project>{e5aad085-bc59-407d-83db-c23cb602de84}</Project>
       <Name>PsiKinectv1</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KioskSharedObjects\KioskSharedObjects.csproj">
+      <Project>{a344ce56-7b02-46cd-8b8d-6febc1e14606}</Project>
+      <Name>KioskSharedObjects</Name>
     </ProjectReference>
     <ProjectReference Include="..\KioskSpeech\KioskSpeech\KioskSpeech.csproj">
       <Project>{c5ab7394-68fb-4641-bdae-8a956edc44a9}</Project>

@@ -7,12 +7,16 @@ header{
   height: 75px;
 }
 
+body {
+  font-family: Trebuchet MS, sans-serif;
+}
+
 .indicators {
   height: 20px;
   width: 20px;
   border-radius: 50%;
   margin: 5px;
-  position: relative;
+  display: inline-block;
 }
 
 #connected {
@@ -37,32 +41,34 @@ header{
 }
 
 .newuserDiv{
-  border-radius: 25px;
+  border-radius: 15px 15px 5px 15px;
   border: 2px solid skyblue;
   padding: 5px;
-  float: right;
   text-align: right;
-  width: 70%;
-  margin: 5px;
+  width: fit-content;
+  max-width: 70%;
+  margin: 5px 5px 5px auto;
+  background-color: white;
 }
 
 .newbotDiv{
-  border-radius: 25px;
+  border-radius: 15px 15px 15px 5px;
   border: 2px solid purple;
   padding: 5px;
-  float: left;
   text-align: left;
-  width: 70%;
-  margin: 5px;
+  width: fit-content;
+  max-width: 70%;
+  margin: 5px auto 5px 5px;
   white-space: pre-wrap;
+  background-color: white;
 }
 
 .ball {
   display: block;
-  background: radial-gradient(circle at 130px 70px, #330099, #000);
+  background: radial-gradient(circle at 195px 105px, #330099, #000);
   border-radius: 50%;
-  height: 200px;
-  width: 200px;
+  height: 300px;
+  width: 300px;
   margin: 0;
   animation-name: thinking;
   animation-duration: 2s;
@@ -70,20 +76,20 @@ header{
   animation-timing-function: ease-out;
   position: absolute;
   top: 157px;
-  left: 70px;
+  left: 80px;
   transition: transform 1s;
 }
 
 .ball:before {
   content: "";
   position: absolute;
-  background: radial-gradient(circle at 50% 120%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 70%);
+  background: radial-gradient(circle at 50% 120%, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.4) 70%);
   border-radius: 50%;
-  bottom: 2.5%;
-  left: 7.5%;
+  bottom: 3.5%;
+  left: 4.5%;
   opacity: 0.4;
   height: 100%;
-  width: 90%;
+  width: 95%;
   filter: blur(5px);
   z-index: 2;
 }
@@ -92,8 +98,8 @@ header{
   width: 100%;
   height: 100%;
   position: absolute;
-  top: 5%;
-  left: 10%;
+  top: -1%;
+  left: 15%;
   border-radius: 50%;
   background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8) 14%, rgba(255, 255, 255, 0) 24%);
   transform: translateX(80px) translateY(-90px) skewX(-20deg);
@@ -102,14 +108,14 @@ header{
 
 .shadow {
   position: relative;
-  width: 175px;
+  width: 260px;
   height: 16px;
   background: #999;
   opacity: .5;
   border-radius: 100%;
-  margin: 0% 20% 0% 20%;
-  top: 330px;
-  left: -22px;
+  margin: 0 auto;
+  top: 430px;
+  left: -20px;
   animation-name: shadow-bounce;
   animation-duration: 2s;
   animation-iteration-count: 2;
@@ -117,14 +123,14 @@ header{
 }
 
 #eye1 {
-  left: -30px;
+  left: -45px;
   top: -20px;
   transform: skewX(-5deg) skewY(-2deg);
   
 }
 
 #eye2 {
-  left: 50px;
+  left: 75px;
   top: -20px;
   transform: skewX(5deg) skewY(2deg);
 }
@@ -218,24 +224,26 @@ header{
 
 #topSpace{
   display: flex;
+  border: 2px solid gray;
+  border-bottom: 1px solid gray;
+  border-top: none;
+  margin: 0 35px;
 }
 
 #chatSpace{
   overflow: auto;
-  width: 50%;
-  height: 500px;
-  border: 5px solid black;
-  padding: 2%;
-  margin: 1%;
+  width: 500px;
+  height: 650px;
+  padding: 20px;
+  background-color: #ece9f3;
 }
 
 #avatarSpace{
   overflow: hidden;
-  width: 35%;
-  height: 500px;
-  border: 5px solid purple;
-  padding: 2%;
-  margin: 1%;
+  width: 450px;
+  height: 650px;
+  /*border: 5px solid purple;*/
+  padding: 20px;
   position: relative;
   /*flex: 1;*/
   perspective: 1200px;
@@ -243,82 +251,129 @@ header{
 }
 
 #bottomSpace {
-  display: flex;
   overflow: hidden;
-  width: 95%;
-  height: 600px;
-  border: 5px solid darkgray;
-  padding: 2%;
-  margin: 1%;
+  height: 1080px;
+  border: 2px solid gray;
+  border-top: none;
+  border-radius: 0 0 20px 20px;
   position: relative;
+  margin: 0 35px;
+}
+
+#inputSpace {
+  height: 960px;
+}
+
+#inputBox {
+  display: flex;
+  margin-bottom: 40px;
+  padding: 20px;
+  border-bottom: 1px solid gray;
+}
+
+#instructions {
+  font-size: 30px;
+}
+
+#header {
+  background-color: #4E2A84;
+  color: white;
+  font-size: 25px;
+  padding: 15px 30px;
+  border-radius: 20px 20px 0 0;
+  margin: 35px 35px 0 35px;
 }
 
 #keys {
-  display: none;
+  display: flex;
 }
 
 #titles {
   position: relative;
-  display: none;
+  display: flex;
+  border-radius: 10px 10px 0 0;
+  background-color: slategray;
+  margin-bottom: 20px;
 }
 
 #keyboard {
   position: relative;
   display: block;
+  background-color: #f1f1f1;
+  border-radius: 10px;
+  margin: auto;
+  box-shadow: 0 0 10px 1px lightgrey;
+  -webkit-box-shadow: 0 0 10px 1px lightgrey;
+}
+
+#touchInput .fa-angle-right {
+  font-size: 40px;
 }
 
 #input {
   font-size: 30px;
-  width: 600px;
+  width: 800px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 0 0 0 15px;
+  box-shadow: inset 0 1px 5px lightgrey;
+  -webkit-box-shadow: inset 0 1px 5px lightgrey;
 }
 
+#showmap, #showCalendar {
+  border-radius: 10px;
+  margin-top: 30px;
+  text-align: center;
+  background-color: lightgray;
+}
 
 .submitButton {
-  width: 150px;
-  height: 50px;
+  width: 130px;
   padding: 5px;
-  background-color: lightgray;
-  margin: 10px;
-  border: 2px solid black;
+  background-color: #4E2A84;
+  margin-left: 10px;
   font-size: 30px;
   text-align: center;
   line-height: 55px;
+  color: white;
+  border-radius: 10px;
 }
 
 .touchButton {
-  width: 250px;
+  width: 280px;
   height: 70px;
   padding: 5px;
-  background-color: lightgray;
-  margin: 10px;
-  border: 2px solid black;
+  border: 5px solid white;
   font-size: 30px;
-  text-align: center;
   line-height: 75px;
+  margin: auto;
 }
 
 .touchButton2 {
-  width: 80px;
+  min-width: 65px;
   height: 50px;
-  padding: 5px;
-  background-color: lightgray;
-  margin: 10px;
-  border: 2px solid black;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border-right: 5px solid white;
   font-size: 30px;
   text-align: center;
   line-height: 55px;
+  color: white;
 }
 
 .keyButton {
-  width: 35px;
-  height: 35px;
+  min-width: 60px;
+  height: 60px;
   padding: 5px;
-  background-color: lightgray;
-  margin: 5px;
-  border: 2px solid black;
-  font-size: 20px;
+  background-color: #3d3d3d;
+  margin: 7px 5px;
+  font-size: 35px;
   text-align: center;
-  line-height: 45px;
+  line-height: 60px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px grey;
+  -webkit-box-shadow: 1px 1px 5px grey;
+  color: white;
 }
 
 .toggleDebug {
@@ -341,19 +396,38 @@ header{
   border-top: none;
 }
 
+#spaceKey {
+  width: 400px; 
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #mapSpace {
-  display: none;
+  width: 100%;
+  overflow: hidden;
+  height: 930px;
+  margin-top: 30px;
 }
 
 #map {
-  width: 1335px;
-  margin: -100px 0 0 -115px;
+  width: 1075px;
+  margin: -15px 0 0 -25px;
 }
 
 #ok {
-  left: 720px;
-  top: 0px;
-  position: absolute;
+  margin: 15px auto;
+  width: 200px;
+  border-radius: 10px;
+  background-color: lightgray;
+  text-align: center;
+}
+
+#cancel {
+  padding: 5px;
+  margin-left: 10px;
+  line-height: 55px;
+  font-size: 30px;
+  color: grey;
 }
 
 .mapMarker {
@@ -363,16 +437,96 @@ header{
   background-color: purple;
   text-indent: 12px;
   line-height: 10px;
+  white-space: nowrap;
+}
+
+.destMarker {
+  position: absolute;
+  background-color: white;
+  text-indent: 12px;
+  line-height: 14px;
+  white-space: nowrap;
+  padding: 2px;
+  opacity: 0.9;
+  filter: alpha(opacity=90);
 }
 
 #youarehere {
-  left: 270px;
-  top: 208px;
+  left: 170px;
+  top: 280px;
   position: absolute;
   width: 10px;
   height: 10px;
   background-color: purple;
 }
+
+#calendarSpace {
+  margin-top: 30px;
+}
+
+#scrolltimedevents1 {
+  margin-top: -376px;
+}
+
+#calendarSpace iframe {
+  width: 900px;
+  height: 930px;
+  display: block;
+  margin: 0 auto;
+}
+
+.backButton {
+  width: 200px;
+  height: 70px;
+  padding: 5px;
+  border: 5px solid white;
+  border-radius: 10px;
+  font-size: 30px;
+  line-height: 75px;
+  background-color: lightgray;
+  text-align: center;
+  margin: 15px auto;
+}
+
+/*#calendarBack {
+  width: 200px;
+  border-radius: 10px;
+  background-color: lightgray;
+  text-align: center;
+  margin: 15px auto;
+}*/
+
+#lights{
+  float: right;
+  margin: 10px 35px 0 0;
+}
+
+/*FOR TESTING*/
+#mapDestination {
+  width: 200px;
+  display: inline-block;
+  float: left;
+  height: 50px;
+  margin-left: 50px;
+  font-size: 30px;
+  line-height: 30px;
+  border: 2px solid black;
+}
+
+/*FOR TESTING*/
+#mapDestinationSubmit {
+  width: 100px;
+  display: inline-block;
+  float: left;
+  height: 50px;
+  font-size: 30px;
+  line-height: 30px;
+  border: 2px solid black;
+}
+
+/*#calendar .details{
+  visibility: hidden;
+}*/
 
 @keyframes bounce {
   0% { transform: scale(1); }
