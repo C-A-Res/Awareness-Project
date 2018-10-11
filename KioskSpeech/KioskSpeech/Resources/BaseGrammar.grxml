@@ -17,9 +17,11 @@
       <item>
         <ruleref uri="#Command" />
       </item>
+      <!-- 
       <item>
         <ruleref uri="#EasterEggs" />
       </item>
+      -->
     </one-of>
   </rule>
   <!-- mark -->
