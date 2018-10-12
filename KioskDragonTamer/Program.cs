@@ -35,6 +35,7 @@ namespace NU.Kiosk.Speech
             string phrase_audio_file_list = @"text_audio_list.txt";
             string training_word_list_path = @"Resources\words_to_train.txt";
             ExecutionMode mode = ExecutionMode.Production_Run;
+            bool show_help = false;
 
             var p = new OptionSet() {
                 { "d|debug", "Stand-alone debug mode. All speeches are consumed locally; recognized speech will be echoed back.",
@@ -43,37 +44,42 @@ namespace NU.Kiosk.Speech
                         mode = ExecutionMode.Debug_Run;
                    }
                 },
-                { "p|train_phrase_audio", "Train Dragon with Phrase-Audio pairs. ",
+                { "p|train_pa", "Train Dragon with Phrase-Audio pairs with default pair list. ",
                    v => {
                        mode = v != null ? ExecutionMode.Train_Pairs : mode;
                        isTraining = true;
                    }
                 },
-                { "w|train_words_from_list", "Train words with Dragon. ",
-                   v => {
-                       mode = v != null ? ExecutionMode.Train_Word_List : mode;
-                       isTraining = true;
-                   }
-                },
-                { "phrase_audio_data_dir=", "Train Dragon with Phrase-Audio pairs from the following directory. ",
+                { "pa_dir=", "Train Dragon with Phrase-Audio pairs from the following directory. Default: Resources\\Audio\\",
                    v => {
                        phrase_audio_file_directory_path = v;
                        mode = ExecutionMode.Train_Pairs;
                        isTraining = true;
                    }
                 },
-                { "phrase_audio_file_list=", "Train Dragon with Phrase-Audio pairs mentioned in this file.",
+                { "pa_list=", "Train Dragon with Phrase-Audio pairs specified in this file. Default: text_audio_list.txt, assuming pa_dir=Resources\\Audio\\ if unspecified.",
                    v => {
                         phrase_audio_file_list = v;
                         mode = ExecutionMode.Train_Pairs;
                         isTraining = true;
                    }
                 },
-                { "word_list_path=", "Provide a path to a list of word and interactively train Dragon.",
+                { "w|train_wl", "Interactively train Dragon the pronunciations of words from the default word list: Resources\\words_to_train.txt ",
+                   v => {
+                       mode = v != null ? ExecutionMode.Train_Word_List : mode;
+                       isTraining = true;
+                   }
+                },
+                { "wl=", "Provide a path to the word list and interactively train Dragon their pronunciations.",
                    v => {
                         training_word_list_path = v;
                         mode = ExecutionMode.Train_Word_List;
                         isTraining = true;
+                   }
+                },
+                { "h|help", "Show this message and exit.",
+                   v => {
+                       show_help = v != null;
                    }
                 },
             };
@@ -86,6 +92,14 @@ namespace NU.Kiosk.Speech
             {
                 Console.WriteLine(e.Message);
                 Console.WriteLine("Try `program.exe --help' for more information.");
+                return;
+            }
+
+            if (show_help)
+            {
+                Console.WriteLine("Usage: KioskDragonTamer.exe [OPTIONS]");
+                Console.WriteLine("Options:");
+                p.WriteOptionDescriptions(Console.Out);
                 return;
             }
 
