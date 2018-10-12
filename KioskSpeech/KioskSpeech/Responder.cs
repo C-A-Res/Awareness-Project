@@ -147,9 +147,9 @@ namespace NU.Kiosk.Speech
                     case "what is the meaning of life":
                         sendResponse("101010");
                         return true;
-                    case "aravindan chris kris ian":
-                        sendResponse("Wrong care court near");
-                        return true;
+                    //case "aravindan chris kris ian":
+                    //    sendResponse("Wrong care court near");
+                    //    return true;
                     case "where am i?":
                     case "show me the map.":
                     case "show me the map":

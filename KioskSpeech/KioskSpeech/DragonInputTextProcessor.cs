@@ -69,11 +69,17 @@ namespace NU.Kiosk.Speech
                 || lower.StartsWith("could ") || lower.StartsWith("does ") || lower.StartsWith("do ")
                 || lower.StartsWith("would ") || lower.StartsWith("have ") || lower.StartsWith("has "))
             {
-                message += "?";
+                if (!lower.EndsWith("?"))
+                {
+                    message += "?";
+                }                
             }
             else if (lower.StartsWith("show") || lower.StartsWith("tell"))
             {
-                message += ".";
+                if (!lower.EndsWith("."))
+                {
+                    message += ".";
+                }
             }
             if (lower.Contains("where's") || lower.Contains("what's") || lower.Contains("who's") || lower.Contains("when's")
                 || lower.Contains("how's")
