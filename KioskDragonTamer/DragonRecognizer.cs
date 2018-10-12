@@ -14,7 +14,7 @@ using System.IO.Pipes;
 
 namespace NU.Kiosk.Speech
 {
-    public class DragonRecognizer : IDisposable
+    public class DragonRecognizer : IDisposable, IPipeUtilUsers
     {
         // start stop listener
         private string listener_pipe_name;
@@ -47,7 +47,7 @@ namespace NU.Kiosk.Speech
             txtEdit.Enabled = true;
             txtEdit.Focus();
 
-            listener = new PipeListener(ChangeState, listener_pipe_name);
+            listener = new PipeListener(ChangeState, listener_pipe_name, this);
             sender = new PipeSender(destination_pipe_name);
         }
 
@@ -59,6 +59,11 @@ namespace NU.Kiosk.Speech
             sender.Dispose();
 
             uninitialize();
+        }
+
+        public void ReconnectSenders()
+        {
+            sender.Reconnect();
         }
 
         public void Initialize()

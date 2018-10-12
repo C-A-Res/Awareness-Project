@@ -17,6 +17,9 @@ namespace NU.Kiosk.Speech
 {
     public class DragonInputTextProcessor : IProducer<Utterance>, IStartable, IDisposable
     {
+        private static Regex course_num1 = new Regex(@"(\d)\s+(\d)0\s+(\d)");
+        private static Regex course_num2 = new Regex(@"(\d)\s+(\d+)");
+
         private const string listener_pipe_name = "dragon_processed_text_pipe";
         private PipeListener listener;
 
@@ -24,6 +27,7 @@ namespace NU.Kiosk.Speech
         public Emitter<Utterance> Out { get; private set; }
 
         private bool isUsing;
+
 
         public DragonInputTextProcessor(Pipeline pipeline)
         {
@@ -42,7 +46,7 @@ namespace NU.Kiosk.Speech
         {
             if (isUsing)
             {
-                Out.Post(new Utterance(arg1, 1.0, StringResultSource.ui), arg2.OriginatingTime);
+                process(arg1, StringResultSource.ui, arg2.OriginatingTime);
             }
         }
 
@@ -50,8 +54,31 @@ namespace NU.Kiosk.Speech
         {
             if (isUsing)
             {
-                Out.Post(new Utterance(message, 1.0, StringResultSource.speech), DateTime.Now);
+                process(message, StringResultSource.speech, DateTime.Now);
             }            
+        }
+
+        private void process(string arg1, StringResultSource source, DateTime time)
+        {
+            string message = arg1;
+            var lower = message.ToLower();
+            if (lower.StartsWith("where") || lower.StartsWith("what") || lower.StartsWith("how")
+                || lower.StartsWith("who") || lower.StartsWith("is") || lower.StartsWith("are")
+                || lower.StartsWith("when") || lower.StartsWith("will") || lower.StartsWith("can ")
+                || lower.StartsWith("could ") || lower.StartsWith("does ") || lower.StartsWith("do ")
+                || lower.StartsWith("would "))
+            {
+                message += "?";
+            }
+            else if (lower.StartsWith("show") || lower.StartsWith("tell"))
+            {
+                message += ".";
+            }
+
+            var x = course_num1.Replace(message, m => string.Format("{0}{1}{2}", m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value));
+            var updated_text = course_num2.Replace(x, m => string.Format("{0}{1}", m.Groups[1].Value, m.Groups[2].Value));
+
+            Out.Post(new Utterance(updated_text, 1.0, source), DateTime.Now);
         }
 
         public void Start(System.Action onCompleted, ReplayDescriptor descriptor)

@@ -62,6 +62,9 @@
                 } else if (arg0 == "-nokinect" || arg0 == "-nok")
                 {
                     usingKinect = false;
+                } else if (arg0 == "-dragon")
+                {
+                    usingDragon = true;
                 }
                 i++;
             }
@@ -84,12 +87,13 @@
         private static void dragon(string facilitatorIP, int facilitatorPort, int localPort, bool usingKqml, bool usingKinect)
         {
             bool detected = false;
+            bool quit = false;
             using (Pipeline pipeline = Pipeline.Create())
             {
                 _log.Info("Using Dragon.");
 
                 #region Component declarations
-                var dialog = new Speech.DragonDialogManager(pipeline);
+                var dialog = new Speech.DialogManager(pipeline, true);//new Speech.DragonDialogManager(pipeline);
                 SocketStringConsumer kqml = null;
                 var preproc = new Speech.DragonInputTextProcessor(pipeline);
                 var responder = new Speech.Responder(pipeline);
@@ -102,6 +106,15 @@
 
 
                 #region Wiring together the components
+
+                // send wakeup signal to dialog
+                ui.Wake.PipeTo(dialog.WakeUp);
+
+                // update UI with dialog state
+                dialog.StateChanged.PipeTo(ui.DialogStateChanged);
+
+                // update Recognizer with dialog state
+                //dialog.StateChanged.Select(state => state == "listening").PipeTo(recognizer.isAcceptingData);
 
                 // Combine all the kinect image outputs
                 // This might be doable in a single join
@@ -128,12 +141,23 @@
                     faceDetected.PipeTo(ui.FaceDetected);
                 } else
                 {
-                    // Create the AudioSource component to capture audio from the default device in 16 kHz 1-channel
-                    // PCM format as required by both the voice activity detector and speech recognition components.
+                    _log.Info("Using push-to-talk: Press the spacebar to open the mic, and any key to close the mic, and q to quit");
+                    var keys = Generators.Sequence(pipeline, Keys(), TimeSpan.FromMilliseconds(10));
+                    var pushToTalk = keys.Select(k =>
+                    {
+                        if (k == ConsoleKey.Spacebar)
+                        {
+                            return true;
+                        }
+                        if (k == ConsoleKey.Q)
+                        {
+                            quit = true;
+                            return false;
+                        }
+                        return false;
+                    }).Repeat(Generators.Timer(pipeline, TimeSpan.FromMilliseconds(100)));
 
-                    intervalboolean = new Speech.IntervalBooleanProducer(pipeline, new int[]{ 1000 }, 50);
-
-                    var mouthOpenAsFloat = intervalboolean.Out.Select((bool x) =>
+                    var mouthOpenAsFloat = pushToTalk.Out.Select((bool x) =>
                     {
                         if (!detected)
                         {
@@ -147,9 +171,9 @@
                     var faceDetected = mouthOpenAsFloat.Hold(0.1, 0.01);
                     faceDetected.PipeTo(dialog.FaceDetected);
                     faceDetected.PipeTo(ui.FaceDetected);
-                    faceDetected.Do(x => { if (x) { Console.Write(1); } else { Console.Write(0); } });
                 }
-                
+
+                //done; recognitionResult.PipeTo(preproc.In);
                 ui.TouchInput.PipeTo(preproc.UiInput);
 
                 // Send processed user input to Companion and UI
@@ -157,15 +181,12 @@
                 dialog.UserOutput.Select(u => { return u.Text; }).PipeTo(ui.UserInput);
 
                 // Get response from Companion and forward to UI and synthesizer
-                dialog.CompOutput.PipeTo(ui.CompResponse);
-                //dialog.CompOutput.PipeTo(synthesizer);
+                dialog.ActionOutput.PipeTo(ui.ActionCommand);
+                //dialog.CompOutput.PipeTo(ui.CompResponse);
+                //done; already handled in handleCompInput. dialog.TextOutput.PipeTo(synthesizer);
 
                 dialog.UserOutput.PipeTo(responder.UserInput);
-                // TODO update following line of code
-                //responder.CompResponse.PipeTo(dialog.CompInput);
-
-                //synthesizer.UpdatedState.PipeTo(dialog.SpeechSynthesizerState);
-                //Console.Out.WriteLine("Synthisizer select");
+                responder.ActionResponse.PipeTo(dialog.CompInput);
 
                 if (usingKqml)
                 {
@@ -199,8 +220,13 @@
                 // Run the pipeline
                 pipeline.RunAsync();
 
-                _log.Info($"Press any key to exit...");
-                Console.ReadKey(true);
+                while (!quit)
+                {
+                    Thread.Sleep(100);
+                }
+
+                //_log.Info($"Press any key to exit...");
+                //Console.ReadKey(true);
 
             }
         }

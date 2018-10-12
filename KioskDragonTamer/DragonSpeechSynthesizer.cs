@@ -13,7 +13,7 @@ using static Microsoft.Psi.Speech.SystemSpeechSynthesizer;
 
 namespace NU.Kiosk.Speech
 {
-    public class DragonSpeechSynthesizer : IDisposable
+    public class DragonSpeechSynthesizer : IDisposable, IPipeUtilUsers
     {
         private string listener_pipe_name;
         private PipeListener listener;
@@ -33,7 +33,7 @@ namespace NU.Kiosk.Speech
 
             this.recognizer = rec;
             postFixIdentifier = DateTime.Now.ToLongTimeString();
-            listener = new PipeListener(Speak, listener_pipe_name);
+            listener = new PipeListener(Speak, listener_pipe_name, this);
             sender = new PipeSender(destination_pipe_name);
         }
 
@@ -46,6 +46,11 @@ namespace NU.Kiosk.Speech
             dgnVoiceTxt.Enabled = false;
             dgnVoiceTxt.UnRegister();
             dgnVoiceTxt = null;
+        }
+
+        public void ReconnectSenders()
+        {
+            sender.Reconnect();
         }
 
         private void speechHasStarted()

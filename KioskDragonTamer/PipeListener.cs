@@ -18,11 +18,14 @@ namespace NU.Kiosk
         private Thread listenerThread;
 
         private Action<string> string_handler;
-        
-        public PipeListener(Action<string> action_on_result, string listener_pipe_name)
+
+        private IPipeUtilUsers parent;
+
+        public PipeListener(Action<string> action_on_result, string listener_pipe_name, IPipeUtilUsers parent)
         {
             string_handler += action_on_result;
             this.listener_pipe_name = listener_pipe_name;
+            this.parent = parent;
         }
 
         public void Dispose()
@@ -57,18 +60,32 @@ namespace NU.Kiosk
             listenerThread.Start();
         }
 
+        public void Reconnect()
+        {
+            parent.ReconnectSenders();
+            pipeServer = new NamedPipeServerStream(listener_pipe_name, PipeDirection.In, NumThreads);
+            Console.WriteLine($"[PipeListener.{listener_pipe_name}] Waiting for connection... ");
+            pipeServer.WaitForConnection();
+            Console.WriteLine($"[PipeListener.{listener_pipe_name}] Connected!");
+            ss = new StreamString(pipeServer);
+        }
+
         private void StartListening(object o)
         {
             while (true)
             {
-                var res = ss.ReadString();
-                if (res == null)
+                while (true)
                 {
-                    Console.WriteLine($"[PipeListener.{listener_pipe_name}] has stopped listening");
-                    return;
+                    var res = ss.ReadString();
+                    if (res == null)
+                    {
+                        Console.WriteLine($"[PipeListener.{listener_pipe_name}] has stopped listening");
+                        break;
+                    }
+                    Console.WriteLine($"[PipeListener.{listener_pipe_name}] received: '{res}'");
+                    string_handler(res);
                 }
-                Console.WriteLine($"[PipeListener.{listener_pipe_name}] received: '{res}'");
-                string_handler(res);
+                Reconnect();
             }
         }
 

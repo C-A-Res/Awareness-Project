@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 
 namespace NU.Kiosk.Speech
 {
-    public class DialogManager : ConsumerProducer<string, string>
+    public class DialogManager : ConsumerProducer<string, string>, IStartable, IDisposable
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -31,7 +31,9 @@ namespace NU.Kiosk.Speech
         private bool faceWas = false;
         private bool sessionActive = false;
 
-        public DialogManager(Pipeline pipeline) : base(pipeline)
+        private bool isUsingDragon = false;
+
+        public DialogManager(Pipeline pipeline, bool isUsingDragon = false) : base(pipeline)
         {
             this.UserInput = pipeline.CreateReceiver<Utterance>(this, ReceiveUserInput, nameof(this.UserInput));
             this.CompInput = pipeline.CreateReceiver<SharedObject.Action>(this, ReceiveCompInput, nameof(this.CompInput));
@@ -43,6 +45,14 @@ namespace NU.Kiosk.Speech
             this.TextOutput = pipeline.CreateEmitter<string>(this, nameof(this.TextOutput));
             this.ActionOutput = pipeline.CreateEmitter<SharedObject.Action>(this, nameof(this.ActionOutput));
             this.StateChanged = pipeline.CreateEmitter<string>(this, nameof(this.StateChanged));
+
+            this.isUsingDragon = isUsingDragon;
+            if (isUsingDragon)
+            {
+                synth_sender = new PipeSender(destination_pipe_name);
+                start_stop_sender = new PipeSender(destination_start_stop_pipe_name);
+                synth_listener = new PipeListener(ReceiveSynthesizerStateFromDragon, synth_state_listener_pipe_name);
+            }
 
             InitResponseTimer();
             InitSessionTimer();
@@ -59,7 +69,13 @@ namespace NU.Kiosk.Speech
         public Emitter<SharedObject.Action> ActionOutput { get; private set; }
         public Emitter<string> StateChanged { get; private set; }
 
-
+        // dragon
+        private const string synth_state_listener_pipe_name = "dragon_synthesizer_state_pipe";
+        private const string destination_pipe_name = "dragon_synthesizer_pipe";
+        private const string destination_start_stop_pipe_name = "dragon_start_stop_pipe";
+        private PipeListener synth_listener;
+        private PipeSender synth_sender;
+        private PipeSender start_stop_sender;
 
         private void ReceiveUserInput(Utterance arg1, Envelope arg2)
         {
@@ -113,7 +129,15 @@ namespace NU.Kiosk.Speech
                 {
                     _log.Info($"Handling response: {action}");
                     var spokenText = hack_postProcessSpokenText((string)action.Args[0]);
-                    TextOutput.Post(spokenText, origTime);
+
+                    if (isUsingDragon)
+                    {
+                        SendToDragon(spokenText);
+                    } else
+                    {
+                        TextOutput.Post(spokenText, origTime);
+                    }                    
+
                     // pass it through (even sayText)
                     ActionOutput.Post(action, origTime);
                     // update state
@@ -195,6 +219,17 @@ namespace NU.Kiosk.Speech
             state = newState;
             // override dt for now
             dt = DateTime.Now;
+
+            if (isUsingDragon)
+            {
+                if ( state == DialogState.Listening)
+                {
+                    TellDragonToStartOrStopListening(true);
+                } else if (state == DialogState.Sleeping)
+                {
+                    TellDragonToStartOrStopListening(false);
+                }                
+            }
 
             switch (newState)
             {
@@ -299,6 +334,62 @@ namespace NU.Kiosk.Speech
             _log.Debug("[DialogManager: StopSessionTimer] Timer Disabled.");
         }
 
+        #region Dragon
+        private void ReceiveSynthesizerStateFromDragon(string arg1)
+        {
+            if (state == DialogState.Speaking && arg1.Equals("Done"))
+            {
+                if (sessionActive)
+                {
+                    //_log.Info($"Done speaking. Updating DialogState to Listening");
+                    updateState(DialogState.Listening, DateTime.Now);
+                }
+                else
+                {
+                    //_log.Info($"Done speaking. Updating DialogState to Sleeping");
+                    updateState(DialogState.Sleeping, DateTime.Now);
+                }
+            }
+        }
 
+        public void SendToDragon(string message)
+        {
+            Console.WriteLine($"[DragonDialogManager] sending message to synthesizer: {message}");
+            synth_sender.Send(message);
+        }
+
+        public void TellDragonToStartOrStopListening(bool start)
+        {
+            var startOrNot = start ? "start" : "stop";
+            Console.WriteLine($"[DragonDialogManager] telling dragon to {startOrNot} listening");
+            start_stop_sender.Send(start ? "1" : "0");
+        }
+
+        public void Start(System.Action onCompleted, ReplayDescriptor descriptor)
+        {
+            new Task(() => synth_sender.Initialize()).Start();
+            new Task(() => start_stop_sender.Initialize()).Start();
+            new Task(() => synth_listener.Initialize()).Start();
+        }
+
+        public void Stop()
+        {
+            // do nothing, leave for dispose
+        }
+
+        public void Dispose()
+        {
+            Console.WriteLine("[DragonDialogManager] Dispose");
+
+            // synth listener
+            synth_listener.Dispose();
+
+            // sender then stops
+            synth_sender.Dispose();
+
+            // start-stop stops
+            start_stop_sender.Dispose();
+        }
+        #endregion
     }
 }

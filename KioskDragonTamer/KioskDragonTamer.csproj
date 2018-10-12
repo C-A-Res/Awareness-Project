@@ -271,6 +271,7 @@
     <Compile Include="DragonSpeechSynthesizer.cs" />
     <Compile Include="PipeListener.cs" />
     <Compile Include="PipeSender.cs" />
+    <Compile Include="IPipeUtilUsers.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sockets.cs" />
