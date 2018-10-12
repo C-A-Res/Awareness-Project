@@ -275,6 +275,7 @@
     <Compile Include="GrammarUtils\AllXMLGrammarWriter.cs" />
     <Compile Include="GrammarUtils\GrammarWriter.cs" />
     <Compile Include="GrammarUtils\PrimitiveGrammarWriter.cs" />
+    <Compile Include="IPipeUtilUsers.cs" />
     <Compile Include="KioskInputTextPreProcessor.cs" />
     <Compile Include="Kqml.cs" />
     <Compile Include="Class3.cs" />

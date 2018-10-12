@@ -15,8 +15,9 @@ using NU.Kiosk.SharedObject;
 
 namespace NU.Kiosk.Speech
 {
-    public class DragonInputTextProcessor : IProducer<Utterance>, IStartable, IDisposable
+    public class DragonInputTextProcessor : IProducer<Utterance>, IStartable, IDisposable, IPipeUtilUsers
     {
+        private static Regex apo_s = new Regex(@"[']s");
         private static Regex course_num1 = new Regex(@"(\d)\s+(\d)0\s+(\d)");
         private static Regex course_num2 = new Regex(@"(\d)\s+(\d+)");
 
@@ -32,7 +33,7 @@ namespace NU.Kiosk.Speech
         public DragonInputTextProcessor(Pipeline pipeline)
         {
             this.Out = pipeline.CreateEmitter<Utterance>(this, nameof(DragonInputTextProcessor));
-            listener = new PipeListener(PassOnToPipeline, listener_pipe_name);
+            listener = new PipeListener(PassOnToPipeline, listener_pipe_name, this);
             this.UiInput = pipeline.CreateReceiver<string>(this, ReceiveUiInput, nameof(this.UiInput));
         }
 
@@ -66,13 +67,19 @@ namespace NU.Kiosk.Speech
                 || lower.StartsWith("who") || lower.StartsWith("is") || lower.StartsWith("are")
                 || lower.StartsWith("when") || lower.StartsWith("will") || lower.StartsWith("can ")
                 || lower.StartsWith("could ") || lower.StartsWith("does ") || lower.StartsWith("do ")
-                || lower.StartsWith("would "))
+                || lower.StartsWith("would ") || lower.StartsWith("have ") || lower.StartsWith("has "))
             {
                 message += "?";
             }
             else if (lower.StartsWith("show") || lower.StartsWith("tell"))
             {
                 message += ".";
+            }
+            if (lower.Contains("where's") || lower.Contains("what's") || lower.Contains("who's") || lower.Contains("when's")
+                || lower.Contains("how's")
+                )
+            {
+                message = apo_s.Replace(message, m => " is");
             }
 
             var x = course_num1.Replace(message, m => string.Format("{0}{1}{2}", m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value));
@@ -90,6 +97,11 @@ namespace NU.Kiosk.Speech
         public void Stop()
         {
             isUsing = false;
+        }
+
+        public void ReconnectSenders()
+        {
+            // do nothing, there is no sender here
         }
     }
 }

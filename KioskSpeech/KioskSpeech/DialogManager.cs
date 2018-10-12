@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 
 namespace NU.Kiosk.Speech
 {
-    public class DialogManager : ConsumerProducer<string, string>, IStartable, IDisposable
+    public class DialogManager : ConsumerProducer<string, string>, IStartable, IDisposable, IPipeUtilUsers
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -31,7 +31,7 @@ namespace NU.Kiosk.Speech
         private bool faceWas = false;
         private bool sessionActive = false;
 
-        private bool isUsingDragon = false;
+        private bool isUsingDragon;
 
         public DialogManager(Pipeline pipeline, bool isUsingDragon = false) : base(pipeline)
         {
@@ -49,9 +49,9 @@ namespace NU.Kiosk.Speech
             this.isUsingDragon = isUsingDragon;
             if (isUsingDragon)
             {
-                synth_sender = new PipeSender(destination_pipe_name);
-                start_stop_sender = new PipeSender(destination_start_stop_pipe_name);
-                synth_listener = new PipeListener(ReceiveSynthesizerStateFromDragon, synth_state_listener_pipe_name);
+                this.synth_sender = new PipeSender(destination_pipe_name);
+                this.start_stop_sender = new PipeSender(destination_start_stop_pipe_name);
+                this.synth_listener = new PipeListener(ReceiveSynthesizerStateFromDragon, synth_state_listener_pipe_name, this);
             }
 
             InitResponseTimer();
@@ -77,8 +77,15 @@ namespace NU.Kiosk.Speech
         private PipeSender synth_sender;
         private PipeSender start_stop_sender;
 
+        public void ReconnectSenders()
+        {
+            synth_sender.Reconnect();
+            start_stop_sender.Reconnect();
+        }
+
         private void ReceiveUserInput(Utterance arg1, Envelope arg2)
         {
+
             if (state == DialogState.Listening)
             {
                 _log.Info($"Processing user input: {arg1.Text}");

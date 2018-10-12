@@ -52,7 +52,7 @@ Han Liu|Han Liu
 Yuan Luo|Yuan Luo
 Gokhan Memik|Gokhan Memik
 Anne Piper|Anne Piper
-Vincent St-Amour|Vincent St-Amour
+Vincent St-Amour|Vincent Saint Amour
 Sarah Van Wart|Sarah Van Wart
 Jessica Hullman|Jessica Hullman
 Xiao Wang|Xiao Wang
@@ -128,123 +128,122 @@ Liu|Liu
 Luo|Luo
 Memik|Memik
 Piper|Piper
-St-Amour|St-Amour
+St-Amour|Saint Amour
 Van Wart|Van Wart
 Hullman|Hullman
 Wang|Wang
 
 # titled last names
 
-Prof. Argall|Prof. Argall
-Prof. Birnbaum|Prof. Birnbaum
-Prof. Bustamante|Prof. Bustamante
-Prof. Campanoni|Prof. Campanoni
-Prof. Chen|Prof. Chen
-Prof. Cossairt|Prof. Cossairt
-Prof. De|Prof. De
-Prof. Dimoulas|Prof. Dimoulas
-Prof. Dinda|Prof. Dinda
-Prof. Downey|Prof. Downey
-Prof. Findler|Prof. Findler
-Prof. Forbus|Prof. Forbus
-Prof. Hammond|Prof. Hammond
-Prof. Hartline|Prof. Hartline
-Prof. Hinrichs|Prof. Hinrichs
-Prof. Horn|Prof. Horn
-Prof. Horswill|Prof. Horswill
-Prof. Kao|Prof. Kao
-Prof. Kuzmanovic|Prof. Kuzmanovic
-Prof. Liu|Prof. Liu
-Prof. Makarychev|Prof. Makarychev
-Prof. O'Rourke|Prof. O'Rourke
-Prof. Pardo|Prof. Pardo
-Prof. Riesbeck|Prof. Riesbeck
-Prof. Rogers|Prof. Rogers
-Prof. Rubenstein|Prof. Rubenstein
-Prof. Sood|Prof. Sood
-Prof. Tov|Prof. Tov
-Prof. Tumblin|Prof. Tumblin
-Prof. Vijayaraghavan|Prof. Vijayaraghavan
-Prof. Wilensky|Prof. Wilensky
-Prof. Worsley|Prof. Worsley
-Prof. Zhang|Prof. Zhang
-Prof. Alshurafa|Prof. Alshurafa
-Prof. Berry|Prof. Berry
-Prof. Choudhary|Prof. Choudhary
-Prof. Gerber|Prof. Gerber
-Prof. Gergle|Prof. Gergle
-Prof. Gradwohl|Prof. Gradwohl
-Prof. Hardavellas|Prof. Hardavellas
-Prof. Hecht|Prof. Hecht
-Prof. Joseph|Prof. Joseph
-Prof. Katsaggelos|Prof. Katsaggelos
-Prof. Liu|Prof. Liu
-Prof. Luo|Prof. Luo
-Prof. Memik|Prof. Memik
-Prof. Piper|Prof. Piper
-Prof. St-Amour|Prof. St-Amour
-Dr. St-Amour|Dr. St-Amour
-Prof. Van Wart|Prof. Van Wart
-Prof. Hullman|Prof. Hullman
-Prof. Wang|Prof. Wang
+Professor Argall|Professor Argall
+Professor Birnbaum|Professor Birnbaum
+Professor Bustamante|Professor Bustamante
+Professor Campanoni|Professor Campanoni
+Professor Chen|Professor Chen
+Professor Cossairt|Professor Cossairt
+Professor De|Professor De
+Professor Dimoulas|Professor Dimoulas
+Professor Dinda|Professor Dinda
+Professor Downey|Professor Downey
+Professor Findler|Professor Findler
+Professor Forbus|Professor Forbus
+Professor Hammond|Professor Hammond
+Professor Hartline|Professor Hartline
+Professor Hinrichs|Professor Hinrichs
+Professor Horn|Professor Horn
+Professor Horswill|Professor Horswill
+Professor Kao|Professor Kao
+Professor Kuzmanovic|Professor Kuzmanovic
+Professor Liu|Professor Liu
+Professor Makarychev|Professor Makarychev
+Professor O'Rourke|Professor O'Rourke
+Professor Pardo|Professor Pardo
+Professor Riesbeck|Professor Riesbeck
+Professor Rogers|Professor Rogers
+Professor Rubenstein|Professor Rubenstein
+Professor Sood|Professor Sood
+Professor Tov|Professor Tov
+Professor Tumblin|Professor Tumblin
+Professor Vijayaraghavan|Professor Vijayaraghavan
+Professor Wilensky|Professor Wilensky
+Professor Worsley|Professor Worsley
+Professor Zhang|Professor Zhang
+Professor Alshurafa|Professor Alshurafa
+Professor Berry|Professor Berry
+Professor Choudhary|Professor Choudhary
+Professor Gerber|Professor Gerber
+Professor Gergle|Professor Gergle
+Professor Gradwohl|Professor Gradwohl
+Professor Hardavellas|Professor Hardavellas
+Professor Hecht|Professor Hecht
+Professor Joseph|Professor Joseph
+Professor Katsaggelos|Professor Katsaggelos
+Professor Liu|Professor Liu
+Professor Luo|Professor Luo
+Professor Memik|Professor Memik
+Professor Piper|Professor Piper
+Professor St-Amour|Professor Saint Amour
+Professor Van Wart|Professor Van Wart
+Professor Hullman|Professor Hullman
+Professor Wang|Professor Wang
 
 # titled two word names
-Prof. Brenna Argall|Prof. Brenna Argall
-Prof. Larry Birnbaum|Prof. Larry Birnbaum
-Prof. Lawrence Birnbaum|Prof. Lawrence Birnbaum
-Prof. Fabian Bustamante|Prof. Fabian Bustamante
-Prof. Simone Campanoni|Prof. Simone Campanoni
-Prof. Yan Chen|Prof. Yan Chen
-Prof. Oliver Cossairt|Prof. Oliver Cossairt
-Prof. Anindya De|Prof. Anindya De
-Prof. Christos Dimoulas|Prof. Christos Dimoulas
-Prof. Peter Dinda|Prof. Peter Dinda
-Prof. Douglas Downey|Prof. Douglas Downey
-Prof. Robby Findler|Prof. Robby Findler
-Prof. Kenneth Forbus|Prof. Kenneth Forbus
-Prof. Ken Forbus|Prof. Ken Forbus
-Prof. Kristian Hammond|Prof. Kristian Hammond
-Prof. Jason Hartline|Prof. Jason Hartline
-Prof. Thomas Hinrichs|Prof. Thomas Hinrichs
-Prof. Tom Hinrichs|Prof. Tom Hinrichs
-Prof. Michael Horn|Prof. Michael Horn
-Prof. Ian Horswill|Prof. Ian Horswill
-Prof. Ming-Yang Kao|Prof. Ming-Yang Kao
-Prof. Aleksandar Kuzmanovic|Prof. Aleksandar Kuzmanovic
-Prof. Aleks Kuzmanovic|Prof. Aleks Kuzmanovic
-Prof. Han Liu|Prof. Han Liu
-Prof. Konstantin Makarychev|Prof. Konstantin Makarychev
-Prof. Eleanor O'Rourke|Prof. Eleanor O'Rourke
-Prof. Bryan Pardo|Prof. Bryan Pardo
-Prof. Chris Riesbeck|Prof. Chris Riesbeck
-Prof. Jennie Rogers|Prof. Jennie Rogers
-Prof. Michael Rubenstein|Prof. Michael Rubenstein
-Prof. Sara Sood|Prof. Sara Sood
-Prof. Jesse Tov|Prof. Jesse Tov
-Prof. Jack Tumblin|Prof. Jack Tumblin
-Prof. Aravindan Vijayaraghavan|Prof. Aravindan Vijayaraghavan
-Prof. Uri Wilensky|Prof. Uri Wilensky
-Prof. Marcelo Worsley|Prof. Marcelo Worsley
-Prof. Haoqi Zhang|Prof. Haoqi Zhang
-Prof. Nabil Alshurafa|Prof. Nabil Alshurafa
-Prof. Randall Berry|Prof. Randall Berry
-Prof. Alok Choudhary|Prof. Alok Choudhary
-Prof. Elizabeth Gerber|Prof. Elizabeth Gerber
-Prof. Darren Gergle|Prof. Darren Gergle
-Prof. Ronen Gradwohl|Prof. Ronen Gradwohl
-Prof. Nikos Hardavellas|Prof. Nikos Hardavellas
-Prof. Brent Hecht|Prof. Brent Hecht
-Prof. Russell Joseph|Prof. Russell Joseph
-Prof. Aggelos Katsaggelos|Prof. Aggelos Katsaggelos
-Prof. Han Liu|Prof. Han Liu
-Prof. Yuan Luo|Prof. Yuan Luo
-Prof. Gokhan Memik|Prof. Gokhan Memik
-Prof. Anne Piper|Prof. Anne Piper
-Prof. Vincent St-Amour|Prof. Vincent St-Amour
-Dr. Vincent St-Amour|Dr. Vincent St-Amour
-Prof. Sarah Van Wart|Prof. Sarah Van Wart
-Prof. Jessica Hullman|Prof. Jessica Hullman
-Prof. Xiao Wang|Prof. Xiao Wang
+Professor Brenna Argall|Professor Brenna Argall
+Professor Larry Birnbaum|Professor Larry Birnbaum
+Professor Lawrence Birnbaum|Professor Lawrence Birnbaum
+Professor Fabian Bustamante|Professor Fabian Bustamante
+Professor Simone Campanoni|Professor Simone Campanoni
+Professor Yan Chen|Professor Yan Chen
+Professor Oliver Cossairt|Professor Oliver Cossairt
+Professor Anindya De|Professor Anindya De
+Professor Christos Dimoulas|Professor Christos Dimoulas
+Professor Peter Dinda|Professor Peter Dinda
+Professor Douglas Downey|Professor Douglas Downey
+Professor Robby Findler|Professor Robby Findler
+Professor Kenneth Forbus|Professor Kenneth Forbus
+Professor Ken Forbus|Professor Ken Forbus
+Professor Kristian Hammond|Professor Kristian Hammond
+Professor Jason Hartline|Professor Jason Hartline
+Professor Thomas Hinrichs|Professor Thomas Hinrichs
+Professor Tom Hinrichs|Professor Tom Hinrichs
+Professor Michael Horn|Professor Michael Horn
+Professor Ian Horswill|Professor Ian Horswill
+Professor Ming-Yang Kao|Professor Ming-Yang Kao
+Professor Aleksandar Kuzmanovic|Professor Aleksandar Kuzmanovic
+Professor Aleks Kuzmanovic|Professor Aleks Kuzmanovic
+Professor Han Liu|Professor Han Liu
+Professor Konstantin Makarychev|Professor Konstantin Makarychev
+Professor Eleanor O'Rourke|Professor Eleanor O'Rourke
+Professor Bryan Pardo|Professor Bryan Pardo
+Professor Chris Riesbeck|Professor Chris Riesbeck
+Professor Jennie Rogers|Professor Jennie Rogers
+Professor Michael Rubenstein|Professor Michael Rubenstein
+Professor Sara Sood|Professor Sara Sood
+Professor Jesse Tov|Professor Jesse Tov
+Professor Jack Tumblin|Professor Jack Tumblin
+Professor Aravindan Vijayaraghavan|Professor Aravindan Vijayaraghavan
+Professor Uri Wilensky|Professor Uri Wilensky
+Professor Marcelo Worsley|Professor Marcelo Worsley
+Professor Haoqi Zhang|Professor Haoqi Zhang
+Professor Nabil Alshurafa|Professor Nabil Alshurafa
+Professor Randall Berry|Professor Randall Berry
+Professor Alok Choudhary|Professor Alok Choudhary
+Professor Elizabeth Gerber|Professor Elizabeth Gerber
+Professor Darren Gergle|Professor Darren Gergle
+Professor Ronen Gradwohl|Professor Ronen Gradwohl
+Professor Nikos Hardavellas|Professor Nikos Hardavellas
+Professor Brent Hecht|Professor Brent Hecht
+Professor Russell Joseph|Professor Russell Joseph
+Professor Aggelos Katsaggelos|Professor Aggelos Katsaggelos
+Professor Han Liu|Professor Han Liu
+Professor Yuan Luo|Professor Yuan Luo
+Professor Gokhan Memik|Professor Gokhan Memik
+Professor Anne Piper|Professor Anne Piper
+Professor Vincent St-Amour|Professor Vincent Saint Amour
+Doctor Vincent St-Amour|Doctor Vincent Saint Amour
+Professor Sarah Van Wart|Professor Sarah Van Wart
+Professor Jessica Hullman|Professor Jessica Hullman
+Professor Xiao Wang|Professor Xiao Wang
 
 
 # first names 
@@ -297,7 +296,7 @@ Aleks|Aleks
 
 # two words full name
 Jason Wilson|Jason Wilson
-Jason R. Wilson|Jason R. Wilson
+Jason R. Wilson|Jason R Wilson
 Huxley Bennett|Huxley Bennett
 Thomas Bochynek|Thomas Bochynek
 
@@ -390,6 +389,7 @@ Networks Group|Networks Group
 Northwestern Networks Group|Northwestern Networks Group
 Parallel Architecture Group|Parallel Architecture Group
 Parallel Architecture Group At Northwestern|Parallel Architecture Group At Northwestern
+Prescience Lab|Pre-science Lab
 Prescience Lab|Prescience Lab
 Swarm Robotics Lab|Swarm Robotics Lab
 
@@ -694,9 +694,21 @@ Introduction to Database Systems|Introduction to Database Systems
 Introduction to Computational Linguistics|Introduction to Computational Linguistics
 
 
-Cog Sci|Cog Sci
-Cog Sci|cog sci
+Cog Sci|cog-psy
 EA1|EA one
+
+###################################################
+### Miscellanous
+
+Intercampus Shuttle
+CTA 201|CTA 2 oh 1
+201 bus|2 oh 1 bus
+201|2 oh 1
+CTA bus
+CTA shuttle
+Purple Line
+northbound
+southbound
 
 
 ###################################################
@@ -714,23 +726,23 @@ EA1|EA one
 #~ Simone|Simon it
 #~ Simone|Simona
 #~ Simone|Simoni
-#~ Prof. De|Prof. Day 
-#~ Prof. Dinda|Prof. Linda
-#~ Prof. Dinda|Prof. addenda
-#~ Prof. Dinda|provides agenda
-#~ Prof. Dinda|provides addenda
-#~ Prof. Riesbeck|Prof. respect
-#~ Prof. Kuzmanovic|Prof. Chrisman Novick
-#~ Prof. Findler|Prof. Finkler
-#~ Prof. Findler|Prof. fingers
-#~ Prof. Findler|Prof. fiedler
-#~ Prof. Findler|Prof. Findlay
-#~ Prof. Horswill|Prof. horse will
-#~ Prof. Kao|Prof. call
-#~ Prof. Kao|Prof. Cowell
-#~ Prof. Choudhary|Prof. coloring
-#~ Prof. Choudhary|Prof. Chaudhry
-#~ Prof. Choudhary|Prof. Calgary
+#~ Professor De|Professor Day 
+#~ Professor Dinda|Professor Linda
+#~ Professor Dinda|Professor addenda
+#~ Professor Dinda|provides agenda
+#~ Professor Dinda|provides addenda
+#~ Professor Riesbeck|Professor respect
+#~ Professor Kuzmanovic|Professor Chrisman Novick
+#~ Professor Findler|Professor Finkler
+#~ Professor Findler|Professor fingers
+#~ Professor Findler|Professor fiedler
+#~ Professor Findler|Professor Findlay
+#~ Professor Horswill|Professor horse will
+#~ Professor Kao|Professor call
+#~ Professor Kao|Professor Cowell
+#~ Professor Choudhary|Professor coloring
+#~ Professor Choudhary|Professor Chaudhry
+#~ Professor Choudhary|Professor Calgary
 #~ Kieras|Karas
 #~ Katsaggelos|Kasai jewels
 #~ Katsaggelos|the sagittal's
@@ -748,7 +760,7 @@ EA1|EA one
 #~ Nikos|Nicholas
 #~ Haoqi|how T
 #~ Haoqi|how key
-#~ St-Amour|St. Amore
+#~ St-Amour|Saint Amore
 #~ Cog Sci|cocci
 #~ Cog Sci|Cocci
 #~ Cog Sci|cog psy
@@ -761,28 +773,28 @@ EA1|EA one
 #~ G. Memik|G Memik
 #~ G. Memik|Jean mimic
 #~ G. Memik|Gmail make
-#~ Prof. G. Memik|Prof. G Memik
-#~ Prof. G. Memik|Prof. Jean mimic
-#~ Prof. G. Memik|Prof. Gmail make
-#~ Prof. De|Prof. D
-#~ Prof. Zhang|Prof. John
-#~ Prof. Cossairt|Prof. Kao start
-#~ Prof. Cossairt|Prof. Cozart
-#~ Prof. Hecht|Prof. Hatch
-#~ Prof. Hecht|Prof. Hatched
+#~ Professor G. Memik|Professor G Memik
+#~ Professor G. Memik|Professor Jean mimic
+#~ Professor G. Memik|Professor Gmail make
+#~ Professor De|Professor D
+#~ Professor Zhang|Professor John
+#~ Professor Cossairt|Professor Kao start
+#~ Professor Cossairt|Professor Cozart
+#~ Professor Hecht|Professor Hatch
+#~ Professor Hecht|Professor Hatched
 #~ CS 101|CS 101
 #~ AI Programming|EI Programming
 #~ AI Programming|AI Programming
-#~ Prof. Zhang | Prof. John
-#~ Prof. Cossairt|Prof. croissant
-#~ Prof. De|Prof. D
-#~ Prof. Hecht|Prof. Hatched
-#~ Prof. Hecht|Prof. Hatch
+#~ Professor Zhang | Professor John
+#~ Professor Cossairt|Professor croissant
+#~ Professor De|Professor D
+#~ Professor Hecht|Professor Hatched
+#~ Professor Hecht|Professor Hatch
 #~ Prescience Lab|pre-science lab
 #~ Prescience Lab|per science lab
 #~ Campanoni|Can Benoni
 #~ Campanoni|Kemp annuity
 #~ Forbus Lab|former slab
-#~ Prof. De||Prof. Dare
-#~ Prof. Katsaggelos|Prof. consecutive
-#~ Prof. Katsaggelos|Prof. Consiglio
+#~ Professor De||Professor Dare
+#~ Professor Katsaggelos|Professor consecutive
+#~ Professor Katsaggelos|Professor Consiglio

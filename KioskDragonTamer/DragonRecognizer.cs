@@ -340,7 +340,13 @@ namespace NU.Kiosk.Speech
             List<string[]> pairs = GetAllStringPairs(inputPath);
             foreach (string[] pair in pairs)
             {
-                newWords.Add(analyzer.AnalyzeWord(pair[0].Trim(), pair[1].Trim()));
+                if (pair.Length == 2)
+                {
+                    newWords.Add(analyzer.AnalyzeWord(pair[0].Trim(), pair[1].Trim()));
+                } else
+                {
+                    newWords.Add(analyzer.AnalyzeWord(pair[0].Trim()));
+                }                
             }
 
             if (newWords.Count > 0)
